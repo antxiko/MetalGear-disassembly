@@ -1,0 +1,431 @@
+# notas del banco 06
+
+# --- A MANO: comentarios, nombres y bloques ---
+
+# --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0xA000 0xA00C camino_9FFF_cola  el camino del actor 1 de la sala 33: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente) (sigue del banco 5); lo leen p00:59F5 (12 bytes)
+F 0xA000 2
+D 0xA00C 0xA019 camino_A00C  el camino del actor 2 de la sala 33: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (13 bytes)
+F 0xA00C 2
+D 0xA019 0xA024 camino_A019  el camino del actor 1 de la sala 34: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (11 bytes)
+F 0xA019 2
+D 0xA024 0xA02F camino_A024  el camino del actor 2 de la sala 34: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (11 bytes)
+F 0xA024 2
+D 0xA02F 0xA034 camino_A02F  el camino del actor 1 de la sala 35: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0xA02F 2
+D 0xA034 0xA039 camino_A034  el camino del actor 2 de la sala 35: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0xA034 2
+D 0xA039 0xA03E camino_A039  el camino del actor 3 de la sala 35: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0xA039 2
+D 0xA03E 0xA043 camino_A03E  el camino del actor 1 de la sala 36: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0xA03E 2
+D 0xA043 0xA048 camino_A043  el camino del actor 2 de la sala 36: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0xA043 2
+D 0xA048 0xA055 camino_A048  el camino del actor 3 de la sala 36: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (13 bytes)
+F 0xA048 2
+D 0xA055 0xA05E camino_A055  el camino del actor 1 de la sala 37: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (9 bytes)
+F 0xA055 2
+D 0xA05E 0xA067 camino_A05E  el camino del actor 2 de la sala 37: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (9 bytes)
+F 0xA05E 2
+D 0xA067 0xA070 camino_A067  el camino del actor 1 de la sala 40: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (9 bytes)
+F 0xA067 2
+D 0xA070 0xA079 camino_A070  el camino del actor 1 de la sala 43: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (9 bytes)
+F 0xA070 2
+D 0xA079 0xA082 camino_A079  el camino del actor 2 de la sala 43: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (9 bytes)
+F 0xA079 2
+D 0xA082 0xA093 camino_A082  el camino del actor 1 de la sala 44: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (17 bytes)
+F 0xA082 2
+D 0xA093 0xA0A6 camino_A093  el camino del actor 2 de la sala 44: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (19 bytes)
+F 0xA093 2
+D 0xA0A6 0xA0AB camino_A0A6  el camino del actor 3 de la sala 44 y 1 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0xA0A6 2
+D 0xA0AB 0xA0B0 camino_A0AB  el camino del actor 4 de la sala 44 y 1 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0xA0AB 2
+D 0xA0B0 0xA0B5 camino_A0B0  el camino del actor 5 de la sala 44 y 1 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0xA0B0 2
+D 0xA0B5 0xA0C2 camino_A0B5  el camino del actor 6 de la sala 44 y 1 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (13 bytes)
+F 0xA0B5 2
+D 0xA0C2 0xA0CB camino_A0C2  el camino del actor 7 de la sala 44 y 1 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (9 bytes)
+F 0xA0C2 2
+D 0xA0CB 0xA0D6 camino_A0CB  el camino del actor 8 de la sala 44 y 1 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (11 bytes)
+F 0xA0CB 2
+D 0xA0D6 0xA0DB camino_A0D6  el camino del actor 5 de la sala 53 y 1 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0xA0D6 2
+D 0xA0DB 0xA0E0 camino_A0DB  el camino del actor 6 de la sala 53 y 1 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0xA0DB 2
+D 0xA0E0 0xA0E5 camino_A0E0  el camino del actor 7 de la sala 53 y 1 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0xA0E0 2
+D 0xA0E5 0xA0EA camino_A0E5  el camino del actor 8 de la sala 53 y 1 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0xA0E5 2
+D 0xA0EA 0xA0EF camino_A0EA  el camino del actor 9 de la sala 53 y 1 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0xA0EA 2
+D 0xA0EF 0xA0F4 camino_A0EF  el camino del actor 2 de la sala 75: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0xA0EF 2
+D 0xA0F4 0xA0F9 camino_A0F4  el camino del actor 3 de la sala 75: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0xA0F4 2
+D 0xA0F9 0xA102 camino_A0F9  el camino del actor 1 de la sala 78: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (9 bytes)
+F 0xA0F9 2
+D 0xA102 0xA107 camino_A102  el camino del actor 2 de la sala 78: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0xA102 2
+D 0xA107 0xA10E camino_A107  el camino del actor 3 de la sala 78: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (7 bytes)
+F 0xA107 2
+D 0xA10E 0xA115 camino_A10E  el camino del actor 4 de la sala 78: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (7 bytes)
+F 0xA10E 2
+D 0xA115 0xA11A camino_A115  el camino del actor 1 de la sala 81: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0xA115 2
+D 0xA11A 0xA123 camino_A11A  el camino del actor 2 de la sala 81: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (9 bytes)
+F 0xA11A 2
+D 0xA123 0xA12C camino_A123  el camino del actor 3 de la sala 81: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (9 bytes)
+F 0xA123 2
+D 0xA12C 0xA133 camino_A12C  el camino del actor 4 de la sala 81: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (7 bytes)
+F 0xA12C 2
+D 0xA133 0xA13C camino_A133  el camino del actor 1 de la sala 83: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (9 bytes)
+F 0xA133 2
+D 0xA13C 0xA143 camino_A13C  el camino del actor 2 de la sala 83: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (7 bytes)
+F 0xA13C 2
+D 0xA143 0xA148 camino_A143  el camino del actor 3 de la sala 83: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0xA143 2
+D 0xA148 0xA151 camino_A148  el camino del actor 4 de la sala 83: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (9 bytes)
+F 0xA148 2
+D 0xA151 0xA15C camino_A151  el camino del actor 1 de la sala 85: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (11 bytes)
+F 0xA151 2
+D 0xA15C 0xA161 camino_A15C  el camino del actor 2 de la sala 86: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0xA15C 2
+D 0xA161 0xA166 camino_A161  el camino del actor 3 de la sala 86: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0xA161 2
+D 0xA166 0xA16F camino_A166  el camino del actor 1 de la sala 88: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (9 bytes)
+F 0xA166 2
+D 0xA16F 0xA178 camino_A16F  el camino del actor 2 de la sala 88: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (9 bytes)
+F 0xA16F 2
+D 0xA178 0xA17D camino_A178  el camino del actor 3 de la sala 88: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0xA178 2
+D 0xA17D 0xA182 camino_A17D  el camino del actor 4 de la sala 88: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0xA17D 2
+D 0xA182 0xA187 camino_A182  el camino del actor 5 de la sala 88 y 1 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0xA182 2
+D 0xA187 0xA18C camino_A187  el camino del actor 6 de la sala 88 y 1 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0xA187 2
+D 0xA18C 0xA191 camino_A18C  el camino del actor 7 de la sala 88 y 2 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0xA18C 2
+D 0xA191 0xA196 camino_A191  el camino del actor 8 de la sala 88 y 1 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0xA191 2
+D 0xA196 0xA19B camino_A196  el camino del actor 9 de la sala 88 y 2 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0xA196 2
+D 0xA19B 0xA1A0 camino_A19B  el camino del actor 4 de la sala 112 y 1 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0xA19B 2
+D 0xA1A0 0xA1A5 camino_A1A0  el camino del actor 5 de la sala 112 y 2 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0xA1A0 2
+D 0xA1A5 0xA1AE camino_A1A5  el camino del actor 1 de la sala 141: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (9 bytes)
+F 0xA1A5 2
+D 0xA1AE 0xA1B1 camino_A1AE  el camino del actor 1 de la sala 39 y 1 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (3 bytes)
+F 0xA1AE 2
+D 0xA1B1 0xA1B4 camino_A1B1  el camino del actor 3 de la sala 8 y 4 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (3 bytes)
+F 0xA1B1 2
+D 0xA1B4 0xA1B7 camino_A1B4  el camino del actor 3 de la sala 82 y 1 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (3 bytes)
+F 0xA1B4 2
+D 0xA1B7 0xA1BB camino_A1B7  el camino del actor 9 de la sala 44 y 5 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (4 bytes)
+F 0xA1B7 2
+D 0xA1BB 0xA1C0 camino_A1BB  el camino del actor 2 de la sala 53 y 1 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0xA1BB 2
+D 0xA1C0 0xA1C5 camino_A1C0  el camino del actor 1 de la sala 75 y 2 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0xA1C0 2
+D 0xA1C5 0xA1C9 camino_A1C5  el camino del actor 1 de la sala 8 y 4 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (4 bytes)
+F 0xA1C5 2
+D 0xA1C9 0xA1CB camino_A1C9  el camino del actor 6 de la sala 112 y 12 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (2 bytes)
+F 0xA1C9 2
+D 0xA1CB 0xA1CD camino_A1CB  el camino del actor 8 de la sala 112 y 3 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (2 bytes)
+F 0xA1CB 2
+D 0xA1CD 0xA1CF camino_A1CD  el camino del actor 10 de la sala 112 y 2 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (2 bytes)
+F 0xA1CD 2
+D 0xA1CF 0xA1D5 caminos_de_la_sala_0  la tabla de caminos de la sala 0, 1: una palabra por actor (3 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (6 bytes)
+F 0xA1CF w4
+D 0xA1D5 0xA1D9 caminos_de_la_sala_2  la tabla de caminos de la sala 2: una palabra por actor (2 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (4 bytes)
+F 0xA1D5 w4
+D 0xA1D9 0xA1DD caminos_de_la_sala_3  la tabla de caminos de la sala 3, 4: una palabra por actor (3 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (4 bytes)
+F 0xA1D9 w4
+D 0xA1DD 0xA1DF caminos_de_la_sala_5  la tabla de caminos de la sala 5: una palabra por actor (1 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (2 bytes)
+F 0xA1DD w4
+D 0xA1DF 0xA1E3 caminos_de_la_sala_6  la tabla de caminos de la sala 6, 7: una palabra por actor (2 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (4 bytes)
+F 0xA1DF w4
+D 0xA1E3 0xA1EB caminos_de_la_sala_8  la tabla de caminos de la sala 8, 9, 10, 11: una palabra por actor (12 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (8 bytes)
+F 0xA1E3 w4
+D 0xA1EB 0xA1EF caminos_de_la_sala_12  la tabla de caminos de la sala 12: una palabra por actor (2 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (4 bytes)
+F 0xA1EB w4
+D 0xA1EF 0xA1F3 caminos_de_la_sala_13  la tabla de caminos de la sala 13: una palabra por actor (2 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (4 bytes)
+F 0xA1EF w4
+D 0xA1F3 0xA1F9 caminos_de_la_sala_14  la tabla de caminos de la sala 14: una palabra por actor (3 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (6 bytes)
+F 0xA1F3 w4
+D 0xA1F9 0xA1FD caminos_de_la_sala_15  la tabla de caminos de la sala 15: una palabra por actor (2 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (4 bytes)
+F 0xA1F9 w4
+D 0xA1FD 0xA205 caminos_de_la_sala_16  la tabla de caminos de la sala 16, 17: una palabra por actor (4 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (8 bytes)
+F 0xA1FD w4
+D 0xA205 0xA20F caminos_de_la_sala_18  la tabla de caminos de la sala 18: una palabra por actor (5 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (10 bytes)
+F 0xA205 w4
+D 0xA20F 0xA213 caminos_de_la_sala_19  la tabla de caminos de la sala 19: una palabra por actor (2 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (4 bytes)
+F 0xA20F w4
+D 0xA213 0xA215 caminos_de_la_sala_20  la tabla de caminos de la sala 20, 21: una palabra por actor (1 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (2 bytes)
+F 0xA213 w4
+D 0xA215 0xA219 caminos_de_la_sala_22  la tabla de caminos de la sala 22: una palabra por actor (2 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (4 bytes)
+F 0xA215 w4
+D 0xA219 0xA21F caminos_de_la_sala_23  la tabla de caminos de la sala 23: una palabra por actor (3 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (6 bytes)
+F 0xA219 w4
+D 0xA21F 0xA221 caminos_de_la_sala_24  la tabla de caminos de la sala 24, 25, 26: una palabra por actor (1 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (2 bytes)
+F 0xA21F w4
+D 0xA221 0xA225 caminos_de_la_sala_27  la tabla de caminos de la sala 27: una palabra por actor (2 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (4 bytes)
+F 0xA221 w4
+D 0xA225 0xA229 caminos_de_la_sala_28  la tabla de caminos de la sala 28: una palabra por actor (2 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (4 bytes)
+F 0xA225 w4
+D 0xA229 0xA22D caminos_de_la_sala_29  la tabla de caminos de la sala 29, 30: una palabra por actor (4 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (4 bytes)
+F 0xA229 w4
+D 0xA22D 0xA231 caminos_de_la_sala_31  la tabla de caminos de la sala 31: una palabra por actor (2 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (4 bytes)
+F 0xA22D w4
+D 0xA231 0xA235 caminos_de_la_sala_32  la tabla de caminos de la sala 32: una palabra por actor (1 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (4 bytes)
+F 0xA231 w4
+D 0xA235 0xA239 caminos_de_la_sala_33  la tabla de caminos de la sala 33: una palabra por actor (2 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (4 bytes)
+F 0xA235 w4
+D 0xA239 0xA23D caminos_de_la_sala_34  la tabla de caminos de la sala 34: una palabra por actor (2 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (4 bytes)
+F 0xA239 w4
+D 0xA23D 0xA243 caminos_de_la_sala_35  la tabla de caminos de la sala 35: una palabra por actor (3 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (6 bytes)
+F 0xA23D w4
+D 0xA243 0xA249 caminos_de_la_sala_36  la tabla de caminos de la sala 36: una palabra por actor (3 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (6 bytes)
+F 0xA243 w4
+D 0xA249 0xA24D caminos_de_la_sala_37  la tabla de caminos de la sala 37, 38: una palabra por actor (2 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (4 bytes)
+F 0xA249 w4
+D 0xA24D 0xA255 caminos_de_la_sala_39  la tabla de caminos de la sala 39: una palabra por actor (4 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (8 bytes)
+F 0xA24D w4
+D 0xA255 0xA257 caminos_de_la_sala_40  la tabla de caminos de la sala 40, 41, 42: una palabra por actor (1 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (2 bytes)
+F 0xA255 w4
+D 0xA257 0xA25B caminos_de_la_sala_43  la tabla de caminos de la sala 43: una palabra por actor (2 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (4 bytes)
+F 0xA257 w4
+D 0xA25B 0xA25F caminos_de_la_sala_44  la tabla de caminos de la sala 44, 45, 46, 47: una palabra por actor (9 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (4 bytes)
+F 0xA25B w4
+D 0xA25F 0xA265 caminos_de_la_sala_48  la tabla de caminos de la sala 48, 49: una palabra por actor (3 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (6 bytes)
+F 0xA25F w4
+D 0xA265 0xA267 caminos_de_la_sala_50  la tabla de caminos de la sala 50, 51: una palabra por actor (1 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (2 bytes)
+F 0xA265 w4
+D 0xA267 0xA26B caminos_de_la_sala_52  la tabla de caminos de la sala 52: una palabra por actor (2 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (4 bytes)
+F 0xA267 w4
+D 0xA26B 0xA273 caminos_de_la_sala_53  la tabla de caminos de la sala 53, 54, 55, 56, 57, 58: una palabra por actor (9 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (8 bytes)
+F 0xA26B w4
+D 0xA273 0xA277 caminos_de_la_sala_70  la tabla de caminos de la sala 70: una palabra por actor (2 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (4 bytes)
+F 0xA273 w4
+D 0xA277 0xA27D caminos_de_la_sala_71  la tabla de caminos de la sala 71, 72, 73, 74: una palabra por actor (3 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (6 bytes)
+F 0xA277 w4
+D 0xA27D 0xA283 caminos_de_la_sala_75  la tabla de caminos de la sala 75, 76, 77: una palabra por actor (3 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (6 bytes)
+F 0xA27D w4
+D 0xA283 0xA28B caminos_de_la_sala_78  la tabla de caminos de la sala 78, 79: una palabra por actor (4 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (8 bytes)
+F 0xA283 w4
+D 0xA28B 0xA291 caminos_de_la_sala_80  la tabla de caminos de la sala 80: una palabra por actor (3 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (6 bytes)
+F 0xA28B w4
+D 0xA291 0xA299 caminos_de_la_sala_81  la tabla de caminos de la sala 81: una palabra por actor (4 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (8 bytes)
+F 0xA291 w4
+D 0xA299 0xA2A1 caminos_de_la_sala_82  la tabla de caminos de la sala 82: una palabra por actor (4 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (8 bytes)
+F 0xA299 w4
+D 0xA2A1 0xA2A9 caminos_de_la_sala_83  la tabla de caminos de la sala 83, 84: una palabra por actor (4 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (8 bytes)
+F 0xA2A1 w4
+D 0xA2A9 0xA2AB caminos_de_la_sala_85  la tabla de caminos de la sala 85: una palabra por actor (1 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (2 bytes)
+F 0xA2A9 w4
+D 0xA2AB 0xA2B1 caminos_de_la_sala_86  la tabla de caminos de la sala 86: una palabra por actor (3 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (6 bytes)
+F 0xA2AB w4
+D 0xA2B1 0xA2B7 caminos_de_la_sala_87  la tabla de caminos de la sala 87: una palabra por actor (3 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (6 bytes)
+F 0xA2B1 w4
+D 0xA2B7 0xA2BF caminos_de_la_sala_88  la tabla de caminos de la sala 88, 89, 90, 91, 92, 93: una palabra por actor (9 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (8 bytes)
+F 0xA2B7 w4
+D 0xA2BF 0xA2C3 caminos_de_la_sala_108  la tabla de caminos de la sala 108, 109, 110, 111: una palabra por actor (3 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (4 bytes)
+F 0xA2BF w4
+D 0xA2C3 0xA2C7 caminos_de_la_sala_112  la tabla de caminos de la sala 112, 113, 114, 115: una palabra por actor (11 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (4 bytes)
+F 0xA2C3 w4
+D 0xA2C7 0xA2CB caminos_de_la_sala_116  la tabla de caminos de la sala 116, 117, 118: una palabra por actor (3 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (4 bytes)
+F 0xA2C7 w4
+D 0xA2CB 0xA2CD caminos_de_la_sala_119  la tabla de caminos de la sala 119, 120, 121, 122, 123, 124: una palabra por actor (9 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (2 bytes)
+F 0xA2CB w4
+D 0xA2CD 0xA2DD caminos_de_la_sala_139  la tabla de caminos de la sala 139, 140: una palabra por actor (6 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (16 bytes)
+F 0xA2CD w4
+D 0xA2DD 0xA2DF caminos_de_la_sala_141  la tabla de caminos de la sala 141, 142, 143, 144, 145, 146: una palabra por actor (4 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (2 bytes)
+F 0xA2DD w4
+D 0xA2DF 0xA445 indice_de_caminos  179 punteros, salas 0-178 (p00:59D9 y p00:5B13 leen 0xA2DF + 2 x sala), a la tabla de caminos de esa sala: una palabra por actor (B - 1, p00:59E4); lo leen p00:59D9, p00:5B13 (358 bytes)
+F 0xA2DF w8
+D 0xA445 0xA679 reaparicion_por_sala  188 fichas de 3 bytes, salas 0-0xBB (p00:583B: 3 x sala): [tipo de actor][xy][xy]; p00:5867 coge el segundo o el tercer byte segun el bit 0 de 0xC003 (azar) y saca la x del nibble alto y la y del bajo; lo leen p00:5841, p00:58B8, p00:58F5 (564 bytes)
+F 0xA445 3
+D 0xA679 0xA6B9 tabla_a679  64 bytes que p00:5CAB lee en 0xA679 + 8 x (bits 5-7) + E; lo leen p00:5CAB (64 bytes)
+F 0xA679 8
+D 0xA6B9 0xA6F9 tabla_a6b9  64 bytes que p00:5BEE y p00:5C46 leen dos veces (0xA6B9 + DE y 0xA6B9 + A, con A = 0x3F - E); lo leen p00:5BEE, p00:5C46 (64 bytes)
+F 0xA6B9 8
+D 0xA6F9 0xA75D punto_de_mira  [destino en la VRAM (0xF880)] y los patrones comprimidos del punto de mira, que p00:4C43 descomprime con L_4DCF/L_4DD5; lo leen p00:4C43 (100 bytes)
+D 0xA75D 0xB3BD fichas_de_objetos  132 fichas en 3 planos (colores 0x4B1B) que p00:4B47 vuelca en la VRAM 0xB000: los objetos y las armas; lo leen p00:4B47 (3168 bytes)
+F 0xA75D 24
+D 0xB3BD 0xB41D fichas_b3bd  4 fichas en 3 planos en la VRAM 0xC400 (p00:4B52); lo leen p00:4B52 (96 bytes)
+F 0xB3BD 24
+D 0xB41D 0xB705 fichas_del_transceptor  31 fichas en 3 planos (colores 0x4B13) que p00:4B63 vuelca en la VRAM 0xC804; las 7 de 0xB65D van otra vez volteadas a 0xCC00 (p00:4B6E); lo leen p00:4B63, p00:4B6E (744 bytes)
+F 0xB41D 24
+D 0xB705 0xB785 fichas_de_la_camara  8 fichas en 2 planos (16 bytes, colores 0x4B23) en la VRAM 0xC010 (p00:4B81, L_51FE); lo leen p00:4B81 (128 bytes)
+F 0xB705 16
+D 0xB785 0xB805 fichas_de_la_camara_2  8 fichas mas en 2 planos, en la VRAM 0xC410 (p00:4B8C); lo leen p00:4B8C (128 bytes)
+F 0xB785 16
+D 0xB805 0xB81F rotulo_B805  rotulo con posicion ([fila][columna] y caracteres, 0xFE otra posicion, 0xFF acaba) que p00:46A2 escribe con L_510C: WEAPON / SELECT / OPTION; lo leen p00:46A2 (26 bytes)
+D 0xB81F 0xB833 rotulo_B81F  rotulo con posicion ([fila][columna] y caracteres, 0xFE otra posicion, 0xFF acaba) que p00:47AC escribe con L_510C: EQUIPMENT / SELECT; lo leen p00:47AC (20 bytes)
+D 0xB833 0xB855 rotulo_B833  rotulo con posicion ([fila][columna] y caracteres, 0xFE otra posicion, 0xFF acaba) que p00:4BB7 escribe con L_510C: TRANSCEIVER / RECV y los simbolos; lo leen p00:4BB7 (34 bytes)
+D 0xB855 0xB865 dibujo_de_cada_arma  8 palabras, armas 1-8: de donde copia p00:46ED el dibujo del arma en el menu (p00:46D0 lee 0xB855 + 2 x (arma - 1)); lo leen p00:46D0 (16 bytes)
+F 0xB855 w8
+D 0xB865 0xB875 indice_de_nombres_de_armas  8 punteros a los nombres de las armas (p00:46F0); lo leen p00:46F0 (16 bytes)
+F 0xB865 w8
+D 0xB875 0xB87E nombre_de_arma_1  el nombre del arma 1, caracteres hasta 0xFF (p00:4702, L_5116); lo leen p00:4702 (9 bytes)
+D 0xB87E 0xB882 nombre_de_arma_2  el nombre del arma 2, caracteres hasta 0xFF (p00:4702, L_5116); lo leen p00:4702 (4 bytes)
+D 0xB882 0xB88A nombre_de_arma_3  el nombre del arma 3, caracteres hasta 0xFF (p00:4702, L_5116); lo leen p00:4702 (8 bytes)
+D 0xB88A 0xB891 nombre_de_arma_4  el nombre del arma 4, caracteres hasta 0xFF (p00:4702, L_5116); lo leen p00:4702 (7 bytes)
+D 0xB891 0xB898 nombre_de_arma_5  el nombre del arma 5, caracteres hasta 0xFF (p00:4702, L_5116); lo leen p00:4702 (7 bytes)
+D 0xB898 0xB89F nombre_de_arma_6  el nombre del arma 6, caracteres hasta 0xFF (p00:4702, L_5116); lo leen p00:4702 (7 bytes)
+D 0xB89F 0xB8A7 nombre_de_arma_7  el nombre del arma 7, caracteres hasta 0xFF (p00:4702, L_5116); lo leen p00:4702 (8 bytes)
+D 0xB8A7 0xB8B0 nombre_de_arma_8  el nombre del arma 8, caracteres hasta 0xFF (p00:4702, L_5116); lo leen p00:4702 (9 bytes)
+D 0xB8B0 0xB8C0 cursor_del_menu_de_armas  8 palabras [x][y] del cursor por hueco del menu de armas (p00:43CA -> L_42B4 por 0xC154); lo leen p00:43CA (16 bytes)
+F 0xB8B0 w8
+D 0xB8C0 0xB8F6 dibujo_de_cada_objeto  27 palabras, objetos 1-27: de donde copia p00:47E8 el dibujo del objeto en el menu (p00:47D4); lo leen p00:47D4 (54 bytes)
+F 0xB8C0 w8
+D 0xB8F6 0xB928 indice_de_nombres_de_objetos  25 punteros a los nombres de los objetos (p00:47EB); lo leen p00:47EB (50 bytes)
+F 0xB8F6 w8
+D 0xB928 0xB92E nombre_de_objeto_1  el nombre del objeto 1, caracteres hasta 0xFF (p00:47FD); lo leen p00:47FD (6 bytes)
+D 0xB92E 0xB933 nombre_de_objeto_2  el nombre del objeto 2, caracteres hasta 0xFF (p00:47FD); lo leen p00:47FD (5 bytes)
+D 0xB933 0xB939 nombre_de_objeto_3  el nombre del objeto 3, caracteres hasta 0xFF (p00:47FD); lo leen p00:47FD (6 bytes)
+D 0xB939 0xB93F nombre_de_objeto_4  el nombre del objeto 4, caracteres hasta 0xFF (p00:47FD); lo leen p00:47FD (6 bytes)
+D 0xB93F 0xB944 nombre_de_objeto_5  el nombre del objeto 5, caracteres hasta 0xFF (p00:47FD); lo leen p00:47FD (5 bytes)
+D 0xB944 0xB94A nombre_de_objeto_6  el nombre del objeto 6, caracteres hasta 0xFF (p00:47FD); lo leen p00:47FD (6 bytes)
+D 0xB94A 0xB950 nombre_de_objeto_7  el nombre del objeto 7, caracteres hasta 0xFF (p00:47FD); lo leen p00:47FD (6 bytes)
+D 0xB950 0xB956 nombre_de_objeto_8  el nombre del objeto 8, caracteres hasta 0xFF (p00:47FD); lo leen p00:47FD (6 bytes)
+D 0xB956 0xB95C nombre_de_objeto_9  el nombre del objeto 9, caracteres hasta 0xFF (p00:47FD); lo leen p00:47FD (6 bytes)
+D 0xB95C 0xB962 nombre_de_objeto_10  el nombre del objeto 10, caracteres hasta 0xFF (p00:47FD); lo leen p00:47FD (6 bytes)
+D 0xB962 0xB969 nombre_de_objeto_11  el nombre del objeto 11, caracteres hasta 0xFF (p00:47FD); lo leen p00:47FD (7 bytes)
+D 0xB969 0xB96F nombre_de_objeto_12  el nombre del objeto 12, caracteres hasta 0xFF (p00:47FD); lo leen p00:47FD (6 bytes)
+D 0xB96F 0xB975 nombre_de_objeto_13  el nombre del objeto 13, caracteres hasta 0xFF (p00:47FD); lo leen p00:47FD (6 bytes)
+D 0xB975 0xB97B nombre_de_objeto_14  el nombre del objeto 14, caracteres hasta 0xFF (p00:47FD); lo leen p00:47FD (6 bytes)
+D 0xB97B 0xB981 nombre_de_objeto_15  el nombre del objeto 15, caracteres hasta 0xFF (p00:47FD); lo leen p00:47FD (6 bytes)
+D 0xB981 0xB987 nombre_de_objeto_16  el nombre del objeto 16, caracteres hasta 0xFF (p00:47FD); lo leen p00:47FD (6 bytes)
+D 0xB987 0xB98D nombre_de_objeto_17  el nombre del objeto 17, caracteres hasta 0xFF (p00:47FD); lo leen p00:47FD (6 bytes)
+D 0xB98D 0xB993 nombre_de_objeto_18  el nombre del objeto 18, caracteres hasta 0xFF (p00:47FD); lo leen p00:47FD (6 bytes)
+D 0xB993 0xB999 nombre_de_objeto_19  el nombre del objeto 19, caracteres hasta 0xFF (p00:47FD); lo leen p00:47FD (6 bytes)
+D 0xB999 0xB99F nombre_de_objeto_20  el nombre del objeto 20, caracteres hasta 0xFF (p00:47FD); lo leen p00:47FD (6 bytes)
+D 0xB99F 0xB9A5 nombre_de_objeto_21  el nombre del objeto 21, caracteres hasta 0xFF (p00:47FD); lo leen p00:47FD (6 bytes)
+D 0xB9A5 0xB9AB nombre_de_objeto_22  el nombre del objeto 22, caracteres hasta 0xFF (p00:47FD); lo leen p00:47FD (6 bytes)
+D 0xB9AB 0xB9B1 nombre_de_objeto_23  el nombre del objeto 23, caracteres hasta 0xFF (p00:47FD); lo leen p00:47FD (6 bytes)
+D 0xB9B1 0xB9B7 nombre_de_objeto_24  el nombre del objeto 24, caracteres hasta 0xFF (p00:47FD); lo leen p00:47FD (6 bytes)
+D 0xB9B7 0xB9BB nombre_de_objeto_25  el nombre del objeto 25, caracteres hasta 0xFF (p00:47FD); lo leen p00:47FD (4 bytes)
+D 0xB9BB 0xB9EF cursor_del_menu_de_objetos  26 palabras [x][y] del cursor por hueco del menu de objetos (p00:43CF, p00:489B); lo leen p00:43CF, p00:489B (52 bytes)
+F 0xB9BB w8
+D 0xB9EF 0xBA50 objetos_por_sala  97 bytes, salas 0x7A-0xDA: que lista de 0xBA50 tiene cada sala (0 = ninguna); p06:BBF4 lee 0xB9EF + sala - 0x7A; lo leen p06:BBF4 (97 bytes)
+F 0xB9EF 16
+D 0xBA50 0xBAAE indice_de_objetos_en_sala  47 punteros a las listas de objetos (p06:BBFE -> p00:40BE); lo leen p06:BBFE (94 bytes)
+F 0xBA50 w8
+D 0xBAAE 0xBAB2 objetos_en_sala_1  ternas [objeto][x][y] hasta 0xFF: p06:BC07 crea los que aun no se han cogido (0xC520/0xC5A0); lo leen p06:BC07 (4 bytes)
+F 0xBAAE 3
+D 0xBAB2 0xBAB6 objetos_en_sala_2  ternas [objeto][x][y] hasta 0xFF: p06:BC07 crea los que aun no se han cogido (0xC520/0xC5A0); lo leen p06:BC07 (4 bytes)
+F 0xBAB2 3
+D 0xBAB6 0xBABA objetos_en_sala_3  ternas [objeto][x][y] hasta 0xFF: p06:BC07 crea los que aun no se han cogido (0xC520/0xC5A0); lo leen p06:BC07 (4 bytes)
+F 0xBAB6 3
+D 0xBABA 0xBABE objetos_en_sala_4  ternas [objeto][x][y] hasta 0xFF: p06:BC07 crea los que aun no se han cogido (0xC520/0xC5A0); lo leen p06:BC07 (4 bytes)
+F 0xBABA 3
+D 0xBABE 0xBAC2 objetos_en_sala_5  ternas [objeto][x][y] hasta 0xFF: p06:BC07 crea los que aun no se han cogido (0xC520/0xC5A0); lo leen p06:BC07 (4 bytes)
+F 0xBABE 3
+D 0xBAC2 0xBAC6 objetos_en_sala_6  ternas [objeto][x][y] hasta 0xFF: p06:BC07 crea los que aun no se han cogido (0xC520/0xC5A0); lo leen p06:BC07 (4 bytes)
+F 0xBAC2 3
+D 0xBAC6 0xBACA objetos_en_sala_7  ternas [objeto][x][y] hasta 0xFF: p06:BC07 crea los que aun no se han cogido (0xC520/0xC5A0); lo leen p06:BC07 (4 bytes)
+F 0xBAC6 3
+D 0xBACA 0xBACE objetos_en_sala_8  ternas [objeto][x][y] hasta 0xFF: p06:BC07 crea los que aun no se han cogido (0xC520/0xC5A0); lo leen p06:BC07 (4 bytes)
+F 0xBACA 3
+D 0xBACE 0xBAD2 objetos_en_sala_9  ternas [objeto][x][y] hasta 0xFF: p06:BC07 crea los que aun no se han cogido (0xC520/0xC5A0); lo leen p06:BC07 (4 bytes)
+F 0xBACE 3
+D 0xBAD2 0xBAD6 objetos_en_sala_10  ternas [objeto][x][y] hasta 0xFF: p06:BC07 crea los que aun no se han cogido (0xC520/0xC5A0); lo leen p06:BC07 (4 bytes)
+F 0xBAD2 3
+D 0xBAD6 0xBADD objetos_en_sala_11  ternas [objeto][x][y] hasta 0xFF: p06:BC07 crea los que aun no se han cogido (0xC520/0xC5A0); lo leen p06:BC07 (7 bytes)
+F 0xBAD6 3
+D 0xBADD 0xBAE1 objetos_en_sala_12  ternas [objeto][x][y] hasta 0xFF: p06:BC07 crea los que aun no se han cogido (0xC520/0xC5A0); lo leen p06:BC07 (4 bytes)
+F 0xBADD 3
+D 0xBAE1 0xBAE5 objetos_en_sala_13  ternas [objeto][x][y] hasta 0xFF: p06:BC07 crea los que aun no se han cogido (0xC520/0xC5A0); lo leen p06:BC07 (4 bytes)
+F 0xBAE1 3
+D 0xBAE5 0xBAE9 objetos_en_sala_14  ternas [objeto][x][y] hasta 0xFF: p06:BC07 crea los que aun no se han cogido (0xC520/0xC5A0); lo leen p06:BC07 (4 bytes)
+F 0xBAE5 3
+D 0xBAE9 0xBAED objetos_en_sala_15  ternas [objeto][x][y] hasta 0xFF: p06:BC07 crea los que aun no se han cogido (0xC520/0xC5A0); lo leen p06:BC07 (4 bytes)
+F 0xBAE9 3
+D 0xBAED 0xBAF1 objetos_en_sala_16  ternas [objeto][x][y] hasta 0xFF: p06:BC07 crea los que aun no se han cogido (0xC520/0xC5A0); lo leen p06:BC07 (4 bytes)
+F 0xBAED 3
+D 0xBAF1 0xBAF5 objetos_en_sala_17  ternas [objeto][x][y] hasta 0xFF: p06:BC07 crea los que aun no se han cogido (0xC520/0xC5A0); lo leen p06:BC07 (4 bytes)
+F 0xBAF1 3
+D 0xBAF5 0xBAFC objetos_en_sala_18  ternas [objeto][x][y] hasta 0xFF: p06:BC07 crea los que aun no se han cogido (0xC520/0xC5A0); lo leen p06:BC07 (7 bytes)
+F 0xBAF5 3
+D 0xBAFC 0xBB00 objetos_en_sala_19  ternas [objeto][x][y] hasta 0xFF: p06:BC07 crea los que aun no se han cogido (0xC520/0xC5A0); lo leen p06:BC07 (4 bytes)
+F 0xBAFC 3
+D 0xBB00 0xBB04 objetos_en_sala_20  ternas [objeto][x][y] hasta 0xFF: p06:BC07 crea los que aun no se han cogido (0xC520/0xC5A0); lo leen p06:BC07 (4 bytes)
+F 0xBB00 3
+D 0xBB04 0xBB08 objetos_en_sala_21  ternas [objeto][x][y] hasta 0xFF: p06:BC07 crea los que aun no se han cogido (0xC520/0xC5A0); lo leen p06:BC07 (4 bytes)
+F 0xBB04 3
+D 0xBB08 0xBB0C objetos_en_sala_22  ternas [objeto][x][y] hasta 0xFF: p06:BC07 crea los que aun no se han cogido (0xC520/0xC5A0); lo leen p06:BC07 (4 bytes)
+F 0xBB08 3
+D 0xBB0C 0xBB10 objetos_en_sala_23  ternas [objeto][x][y] hasta 0xFF: p06:BC07 crea los que aun no se han cogido (0xC520/0xC5A0); lo leen p06:BC07 (4 bytes)
+F 0xBB0C 3
+D 0xBB10 0xBB14 objetos_en_sala_24  ternas [objeto][x][y] hasta 0xFF: p06:BC07 crea los que aun no se han cogido (0xC520/0xC5A0); lo leen p06:BC07 (4 bytes)
+F 0xBB10 3
+D 0xBB14 0xBB18 objetos_en_sala_25  ternas [objeto][x][y] hasta 0xFF: p06:BC07 crea los que aun no se han cogido (0xC520/0xC5A0); lo leen p06:BC07 (4 bytes)
+F 0xBB14 3
+D 0xBB18 0xBB1C objetos_en_sala_26  ternas [objeto][x][y] hasta 0xFF: p06:BC07 crea los que aun no se han cogido (0xC520/0xC5A0); lo leen p06:BC07 (4 bytes)
+F 0xBB18 3
+D 0xBB1C 0xBB26 objetos_en_sala_27  ternas [objeto][x][y] hasta 0xFF: p06:BC07 crea los que aun no se han cogido (0xC520/0xC5A0); lo leen p06:BC07 (10 bytes)
+F 0xBB1C 3
+D 0xBB26 0xBB2A objetos_en_sala_28  ternas [objeto][x][y] hasta 0xFF: p06:BC07 crea los que aun no se han cogido (0xC520/0xC5A0); lo leen p06:BC07 (4 bytes)
+F 0xBB26 3
+D 0xBB2A 0xBB34 objetos_en_sala_29  ternas [objeto][x][y] hasta 0xFF: p06:BC07 crea los que aun no se han cogido (0xC520/0xC5A0); lo leen p06:BC07 (10 bytes)
+F 0xBB2A 3
+D 0xBB34 0xBB38 objetos_en_sala_30  ternas [objeto][x][y] hasta 0xFF: p06:BC07 crea los que aun no se han cogido (0xC520/0xC5A0); lo leen p06:BC07 (4 bytes)
+F 0xBB34 3
+D 0xBB38 0xBB3C objetos_en_sala_31  ternas [objeto][x][y] hasta 0xFF: p06:BC07 crea los que aun no se han cogido (0xC520/0xC5A0); lo leen p06:BC07 (4 bytes)
+F 0xBB38 3
+D 0xBB3C 0xBB40 objetos_en_sala_32  ternas [objeto][x][y] hasta 0xFF: p06:BC07 crea los que aun no se han cogido (0xC520/0xC5A0); lo leen p06:BC07 (4 bytes)
+F 0xBB3C 3
+D 0xBB40 0xBB47 objetos_en_sala_33  ternas [objeto][x][y] hasta 0xFF: p06:BC07 crea los que aun no se han cogido (0xC520/0xC5A0); lo leen p06:BC07 (7 bytes)
+F 0xBB40 3
+D 0xBB47 0xBB4B objetos_en_sala_34  ternas [objeto][x][y] hasta 0xFF: p06:BC07 crea los que aun no se han cogido (0xC520/0xC5A0); lo leen p06:BC07 (4 bytes)
+F 0xBB47 3
+D 0xBB4B 0xBB4F objetos_en_sala_35  ternas [objeto][x][y] hasta 0xFF: p06:BC07 crea los que aun no se han cogido (0xC520/0xC5A0); lo leen p06:BC07 (4 bytes)
+F 0xBB4B 3
+D 0xBB4F 0xBB53 objetos_en_sala_36  ternas [objeto][x][y] hasta 0xFF: p06:BC07 crea los que aun no se han cogido (0xC520/0xC5A0); lo leen p06:BC07 (4 bytes)
+F 0xBB4F 3
+D 0xBB53 0xBB5D objetos_en_sala_37  ternas [objeto][x][y] hasta 0xFF: p06:BC07 crea los que aun no se han cogido (0xC520/0xC5A0); lo leen p06:BC07 (10 bytes)
+F 0xBB53 3
+D 0xBB5D 0xBB64 objetos_en_sala_38  ternas [objeto][x][y] hasta 0xFF: p06:BC07 crea los que aun no se han cogido (0xC520/0xC5A0); lo leen p06:BC07 (7 bytes)
+F 0xBB5D 3
+D 0xBB64 0xBB68 objetos_en_sala_39  ternas [objeto][x][y] hasta 0xFF: p06:BC07 crea los que aun no se han cogido (0xC520/0xC5A0); lo leen p06:BC07 (4 bytes)
+F 0xBB64 3
+D 0xBB68 0xBB6C objetos_en_sala_40  ternas [objeto][x][y] hasta 0xFF: p06:BC07 crea los que aun no se han cogido (0xC520/0xC5A0); lo leen p06:BC07 (4 bytes)
+F 0xBB68 3
+D 0xBB6C 0xBB70 objetos_en_sala_41  ternas [objeto][x][y] hasta 0xFF: p06:BC07 crea los que aun no se han cogido (0xC520/0xC5A0); lo leen p06:BC07 (4 bytes)
+F 0xBB6C 3
+D 0xBB70 0xBB74 objetos_en_sala_42  ternas [objeto][x][y] hasta 0xFF: p06:BC07 crea los que aun no se han cogido (0xC520/0xC5A0); lo leen p06:BC07 (4 bytes)
+F 0xBB70 3
+D 0xBB74 0xBB7B objetos_en_sala_43  ternas [objeto][x][y] hasta 0xFF: p06:BC07 crea los que aun no se han cogido (0xC520/0xC5A0); lo leen p06:BC07 (7 bytes)
+F 0xBB74 3
+D 0xBB7B 0xBB7F objetos_en_sala_44  ternas [objeto][x][y] hasta 0xFF: p06:BC07 crea los que aun no se han cogido (0xC520/0xC5A0); lo leen p06:BC07 (4 bytes)
+F 0xBB7B 3
+D 0xBB7F 0xBB83 objetos_en_sala_45  ternas [objeto][x][y] hasta 0xFF: p06:BC07 crea los que aun no se han cogido (0xC520/0xC5A0); lo leen p06:BC07 (4 bytes)
+F 0xBB7F 3
+D 0xBB83 0xBB87 objetos_en_sala_46  ternas [objeto][x][y] hasta 0xFF: p06:BC07 crea los que aun no se han cogido (0xC520/0xC5A0); lo leen p06:BC07 (4 bytes)
+F 0xBB83 3
+D 0xBB87 0xBB8E objetos_en_sala_47  ternas [objeto][x][y] hasta 0xFF: p06:BC07 crea los que aun no se han cogido (0xC520/0xC5A0); lo leen p06:BC07 (7 bytes)
+F 0xBB87 3
+D 0xBBD8 0xBBDD bbd8  5 bytes que p06:BB8E lee en 0xBBD8 + A; lo leen p06:BB8E (5 bytes)
+D 0xBD8F 0xBD97 indice_de_la_demo  4 punteros (0xC00C) a los guiones de la demo (p06:BCBA); lo leen p06:BCBA (8 bytes)
+F 0xBD8F w4
+D 0xBD97 0xBDCA guion_de_la_demo_BD97  un guion de la demo: [sala][teclas] y parejas [cuadros][teclas] que p06:BCC0 va mandando como si las pulsara alguien; lo leen p06:BCC0 (51 bytes)
+F 0xBD97 2
+D 0xBDCA 0xBDD5 guion_de_la_demo_BDCA  un guion de la demo: [sala][teclas] y parejas [cuadros][teclas] que p06:BCC0 va mandando como si las pulsara alguien; lo leen p06:BCC0 (11 bytes)
+F 0xBDCA 2
+D 0xBDD5 0xBDF8 guion_de_la_demo_BDD5  un guion de la demo: [sala][teclas] y parejas [cuadros][teclas] que p06:BCC0 va mandando como si las pulsara alguien; lo leen p06:BCC0 (35 bytes)
+F 0xBDD5 2
+D 0xBE51 0xBE64 puntos_de_control  6 ternas y 0xFF que p06:BE2F recorre al cargar o al empezar (lo que se pone en 0xCA00 + c); lo leen p06:BE2F (19 bytes)
+F 0xBE51 3
+D 0xBE64 0xBEA2 salas_de_punto_de_control  31 parejas [sala][sala siguiente] que p06:BE0A compara con 0xC130 y 0xC136; lo leen p06:BE0A (62 bytes)
+F 0xBE64 2
+D 0xBEF1 0xBEF6 clave_BEF1  una contrasena: caracteres hasta 0xFF que p06:BF2F compara con lo tecleado (0xE50B hacia abajo, p06:BF22); lo leen p06:BF2F (5 bytes)
+D 0xBEF6 0xBF03 clave_BEF6  una contrasena: caracteres hasta 0xFF que p06:BF3A compara con lo tecleado (0xE50B hacia abajo, p06:BF22); lo leen p06:BF3A (13 bytes)
+D 0xBF03 0xBF0C clave_BF03  una contrasena: caracteres hasta 0xFF que p06:BF43 compara con lo tecleado (0xE50B hacia abajo, p06:BF22); lo leen p06:BF43 (9 bytes)
+D 0xBF0C 0xBF16 clave_BF0C  una contrasena: caracteres hasta 0xFF que p06:BF4C compara con lo tecleado (0xE50B hacia abajo, p06:BF22); lo leen p06:BF4C (10 bytes)
+D 0xBF16 0xBF22 clave_BF16  una contrasena: caracteres hasta 0xFF que p06:BF55 compara con lo tecleado (0xE50B hacia abajo, p06:BF22); lo leen p06:BF55 (12 bytes)
+D 0xBFCC 0xC000 relleno_ff  52 bytes a 0xFF hasta el final del banco: relleno; lo leen nadie (52 bytes)
+F 0xBFCC 16
+# --- fin de los bloques de bloques.py ---

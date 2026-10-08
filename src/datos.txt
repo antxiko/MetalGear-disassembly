@@ -1,0 +1,20 @@
+# Bancos que son biblioteca de DATOS enteros: 'pNN  # por que'.
+#
+# El trazador de cartucho entero (tools/bancos.py) no entra en ellos, y sus
+# .entries salen vacios. El porque de cada uno esta medido con
+# `python3 tools/bancos.py metalgear.rom lee src N`: las instrucciones que
+# cargan una direccion de la ventana de ese banco ESTANDO ese banco puesto,
+# y ninguna llamada ni salto que caiga en el. Y con openMSX
+# (tools/omsx_mapper.tcl, 90 s de titulo y principio de partida): el PC
+# nunca cayo en ninguno de ellos.
+#
+# Los bancos de ZONA (6, 9, 12 y 15, los que p00:4913-4925 meten en 0xA000)
+# y el 4 (el controlador de sonido en 0x6000-0x652A) llevan codigo y NO van
+# aqui: sus datos se declaran con D en las notas.
+p05  # leido con 4-5-6 puesto desde p00:574E, p00:5518, p00:4754... (20 instrucciones); 0 entradas
+p07  # leido con 7-8-9 puesto desde p00:4A0E, p00:4A1C, p00:4A25... (9 instrucciones); 0 entradas
+p08  # leido con 7-8-9 puesto desde p00:4BD8, p00:4BD5, p00:4BE2... (5 instrucciones); 0 entradas
+p10  # leido con 10-11-12 puesto desde p00:53E0, p00:4C26, p00:4C1E... (13 instrucciones); 0 entradas
+p11  # ninguna instruccion carga una direccion suya a pelo: se recorre por punteros desde el 10 (10-11-12 puestos); 0 entradas
+p13  # leido con 13-14-15 puesto desde p00:4CFC, p00:4CA6, p00:4CAD... (4 instrucciones): empieza por una tabla de punteros a si mismo (0x6280, 0x62B0...); 0 entradas
+p14  # leido con 13-14-15 puesto desde p00:4BC5 (0x9048): bytes de color (nibbles 4-5, ni un 0xFF); 0 entradas

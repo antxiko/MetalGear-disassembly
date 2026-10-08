@@ -1,0 +1,328 @@
+# notas del banco 13
+
+# --- A MANO: comentarios, nombres y bloques ---
+
+# --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0x6000 0x61F6 indice_de_salas  251 punteros, uno por numero de sala (0xC130), a 48 bytes de metafichas: p00:4CFF los lee con L_42B1; lo leen p00:4CFF (502 bytes)
+F 0x6000 w8
+D 0x61F6 0x6274 juego_de_metafichas_por_sala  el juego de metafichas de cada sala, un nibble por sala (1-6): p00:4CA9 con L_42D1; lo leen p00:4CA9 (126 bytes)
+F 0x61F6 16
+D 0x6274 0x6280 indice_de_metafichas  6 punteros, juegos 1-6, a las metafichas (16 bytes cada una): p00:4CB0 lee 0x6274 + 2 x (juego - 1); lo leen p00:4CB0 (12 bytes)
+F 0x6274 w6
+D 0x6280 0x62B0 sala_0  la sala 0: 6 filas de 8 metafichas (un byte cada una, indice 1-137 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6280 8
+D 0x62B0 0x62E0 sala_1  la sala 1: 6 filas de 8 metafichas (un byte cada una, indice 1-142 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x62B0 8
+D 0x62E0 0x6310 sala_2  la sala 2: 6 filas de 8 metafichas (un byte cada una, indice 1-144 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x62E0 8
+D 0x6310 0x6340 sala_3  la sala 3: 6 filas de 8 metafichas (un byte cada una, indice 1-197 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6310 8
+D 0x6340 0x6370 sala_4  la sala 4: 6 filas de 8 metafichas (un byte cada una, indice 1-197 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6340 8
+D 0x6370 0x63A0 sala_5  la sala 5: 6 filas de 8 metafichas (un byte cada una, indice 1-197 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6370 8
+D 0x63A0 0x63D0 sala_6  la sala 6: 6 filas de 8 metafichas (un byte cada una, indice 1-197 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x63A0 8
+D 0x63D0 0x6400 sala_7  la sala 7: 6 filas de 8 metafichas (un byte cada una, indice 1-197 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x63D0 8
+D 0x6400 0x6430 sala_8  la sala 8: 6 filas de 8 metafichas (un byte cada una, indice 1-197 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6400 8
+D 0x6430 0x6460 sala_9  la sala 9: 6 filas de 8 metafichas (un byte cada una, indice 1-197 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6430 8
+D 0x6460 0x6490 sala_10  la sala 10: 6 filas de 8 metafichas (un byte cada una, indice 1-197 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6460 8
+D 0x6490 0x64C0 sala_11  la sala 11: 6 filas de 8 metafichas (un byte cada una, indice 1-197 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6490 8
+D 0x64C0 0x64F0 sala_12  la sala 12: 6 filas de 8 metafichas (un byte cada una, indice 1-197 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x64C0 8
+D 0x64F0 0x6520 sala_13  la sala 13: 6 filas de 8 metafichas (un byte cada una, indice 1-197 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x64F0 8
+D 0x6520 0x6550 sala_14  la sala 14: 6 filas de 8 metafichas (un byte cada una, indice 1-197 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6520 8
+D 0x6550 0x6580 sala_15  la sala 15: 6 filas de 8 metafichas (un byte cada una, indice 1-199 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6550 8
+D 0x6580 0x65B0 sala_121  la sala 121: 6 filas de 8 metafichas (un byte cada una, indice 1-199 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6580 8
+D 0x65B0 0x65E0 sala_58  la sala 58: 6 filas de 8 metafichas (un byte cada una, indice 1-37 en el juego 2); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x65B0 8
+D 0x65E0 0x6610 sala_61  la sala 61: 6 filas de 8 metafichas (un byte cada una, indice 1-37 en el juego 2); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x65E0 8
+D 0x6610 0x6640 sala_59  la sala 59: 6 filas de 8 metafichas (un byte cada una, indice 1-49 en el juego 2); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6610 8
+D 0x6640 0x6670 sala_62  la sala 62: 6 filas de 8 metafichas (un byte cada una, indice 1-49 en el juego 2); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6640 8
+D 0x6670 0x66A0 sala_60  la sala 60: 6 filas de 8 metafichas (un byte cada una, indice 1-49 en el juego 2); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6670 8
+D 0x66A0 0x66D0 sala_63  la sala 63: 6 filas de 8 metafichas (un byte cada una, indice 1-112 en el juego 2); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x66A0 8
+D 0x66D0 0x6700 sala_57  la sala 57: 6 filas de 8 metafichas (un byte cada una, indice 1-112 en el juego 2); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x66D0 8
+D 0x6700 0x6730 sala_54  la sala 54: 6 filas de 8 metafichas (un byte cada una, indice 1-112 en el juego 2); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6700 8
+D 0x6730 0x6760 sala_55  la sala 55: 6 filas de 8 metafichas (un byte cada una, indice 1-112 en el juego 2); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6730 8
+D 0x6760 0x6790 sala_56  la sala 56: 6 filas de 8 metafichas (un byte cada una, indice 1-112 en el juego 2); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6760 8
+D 0x6790 0x67C0 sala_16  la sala 16: 6 filas de 8 metafichas (un byte cada una, indice 1-199 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6790 8
+D 0x67C0 0x67F0 sala_17  la sala 17: 6 filas de 8 metafichas (un byte cada una, indice 1-211 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x67C0 8
+D 0x67F0 0x6820 sala_18  la sala 18: 6 filas de 8 metafichas (un byte cada una, indice 1-211 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x67F0 8
+D 0x6820 0x6850 sala_19  la sala 19: 6 filas de 8 metafichas (un byte cada una, indice 1-211 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6820 8
+D 0x6850 0x6880 sala_20  la sala 20: 6 filas de 8 metafichas (un byte cada una, indice 1-211 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6850 8
+D 0x6880 0x68B0 sala_21  la sala 21: 6 filas de 8 metafichas (un byte cada una, indice 1-211 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6880 8
+D 0x68B0 0x68E0 sala_22  la sala 22: 6 filas de 8 metafichas (un byte cada una, indice 1-211 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x68B0 8
+D 0x68E0 0x6910 sala_23  la sala 23: 6 filas de 8 metafichas (un byte cada una, indice 1-211 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x68E0 8
+D 0x6910 0x6940 sala_24  la sala 24: 6 filas de 8 metafichas (un byte cada una, indice 1-211 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6910 8
+D 0x6940 0x6970 sala_25  la sala 25: 6 filas de 8 metafichas (un byte cada una, indice 1-211 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6940 8
+D 0x6970 0x69A0 sala_26  la sala 26: 6 filas de 8 metafichas (un byte cada una, indice 1-211 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6970 8
+D 0x69A0 0x69D0 sala_27  la sala 27: 6 filas de 8 metafichas (un byte cada una, indice 1-211 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x69A0 8
+D 0x69D0 0x6A00 sala_28  la sala 28: 6 filas de 8 metafichas (un byte cada una, indice 1-214 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x69D0 8
+D 0x6A00 0x6A30 sala_29  la sala 29: 6 filas de 8 metafichas (un byte cada una, indice 1-214 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6A00 8
+D 0x6A30 0x6A60 sala_30  la sala 30: 6 filas de 8 metafichas (un byte cada una, indice 1-214 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6A30 8
+D 0x6A60 0x6A90 sala_31  la sala 31: 6 filas de 8 metafichas (un byte cada una, indice 1-214 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6A60 8
+D 0x6A90 0x6AC0 sala_32  la sala 32: 6 filas de 8 metafichas (un byte cada una, indice 1-214 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6A90 8
+D 0x6AC0 0x6AF0 sala_33  la sala 33: 6 filas de 8 metafichas (un byte cada una, indice 1-214 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6AC0 8
+D 0x6AF0 0x6B20 sala_34  la sala 34: 6 filas de 8 metafichas (un byte cada una, indice 1-214 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6AF0 8
+D 0x6B20 0x6B50 sala_35  la sala 35: 6 filas de 8 metafichas (un byte cada una, indice 1-214 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6B20 8
+D 0x6B50 0x6B80 sala_36  la sala 36: 6 filas de 8 metafichas (un byte cada una, indice 1-214 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6B50 8
+D 0x6B80 0x6BB0 sala_37  la sala 37: 6 filas de 8 metafichas (un byte cada una, indice 1-214 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6B80 8
+D 0x6BB0 0x6BE0 sala_38  la sala 38: 6 filas de 8 metafichas (un byte cada una, indice 1-214 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6BB0 8
+D 0x6BE0 0x6C10 sala_39  la sala 39: 6 filas de 8 metafichas (un byte cada una, indice 1-214 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6BE0 8
+D 0x6C10 0x6C40 sala_40  la sala 40: 6 filas de 8 metafichas (un byte cada una, indice 1-85 en el juego 3); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6C10 8
+D 0x6C40 0x6C70 sala_41  la sala 41: 6 filas de 8 metafichas (un byte cada una, indice 1-99 en el juego 3); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6C40 8
+D 0x6C70 0x6CA0 sala_42  la sala 42: 6 filas de 8 metafichas (un byte cada una, indice 1-104 en el juego 3); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6C70 8
+D 0x6CA0 0x6CD0 sala_43  la sala 43: 6 filas de 8 metafichas (un byte cada una, indice 1-104 en el juego 3); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6CA0 8
+D 0x6CD0 0x6D00 sala_44  la sala 44: 6 filas de 8 metafichas (un byte cada una, indice 1-104 en el juego 3); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6CD0 8
+D 0x6D00 0x6D30 sala_47  la sala 47: 6 filas de 8 metafichas (un byte cada una, indice 1-104 en el juego 3); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6D00 8
+D 0x6D30 0x6D60 sala_48  la sala 48: 6 filas de 8 metafichas (un byte cada una, indice 1-104 en el juego 3); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6D30 8
+D 0x6D60 0x6D90 sala_49  la sala 49: 6 filas de 8 metafichas (un byte cada una, indice 1-104 en el juego 3); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6D60 8
+D 0x6D90 0x6DC0 sala_51  la sala 51: 6 filas de 8 metafichas (un byte cada una, indice 1-104 en el juego 3); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6D90 8
+D 0x6DC0 0x6DF0 sala_52  la sala 52: 6 filas de 8 metafichas (un byte cada una, indice 1-104 en el juego 3); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6DC0 8
+D 0x6DF0 0x6E20 sala_53  la sala 53: 6 filas de 8 metafichas (un byte cada una, indice 1-104 en el juego 3); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6DF0 8
+D 0x6E20 0x6E50 sala_46  la sala 46: 6 filas de 8 metafichas (un byte cada una, indice 1-214 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6E20 8
+D 0x6E50 0x6E80 sala_45  la sala 45: 6 filas de 8 metafichas (un byte cada una, indice 1-214 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6E50 8
+D 0x6E80 0x6EB0 sala_117  la sala 117: 6 filas de 8 metafichas (un byte cada una, indice 1-106 en el juego 3); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6E80 8
+D 0x6EB0 0x6EE0 sala_240  la sala 240: 6 filas de 8 metafichas (un byte cada una, indice 1-16 en el juego 4); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6EB0 8
+D 0x6EE0 0x6F10 sala_241  la sala 241: 6 filas de 8 metafichas (un byte cada una, indice 1-16 en el juego 4); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6EE0 8
+D 0x6F10 0x6F40 sala_242  la sala 242: 6 filas de 8 metafichas (un byte cada una, indice 1-16 en el juego 4); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6F10 8
+D 0x6F40 0x6F70 sala_243_245  la sala 243, 245: 6 filas de 8 metafichas (un byte cada una, indice 1-16 en el juego 4); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6F40 8
+D 0x6F70 0x6FA0 sala_244_246  la sala 244, 246: 6 filas de 8 metafichas (un byte cada una, indice 1-16 en el juego 4); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6F70 8
+D 0x6FA0 0x6FD0 sala_247  la sala 247: 6 filas de 8 metafichas (un byte cada una, indice 1-16 en el juego 4); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6FA0 8
+D 0x6FD0 0x7000 sala_248_249  la sala 248, 249: 6 filas de 8 metafichas (un byte cada una, indice 1-16 en el juego 4); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x6FD0 8
+D 0x7000 0x7030 sala_250  la sala 250: 6 filas de 8 metafichas (un byte cada una, indice 1-16 en el juego 4); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7000 8
+D 0x7030 0x7060 sala_204  la sala 204: 6 filas de 8 metafichas (un byte cada una, indice 1-16 en el juego 4); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7030 8
+D 0x7060 0x7090 sala_226  la sala 226: 6 filas de 8 metafichas (un byte cada una, indice 1-18 en el juego 4); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7060 8
+D 0x7090 0x70C0 sala_225  la sala 225: 6 filas de 8 metafichas (un byte cada una, indice 1-18 en el juego 4); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7090 8
+D 0x70C0 0x70F0 sala_224  la sala 224: 6 filas de 8 metafichas (un byte cada una, indice 1-18 en el juego 4); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x70C0 8
+D 0x70F0 0x7120 sala_70  la sala 70: 6 filas de 8 metafichas (un byte cada una, indice 1-214 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x70F0 8
+D 0x7120 0x7150 sala_71  la sala 71: 6 filas de 8 metafichas (un byte cada una, indice 1-214 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7120 8
+D 0x7150 0x7180 sala_72  la sala 72: 6 filas de 8 metafichas (un byte cada una, indice 1-214 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7150 8
+D 0x7180 0x71B0 sala_73  la sala 73: 6 filas de 8 metafichas (un byte cada una, indice 1-214 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7180 8
+D 0x71B0 0x71E0 sala_74  la sala 74: 6 filas de 8 metafichas (un byte cada una, indice 1-214 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x71B0 8
+D 0x71E0 0x7210 sala_75  la sala 75: 6 filas de 8 metafichas (un byte cada una, indice 1-214 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x71E0 8
+D 0x7210 0x7240 sala_76  la sala 76: 6 filas de 8 metafichas (un byte cada una, indice 1-214 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7210 8
+D 0x7240 0x7270 sala_77  la sala 77: 6 filas de 8 metafichas (un byte cada una, indice 1-214 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7240 8
+D 0x7270 0x72A0 sala_78  la sala 78: 6 filas de 8 metafichas (un byte cada una, indice 1-214 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7270 8
+D 0x72A0 0x72D0 sala_93  la sala 93: 6 filas de 8 metafichas (un byte cada una, indice 1-112 en el juego 2); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x72A0 8
+D 0x72D0 0x7300 sala_94  la sala 94: 6 filas de 8 metafichas (un byte cada una, indice 1-112 en el juego 2); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x72D0 8
+D 0x7300 0x7330 sala_95  la sala 95: 6 filas de 8 metafichas (un byte cada una, indice 1-112 en el juego 2); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7300 8
+D 0x7330 0x7360 sala_96  la sala 96: 6 filas de 8 metafichas (un byte cada una, indice 1-112 en el juego 2); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7330 8
+D 0x7360 0x7390 sala_97  la sala 97: 6 filas de 8 metafichas (un byte cada una, indice 1-113 en el juego 2); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7360 8
+D 0x7390 0x73C0 sala_98  la sala 98: 6 filas de 8 metafichas (un byte cada una, indice 1-113 en el juego 2); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7390 8
+D 0x73C0 0x73F0 sala_99  la sala 99: 6 filas de 8 metafichas (un byte cada una, indice 1-113 en el juego 2); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x73C0 8
+D 0x73F0 0x7420 sala_100  la sala 100: 6 filas de 8 metafichas (un byte cada una, indice 1-113 en el juego 2); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x73F0 8
+D 0x7420 0x7450 sala_101  la sala 101: 6 filas de 8 metafichas (un byte cada una, indice 1-113 en el juego 2); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7420 8
+D 0x7450 0x7480 sala_79  la sala 79: 6 filas de 8 metafichas (un byte cada una, indice 1-214 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7450 8
+D 0x7480 0x74B0 sala_80  la sala 80: 6 filas de 8 metafichas (un byte cada una, indice 1-216 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7480 8
+D 0x74B0 0x74E0 sala_81  la sala 81: 6 filas de 8 metafichas (un byte cada una, indice 1-216 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x74B0 8
+D 0x74E0 0x7510 sala_82  la sala 82: 6 filas de 8 metafichas (un byte cada una, indice 1-216 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x74E0 8
+D 0x7510 0x7540 sala_83  la sala 83: 6 filas de 8 metafichas (un byte cada una, indice 1-216 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7510 8
+D 0x7540 0x7570 sala_84  la sala 84: 6 filas de 8 metafichas (un byte cada una, indice 1-216 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7540 8
+D 0x7570 0x75A0 sala_85  la sala 85: 6 filas de 8 metafichas (un byte cada una, indice 1-216 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7570 8
+D 0x75A0 0x75D0 sala_86  la sala 86: 6 filas de 8 metafichas (un byte cada una, indice 1-216 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x75A0 8
+D 0x75D0 0x7600 sala_87  la sala 87: 6 filas de 8 metafichas (un byte cada una, indice 1-216 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x75D0 8
+D 0x7600 0x7630 sala_88  la sala 88: 6 filas de 8 metafichas (un byte cada una, indice 1-106 en el juego 3); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7600 8
+D 0x7630 0x7660 sala_89  la sala 89: 6 filas de 8 metafichas (un byte cada una, indice 1-106 en el juego 3); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7630 8
+D 0x7660 0x7690 sala_90  la sala 90: 6 filas de 8 metafichas (un byte cada una, indice 1-106 en el juego 3); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7660 8
+D 0x7690 0x76C0 sala_91  la sala 91: 6 filas de 8 metafichas (un byte cada una, indice 1-106 en el juego 3); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7690 8
+D 0x76C0 0x76F0 sala_92  la sala 92: 6 filas de 8 metafichas (un byte cada una, indice 1-106 en el juego 3); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x76C0 8
+D 0x76F0 0x7720 sala_108  la sala 108: 6 filas de 8 metafichas (un byte cada una, indice 1-216 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x76F0 8
+D 0x7720 0x7750 sala_109  la sala 109: 6 filas de 8 metafichas (un byte cada una, indice 1-216 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7720 8
+D 0x7750 0x7780 sala_110  la sala 110: 6 filas de 8 metafichas (un byte cada una, indice 1-216 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7750 8
+D 0x7780 0x77B0 sala_126_127_128  la sala 126, 127, 128, 130, 131, 132, 135, 173 ...: 6 filas de 8 metafichas (un byte cada una, indice 1-91 en el juego 5); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7780 8
+D 0x77B0 0x77E0 sala_129_133_143  la sala 129, 133, 143, 144, 145, 182, 190, 202: 6 filas de 8 metafichas (un byte cada una, indice 1-91 en el juego 5); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x77B0 8
+D 0x77E0 0x7810 sala_134_136_146  la sala 134, 136, 146: 6 filas de 8 metafichas (un byte cada una, indice 1-91 en el juego 5); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x77E0 8
+D 0x7810 0x7840 sala_148  la sala 148: 6 filas de 8 metafichas (un byte cada una, indice 1-91 en el juego 5); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7810 8
+D 0x7840 0x7870 sala_161  la sala 161: 6 filas de 8 metafichas (un byte cada una, indice 1-91 en el juego 5); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7840 8
+D 0x7870 0x78A0 sala_166  la sala 166: 6 filas de 8 metafichas (un byte cada una, indice 1-91 en el juego 5); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7870 8
+D 0x78A0 0x78D0 sala_165_167  la sala 165, 167: 6 filas de 8 metafichas (un byte cada una, indice 1-91 en el juego 5); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x78A0 8
+D 0x78D0 0x7900 sala_180_194_195  la sala 180, 194, 195: 6 filas de 8 metafichas (un byte cada una, indice 1-91 en el juego 5); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x78D0 8
+D 0x7900 0x7930 sala_186_198  la sala 186, 198: 6 filas de 8 metafichas (un byte cada una, indice 1-91 en el juego 5); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7900 8
+D 0x7930 0x7960 sala_189  la sala 189: 6 filas de 8 metafichas (un byte cada una, indice 1-91 en el juego 5); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7930 8
+D 0x7960 0x7990 sala_203  la sala 203: 6 filas de 8 metafichas (un byte cada una, indice 1-91 en el juego 5); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7960 8
+D 0x7990 0x79C0 sala_140_147_170  la sala 140, 147, 170: 6 filas de 8 metafichas (un byte cada una, indice 1-91 en el juego 5); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7990 8
+D 0x79C0 0x79F0 sala_137_152_162  la sala 137, 152, 162: 6 filas de 8 metafichas (un byte cada una, indice 1-91 en el juego 5); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x79C0 8
+D 0x79F0 0x7A20 sala_139_156_157  la sala 139, 156, 157, 158, 160, 163, 176, 177 ...: 6 filas de 8 metafichas (un byte cada una, indice 1-91 en el juego 5); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x79F0 8
+D 0x7A20 0x7A50 sala_141  la sala 141: 6 filas de 8 metafichas (un byte cada una, indice 1-91 en el juego 5); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7A20 8
+D 0x7A50 0x7A80 sala_142  la sala 142: 6 filas de 8 metafichas (un byte cada una, indice 1-91 en el juego 5); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7A50 8
+D 0x7A80 0x7AB0 sala_149_188  la sala 149, 188: 6 filas de 8 metafichas (un byte cada una, indice 1-91 en el juego 5); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7A80 8
+D 0x7AB0 0x7AE0 sala_150  la sala 150: 6 filas de 8 metafichas (un byte cada una, indice 1-91 en el juego 5); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7AB0 8
+D 0x7AE0 0x7B10 sala_153  la sala 153: 6 filas de 8 metafichas (un byte cada una, indice 1-91 en el juego 5); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7AE0 8
+D 0x7B10 0x7B40 sala_138  la sala 138: 6 filas de 8 metafichas (un byte cada una, indice 1-91 en el juego 5); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7B10 8
+D 0x7B40 0x7B70 sala_159  la sala 159: 6 filas de 8 metafichas (un byte cada una, indice 1-91 en el juego 5); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7B40 8
+D 0x7B70 0x7BA0 sala_168_171  la sala 168, 171: 6 filas de 8 metafichas (un byte cada una, indice 1-91 en el juego 5); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7B70 8
+D 0x7BA0 0x7BD0 sala_169  la sala 169: 6 filas de 8 metafichas (un byte cada una, indice 1-92 en el juego 5); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7BA0 8
+D 0x7BD0 0x7C00 sala_172_200  la sala 172, 200: 6 filas de 8 metafichas (un byte cada una, indice 1-92 en el juego 5); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7BD0 8
+D 0x7C00 0x7C30 sala_164  la sala 164: 6 filas de 8 metafichas (un byte cada una, indice 1-92 en el juego 5); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7C00 8
+D 0x7C30 0x7C60 sala_151_179  la sala 151, 179: 6 filas de 8 metafichas (un byte cada una, indice 1-92 en el juego 5); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7C30 8
+D 0x7C60 0x7C90 sala_191  la sala 191: 6 filas de 8 metafichas (un byte cada una, indice 1-92 en el juego 5); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7C60 8
+D 0x7C90 0x7CC0 sala_193  la sala 193: 6 filas de 8 metafichas (un byte cada una, indice 1-96 en el juego 5); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7C90 8
+D 0x7CC0 0x7CF0 sala_201  la sala 201: 6 filas de 8 metafichas (un byte cada una, indice 1-96 en el juego 5); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7CC0 8
+D 0x7CF0 0x7D20 sala_205  la sala 205: 6 filas de 8 metafichas (un byte cada una, indice 1-96 en el juego 5); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7CF0 8
+D 0x7D20 0x7D50 sala_206  la sala 206: 6 filas de 8 metafichas (un byte cada una, indice 1-96 en el juego 5); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7D20 8
+D 0x7D50 0x7D80 sala_154_207  la sala 154, 207: 6 filas de 8 metafichas (un byte cada una, indice 1-96 en el juego 5); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7D50 8
+D 0x7D80 0x7DB0 sala_122  la sala 122: 6 filas de 8 metafichas (un byte cada una, indice 1-96 en el juego 5); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7D80 8
+D 0x7DB0 0x7DE0 sala_178  la sala 178: 6 filas de 8 metafichas (un byte cada una, indice 1-96 en el juego 5); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7DB0 8
+D 0x7DE0 0x7E10 sala_111  la sala 111: 6 filas de 8 metafichas (un byte cada una, indice 1-113 en el juego 2); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7DE0 8
+D 0x7E10 0x7E40 sala_112  la sala 112: 6 filas de 8 metafichas (un byte cada una, indice 1-113 en el juego 2); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7E10 8
+D 0x7E40 0x7E70 sala_113  la sala 113: 6 filas de 8 metafichas (un byte cada una, indice 1-113 en el juego 2); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7E40 8
+D 0x7E70 0x7EA0 sala_114  la sala 114: 6 filas de 8 metafichas (un byte cada una, indice 1-113 en el juego 2); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7E70 8
+D 0x7EA0 0x7ED0 sala_115  la sala 115: 6 filas de 8 metafichas (un byte cada una, indice 1-113 en el juego 2); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7EA0 8
+D 0x7ED0 0x7F00 sala_116  la sala 116: 6 filas de 8 metafichas (un byte cada una, indice 1-113 en el juego 2); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7ED0 8
+D 0x7F00 0x7F30 sala_118  la sala 118: 6 filas de 8 metafichas (un byte cada una, indice 1-216 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7F00 8
+D 0x7F30 0x7F60 sala_119  la sala 119: 6 filas de 8 metafichas (un byte cada una, indice 1-216 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7F30 8
+D 0x7F60 0x7F90 sala_105  la sala 105: 6 filas de 8 metafichas (un byte cada una, indice 1-216 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7F60 8
+D 0x7F90 0x7FC0 sala_106_211_212  la sala 106, 211, 212: 6 filas de 8 metafichas (un byte cada una, indice 1-216 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7F90 8
+D 0x7FC0 0x7FF0 sala_107  la sala 107: 6 filas de 8 metafichas (un byte cada una, indice 1-216 en el juego 1); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x7FC0 8
+D 0x7FF0 0x8000 sala_64  la sala 64: 6 filas de 8 metafichas (un byte cada una, indice 1-113 en el juego 2); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta (sigue en el banco 14, en 0x8000); lo leen p00:4CB7 (16 bytes)
+F 0x7FF0 8
+# --- fin de los bloques de bloques.py ---

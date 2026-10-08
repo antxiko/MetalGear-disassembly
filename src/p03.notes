@@ -1,0 +1,53 @@
+# notas del banco 03
+
+# --- A MANO: comentarios, nombres y bloques ---
+D 0xA000 0xA001 tercer_byte_del_jp_de_p02_9FFE  el byte alto (5B) del `jp 0x5BA6` que empieza en p02:9FFE: la instruccion cruza del banco 2 a este. El codigo de la camara sigue en 0xA001 (llega por el `jr c` de p02:9FF3)
+D 0xA045 0xA049 limites_a045  4 bytes (0x10, 0x58, 0xC0, 0xF0): p03:A00A lee 0xA043 + 2 x (ix+0x0F) y compara (ix+5) con el byte
+D 0xA5E4 0xA5F4 velocidades_a5e4  8 palabras (0x40, 0x80, 0xC0, 0x100, 0x100, 0xC0, 0x80, 0x40) que p03:A578 recorre con C = (ix+0x30): la velocidad del puente
+F 0xA5E4 w8
+D 0xA910 0xA920 velocidades_a910  dos juegos de 4 parejas [dx][dy], uno por direccion: p03:A8FB lee 0xA90E + 2 x (ix+0x11) y p03:A90B 0xA916 + 2 x (ix+0x11), con L_42B4, y las pone en (ix+8)/(ix+0xA)
+F 0xA910 2
+D 0xB1DE 0xB1E6 velocidad_b1de  4 parejas [dx][dy] (-1, 1) que p03:B1D1 lee en 0xB1DC + 2 x (ix+0x11) con L_42B4
+F 0xB1DE 2
+D 0xB542 0xB54A velocidad_b542  4 parejas [dx][dy] (-8, 8) que p03:B497 lee en 0xB542 + 2 x (ix+0x11)
+F 0xB542 2
+D 0xB68F 0xB693 patrones_b68f  4 numeros de patron (0x5E, 0x5F, 0x60, 0x5F) que p03:B67E lee con los bits 1-2 de (ix+0x0C)
+D 0xB9AB 0xB9B1 palabras_b9ab  3 palabras, tipos de actor 0x73-0x75: p03:B998 lee 0xB9AB + 2 x (tipo - 0x73) con L_42B4 y las guarda en (ix+0x25)/(ix+0x2A)
+F 0xB9AB w3
+
+# --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0xA078 0xA07E tabla_A078  3 destinos del despachador p00:41EA (call en p03:A075, el indice en A): A07E, A0AD, A0D5; lo leen p03:A075 (6 bytes)
+F 0xA078 w3
+D 0xA252 0xA25E tabla_A252  6 destinos del despachador p00:41EA (call en p03:A24F, el indice en A): A25E, A26A, A2B4, A327, A351, A439; lo leen p03:A24F (12 bytes)
+F 0xA252 w6
+D 0xA7C4 0xA7CE tabla_A7C4  5 destinos del despachador p00:41EA (call en p03:A7C1, el indice en A): A7CE, A859, A88F, A8CB, A8E8; lo leen p03:A7C1 (10 bytes)
+F 0xA7C4 w5
+D 0xAB70 0xAB7A tabla_AB70  5 destinos del despachador p00:41EA (call en p03:AB6D, el indice en A): AB7A, ABBF, AC8C, ACA1, ACC0; lo leen p03:AB6D (10 bytes)
+F 0xAB70 w5
+D 0xAD55 0xAD5D tabla_AD55  4 destinos del despachador p00:41EA (call en p03:AD52, el indice en A): AD5D, AD8D, ADAB, ADD7; lo leen p03:AD52 (8 bytes)
+F 0xAD55 w4
+D 0xAE8F 0xAE97 tabla_AE8F  4 destinos del despachador p00:41EA (call en p03:AE8C, el indice en A): AE97, AEB6, AEDF, AEFA; lo leen p03:AE8C (8 bytes)
+F 0xAE8F w4
+D 0xB14C 0xB152 tabla_B14C  3 destinos del despachador p00:41EA (call en p03:B149, el indice en A): B152, B192, B1A5; lo leen p03:B149 (6 bytes)
+F 0xB14C w3
+D 0xB204 0xB212 tabla_B204  7 destinos del despachador p00:41EA (call en p03:B201, el indice en A): B212, B21F, B212, B230, B212, B239, B277; lo leen p03:B201 (14 bytes)
+F 0xB204 w7
+D 0xB296 0xB2A4 tabla_B296  7 destinos del despachador p00:41EA (call en p03:B293, el indice en A): B2A4, B2DB, B351, B376, B38F, B3A6, B3C0; lo leen p03:B293 (14 bytes)
+F 0xB296 w7
+D 0xB442 0xB448 tabla_B442  3 destinos del despachador p00:41EA (call en p03:B43F, el indice en A): B474, B48A, B448; lo leen p03:B43F (6 bytes)
+F 0xB442 w3
+D 0xB5F6 0xB5FC tabla_B5F6  3 destinos del despachador p00:41EA (call en p03:B5F3, el indice en A): B5FC, B615, B641; lo leen p03:B5F3 (6 bytes)
+F 0xB5F6 w3
+D 0xB6EB 0xB6F5 tabla_B6EB  5 destinos del despachador p00:41EA (call en p03:B6E8, el indice en A): B6F5, B711, B75A, B77B, B7ED; lo leen p03:B6E8 (10 bytes)
+F 0xB6EB w5
+D 0xBAB7 0xBABF tabla_BAB7  4 destinos del despachador p00:41EA (call en p03:BAB4, el indice en A): BABF, BAE7, BAFC, BB0B; lo leen p03:BAB4 (8 bytes)
+F 0xBAB7 w4
+D 0xBB83 0xBB8B tabla_BB83  4 destinos del despachador p00:41EA (call en p03:BB80, el indice en A): BB8B, BBC9, BC05, BC55; lo leen p03:BB80 (8 bytes)
+F 0xBB83 w4
+D 0xBCD9 0xBCE3 tabla_BCD9  5 destinos del despachador p00:41EA (call en p03:BCD6, el indice en A): BCE3, BD16, BD27, BD45, BD5A; lo leen p03:BCD6 (10 bytes)
+F 0xBCD9 w5
+D 0xBDA8 0xBDB4 tabla_BDA8  6 destinos del despachador p00:41EA (call en p03:BDA5, el indice en A): BDB4, BDCC, BE09, BE26, BE3B, BE5F; lo leen p03:BDA5 (12 bytes)
+F 0xBDA8 w6
+D 0xBFAF 0xC000 relleno_ff  81 bytes a 0xFF hasta el final del banco: relleno; lo leen nadie (81 bytes)
+F 0xBFAF 16
+# --- fin de los bloques de bloques.py ---

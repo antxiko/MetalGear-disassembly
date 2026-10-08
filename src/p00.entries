@@ -1,0 +1,186 @@
+# Puntos de entrada del banco 0 (se ejecuta en 0x4000).
+#
+# Cada uno lleva la instruccion que lo justifica. Los que ponen "pNN:XXXX"
+# vienen de OTRO banco: el trazador de una sola pagina no puede seguirlos,
+# porque en esa direccion -segun lo que haya en el registro del mapper- puede
+# estar cualquiera de seis bancos. Los que ponen "tabla" salen de una tabla
+# del despachador 0x41EA, que va pegada detras de su `call` y esta declarada
+# como datos en el .nocode: el trazador tampoco puede seguirla.
+#
+# Los saltos y llamadas DENTRO del propio banco no se ponen aqui: los
+# encuentra tools/z80trace.py solo, siguiendo el flujo.
+#
+# Este fichero lo regenera `make semillas` (tools/bancos.py escribe).
+0x4050   # p09:B50D call
+0x4055   # p06:BBF7 call
+0x405A   # p06:BBD5 jp
+0x405F   # p09:AF7D jp
+0x4064   # p09:AFA8 call
+0x4069   # p09:AFFA call
+0x406E   # p09:AFAB call
+0x4073   # p09:AFAE call
+0x4078   # p09:B04D jp
+0x407D   # p09:AF58 call
+0x4082   # p09:AF69 call
+0x4087   # p09:AF80 call
+0x408C   # p09:B06D call
+0x4091   # p09:B09B call
+0x4096   # p09:B0AB jp
+0x409B   # p09:B4E2 call
+0x40A0   # p09:B4DA call
+0x40A5   # p06:BC8E call
+0x40AA   # p09:B503 jp
+0x40AF   # p09:B57C jp
+0x40B4   # p09:B5E3 call
+0x40B9   # p09:AD93 call
+0x40BE   # p06:BC01 call
+0x40C3   # p15:B8EE call
+0x40C8   # p15:B945 jp
+0x40CD   # p15:BE84 call
+0x40D2   # p06:BF9C call
+0x40D7   # p06:BF5F call
+0x40DC   # p15:B972 call
+0x40E1   # p15:BA9F jp cc
+0x40E6   # p15:BC56 call
+0x40EB   # p15:BDD9 call
+0x40F0   # p12:BC33 jp
+0x40F5   # p09:B55F call
+0x40FA   # p15:BD6D call
+0x40FF   # p15:BD70 call
+0x4104   # p15:BF1F jp
+0x4109   # p12:BC39 jp
+0x410E   # p06:BD87 jp
+0x4113   # p09:B678 call
+0x4118   # p09:B500 call
+0x411D   # p09:B694 call
+0x4122   # p15:BF9A call
+0x4127   # p15:BE8C jp
+0x412C   # p15:BEAE jp
+0x4131   # p15:BF5C call
+0x4136   # p15:BF61 call
+0x413B   # p12:BC16 jp cc
+0x4140   # p09:B584 call
+0x4145   # p15:BF17 jp
+0x414A   # p15:BEC2 call
+0x414F   # p15:BDFD call
+0x4154   # p15:BDF0 call
+0x4159   # p06:BD14 call
+0x415E   # p06:BD43 jp cc
+0x4163   # p09:B4DF call
+0x4168   # p09:B5C8 call
+0x416D   # p06:BCD9 call
+0x4172   # p06:BCDC call
+0x4177   # p15:BE5E call
+0x417C   # p15:BE65 call
+0x4181   # p15:BE17 call
+0x4186   # p15:BEE2 call
+0x418B   # p15:BEE5 jp
+0x4190   # p15:BDDC call
+0x4195   # p06:BCAE call
+0x41AC   # gancho de interrupcion H.TIMI: INIT escribe 0xC3 en 0xFD9F y esta direccion en 0xFDA0 (p00:4236-p00:423E)
+0x41DF   # p02:9ECB call
+0x41F3   # cabecera AB: INIT
+0x4248   # p01:68F7 jp
+0x427C   # p02:9664 call
+0x4284   # p01:68E6 call
+0x42B4   # p03:A8FE call
+0x42C9   # p03:A6C1 call
+0x42E6   # p01:7151 call
+0x4315   # p02:93A2 call
+0x432D   # p02:932E call
+0x4347   # p01:6D7D call
+0x4362   # p01:6E1F call
+0x4376   # p01:6DE0 call
+0x4384   # p02:8C4D call
+0x4396   # p02:89F0 call
+0x43A3   # p02:8F14 call
+0x43A9   # p02:8F24 call
+0x43B4   # p02:8996 call
+0x43CA   # p01:6BE4 call
+0x43CF   # p01:7EE5 call
+0x43FA   # p01:6DE6 call
+0x449E   # p01:692D call
+0x44AF   # p03:B86E jp
+0x44B6   # p01:777B jp
+0x44EC   # p01:7409 call
+0x45EF   # p01:7853 call
+0x4613   # p01:7F8D call
+0x4676   # p03:AA67 call
+0x469C   # p01:6BDE call
+0x4751   # p02:8FCA call
+0x47A6   # p01:7ED7 call
+0x4843   # p02:8FCD jp
+0x48BD   # p01:6DE3 call
+0x4913   # p01:7437 call
+0x4919   # p01:68E9 call
+0x4925   # p01:6CB2 call
+0x49F4   # p01:6DC5 call
+0x4A44   # p01:6E6D call
+0x4A7C   # p03:A71A call cc
+0x4A81   # p03:A6CC call
+0x4A92   # p01:6E82 call
+0x4A9D   # p01:6BB6 call
+0x4AAA   # p01:691B call
+0x4AB5   # p01:6C9C call
+0x4ACB   # p01:6C99 call
+0x4B33   # p01:6DC2 call
+0x4BB1   # p01:6946 call
+0x4BEC   # p01:6C77 call
+0x4C2E   # p02:88D1 call
+0x4C40   # p02:8034 jp
+0x4CF0   # p01:6C96 call
+0x4D3E   # p01:6D22 call
+0x4D85   # 14 bytes: pone la direccion de la VRAM (L_4D93) y manda A al puerto; nadie lo llama
+0x510C   # p01:69FC jp
+0x5110   # p01:69F8 call
+0x5135   # p02:90F9 call
+0x5317   # p01:66AB call
+0x53A5   # p01:6EEB call
+0x53DA   # p02:87A9 jp
+0x5419   # p00:575F entrada 34 de la tabla de 0x5762 (call 0x41EA en 0x575F)
+0x54AF   # p01:722C entrada 34 de la tabla de 0x722F (call 0x41EA en 0x722C)
+0x5506   # p01:7463 call cc
+0x5599   # p01:6EF1 call
+0x55F0   # p01:6E98 call cc
+0x5683   # 23 bytes: variante de L_565C (crea actores de una lista); nadie lo llama
+0x57E2   # p00:575F entrada 41 de la tabla de 0x5762 (call 0x41EA en 0x575F)
+0x57E3   # p00:575F entrada 16 de la tabla de 0x5762 (call 0x41EA en 0x575F)
+0x581B   # p01:71E2 call
+0x58C9   # p02:9A25 call
+0x58E4   # 5 bytes: pone 0xC605 = 1 y sigue en L_58E9; nadie lo llama
+0x58E9   # p02:9AF4 jp cc
+0x58FD   # p03:AF4F jp
+0x592F   # p03:AA8E call
+0x5935   # p00:575F entrada 29 de la tabla de 0x5762 (call 0x41EA en 0x575F)
+0x5939   # p00:575F entrada 4 de la tabla de 0x5762 (call 0x41EA en 0x575F)
+0x593D   # p00:575F entrada 3 de la tabla de 0x5762 (call 0x41EA en 0x575F)
+0x5997   # p03:A9EE call
+0x59CC   # p02:9EE8 jp
+0x5A6A   # p02:9DFD jp
+0x5B01   # p02:9ACE jp
+0x5B40   # p02:9B11 jp
+0x5B45   # p03:B58B call
+0x5B55   # p02:999D jp
+0x5B5D   # p03:A49F jp
+0x5B64   # p03:B3FD jp
+0x5B6A   # p02:9C14 call
+0x5B78   # p03:A0F7 call
+0x5BA2   # p03:B480 call
+0x5BA6   # p02:9FFE jp
+0x5BAB   # p03:A46B jp
+0x5BAF   # p02:9C56 call
+0x5BC1   # p03:A126 jp
+0x5BC3   # p03:A546 jp
+0x5BDF   # p03:A39E call
+0x5BE2   # p02:96C2 call
+0x5C25   # p03:B17E call
+0x5C27   # p03:B8DF call
+0x5CDD   # p03:A267 jp
+0x5D29   # p00:5D1A entrada 0 de la tabla de 0x5D1D (call 0x41EA en 0x5D1A)
+0x5D83   # p00:5D1A entrada 1 de la tabla de 0x5D1D (call 0x41EA en 0x5D1A)
+0x5D99   # p00:5D1A entrada 2 de la tabla de 0x5D1D (call 0x41EA en 0x5D1A)
+0x5E6B   # p00:5D1A entrada 3 de la tabla de 0x5D1D (call 0x41EA en 0x5D1A)
+0x5EC1   # p00:5D1A entrada 4 de la tabla de 0x5D1D (call 0x41EA en 0x5D1A)
+0x5EE9   # p00:5D1A entrada 5 de la tabla de 0x5D1D (call 0x41EA en 0x5D1A)
+0x5FA6   # p01:6DBF call
+0x5FFB   # p01:7066 call

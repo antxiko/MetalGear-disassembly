@@ -1,0 +1,42 @@
+# Puntos de entrada del banco 9 (se ejecuta en 0xa000).
+#
+# Cada uno lleva la instruccion que lo justifica. Los que ponen "pNN:XXXX"
+# vienen de OTRO banco: el trazador de una sola pagina no puede seguirlos,
+# porque en esa direccion -segun lo que haya en el registro del mapper- puede
+# estar cualquiera de seis bancos. Los que ponen "tabla" salen de una tabla
+# del despachador 0x41EA, que va pegada detras de su `call` y esta declarada
+# como datos en el .nocode: el trazador tampoco puede seguirla.
+#
+# Los saltos y llamadas DENTRO del propio banco no se ponen aqui: los
+# encuentra tools/z80trace.py solo, siguiendo el flujo.
+#
+# Este fichero lo regenera `make semillas` (tools/bancos.py escribe).
+0xAD69   # p01:7035 call
+0xAE28   # p01:6EDE call
+0xAE8F   # p01:60E6 call
+0xAEB2   # paso 0 de la intro: tabla 0xAE98 (p09:AE92 -> L_B50C)
+0xAEDA   # paso 1 de la intro: tabla 0xAE98
+0xAEFB   # paso 2 de la intro: tabla 0xAE98
+0xAF14   # paso 3 de la intro: tabla 0xAE98
+0xAF3B   # paso 4 de la intro: tabla 0xAE98
+0xAF69   # paso 5 de la intro: tabla 0xAE98
+0xAF73   # paso 6 de la intro: tabla 0xAE98
+0xAF80   # paso 7 de la intro: tabla 0xAE98
+0xAF95   # paso 8 de la intro: tabla 0xAE98
+0xAFBB   # paso 9 de la intro: tabla 0xAE98
+0xAFE9   # paso 10 de la intro: tabla 0xAE98
+0xB018   # paso 11 de la intro: tabla 0xAE98
+0xB043   # paso 12 de la intro: tabla 0xAE98
+0xB4DA   # p01:68EC call
+0xB506   # p01:68F4 call
+0xB51F   # estado 0 del menu: tabla 0xB515 (p09:B509 -> L_B50C)
+0xB52E   # estado 1 del menu: tabla 0xB515
+0xB55F   # estado 2 del menu: tabla 0xB515
+0xB571   # estado 3 del menu: tabla 0xB515
+0xB57F   # estado 4 del menu: tabla 0xB515
+0xB670   # p01:66E5 call
+0xB6B6   # p01:66A0 call
+0xBF49   # p01:6E25 call
+0xBF66   # p01:7027 call
+0xBFB0   # p01:6E28 call
+0xBFD1   # p01:7091 call

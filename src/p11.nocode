@@ -1,0 +1,12 @@
+# Zonas que el trazador NO puede entrar a desensamblar como codigo.
+#
+# La tabla de destinos del despachador de Konami (0x41EA) va pegada JUSTO
+# DETRAS de su `call`: sin declararla, el trazador sigue de largo y se la come
+# como instrucciones, y ademas sigue desde ahi. Es la contaminacion mas facil
+# de este cartucho.
+#
+# Este fichero lo regenera `make semillas` (tools/bancos.py escribe).
+#
+# BANCO DE DATOS entero, declarado en src/datos.txt:
+# ninguna instruccion carga una direccion suya a pelo: se recorre por punteros desde el 10 (10-11-12 puestos); 0 entradas
+0x8000 0xA000   el banco entero es datos

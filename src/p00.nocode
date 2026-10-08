@@ -1,0 +1,10 @@
+# Zonas que el trazador NO puede entrar a desensamblar como codigo.
+#
+# La tabla de destinos del despachador de Konami (0x41EA) va pegada JUSTO
+# DETRAS de su `call`: sin declararla, el trazador sigue de largo y se la come
+# como instrucciones, y ademas sigue desde ahi. Es la contaminacion mas facil
+# de este cartucho.
+#
+# Este fichero lo regenera `make semillas` (tools/bancos.py escribe).
+0x5762 0x57E2   tabla de 64 palabras del despachador (call 0x41EA en 0x575F)
+0x5D1D 0x5D29   tabla de 6 palabras del despachador (call 0x41EA en 0x5D1A)

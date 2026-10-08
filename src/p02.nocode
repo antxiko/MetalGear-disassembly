@@ -1,0 +1,25 @@
+# Zonas que el trazador NO puede entrar a desensamblar como codigo.
+#
+# La tabla de destinos del despachador de Konami (0x41EA) va pegada JUSTO
+# DETRAS de su `call`: sin declararla, el trazador sigue de largo y se la come
+# como instrucciones, y ademas sigue desde ahi. Es la contaminacion mas facil
+# de este cartucho.
+#
+# Este fichero lo regenera `make semillas` (tools/bancos.py escribe).
+0x80C4 0x80D2   tabla de 7 palabras del despachador (call 0x41EA en 0x80C1)
+0x8168 0x8176   tabla de 7 palabras del despachador (call 0x41EA en 0x8165)
+0x85B7 0x85BB   tabla de 2 palabras del despachador (call 0x41EA en 0x85B4)
+0x86B8 0x86BE   tabla de 3 palabras del despachador (call 0x41EA en 0x86B5)
+0x8769 0x876F   tabla de 3 palabras del despachador (call 0x41EA en 0x8766)
+0x87F9 0x87FF   tabla de 3 palabras del despachador (call 0x41EA en 0x87F6)
+0x889D 0x88A3   tabla de 3 palabras del despachador (call 0x41EA en 0x889A)
+0x95C5 0x95CF   tabla de 5 palabras del despachador (call 0x41EA en 0x95C2)
+0x9775 0x977D   tabla de 4 palabras del despachador (call 0x41EA en 0x9772)
+0x99FD 0x9A01   tabla de 2 palabras del despachador (call 0x41EA en 0x99FA)
+0x9A49 0x9A4D   tabla de 2 palabras del despachador (call 0x41EA en 0x9A46)
+0x9B35 0x9B3B   tabla de 3 palabras del despachador (call 0x41EA en 0x9B32)
+0x9C0A 0x9C12   tabla de 4 palabras del despachador (call 0x41EA en 0x9C07)
+0x9CA4 0x9CAC   tabla de 4 palabras del despachador (call 0x41EA en 0x9CA1)
+0x9DC5 0x9DCF   tabla de 5 palabras del despachador (call 0x41EA en 0x9DC2)
+0x9F1F 0x9F25   tabla de 3 palabras del despachador (call 0x41EA en 0x9F1C)
+0x9F94 0x9F9A   tabla de 3 palabras del despachador (call 0x41EA en 0x9F91)

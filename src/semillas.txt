@@ -1,0 +1,38 @@
+# Semillas a mano: 'pNN 0xADDR b6000 b8000 bA000  # por que'.
+#
+# Destinos de las tablas de SALTO que el trazador de cartucho entero no sigue:
+# un `jp (hl)` con HL sacado de una tabla por indice (p09:B50C: HL = tabla +
+# 2 x A; e = (hl); d = (hl+1); jp (hl)). Las dos tablas estan declaradas
+# como datos en src/p09.notes (bloques.py).
+p09 0xAEB2 1 2 9  # paso 0 de la intro: tabla 0xAE98 (p09:AE92 -> L_B50C)
+p09 0xAEDA 1 2 9  # paso 1 de la intro: tabla 0xAE98
+p09 0xAEFB 1 2 9  # paso 2 de la intro: tabla 0xAE98
+p09 0xAF14 1 2 9  # paso 3 de la intro: tabla 0xAE98
+p09 0xAF3B 1 2 9  # paso 4 de la intro: tabla 0xAE98
+p09 0xAF69 1 2 9  # paso 5 de la intro: tabla 0xAE98
+p09 0xAF73 1 2 9  # paso 6 de la intro: tabla 0xAE98
+p09 0xAF80 1 2 9  # paso 7 de la intro: tabla 0xAE98
+p09 0xAF95 1 2 9  # paso 8 de la intro: tabla 0xAE98
+p09 0xAFBB 1 2 9  # paso 9 de la intro: tabla 0xAE98
+p09 0xAFE9 1 2 9  # paso 10 de la intro: tabla 0xAE98
+p09 0xB018 1 2 9  # paso 11 de la intro: tabla 0xAE98
+p09 0xB043 1 2 9  # paso 12 de la intro: tabla 0xAE98
+p09 0xB51F 1 2 9  # estado 0 del menu: tabla 0xB515 (p09:B509 -> L_B50C)
+p09 0xB52E 1 2 9  # estado 1 del menu: tabla 0xB515
+p09 0xB55F 1 2 9  # estado 2 del menu: tabla 0xB515
+p09 0xB571 1 2 9  # estado 3 del menu: tabla 0xB515
+p09 0xB57F 1 2 9  # estado 4 del menu: tabla 0xB515
+#
+# Codigo al que no llega nadie por un salto o una llamada a la vista: se
+# traza igual, con el aviso en su cabecera (B) de que no tiene entrada
+# conocida. Son los trozos que quedaban sin explicar entre rutinas.
+p00 0x4D85 1 2 3  # 14 bytes: pone la direccion de la VRAM (L_4D93) y manda A al puerto; nadie lo llama
+p00 0x5683 1 2 3  # 23 bytes: variante de L_565C (crea actores de una lista); nadie lo llama
+p00 0x58E4 1 2 3  # 5 bytes: pone 0xC605 = 1 y sigue en L_58E9; nadie lo llama
+p01 0x68BF 1 2 3  # vuelta EMPUJADA: p01:667F hace `ld hl,0x68BF / push hl` antes del despachador de 0x6683, y el `ret` de la rutina despachada vuelve aqui
+p01 0x69FF 1 2 3  # 3 bytes: `call L_69F7`; nadie lo llama
+p02 0x90D2 1 2 3  # 2 bytes: `ld c,0` y sigue en L_90D4; nadie lo llama
+p03 0xA46E 1 2 3  # 52 bytes: suma la velocidad a la posicion en dos campos (B = 2); nadie lo llama
+p03 0xA830 1 2 3  # 16 bytes: `call 0x8356` y sigue en L_A908; nadie lo llama
+p03 0xB0D9 1 2 3  # 3 bytes: `ld a,(ix+0x11)` delante de 0xB0DC; nadie lo llama
+p03 0xB1BC 1 2 3  # 3 bytes: `ld a,(ix+0x11)` delante de 0xB1BF; nadie lo llama

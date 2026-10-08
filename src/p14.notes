@@ -1,0 +1,46 @@
+# notas del banco 14
+
+# --- A MANO: comentarios, nombres y bloques ---
+
+# --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0x8000 0x8020 sala_64_cola  la sala 64: 6 filas de 8 metafichas (un byte cada una, indice 1-113 en el juego 2); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta (sigue del banco 13); lo leen p00:4CB7 (32 bytes)
+F 0x8000 8
+D 0x8020 0x8050 sala_66_120  la sala 66, 120: 6 filas de 8 metafichas (un byte cada una, indice 1-113 en el juego 2); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x8020 8
+D 0x8050 0x8080 sala_65  la sala 65: 6 filas de 8 metafichas (un byte cada una, indice 1-113 en el juego 2); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x8050 8
+D 0x8080 0x80B0 sala_67  la sala 67: 6 filas de 8 metafichas (un byte cada una, indice 1-123 en el juego 2); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x8080 8
+D 0x80B0 0x80E0 sala_68  la sala 68: 6 filas de 8 metafichas (un byte cada una, indice 1-123 en el juego 2); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x80B0 8
+D 0x80E0 0x8110 sala_69  la sala 69: 6 filas de 8 metafichas (un byte cada una, indice 1-123 en el juego 2); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x80E0 8
+D 0x8110 0x8140 sala_102  la sala 102: 6 filas de 8 metafichas (un byte cada una, indice 1-123 en el juego 2); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x8110 8
+D 0x8140 0x8170 sala_103_208_209  la sala 103, 208, 209, 210: 6 filas de 8 metafichas (un byte cada una, indice 1-123 en el juego 2); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x8140 8
+D 0x8170 0x81A0 sala_104  la sala 104: 6 filas de 8 metafichas (un byte cada una, indice 1-123 en el juego 2); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x8170 8
+D 0x81A0 0x81D0 sala_123  la sala 123: 6 filas de 8 metafichas (un byte cada una, indice 1-123 en el juego 2); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x81A0 8
+D 0x81D0 0x8200 sala_221  la sala 221: 6 filas de 8 metafichas (un byte cada una, indice 1-123 en el juego 2); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x81D0 8
+D 0x8200 0x8230 sala_220  la sala 220: 6 filas de 8 metafichas (un byte cada una, indice 1-123 en el juego 2); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x8200 8
+D 0x8230 0x8260 sala_124  la sala 124: 6 filas de 8 metafichas (un byte cada una, indice 1-123 en el juego 2); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x8230 8
+D 0x8260 0x8290 sala_125  la sala 125: 6 filas de 8 metafichas (un byte cada una, indice 1-123 en el juego 2); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x8260 8
+D 0x8290 0x82C0 sala_50  la sala 50: 6 filas de 8 metafichas (un byte cada una, indice 1-21 en el juego 6); p00:4CB7 las monta en 0xE000 de 4 x 4 fichas y p00:4D2E las pinta; lo leen p00:4CB7 (48 bytes)
+F 0x8290 8
+D 0x82C0 0x9040 metafichas_juego_1  las 216 metafichas del juego 1, 4 x 4 numeros de ficha (16 bytes) cada una; el numero de la sala es 1-216 (p00:4CC3 resta 1); lo que las salas de ese juego usan como mucho; lo leen p00:4CC3 (3456 bytes)
+F 0x82C0 16
+D 0x9040 0x97F0 metafichas_juego_2  las 123 metafichas del juego 2, 4 x 4 numeros de ficha (16 bytes) cada una; el numero de la sala es 1-123 (p00:4CC3 resta 1); lo que las salas de ese juego usan como mucho; lo leen p00:4CC3 (1968 bytes)
+F 0x9040 16
+D 0x97F0 0x9E90 metafichas_juego_3  las 106 metafichas del juego 3, 4 x 4 numeros de ficha (16 bytes) cada una; el numero de la sala es 1-106 (p00:4CC3 resta 1); lo que las salas de ese juego usan como mucho; lo leen p00:4CC3 (1696 bytes)
+F 0x97F0 16
+D 0x9E90 0x9FB0 metafichas_juego_4  las 18 metafichas del juego 4, 4 x 4 numeros de ficha (16 bytes) cada una; el numero de la sala es 1-18 (p00:4CC3 resta 1); lo que las salas de ese juego usan como mucho; lo leen p00:4CC3 (288 bytes)
+F 0x9E90 16
+D 0x9FB0 0xA000 metafichas_juego_5  las 96 metafichas del juego 5, 4 x 4 numeros de ficha (16 bytes) cada una; el numero de la sala es 1-96 (p00:4CC3 resta 1); lo que las salas de ese juego usan como mucho (sigue en el banco 15, en 0xA000); lo leen p00:4CC3 (80 bytes)
+F 0x9FB0 16
+# --- fin de los bloques de bloques.py ---

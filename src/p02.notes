@@ -1,0 +1,99 @@
+# notas del banco 02
+
+# --- A MANO: comentarios, nombres y bloques ---
+D 0x9FFE 0xA000 jp_partido  los dos primeros bytes (C3 A6) de `jp 0x5BA6`: el tercero (5B) es el primer byte del banco 3, en 0xA000. Sigue a `call 0x9EE5` en p02:9FFB; el codigo de la camara continua de largo en p03:A001 por el `jr c` de p02:9FF3
+D 0x8037 0x804F sprites_8037  24 bytes, 6 fichas [y][x][patron][color], que p02:801C copia a 0xEA10 (los sprites de la mira)
+F 0x8037 4
+D 0x806C 0x80A3 salas_806c  55 numeros de sala que p02:805D compara con 0xC130 (B = 0x37): si esta, vuelve sin hacer nada
+F 0x806C 16
+D 0x8140 0x8147 tabla_por_arma  7 bytes (1, 1, 2, 4, 4, 2, 4), uno por arma 1-7: p02:80ED lee 0x8140 + arma - 1 (0xC134) y lo deja en C
+D 0x82CB 0x82FB cajas_de_choque  12 fichas de 4 bytes, dos parejas [dx][dy] cada una, que p02:82AA recorre (B = 2) sumando a la posicion y mirando en 0xC700 si la ficha choca (L_5C09); p02:82A1 elige la ficha con 0x82C7 + 4 x (4 x B + C)
+F 0x82CB 4
+D 0x83E6 0x83EE velocidad_de_la_bala  4 parejas [dx][dy], una por direccion 1-4 (0xC185): p02:83B6 lee 0x83E6 + 2 x (direccion - 1) con L_41DE
+F 0x83E6 2
+D 0x84B8 0x8538 velocidades_de_la_metralleta  16 fichas de 8 bytes, 4 parejas [dx][dy] cada una: p02:847E lee 0x84B8 + 8 x A + 2 x (0xC19F - 1)
+F 0x84B8 8
+D 0x85A9 0x85B1 velocidad_de_la_granada  4 parejas [dx][dy] por direccion (p02:8586 -> L_41DE)
+F 0x85A9 2
+D 0x85E3 0x85FC parabola_de_la_granada  25 bytes (0x10, 8, 0, -4, -8 ... -0x26 ... 0), uno por cuadro (ix+2), que p02:85C7 lee en 0x85E3 + cuadro y usa como parte alta de la altura
+D 0x86AA 0x86B2 velocidad_del_cohete  4 parejas [dx][dy] por direccion (p02:8684 -> L_41DE)
+F 0x86AA 2
+D 0x8753 0x8763 fichas_8753  4 fichas de 4 bytes, una por direccion, que p02:8722 lee en 0x8753 + 4 x A
+F 0x8753 4
+D 0x888F 0x8897 velocidad_888f  4 parejas [dx][dy] por direccion (p02:886E -> L_41DE)
+F 0x888F 2
+D 0x8A11 0x8A1D tipos_8a11  12 tipos de actor (4, 5, 0x1E, 0xA, 0xB, 0xD, 0xE, 0x13, 0x18, 0x1C, 0x30, 0x37) que p02:8A25 compara con (ix+0) (B = 12)
+D 0x8A5B 0x8A67 alcance_del_punetazo  4 parejas [dx][dy] que p02:8A67 usa segun la direccion (0xC185): 0x8A5B arriba, 0x8A61 abajo, 0x8A5D izquierda y 0x8A63 derecha (p02:8A30-8A41); se solapan
+F 0x8A5B 2
+D 0x8B7E 0x8B8A tabla_8b7e  12 bytes (1, 1, 2, 3, 4 ... 0xB) que p02:8B5E lee en 0x8B7E + A - 1 cuando A es menor que 12
+D 0x8C2A 0x8C33 salas_8c2a  9 numeros de sala (0x1D, 0x5E, 0x60, 0x61, 0x62, 0x64, 0x65, 0x70, 0x72) que p02:8C0D compara con 0xC130
+D 0x8D3B 0x8D4B tabla_8d3b  16 bytes (1 y 2) que p02:8D18 compara uno a uno con (de) (B = 16)
+F 0x8D3B 16
+D 0x918A 0x91DA bloques_918a  5 bloques de 16 bytes: p02:912E copia a 0xC380 el de 0x918A, 0x919A, 0x91AA o 0x91BA segun 0xC132 (0-3; C = 3, 6, 9 o 0x12) y p02:914C el de 0x91CA
+F 0x918A 16
+D 0x9262 0x9282 rotulo_konami_1987  rotulo con posicion (L_510C): ":" en (0x50,0x60), "KONAMI 1987" y "PUSH SPACE KEY" en (0x48,0x88), igual que el de p09:B58A; ninguna instruccion de los 16 bancos nombra 0x9262 (grep en los listados). SIN LECTOR A LA VISTA
+D 0x9282 0x9293 rotulo_play_start  [0x48][0x88] "  PLAY START" 0xFF, que p01:674A escribe con L_510C
+D 0x9293 0x92AF rotulo_game_over  "GAME OVER" (p01:680F) y, desde 0x92A0 tras el 0xFE, "CONTINUE" (p01:67FA lo escribe desde ahi con L_5110)
+D 0x92AF 0x92B6 rotulo_life  "LIFE" con posicion (p02:906A -> L_510C)
+D 0x92B6 0x92BE rotulo_class  "CLASS" con posicion (p02:90AD -> L_510C)
+D 0x92BE 0x92CF rotulo_telescope  el rotulo del prismatico con posicion (p01:71BB -> L_510C)
+D 0x92CF 0x92DB rotulo_call  "CALL" con posicion (p02:8FF8 -> L_5112)
+D 0x9474 0x947C palabras_9474  4 palabras, una por lado de salida (0xC133 = 1-4): p02:945B lee 0x9474 + 2 x (lado - 1) y las deja en 0xC183
+F 0x9474 w4
+D 0x94CD 0x9506 fichas_94cd  19 ternas [x][y][direccion] que p02:94A9 elige con 3 x (A - 1) (0x94CD + 2A + A): la posicion de Snake al entrar por una puerta
+F 0x94CD 3
+D 0x95B7 0x95BF sprites_95b7  2 fichas de 4 bytes [y][x][patron][color] que p02:959B copia 8 veces a 0xEA00 (B = 8, C = 8)
+F 0x95B7 4
+D 0x98DE 0x98EE tabla_98de  16 bytes que p02:9871 lee en 0x98DE + (A / 4) y deja en C
+F 0x98DE 16
+D 0x9BDD 0x9BE5 velocidad_9bdd  4 parejas [dx][dy], una por direccion (ix+0x11) = 1-4: p02:9BD0 lee 0x9BDB + 2 x direccion con L_42B4 y las pone en (ix+8)/(ix+0xA)
+F 0x9BDD 2
+D 0x9BFC 0x9C04 velocidad_9bfc  4 parejas [dx][dy] que p02:9BE6 lee en 0x9BFA + 2 x C con L_42B4 y suma a (ix+3)
+F 0x9BFC 2
+D 0x9C87 0x9C9E salas_9c87  23 numeros de sala que p02:9C72 busca con cpir (0xC130) y usa la posicion (C) como indice
+F 0x9C87 23
+D 0x9D59 0x9D7F parejas_9d59  19 parejas [sala][valor] que p02:9D3F compara con 0xC130 (B = 0x13) y usa el segundo byte
+F 0x9D59 2
+D 0x9EEB 0x9EF6 salas_9eeb  11 numeros de sala (0x95, 0x76, 0x73, 0x6F, 0x6E, 0x24, 0x1F, 0x1C, 0x1B, 0x15, 0xE) que p02:9EC5 busca con cpir; la posicion (C) elige en 0x9EF6
+D 0x9EF6 0x9F0E indice_9ef6  12 punteros (p02:9EC8 lee 0x9EF6 + 2 x C) a los bytes de 0x9F0C-0x9F16; el primero cae en los dos ultimos bytes del propio indice
+F 0x9EF6 w6
+D 0x9F0E 0x9F19 bytes_9f0e  los bytes (1, 1, 1, 1, 3 y ceros) a los que apunta el indice de 0x9EF6 (p02:9ECE lee E y D)
+D 0x9F86 0x9F8E parejas_9f86  4 parejas que p02:9F30 lee en 0x9F86 + 2 x (ix+0x1B) y suma a (ix+3)
+F 0x9F86 2
+
+# --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0x80C4 0x80D2 tabla_80C4  7 destinos del despachador p00:41EA (call en p02:80C1, el indice en A): 8364, 8416, 8538, 8632, 86EC, 87AC, 8817; lo leen p02:80C1 (14 bytes)
+F 0x80C4 w7
+D 0x8168 0x8176 tabla_8168  7 destinos del despachador p00:41EA (call en p02:8165, el indice en A): 83EE, 83EE, 85B1, 86B2, 8763, 87F3, 8897; lo leen p02:8165 (14 bytes)
+F 0x8168 w7
+D 0x85B7 0x85BB tabla_85B7  2 destinos del despachador p00:41EA (call en p02:85B4, el indice en A): 85BB, 8613; lo leen p02:85B4 (4 bytes)
+F 0x85B7 w2
+D 0x86B8 0x86BE tabla_86B8  3 destinos del despachador p00:41EA (call en p02:86B5, el indice en A): 86BE, 86D4, 878D; lo leen p02:86B5 (6 bytes)
+F 0x86B8 w3
+D 0x8769 0x876F tabla_8769  3 destinos del despachador p00:41EA (call en p02:8766, el indice en A): 876F, 8779, 878D; lo leen p02:8766 (6 bytes)
+F 0x8769 w3
+D 0x87F9 0x87FF tabla_87F9  3 destinos del despachador p00:41EA (call en p02:87F6, el indice en A): 8816, 87FF, 8613; lo leen p02:87F6 (6 bytes)
+F 0x87F9 w3
+D 0x889D 0x88A3 tabla_889D  3 destinos del despachador p00:41EA (call en p02:889A, el indice en A): 88A3, 88D7, 878D; lo leen p02:889A (6 bytes)
+F 0x889D w3
+D 0x95C5 0x95CF tabla_95C5  5 destinos del despachador p00:41EA (call en p02:95C2, el indice en A): 95CF, 95E7, 9604, 962C, 964A; lo leen p02:95C2 (10 bytes)
+F 0x95C5 w5
+D 0x9775 0x977D tabla_9775  4 destinos del despachador p00:41EA (call en p02:9772, el indice en A): 978F, 97A3, 97BA, 97CE; lo leen p02:9772 (8 bytes)
+F 0x9775 w4
+D 0x99FD 0x9A01 tabla_99FD  2 destinos del despachador p00:41EA (call en p02:99FA, el indice en A): 9A01, 9A13; lo leen p02:99FA (4 bytes)
+F 0x99FD w2
+D 0x9A49 0x9A4D tabla_9A49  2 destinos del despachador p00:41EA (call en p02:9A46, el indice en A): 9A4D, 9A5E; lo leen p02:9A46 (4 bytes)
+F 0x9A49 w2
+D 0x9B35 0x9B3B tabla_9B35  3 destinos del despachador p00:41EA (call en p02:9B32, el indice en A): 9B3B, 9B56, 9B89; lo leen p02:9B32 (6 bytes)
+F 0x9B35 w3
+D 0x9C0A 0x9C12 tabla_9C0A  4 destinos del despachador p00:41EA (call en p02:9C07, el indice en A): 9C12, 9C23, 9C2B, 9C48; lo leen p02:9C07 (8 bytes)
+F 0x9C0A w4
+D 0x9CA4 0x9CAC tabla_9CA4  4 destinos del despachador p00:41EA (call en p02:9CA1, el indice en A): 9CAC, 9D20, 9D26, 9D97; lo leen p02:9CA1 (8 bytes)
+F 0x9CA4 w4
+D 0x9DC5 0x9DCF tabla_9DC5  5 destinos del despachador p00:41EA (call en p02:9DC2, el indice en A): 9DCF, 9E08, 9E2C, 9E72, 9E8B; lo leen p02:9DC2 (10 bytes)
+F 0x9DC5 w5
+D 0x9F1F 0x9F25 tabla_9F1F  3 destinos del despachador p00:41EA (call en p02:9F1C, el indice en A): 9F25, 9F6E, 9F85; lo leen p02:9F1C (6 bytes)
+F 0x9F1F w3
+D 0x9F94 0x9F9A tabla_9F94  3 destinos del despachador p00:41EA (call en p02:9F91, el indice en A): 9F9A, 9FD5, A049; lo leen p02:9F91 (6 bytes)
+F 0x9F94 w3
+# --- fin de los bloques de bloques.py ---

@@ -1,0 +1,22 @@
+# notas del banco 08
+
+# --- A MANO: comentarios, nombres y bloques ---
+
+# --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0x8000 0x8621 fichas_juego_2_7C01_cola  108 fichas de 8 x 8 en 3 planos (24 bytes por ficha) del juego 2, desde la ficha 3 de la VRAM: p00:49C6 (L_524C) las pasa a 4 bits por punto con la tabla de colores de 0xE700 (sigue del banco 7); lo leen p00:49C6 (1569 bytes)
+F 0x8000 24
+D 0x8621 0x8819 fichas_juego_3_8621  21 fichas de 8 x 8 en 3 planos (24 bytes por ficha) del juego 3, desde la ficha 3 de la VRAM: p00:49C6 (L_524C) las pasa a 4 bits por punto con la tabla de colores de 0xE700; lo leen p00:49C6 (504 bytes)
+F 0x8621 24
+D 0x8819 0x9509 fichas_juego_4_8819  138 fichas de 8 x 8 en 3 planos (24 bytes por ficha) del juego 4, desde la ficha 3 de la VRAM: p00:49C6 (L_524C) las pasa a 4 bits por punto con la tabla de colores de 0xE700; lo leen p00:49C6 (3312 bytes)
+F 0x8819 24
+D 0x9509 0x95C9 cajas_9509  8 fichas en 3 planos de las cajas, que p00:4BDE vuelca en la VRAM 0x9400 y p00:4BE7 otra vez volteadas en 0x9840; lo leen p00:4BDE, p00:4BE7 (192 bytes)
+F 0x9509 24
+D 0x95C9 0x9A61 fichas_juego_0_95C9  40 fichas de 8 x 8 en 3 planos (24 bytes por ficha) del juego 0, desde la ficha 168 de la VRAM: p00:49C6 (L_524C) las pasa a 4 bits por punto con la tabla de colores de 0xE700; se solapan 2 bloques: (fichas_juego_1_98E1 98E1-9A61); lo leen p00:49C6 (1176 bytes)
+F 0x95C9 24
+D 0x9A61 0x9B21 fichas_juego_5_9A61  8 fichas de 8 x 8 en 3 planos (24 bytes por ficha) del juego 5, desde la ficha 3 de la VRAM: p00:49C6 (L_524C) las pasa a 4 bits por punto con la tabla de colores de 0xE700; lo leen p00:49C6 (192 bytes)
+F 0x9A61 24
+D 0x9B21 0x9E99 fichas_juego_5_9B21  37 fichas de 8 x 8 en 3 planos (24 bytes por ficha) del juego 5, desde la ficha 11 de la VRAM: p00:49C6 (L_524C) las pasa a 4 bits por punto con la tabla de colores de 0xE700; lo leen p00:49C6 (888 bytes)
+F 0x9B21 24
+D 0x9E99 0xA000 fichas_juego_6_9E99  72 fichas de 8 x 8 en 3 planos (24 bytes por ficha) del juego 6, desde la ficha 161 de la VRAM: p00:49C6 (L_524C) las pasa a 4 bits por punto con la tabla de colores de 0xE700 (sigue en el banco 9, en 0xA000); lo leen p00:49C6 (359 bytes)
+F 0x9E99 24
+# --- fin de los bloques de bloques.py ---

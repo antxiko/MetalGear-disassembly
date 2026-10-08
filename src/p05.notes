@@ -1,0 +1,541 @@
+# notas del banco 05
+
+# --- A MANO: comentarios, nombres y bloques ---
+
+# --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0x8000 0x80B3 sonido_38_7F25_cola  canal del sonido 0x38 (palabra 56 del indice): comandos del controlador de p04:60B1 hasta 0xFF (sigue del banco 4); lo leen p04:60B1 (179 bytes)
+D 0x80B3 0x8260 sonido_3E_80B3  canal del sonido 0x3E (palabra 62 del indice): comandos del controlador de p04:60B1 hasta 0xFF; lo leen p04:60B1 (429 bytes)
+D 0x8260 0x858A sonido_41_8260  canal del sonido 0x41 (palabra 65 del indice): comandos del controlador de p04:60B1 hasta 0xFF; lo leen p04:60B1 (810 bytes)
+D 0x858A 0x85F0 sonido_45_858A  canal del sonido 0x45 (palabra 69 del indice): comandos del controlador de p04:60B1 hasta 0xFF; lo leen p04:60B1 (102 bytes)
+D 0x85F0 0x8658 sonido_46_85F0  canal del sonido 0x46 (palabra 70 del indice): comandos del controlador de p04:60B1 hasta 0xFF; lo leen p04:60B1 (104 bytes)
+D 0x8658 0x8666 sonido_4D_8658  canal del sonido 0x4D (palabra 77 del indice): comandos del controlador de p04:60B1 hasta 0xFF; lo leen p04:60B1 (14 bytes)
+D 0x8666 0x8675 sonido_4E_8666  canal del sonido 0x4E (palabra 78 del indice): comandos del controlador de p04:60B1 hasta 0xFF; lo leen p04:60B1 (15 bytes)
+D 0x8675 0x86B4 sonido_53_8675  canal del sonido 0x53 (palabra 83 del indice): comandos del controlador de p04:60B1 hasta 0xFF; lo leen p04:60B1 (63 bytes)
+D 0x86B4 0x86F3 sonido_54_86B4  canal del sonido 0x54 (palabra 84 del indice): comandos del controlador de p04:60B1 hasta 0xFF; lo leen p04:60B1 (63 bytes)
+D 0x86F3 0x8792 sonido_57_86F3  canal del sonido 0x57 (palabra 87 del indice): comandos del controlador de p04:60B1 hasta 0xFF; lo leen p04:60B1 (159 bytes)
+D 0x8792 0x87B7 sonido_58_8792  canal del sonido 0x58 (palabra 88 del indice): comandos del controlador de p04:60B1 hasta 0xFF; lo leen p04:60B1 (37 bytes)
+D 0x87B7 0x87C5 indice_de_danos_por_arma  7 punteros, armas 1-7, a la tabla de dano de esa arma por tipo de actor (p00:4388 lee 0x87B7 + 2 x (arma - 1) y guarda el puntero en 0xEC00; p00:4393 lee el byte de delante, p00:4396 el del tipo); lo leen p00:4388 (14 bytes)
+F 0x87B7 w7
+D 0x87C5 0x87C6 byte_de_delante_de_los_danos  el byte que p00:4393 lee justo delante de la primera tabla de dano (DE - 1); lo leen p00:4393 (1 bytes)
+D 0x87C6 0x8808 dano_87C6  el dano de un arma a cada tipo de actor, un byte por tipo (0xFF = no le afecta): p00:4396 lee (0xEC00) + tipo; lo leen p00:4396 (66 bytes)
+F 0x87C6 16
+D 0x8808 0x884A dano_8808  el dano de un arma a cada tipo de actor, un byte por tipo (0xFF = no le afecta): p00:4396 lee (0xEC00) + tipo; lo leen p00:4396 (66 bytes)
+F 0x8808 16
+D 0x884A 0x888C dano_884A  el dano de un arma a cada tipo de actor, un byte por tipo (0xFF = no le afecta): p00:4396 lee (0xEC00) + tipo; lo leen p00:4396 (66 bytes)
+F 0x884A 16
+D 0x888C 0x88CE dano_888C  el dano de un arma a cada tipo de actor, un byte por tipo (0xFF = no le afecta): p00:4396 lee (0xEC00) + tipo; lo leen p00:4396 (66 bytes)
+F 0x888C 16
+D 0x88CE 0x8910 dano_88CE  el dano de un arma a cada tipo de actor, un byte por tipo (0xFF = no le afecta): p00:4396 lee (0xEC00) + tipo; lo leen p00:4396 (66 bytes)
+F 0x88CE 16
+D 0x8910 0x8951 dano_8910  el dano de un arma a cada tipo de actor, un byte por tipo (0xFF = no le afecta): p00:4396 lee (0xEC00) + tipo; lo leen p00:4396 (65 bytes)
+F 0x8910 16
+D 0x8951 0x8992 forma_8951  65 bytes, uno por tipo de actor, que p02:8C38 carga en HL y lee por p00:439C/p00:43A3 (HL + tipo, con 4-5-6 puesto); lo leen p02:8C38 (65 bytes)
+F 0x8951 16
+D 0x8992 0x89D3 forma_8992  65 bytes, uno por tipo de actor, que p02:8C47 carga en HL y lee por p00:439C/p00:43A3 (HL + tipo, con 4-5-6 puesto); lo leen p02:8C47 (65 bytes)
+F 0x8992 16
+D 0x89D3 0x8A14 forma_89D3  65 bytes, uno por tipo de actor, que p02:898C carga en HL y lee por p00:439C/p00:43A3 (HL + tipo, con 4-5-6 puesto); lo leen p02:898C (65 bytes)
+F 0x89D3 16
+D 0x8A14 0x8A55 forma_8A14  65 bytes, uno por tipo de actor, que p02:89E5 carga en HL y lee por p00:439C/p00:43A3 (HL + tipo, con 4-5-6 puesto); lo leen p02:89E5 (65 bytes)
+F 0x8A14 16
+D 0x8A55 0x8AC5 formas_de_los_proyectiles  28 fichas de 4 bytes, tipos 1-28, que p00:43B4 copia a 0xC928 (0x8A55 + 4 x (tipo - 1)); lo leen p00:43B4 (112 bytes)
+F 0x8A55 4
+D 0x8AC5 0x8AE8 texto_al_coger_cada_objeto  35 bytes, uno por objeto: el numero de texto que sale al cogerlo (p00:43A3 lo lee en 0x8AC5 + objeto - 1 desde p02); lo leen p00:43A3 (35 bytes)
+F 0x8AC5 16
+D 0x8AE8 0x8B0B unidades_de_cada_objeto  35 bytes, uno por objeto: cuantas unidades da (p00:43AC lee 0x8AE8 + objeto); lo leen p00:43AC (35 bytes)
+F 0x8AE8 16
+D 0x8B0B 0x8B1E paleta_del_menu_de_armas  ternas [registro][RB][G] hasta 0xFF (p00:4A95 -> L_4EC4); lo leen p00:4A95 (19 bytes)
+F 0x8B0B 3
+D 0x8B1E 0x8B40 paleta_del_transceptor  ternas de paleta hasta 0xFF (p00:4AAD -> L_4EC4); lo leen p00:4AAD (34 bytes)
+F 0x8B1E 3
+D 0x8B40 0x8BBE paleta_por_sala  un nibble por sala (p00:4B00 con L_42D4): que paleta de 0x8BBE usa; las salas 0x7B-0x7D y 0xDC/0xDD con gafas (0xC135 = 3) usan la 0xB y con el foco (0xC135 = 4) la 0xA; lo leen p00:4ACB (126 bytes)
+F 0x8B40 16
+D 0x8BBE 0x8BDE indice_de_paletas_de_sala  16 punteros a las paletas de sala (p00:4B06 -> L_42B4); lo leen p00:4B06 (32 bytes)
+F 0x8BBE w8
+D 0x8BDE 0x8BEB paleta_de_sala_0  la paleta 0 de sala: ternas hasta 0xFF (p00:4B0D -> L_4EC4); lo leen p00:4B0D (13 bytes)
+F 0x8BDE 3
+D 0x8BEB 0x8BF8 paleta_de_sala_1  la paleta 1 de sala: ternas hasta 0xFF (p00:4B0D -> L_4EC4); lo leen p00:4B0D (13 bytes)
+F 0x8BEB 3
+D 0x8BF8 0x8C05 paleta_de_sala_2  la paleta 2 de sala: ternas hasta 0xFF (p00:4B0D -> L_4EC4); lo leen p00:4B0D (13 bytes)
+F 0x8BF8 3
+D 0x8C05 0x8C12 paleta_de_sala_3  la paleta 3 de sala: ternas hasta 0xFF (p00:4B0D -> L_4EC4); lo leen p00:4B0D (13 bytes)
+F 0x8C05 3
+D 0x8C12 0x8C1F paleta_de_sala_4  la paleta 4 de sala: ternas hasta 0xFF (p00:4B0D -> L_4EC4); lo leen p00:4B0D (13 bytes)
+F 0x8C12 3
+D 0x8C1F 0x8C2C paleta_de_sala_5  la paleta 5 de sala: ternas hasta 0xFF (p00:4B0D -> L_4EC4); lo leen p00:4B0D (13 bytes)
+F 0x8C1F 3
+D 0x8C2C 0x8C39 paleta_de_sala_6  la paleta 6 de sala: ternas hasta 0xFF (p00:4B0D -> L_4EC4); lo leen p00:4B0D (13 bytes)
+F 0x8C2C 3
+D 0x8C39 0x8C46 paleta_de_sala_7  la paleta 7 de sala: ternas hasta 0xFF (p00:4B0D -> L_4EC4); lo leen p00:4B0D (13 bytes)
+F 0x8C39 3
+D 0x8C46 0x8C53 paleta_de_sala_8  la paleta 8 de sala: ternas hasta 0xFF (p00:4B0D -> L_4EC4); lo leen p00:4B0D (13 bytes)
+F 0x8C46 3
+D 0x8C53 0x8C60 paleta_de_sala_9  la paleta 9 de sala: ternas hasta 0xFF (p00:4B0D -> L_4EC4); lo leen p00:4B0D (13 bytes)
+F 0x8C53 3
+D 0x8C60 0x8C6D paleta_de_sala_10  la paleta 10 de sala: ternas hasta 0xFF (p00:4B0D -> L_4EC4); lo leen p00:4B0D (13 bytes)
+F 0x8C60 3
+D 0x8C6D 0x8C7D paleta_de_sala_11  la paleta 11 de sala: ternas hasta 0xFF (p00:4B0D -> L_4EC4); lo leen p00:4B0D (16 bytes)
+F 0x8C6D 3
+D 0x8C7D 0x8C8A paleta_de_sala_12  la paleta 12 de sala: ternas hasta 0xFF (p00:4B0D -> L_4EC4); lo leen p00:4B0D (13 bytes)
+F 0x8C7D 3
+D 0x8C8A 0x8C97 paleta_de_sala_13  la paleta 13 de sala: ternas hasta 0xFF (p00:4B0D -> L_4EC4); lo leen p00:4B0D (13 bytes)
+F 0x8C8A 3
+D 0x8C97 0x8CA7 paleta_de_sala_14  la paleta 14 de sala: ternas hasta 0xFF (p00:4B0D -> L_4EC4); lo leen p00:4B0D (16 bytes)
+F 0x8C97 3
+D 0x8CA7 0x8CB4 paleta_de_sala_15  la paleta 15 de sala: ternas hasta 0xFF (p00:4B0D -> L_4EC4); lo leen p00:4B0D (13 bytes)
+F 0x8CA7 3
+D 0x8CB4 0x8CF4 indice_de_paletas_de_sprites  32 punteros, uno por juego de sprites (0x6185 del banco 10), a su paleta (p00:4AC5); lo leen p00:4AC5 (64 bytes)
+F 0x8CB4 w8
+D 0x8CF4 0x8CFE paleta_de_sprites_8CF4  paleta de un juego de sprites: ternas hasta 0xFF (p00:4B0D); se solapan 2 bloques: (paleta_de_sprites_8CFD 8CFD-8CFE); lo leen p00:4B0D (10 bytes)
+F 0x8CF4 3
+D 0x8CFE 0x8D0B paleta_de_sprites_8CFE  paleta de un juego de sprites: ternas hasta 0xFF (p00:4B0D); lo leen p00:4B0D (13 bytes)
+F 0x8CFE 3
+D 0x8D0B 0x8D12 paleta_de_sprites_8D0B  paleta de un juego de sprites: ternas hasta 0xFF (p00:4B0D); lo leen p00:4B0D (7 bytes)
+F 0x8D0B 3
+D 0x8D12 0x8D19 paleta_de_sprites_8D12  paleta de un juego de sprites: ternas hasta 0xFF (p00:4B0D); lo leen p00:4B0D (7 bytes)
+F 0x8D12 3
+D 0x8D19 0x8D20 paleta_de_sprites_8D19  paleta de un juego de sprites: ternas hasta 0xFF (p00:4B0D); lo leen p00:4B0D (7 bytes)
+F 0x8D19 3
+D 0x8D20 0x8D24 paleta_de_sprites_8D20  paleta de un juego de sprites: ternas hasta 0xFF (p00:4B0D); lo leen p00:4B0D (4 bytes)
+F 0x8D20 3
+D 0x8D24 0x8D2E paleta_de_sprites_8D24  paleta de un juego de sprites: ternas hasta 0xFF (p00:4B0D); lo leen p00:4B0D (10 bytes)
+F 0x8D24 3
+D 0x8D2E 0x8D35 paleta_de_sprites_8D2E  paleta de un juego de sprites: ternas hasta 0xFF (p00:4B0D); lo leen p00:4B0D (7 bytes)
+F 0x8D2E 3
+D 0x8D35 0x8D3C paleta_de_sprites_8D35  paleta de un juego de sprites: ternas hasta 0xFF (p00:4B0D); lo leen p00:4B0D (7 bytes)
+F 0x8D35 3
+D 0x8D3C 0x8D43 paleta_de_sprites_8D3C  paleta de un juego de sprites: ternas hasta 0xFF (p00:4B0D); lo leen p00:4B0D (7 bytes)
+F 0x8D3C 3
+D 0x8D43 0x8D4A paleta_de_sprites_8D43  paleta de un juego de sprites: ternas hasta 0xFF (p00:4B0D); lo leen p00:4B0D (7 bytes)
+F 0x8D43 3
+D 0x8D4A 0x8D4E paleta_de_sprites_8D4A  paleta de un juego de sprites: ternas hasta 0xFF (p00:4B0D); lo leen p00:4B0D (4 bytes)
+F 0x8D4A 3
+D 0x8D4E 0x8D52 paleta_de_sprites_8D4E  paleta de un juego de sprites: ternas hasta 0xFF (p00:4B0D); lo leen p00:4B0D (4 bytes)
+F 0x8D4E 3
+D 0x8D52 0x8D5C paleta_de_sprites_8D52  paleta de un juego de sprites: ternas hasta 0xFF (p00:4B0D); lo leen p00:4B0D (10 bytes)
+F 0x8D52 3
+D 0x8D5C 0x8D63 paleta_de_sprites_8D5C  paleta de un juego de sprites: ternas hasta 0xFF (p00:4B0D); lo leen p00:4B0D (7 bytes)
+F 0x8D5C 3
+D 0x8D63 0x8D6A paleta_de_sprites_8D63  paleta de un juego de sprites: ternas hasta 0xFF (p00:4B0D); lo leen p00:4B0D (7 bytes)
+F 0x8D63 3
+D 0x8D6A 0x8D71 paleta_de_sprites_8D6A  paleta de un juego de sprites: ternas hasta 0xFF (p00:4B0D); lo leen p00:4B0D (7 bytes)
+F 0x8D6A 3
+D 0x8D71 0x8D78 paleta_de_sprites_8D71  paleta de un juego de sprites: ternas hasta 0xFF (p00:4B0D); lo leen p00:4B0D (7 bytes)
+F 0x8D71 3
+D 0x8D78 0x8D85 paleta_de_sprites_8D78  paleta de un juego de sprites: ternas hasta 0xFF (p00:4B0D); lo leen p00:4B0D (13 bytes)
+F 0x8D78 3
+D 0x8D85 0x8D8C paleta_de_sprites_8D85  paleta de un juego de sprites: ternas hasta 0xFF (p00:4B0D); lo leen p00:4B0D (7 bytes)
+F 0x8D85 3
+D 0x8D8C 0x8D93 paleta_de_sprites_8D8C  paleta de un juego de sprites: ternas hasta 0xFF (p00:4B0D); lo leen p00:4B0D (7 bytes)
+F 0x8D8C 3
+D 0x8D93 0x8D9A paleta_de_sprites_8D93  paleta de un juego de sprites: ternas hasta 0xFF (p00:4B0D); lo leen p00:4B0D (7 bytes)
+F 0x8D93 3
+D 0x8D9A 0x8DA1 paleta_de_sprites_8D9A  paleta de un juego de sprites: ternas hasta 0xFF (p00:4B0D); lo leen p00:4B0D (7 bytes)
+F 0x8D9A 3
+D 0x8DA1 0x8DA8 paleta_de_sprites_8DA1  paleta de un juego de sprites: ternas hasta 0xFF (p00:4B0D); lo leen p00:4B0D (7 bytes)
+F 0x8DA1 3
+D 0x8DA8 0x8DBE indice_de_ascensores  11 punteros, salas 0xF0-0xFA, a la ficha del ascensor (p00:4335 lee 0x8DA8 + 2 x (sala - 0xF0)); lo leen p00:4335 (22 bytes)
+F 0x8DA8 w8
+D 0x8DBE 0x8DC6 ascensor_8DBE  la ficha de un ascensor: 2 bytes que p00:433C guarda en 0xC197/0xC198 y ternas [sala][b][c] que p00:431F busca por la sala de 0xC136; lo leen p00:432D (8 bytes)
+D 0x8DC6 0x8DD1 ascensor_8DC6  la ficha de un ascensor: 2 bytes que p00:433C guarda en 0xC197/0xC198 y ternas [sala][b][c] que p00:431F busca por la sala de 0xC136; lo leen p00:432D (11 bytes)
+D 0x8DD1 0x8DD9 ascensor_8DD1  la ficha de un ascensor: 2 bytes que p00:433C guarda en 0xC197/0xC198 y ternas [sala][b][c] que p00:431F busca por la sala de 0xC136; lo leen p00:432D (8 bytes)
+D 0x8DD9 0x8DE4 ascensor_8DD9  la ficha de un ascensor: 2 bytes que p00:433C guarda en 0xC197/0xC198 y ternas [sala][b][c] que p00:431F busca por la sala de 0xC136; lo leen p00:432D (11 bytes)
+D 0x8DE4 0x8DE9 ascensor_8DE4  la ficha de un ascensor: 2 bytes que p00:433C guarda en 0xC197/0xC198 y ternas [sala][b][c] que p00:431F busca por la sala de 0xC136; lo leen p00:432D (5 bytes)
+D 0x8DE9 0x8DF4 ascensor_8DE9  la ficha de un ascensor: 2 bytes que p00:433C guarda en 0xC197/0xC198 y ternas [sala][b][c] que p00:431F busca por la sala de 0xC136; lo leen p00:432D (11 bytes)
+D 0x8DF4 0x8DF9 ascensor_8DF4  la ficha de un ascensor: 2 bytes que p00:433C guarda en 0xC197/0xC198 y ternas [sala][b][c] que p00:431F busca por la sala de 0xC136; lo leen p00:432D (5 bytes)
+D 0x8DF9 0x8DFE ascensor_8DF9  la ficha de un ascensor: 2 bytes que p00:433C guarda en 0xC197/0xC198 y ternas [sala][b][c] que p00:431F busca por la sala de 0xC136; lo leen p00:432D (5 bytes)
+D 0x8DFE 0x8E09 ascensor_8DFE  la ficha de un ascensor: 2 bytes que p00:433C guarda en 0xC197/0xC198 y ternas [sala][b][c] que p00:431F busca por la sala de 0xC136; lo leen p00:432D (11 bytes)
+D 0x8E09 0x8E0E ascensor_8E09  la ficha de un ascensor: 2 bytes que p00:433C guarda en 0xC197/0xC198 y ternas [sala][b][c] que p00:431F busca por la sala de 0xC136; lo leen p00:432D (5 bytes)
+D 0x8E0E 0x907E salas_vecinas  156 fichas de 4 bytes, una por sala (p00:4302: las salas 0x7E-0xCF restan 0x52 y las 0xD0-0xE3 y 0xF1+ restan 0x5F), con la sala a la que se sale por cada lado (0xC133 - 1 elige el byte; 0xFF = no hay); lo leen p00:4302 (624 bytes)
+F 0x8E0E 4
+D 0x907E 0x9088 actores_de_la_sala_1  [cuantos (nibble bajo)] y 3 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (10 bytes)
+F 0x907E 1,3
+D 0x9088 0x908F actores_de_la_sala_2  [cuantos (nibble bajo)] y 2 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (7 bytes)
+F 0x9088 1,3
+D 0x908F 0x9099 actores_de_la_sala_3  [cuantos (nibble bajo)] y 3 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (10 bytes)
+F 0x908F 1,3
+D 0x9099 0x90A0 actores_de_la_sala_4  [cuantos (nibble bajo)] y 2 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (7 bytes)
+F 0x9099 1,3
+D 0x90A0 0x90A4 actores_de_la_sala_5  [cuantos (nibble bajo)] y 1 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (4 bytes)
+F 0x90A0 1,3
+D 0x90A4 0x90AB actores_de_la_sala_6  [cuantos (nibble bajo)] y 2 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (7 bytes)
+F 0x90A4 1,3
+D 0x90AB 0x90B2 actores_de_la_sala_7  [cuantos (nibble bajo)] y 2 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (7 bytes)
+F 0x90AB 1,3
+D 0x90B2 0x90D7 actores_de_la_sala_9  [cuantos (nibble bajo)] y 12 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (37 bytes)
+F 0x90B2 1,3
+D 0x90D7 0x90E1 actores_de_la_sala_10  [cuantos (nibble bajo)] y 3 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (10 bytes)
+F 0x90D7 1,3
+D 0x90E1 0x90EE actores_de_la_sala_11  [cuantos (nibble bajo)] y 4 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (13 bytes)
+F 0x90E1 1,3
+D 0x90EE 0x90F5 actores_de_la_sala_12  [cuantos (nibble bajo)] y 2 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (7 bytes)
+F 0x90EE 1,3
+D 0x90F5 0x90FC actores_de_la_sala_13  [cuantos (nibble bajo)] y 2 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (7 bytes)
+F 0x90F5 1,3
+D 0x90FC 0x9106 actores_de_la_sala_14  [cuantos (nibble bajo)] y 3 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (10 bytes)
+F 0x90FC 1,3
+D 0x9106 0x910D actores_de_la_sala_15  [cuantos (nibble bajo)] y 2 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (7 bytes)
+F 0x9106 1,3
+D 0x910D 0x9111 actores_de_la_sala_16  [cuantos (nibble bajo)] y 1 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (4 bytes)
+F 0x910D 1,3
+D 0x9111 0x911E actores_de_la_sala_17  [cuantos (nibble bajo)] y 4 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (13 bytes)
+F 0x9111 1,3
+D 0x911E 0x912E actores_de_la_sala_18  [cuantos (nibble bajo)] y 5 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (16 bytes)
+F 0x911E 1,3
+D 0x912E 0x9135 actores_de_la_sala_19  [cuantos (nibble bajo)] y 2 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (7 bytes)
+F 0x912E 1,3
+D 0x9135 0x9139 actores_de_la_sala_20  [cuantos (nibble bajo)] y 1 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (4 bytes)
+F 0x9135 1,3
+D 0x9139 0x913D actores_de_la_sala_21  [cuantos (nibble bajo)] y 1 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (4 bytes)
+F 0x9139 1,3
+D 0x913D 0x9144 actores_de_la_sala_22  [cuantos (nibble bajo)] y 2 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (7 bytes)
+F 0x913D 1,3
+D 0x9144 0x914E actores_de_la_sala_23  [cuantos (nibble bajo)] y 3 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (10 bytes)
+F 0x9144 1,3
+D 0x914E 0x9152 actores_de_la_sala_24  [cuantos (nibble bajo)] y 1 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (4 bytes)
+F 0x914E 1,3
+D 0x9152 0x9156 actores_de_la_sala_26  [cuantos (nibble bajo)] y 1 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (4 bytes)
+F 0x9152 1,3
+D 0x9156 0x915D actores_de_la_sala_27  [cuantos (nibble bajo)] y 2 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (7 bytes)
+F 0x9156 1,3
+D 0x915D 0x9164 actores_de_la_sala_28  [cuantos (nibble bajo)] y 2 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (7 bytes)
+F 0x915D 1,3
+D 0x9164 0x9171 actores_de_la_sala_29  [cuantos (nibble bajo)] y 4 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (13 bytes)
+F 0x9164 1,3
+D 0x9171 0x9178 actores_de_la_sala_30  [cuantos (nibble bajo)] y 2 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (7 bytes)
+F 0x9171 1,3
+D 0x9178 0x917F actores_de_la_sala_31  [cuantos (nibble bajo)] y 2 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (7 bytes)
+F 0x9178 1,3
+D 0x917F 0x9183 actores_de_la_sala_32  [cuantos (nibble bajo)] y 1 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (4 bytes)
+F 0x917F 1,3
+D 0x9183 0x918A actores_de_la_sala_33  [cuantos (nibble bajo)] y 2 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (7 bytes)
+F 0x9183 1,3
+D 0x918A 0x9191 actores_de_la_sala_34  [cuantos (nibble bajo)] y 2 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (7 bytes)
+F 0x918A 1,3
+D 0x9191 0x919B actores_de_la_sala_35  [cuantos (nibble bajo)] y 3 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (10 bytes)
+F 0x9191 1,3
+D 0x919B 0x91A5 actores_de_la_sala_36  [cuantos (nibble bajo)] y 3 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (10 bytes)
+F 0x919B 1,3
+D 0x91A5 0x91A9 actores_de_la_sala_37  [cuantos (nibble bajo)] y 1 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (4 bytes)
+F 0x91A5 1,3
+D 0x91A9 0x91B0 actores_de_la_sala_38  [cuantos (nibble bajo)] y 2 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (7 bytes)
+F 0x91A9 1,3
+D 0x91B0 0x91BD actores_de_la_sala_39  [cuantos (nibble bajo)] y 4 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (13 bytes)
+F 0x91B0 1,3
+D 0x91BD 0x91C1 actores_de_la_sala_40  [cuantos (nibble bajo)] y 1 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (4 bytes)
+F 0x91BD 1,3
+D 0x91C1 0x91C8 actores_de_la_sala_43  [cuantos (nibble bajo)] y 2 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (7 bytes)
+F 0x91C1 1,3
+D 0x91C8 0x91CC actores_de_la_sala_44  [cuantos (nibble bajo)] y 1 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (4 bytes)
+F 0x91C8 1,3
+D 0x91CC 0x91E8 actores_de_la_sala_45  [cuantos (nibble bajo)] y 9 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (28 bytes)
+F 0x91CC 1,3
+D 0x91E8 0x9204 actores_de_la_sala_46  [cuantos (nibble bajo)] y 9 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (28 bytes)
+F 0x91E8 1,3
+D 0x9204 0x920B actores_de_la_sala_47  [cuantos (nibble bajo)] y 2 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (7 bytes)
+F 0x9204 1,3
+D 0x920B 0x920F actores_de_la_sala_48  [cuantos (nibble bajo)] y 1 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (4 bytes)
+F 0x920B 1,3
+D 0x920F 0x9219 actores_de_la_sala_49  [cuantos (nibble bajo)] y 3 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (10 bytes)
+F 0x920F 1,3
+D 0x9219 0x921D actores_de_la_sala_50  [cuantos (nibble bajo)] y 1 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (4 bytes)
+F 0x9219 1,3
+D 0x921D 0x9221 actores_de_la_sala_51  [cuantos (nibble bajo)] y 1 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (4 bytes)
+F 0x921D 1,3
+D 0x9221 0x9228 actores_de_la_sala_52  [cuantos (nibble bajo)] y 2 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (7 bytes)
+F 0x9221 1,3
+D 0x9228 0x922F actores_de_la_sala_55  [cuantos (nibble bajo)] y 2 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (7 bytes)
+F 0x9228 1,3
+D 0x922F 0x923C actores_de_la_sala_56  [cuantos (nibble bajo)] y 4 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (13 bytes)
+F 0x922F 1,3
+D 0x923C 0x9240 actores_de_la_sala_57  [cuantos (nibble bajo)] y 1 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (4 bytes)
+F 0x923C 1,3
+D 0x9240 0x9247 actores_de_la_sala_58  [cuantos (nibble bajo)] y 2 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (7 bytes)
+F 0x9240 1,3
+D 0x9247 0x924E actores_de_la_sala_60  [cuantos (nibble bajo)] y 2 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (7 bytes)
+F 0x9247 1,3
+D 0x924E 0x9255 actores_de_la_sala_61  [cuantos (nibble bajo)] y 2 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (7 bytes)
+F 0x924E 1,3
+D 0x9255 0x9259 actores_de_la_sala_59  [cuantos (nibble bajo)] y 1 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (4 bytes)
+F 0x9255 1,3
+D 0x9259 0x9275 actores_de_la_sala_64  [cuantos (nibble bajo)] y 9 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (28 bytes)
+F 0x9259 1,3
+D 0x9275 0x9279 actores_de_la_sala_65  [cuantos (nibble bajo)] y 1 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (4 bytes)
+F 0x9275 1,3
+D 0x9279 0x927D actores_de_la_sala_67  [cuantos (nibble bajo)] y 1 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (4 bytes)
+F 0x9279 1,3
+D 0x927D 0x928A actores_de_la_sala_69  [cuantos (nibble bajo)] y 4 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (13 bytes)
+F 0x927D 1,3
+D 0x928A 0x9291 actores_de_la_sala_70  [cuantos (nibble bajo)] y 2 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (7 bytes)
+F 0x928A 1,3
+D 0x9291 0x9295 actores_de_la_sala_71  [cuantos (nibble bajo)] y 1 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (4 bytes)
+F 0x9291 1,3
+D 0x9295 0x929F actores_de_la_sala_74  [cuantos (nibble bajo)] y 3 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (10 bytes)
+F 0x9295 1,3
+D 0x929F 0x92A3 actores_de_la_sala_76  [cuantos (nibble bajo)] y 1 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (4 bytes)
+F 0x929F 1,3
+D 0x92A3 0x92AD actores_de_la_sala_77  [cuantos (nibble bajo)] y 3 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (10 bytes)
+F 0x92A3 1,3
+D 0x92AD 0x92BA actores_de_la_sala_79  [cuantos (nibble bajo)] y 4 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (13 bytes)
+F 0x92AD 1,3
+D 0x92BA 0x92C4 actores_de_la_sala_80  [cuantos (nibble bajo)] y 3 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (10 bytes)
+F 0x92BA 1,3
+D 0x92C4 0x92D1 actores_de_la_sala_81  [cuantos (nibble bajo)] y 4 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (13 bytes)
+F 0x92C4 1,3
+D 0x92D1 0x92DE actores_de_la_sala_82  [cuantos (nibble bajo)] y 4 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (13 bytes)
+F 0x92D1 1,3
+D 0x92DE 0x92E5 actores_de_la_sala_83  [cuantos (nibble bajo)] y 2 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (7 bytes)
+F 0x92DE 1,3
+D 0x92E5 0x92F2 actores_de_la_sala_84  [cuantos (nibble bajo)] y 4 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (13 bytes)
+F 0x92E5 1,3
+D 0x92F2 0x92F6 actores_de_la_sala_85  [cuantos (nibble bajo)] y 1 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (4 bytes)
+F 0x92F2 1,3
+D 0x92F6 0x9300 actores_de_la_sala_86  [cuantos (nibble bajo)] y 3 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (10 bytes)
+F 0x92F6 1,3
+D 0x9300 0x930A actores_de_la_sala_87  [cuantos (nibble bajo)] y 3 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (10 bytes)
+F 0x9300 1,3
+D 0x930A 0x9314 actores_de_la_sala_88  [cuantos (nibble bajo)] y 3 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (10 bytes)
+F 0x930A 1,3
+D 0x9314 0x9318 actores_de_la_sala_89  [cuantos (nibble bajo)] y 1 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (4 bytes)
+F 0x9314 1,3
+D 0x9318 0x9322 actores_de_la_sala_90  [cuantos (nibble bajo)] y 3 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (10 bytes)
+F 0x9318 1,3
+D 0x9322 0x932F actores_de_la_sala_91  [cuantos (nibble bajo)] y 4 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (13 bytes)
+F 0x9322 1,3
+D 0x932F 0x9333 actores_de_la_sala_92  [cuantos (nibble bajo)] y 1 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (4 bytes)
+F 0x932F 1,3
+D 0x9333 0x9337 actores_de_la_sala_93  [cuantos (nibble bajo)] y 1 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (4 bytes)
+F 0x9333 1,3
+D 0x9337 0x9344 actores_de_la_sala_94  [cuantos (nibble bajo)] y 4 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (13 bytes)
+F 0x9337 1,3
+D 0x9344 0x9360 actores_de_la_sala_95  [cuantos (nibble bajo)] y 9 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (28 bytes)
+F 0x9344 1,3
+D 0x9360 0x936D actores_de_la_sala_96  [cuantos (nibble bajo)] y 4 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (13 bytes)
+F 0x9360 1,3
+D 0x936D 0x937A actores_de_la_sala_97  [cuantos (nibble bajo)] y 4 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (13 bytes)
+F 0x936D 1,3
+D 0x937A 0x9387 actores_de_la_sala_98  [cuantos (nibble bajo)] y 4 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (13 bytes)
+F 0x937A 1,3
+D 0x9387 0x9394 actores_de_la_sala_100  [cuantos (nibble bajo)] y 4 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (13 bytes)
+F 0x9387 1,3
+D 0x9394 0x93A1 actores_de_la_sala_101  [cuantos (nibble bajo)] y 4 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (13 bytes)
+F 0x9394 1,3
+D 0x93A1 0x93B4 actores_de_la_sala_102  [cuantos (nibble bajo)] y 6 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (19 bytes)
+F 0x93A1 1,3
+D 0x93B4 0x93C7 actores_de_la_sala_103  [cuantos (nibble bajo)] y 6 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (19 bytes)
+F 0x93B4 1,3
+D 0x93C7 0x93D4 actores_de_la_sala_104  [cuantos (nibble bajo)] y 4 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (13 bytes)
+F 0x93C7 1,3
+D 0x93D4 0x93E1 actores_de_la_sala_107  [cuantos (nibble bajo)] y 4 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (13 bytes)
+F 0x93D4 1,3
+D 0x93E1 0x93EB actores_de_la_sala_108  [cuantos (nibble bajo)] y 3 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (10 bytes)
+F 0x93E1 1,3
+D 0x93EB 0x93F5 actores_de_la_sala_109  [cuantos (nibble bajo)] y 3 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (10 bytes)
+F 0x93EB 1,3
+D 0x93F5 0x93F9 actores_de_la_sala_110  [cuantos (nibble bajo)] y 1 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (4 bytes)
+F 0x93F5 1,3
+D 0x93F9 0x9400 actores_de_la_sala_111  [cuantos (nibble bajo)] y 2 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (7 bytes)
+F 0x93F9 1,3
+D 0x9400 0x940A actores_de_la_sala_112  [cuantos (nibble bajo)] y 3 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (10 bytes)
+F 0x9400 1,3
+D 0x940A 0x9411 actores_de_la_sala_113  [cuantos (nibble bajo)] y 2 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (7 bytes)
+F 0x940A 1,3
+D 0x9411 0x9433 actores_de_la_sala_114  [cuantos (nibble bajo)] y 11 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (34 bytes)
+F 0x9411 1,3
+D 0x9433 0x943A actores_de_la_sala_115  [cuantos (nibble bajo)] y 2 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (7 bytes)
+F 0x9433 1,3
+D 0x943A 0x943E actores_de_la_sala_116  [cuantos (nibble bajo)] y 1 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (4 bytes)
+F 0x943A 1,3
+D 0x943E 0x9448 actores_de_la_sala_118  [cuantos (nibble bajo)] y 3 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (10 bytes)
+F 0x943E 1,3
+D 0x9448 0x944C actores_de_la_sala_119  [cuantos (nibble bajo)] y 1 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (4 bytes)
+F 0x9448 1,3
+D 0x944C 0x9468 actores_de_la_sala_120  [cuantos (nibble bajo)] y 9 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (28 bytes)
+F 0x944C 1,3
+D 0x9468 0x9472 actores_de_la_sala_123  [cuantos (nibble bajo)] y 3 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (10 bytes)
+F 0x9468 1,3
+D 0x9472 0x9479 actores_de_la_sala_124  [cuantos (nibble bajo)] y 2 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (7 bytes)
+F 0x9472 1,3
+D 0x9479 0x947D actores_de_la_sala_127  [cuantos (nibble bajo)] y 1 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (4 bytes)
+F 0x9479 1,3
+D 0x947D 0x948A actores_de_la_sala_131  [cuantos (nibble bajo)] y 4 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (13 bytes)
+F 0x947D 1,3
+D 0x948A 0x948E actores_de_la_sala_132  [cuantos (nibble bajo)] y 1 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (4 bytes)
+F 0x948A 1,3
+D 0x948E 0x9492 actores_de_la_sala_138  [cuantos (nibble bajo)] y 1 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (4 bytes)
+F 0x948E 1,3
+D 0x9492 0x94A5 actores_de_la_sala_140  [cuantos (nibble bajo)] y 6 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (19 bytes)
+F 0x9492 1,3
+D 0x94A5 0x94A9 actores_de_la_sala_141  [cuantos (nibble bajo)] y 1 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (4 bytes)
+F 0x94A5 1,3
+D 0x94A9 0x94B0 actores_de_la_sala_205  [cuantos (nibble bajo)] y 2 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (7 bytes)
+F 0x94A9 1,3
+D 0x94B0 0x94BD actores_de_la_sala_150  [cuantos (nibble bajo)] y 4 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (13 bytes)
+F 0x94B0 1,3
+D 0x94BD 0x94C1 actores_de_la_sala_154  [cuantos (nibble bajo)] y 1 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (4 bytes)
+F 0x94BD 1,3
+D 0x94C1 0x94C5 actores_de_la_sala_164  [cuantos (nibble bajo)] y 1 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (4 bytes)
+F 0x94C1 1,3
+D 0x94C5 0x94CC actores_de_la_sala_166  [cuantos (nibble bajo)] y 2 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (7 bytes)
+F 0x94C5 1,3
+D 0x94CC 0x94D0 actores_de_la_sala_167  [cuantos (nibble bajo)] y 1 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (4 bytes)
+F 0x94CC 1,3
+D 0x94D0 0x94D4 actores_de_la_sala_178  [cuantos (nibble bajo)] y 1 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (4 bytes)
+F 0x94D0 1,3
+D 0x94D4 0x94DB actores_de_la_sala_181  [cuantos (nibble bajo)] y 2 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (7 bytes)
+F 0x94D4 1,3
+D 0x94DB 0x94DF actores_de_la_sala_182  [cuantos (nibble bajo)] y 1 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (4 bytes)
+F 0x94DB 1,3
+D 0x94DF 0x94E6 actores_de_la_sala_183  [cuantos (nibble bajo)] y 2 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (7 bytes)
+F 0x94DF 1,3
+D 0x94E6 0x94ED actores_de_la_sala_187  [cuantos (nibble bajo)] y 2 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (7 bytes)
+F 0x94E6 1,3
+D 0x94ED 0x94F1 actores_de_la_sala_189  [cuantos (nibble bajo)] y 1 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (4 bytes)
+F 0x94ED 1,3
+D 0x94F1 0x9501 actores_de_la_sala_193  [cuantos (nibble bajo)] y 5 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (16 bytes)
+F 0x94F1 1,3
+D 0x9501 0x9508 actores_de_la_sala_207  [cuantos (nibble bajo)] y 2 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (7 bytes)
+F 0x9501 1,3
+D 0x9508 0x950C actores_de_la_sala_198  [cuantos (nibble bajo)] y 1 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (4 bytes)
+F 0x9508 1,3
+D 0x950C 0x9510 actores_de_la_sala_201  [cuantos (nibble bajo)] y 1 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (4 bytes)
+F 0x950C 1,3
+D 0x9510 0x9517 actores_de_la_sala_206  [cuantos (nibble bajo)] y 2 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (7 bytes)
+F 0x9510 1,3
+D 0x9517 0x952A actores_de_la_sala_208  [cuantos (nibble bajo)] y 6 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (19 bytes)
+F 0x9517 1,3
+D 0x952A 0x953D actores_de_la_sala_209  [cuantos (nibble bajo)] y 6 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (19 bytes)
+F 0x952A 1,3
+D 0x953D 0x9547 actores_de_la_sala_216  [cuantos (nibble bajo)] y 3 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (10 bytes)
+F 0x953D 1,3
+D 0x9547 0x9551 actores_de_la_sala_220  [cuantos (nibble bajo)] y 3 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (10 bytes)
+F 0x9547 1,3
+D 0x9551 0x955B actores_de_la_sala_221  [cuantos (nibble bajo)] y 3 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (10 bytes)
+F 0x9551 1,3
+D 0x955B 0x955F actores_de_la_sala_129  [cuantos (nibble bajo)] y 1 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (4 bytes)
+F 0x955B 1,3
+D 0x955F 0x9560 actores_de_la_sala_0  [cuantos (nibble bajo)] y 0 ternas [tipo][x][y]: p00:5660 crea un actor por terna (L_569A); lo leen p00:5660 (1 bytes)
+F 0x955F 1,3
+D 0x9560 0x971C indice_de_actores_por_sala  222 punteros, salas 0-0xDD (p00:564C -> L_42B4), a la lista de actores de esa sala; lo leen p00:564C (444 bytes)
+F 0x9560 w8
+D 0x971C 0x975A sprites_por_tipo_de_actor  un byte por tipo de actor (1-62): cuantos sprites lleva, que p00:56CA pone en (ix+0x20); el byte del tipo 0 es el alto del ultimo puntero de 0x9560; lo leen p00:56CA (62 bytes)
+F 0x971C 16
+D 0x975A 0x97DC indice_de_colores_por_tipo  65 punteros, uno por tipo de actor, a sus colores de sprite (p00:467D lee 0x975A + 2 x tipo; p00:5745 por p00:57EC); lo leen p00:467D, p00:5745 (130 bytes)
+F 0x975A w8
+D 0x97DC 0x97DE colores_97DC  los colores de los sprites de un tipo de actor, un byte por sprite (p00:468F los pone en (ix+0x25) de 5 en 5); lo leen p00:468F (2 bytes)
+D 0x97DE 0x97F0 colores_97DE  los colores de los sprites de un tipo de actor, un byte por sprite (p00:468F los pone en (ix+0x25) de 5 en 5); lo leen p00:468F (18 bytes)
+D 0x97F0 0x9802 colores_97F0  los colores de los sprites de un tipo de actor, un byte por sprite (p00:468F los pone en (ix+0x25) de 5 en 5); lo leen p00:468F (18 bytes)
+D 0x9802 0x9804 colores_9802  los colores de los sprites de un tipo de actor, un byte por sprite (p00:468F los pone en (ix+0x25) de 5 en 5); lo leen p00:468F (2 bytes)
+D 0x9804 0x980A colores_9804  los colores de los sprites de un tipo de actor, un byte por sprite (p00:468F los pone en (ix+0x25) de 5 en 5); lo leen p00:468F (6 bytes)
+D 0x980A 0x980C colores_980A  los colores de los sprites de un tipo de actor, un byte por sprite (p00:468F los pone en (ix+0x25) de 5 en 5); lo leen p00:468F (2 bytes)
+D 0x980C 0x980E colores_980C  los colores de los sprites de un tipo de actor, un byte por sprite (p00:468F los pone en (ix+0x25) de 5 en 5); lo leen p00:468F (2 bytes)
+D 0x980E 0x9812 colores_980E  los colores de los sprites de un tipo de actor, un byte por sprite (p00:468F los pone en (ix+0x25) de 5 en 5); lo leen p00:468F (4 bytes)
+D 0x9812 0x981A colores_9812  los colores de los sprites de un tipo de actor, un byte por sprite (p00:468F los pone en (ix+0x25) de 5 en 5); lo leen p00:468F (8 bytes)
+D 0x981A 0x981E colores_981A  los colores de los sprites de un tipo de actor, un byte por sprite (p00:468F los pone en (ix+0x25) de 5 en 5); lo leen p00:468F (4 bytes)
+D 0x981E 0x9822 colores_981E  los colores de los sprites de un tipo de actor, un byte por sprite (p00:468F los pone en (ix+0x25) de 5 en 5); lo leen p00:468F (4 bytes)
+D 0x9822 0x9826 colores_9822  los colores de los sprites de un tipo de actor, un byte por sprite (p00:468F los pone en (ix+0x25) de 5 en 5); lo leen p00:468F (4 bytes)
+D 0x9826 0x982A colores_9826  los colores de los sprites de un tipo de actor, un byte por sprite (p00:468F los pone en (ix+0x25) de 5 en 5); lo leen p00:468F (4 bytes)
+D 0x982A 0x983C colores_982A  los colores de los sprites de un tipo de actor, un byte por sprite (p00:468F los pone en (ix+0x25) de 5 en 5); lo leen p00:468F (18 bytes)
+D 0x983C 0x9844 colores_983C  los colores de los sprites de un tipo de actor, un byte por sprite (p00:468F los pone en (ix+0x25) de 5 en 5); lo leen p00:468F (8 bytes)
+D 0x9844 0x984E colores_9844  los colores de los sprites de un tipo de actor, un byte por sprite (p00:468F los pone en (ix+0x25) de 5 en 5); lo leen p00:468F (10 bytes)
+D 0x984E 0x984F colores_984E  los colores de los sprites de un tipo de actor, un byte por sprite (p00:468F los pone en (ix+0x25) de 5 en 5); lo leen p00:468F (1 bytes)
+D 0x984F 0x9890 byte_0d_por_tipo  65 bytes, uno por tipo de actor, que p00:5754 guarda en (ix+0x0D); lo leen p00:574E (65 bytes)
+F 0x984F 16
+D 0x9890 0x99AE indice_de_atributos_por_cuadro  143 punteros, uno por cuadro ((ix+0x0B)), a los atributos de sus sprites (p00:5518 -> L_42B4); lo leen p00:5518 (286 bytes)
+F 0x9890 w8
+D 0x99AE 0x9EA1 atributos_por_cuadro  las listas de atributos de los actores, una por cuadro: por sprite [y][x][patron] (p00:5526), o un byte 0x91-0xA5 que trae un grupo de la tabla p00:556F (p00:5549); cuantos sprites lo dice (ix+0x20), por eso no llevan cuenta; la ultima lista empieza en 0x9D94 y acaba donde empiezan los caminos; lo leen p00:5526 (1267 bytes)
+F 0x99AE 3
+D 0x9EA1 0x9EA6 camino_9EA1  el camino del actor 1 de la sala 0: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0x9EA1 2
+D 0x9EA6 0x9EB7 camino_9EA6  el camino del actor 2 de la sala 0: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (17 bytes)
+F 0x9EA6 2
+D 0x9EB7 0x9EBC camino_9EB7  el camino del actor 3 de la sala 0: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0x9EB7 2
+D 0x9EBC 0x9EC3 camino_9EBC  el camino del actor 1 de la sala 2: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (7 bytes)
+F 0x9EBC 2
+D 0x9EC3 0x9EC8 camino_9EC3  el camino del actor 2 de la sala 2: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0x9EC3 2
+D 0x9EC8 0x9ED1 camino_9EC8  el camino del actor 1 de la sala 3: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (9 bytes)
+F 0x9EC8 2
+D 0x9ED1 0x9EDA camino_9ED1  el camino del actor 2 de la sala 3: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (9 bytes)
+F 0x9ED1 2
+D 0x9EDA 0x9EE5 camino_9EDA  el camino del actor 3 de la sala 3 y 1 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (11 bytes)
+F 0x9EDA 2
+D 0x9EE5 0x9EEA camino_9EE5  el camino del actor 1 de la sala 6: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0x9EE5 2
+D 0x9EEA 0x9EFF camino_9EEA  el camino del actor 2 de la sala 6: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (21 bytes)
+F 0x9EEA 2
+D 0x9EFF 0x9F0C camino_9EFF  el camino del actor 5 de la sala 8 y 1 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (13 bytes)
+F 0x9EFF 2
+D 0x9F0C 0x9F15 camino_9F0C  el camino del actor 6 de la sala 8 y 1 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (9 bytes)
+F 0x9F0C 2
+D 0x9F15 0x9F1C camino_9F15  el camino del actor 7 de la sala 8 y 1 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (7 bytes)
+F 0x9F15 2
+D 0x9F1C 0x9F29 camino_9F1C  el camino del actor 8 de la sala 8 y 1 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (13 bytes)
+F 0x9F1C 2
+D 0x9F29 0x9F2E camino_9F29  el camino del actor 9 de la sala 8 y 1 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0x9F29 2
+D 0x9F2E 0x9F33 camino_9F2E  el camino del actor 10 de la sala 8 y 1 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0x9F2E 2
+D 0x9F33 0x9F38 camino_9F33  el camino del actor 11 de la sala 8 y 1 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0x9F33 2
+D 0x9F38 0x9F3F camino_9F38  el camino del actor 12 de la sala 8 y 1 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (7 bytes)
+F 0x9F38 2
+D 0x9F3F 0x9F44 camino_9F3F  el camino del actor 2 de la sala 15: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0x9F3F 2
+D 0x9F44 0x9F4D camino_9F44  el camino del actor 1 de la sala 16: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (9 bytes)
+F 0x9F44 2
+D 0x9F4D 0x9F56 camino_9F4D  el camino del actor 2 de la sala 16: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (9 bytes)
+F 0x9F4D 2
+D 0x9F56 0x9F5F camino_9F56  el camino del actor 3 de la sala 16: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (9 bytes)
+F 0x9F56 2
+D 0x9F5F 0x9F68 camino_9F5F  el camino del actor 4 de la sala 16: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (9 bytes)
+F 0x9F5F 2
+D 0x9F68 0x9F6D camino_9F68  el camino del actor 1 de la sala 18: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0x9F68 2
+D 0x9F6D 0x9F72 camino_9F6D  el camino del actor 2 de la sala 18: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0x9F6D 2
+D 0x9F72 0x9F77 camino_9F72  el camino del actor 3 de la sala 18: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0x9F72 2
+D 0x9F77 0x9F7C camino_9F77  el camino del actor 4 de la sala 18: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0x9F77 2
+D 0x9F7C 0x9F81 camino_9F7C  el camino del actor 5 de la sala 18: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0x9F7C 2
+D 0x9F81 0x9F86 camino_9F81  el camino del actor 1 de la sala 19: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0x9F81 2
+D 0x9F86 0x9F8B camino_9F86  el camino del actor 2 de la sala 19: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0x9F86 2
+D 0x9F8B 0x9F90 camino_9F8B  el camino del actor 1 de la sala 20: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0x9F8B 2
+D 0x9F90 0x9F95 camino_9F90  el camino del actor 1 de la sala 22: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0x9F90 2
+D 0x9F95 0x9F9A camino_9F95  el camino del actor 2 de la sala 22: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0x9F95 2
+D 0x9F9A 0x9F9F camino_9F9A  el camino del actor 1 de la sala 23: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0x9F9A 2
+D 0x9F9F 0x9FA8 camino_9F9F  el camino del actor 2 de la sala 23: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (9 bytes)
+F 0x9F9F 2
+D 0x9FA8 0x9FB1 camino_9FA8  el camino del actor 3 de la sala 23: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (9 bytes)
+F 0x9FA8 2
+D 0x9FB1 0x9FB6 camino_9FB1  el camino del actor 1 de la sala 24: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0x9FB1 2
+D 0x9FB6 0x9FBB camino_9FB6  el camino del actor 1 de la sala 27: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0x9FB6 2
+D 0x9FBB 0x9FC0 camino_9FBB  el camino del actor 2 de la sala 27: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0x9FBB 2
+D 0x9FC0 0x9FC5 camino_9FC0  el camino del actor 1 de la sala 28: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0x9FC0 2
+D 0x9FC5 0x9FCE camino_9FC5  el camino del actor 2 de la sala 28: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (9 bytes)
+F 0x9FC5 2
+D 0x9FCE 0x9FD7 camino_9FCE  el camino del actor 1 de la sala 29: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (9 bytes)
+F 0x9FCE 2
+D 0x9FD7 0x9FE0 camino_9FD7  el camino del actor 2 de la sala 29: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (9 bytes)
+F 0x9FD7 2
+D 0x9FE0 0x9FE5 camino_9FE0  el camino del actor 3 de la sala 29 y 1 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+F 0x9FE0 2
+D 0x9FE5 0x9FED camino_9FE5  el camino del actor 4 de la sala 29 y 1 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (8 bytes)
+F 0x9FE5 2
+D 0x9FED 0x9FFF camino_9FED  el camino del actor 1 de la sala 32: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (18 bytes)
+F 0x9FED 2
+D 0x9FFF 0xA000 camino_9FFF  el camino del actor 1 de la sala 33: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente) (sigue en el banco 6, en 0xA000); lo leen p00:59F5 (1 bytes)
+F 0x9FFF 2
+# --- fin de los bloques de bloques.py ---

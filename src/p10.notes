@@ -1,0 +1,146 @@
+# notas del banco 10
+
+# --- A MANO: comentarios, nombres y bloques ---
+D 0x6388 0x6392 lista_de_sprites_sin_indice  una lista de ternas [patron][origen] como las de 0x62C0 (0x50 -> 0x1398, 0x98 -> 0x60A4, 0x89 -> 0x6AE0, 0x95 -> 0xFF...) que repite la de 0x6380 con un sprite mas; ningun puntero de 0x6280 apunta a ella (la de 0x6380 la usan los juegos 30 y 31). SIN LECTOR A LA VISTA
+
+# --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0x6000 0x606A indice_de_patrones_del_jugador  53 punteros, uno por juego de patrones de Snake (0xC18A), a sus patrones comprimidos: p00:53BA (L_42B4); lo leen p00:53BA (106 bytes)
+F 0x6000 w8
+D 0x606A 0x609F atributos_por_juego_del_jugador  53 bytes: que lista de atributos de 0x609F usa cada juego de patrones (p00:531E, p00:5364); lo leen p00:531E (53 bytes)
+F 0x606A 16
+D 0x609F 0x60B3 indice_de_atributos_del_jugador  10 punteros a las listas de atributos de Snake (p00:5328, p00:536E); lo leen p00:5328 (20 bytes)
+F 0x609F w8
+D 0x60B3 0x60C4 atributos_de_snake_0  [cuantos] y 4 fichas [y][x][patron][color]: p00:5341 suma la posicion (0xC182/0xC184) y las pone en 0xEA00 (o 0xEA40), y p00:5394 copia el color 16 veces a 0xE800/0xE900; se solapan 2 bloques: (atributos_de_snake_2 60B3-60C4); lo leen p00:533C (17 bytes)
+F 0x60B3 1,4
+D 0x60C4 0x60D5 atributos_de_snake_1  [cuantos] y 4 fichas [y][x][patron][color]: p00:5341 suma la posicion (0xC182/0xC184) y las pone en 0xEA00 (o 0xEA40), y p00:5394 copia el color 16 veces a 0xE800/0xE900; lo leen p00:533C (17 bytes)
+F 0x60C4 1,4
+D 0x60D5 0x60E6 atributos_de_snake_3  [cuantos] y 4 fichas [y][x][patron][color]: p00:5341 suma la posicion (0xC182/0xC184) y las pone en 0xEA00 (o 0xEA40), y p00:5394 copia el color 16 veces a 0xE800/0xE900; lo leen p00:533C (17 bytes)
+F 0x60D5 1,4
+D 0x60E6 0x60F7 atributos_de_snake_4  [cuantos] y 4 fichas [y][x][patron][color]: p00:5341 suma la posicion (0xC182/0xC184) y las pone en 0xEA00 (o 0xEA40), y p00:5394 copia el color 16 veces a 0xE800/0xE900; lo leen p00:533C (17 bytes)
+F 0x60E6 1,4
+D 0x60F7 0x6128 atributos_de_snake_5  [cuantos] y 12 fichas [y][x][patron][color]: p00:5341 suma la posicion (0xC182/0xC184) y las pone en 0xEA00 (o 0xEA40), y p00:5394 copia el color 16 veces a 0xE800/0xE900; lo leen p00:533C (49 bytes)
+F 0x60F7 1,4
+D 0x6128 0x6139 atributos_de_snake_6  [cuantos] y 4 fichas [y][x][patron][color]: p00:5341 suma la posicion (0xC182/0xC184) y las pone en 0xEA00 (o 0xEA40), y p00:5394 copia el color 16 veces a 0xE800/0xE900; lo leen p00:533C (17 bytes)
+F 0x6128 1,4
+D 0x6139 0x6152 atributos_de_snake_7  [cuantos] y 6 fichas [y][x][patron][color]: p00:5341 suma la posicion (0xC182/0xC184) y las pone en 0xEA00 (o 0xEA40), y p00:5394 copia el color 16 veces a 0xE800/0xE900; lo leen p00:533C (25 bytes)
+F 0x6139 1,4
+D 0x6152 0x6163 atributos_de_snake_8  [cuantos] y 4 fichas [y][x][patron][color]: p00:5341 suma la posicion (0xC182/0xC184) y las pone en 0xEA00 (o 0xEA40), y p00:5394 copia el color 16 veces a 0xE800/0xE900; lo leen p00:533C (17 bytes)
+F 0x6152 1,4
+D 0x6163 0x6174 atributos_de_snake_9  [cuantos] y 4 fichas [y][x][patron][color]: p00:5341 suma la posicion (0xC182/0xC184) y las pone en 0xEA00 (o 0xEA40), y p00:5394 copia el color 16 veces a 0xE800/0xE900; lo leen p00:533C (17 bytes)
+F 0x6163 1,4
+D 0x6174 0x6185 atributos_de_snake_agachado  la lista de atributos que p00:538C usa cuando 0xC199 no es 0 y el bit 0 de 0xC003 esta a 0; lo leen p00:538C (17 bytes)
+F 0x6174 1,4
+D 0x6185 0x6280 juego_de_sprites_por_sala  251 bytes: el juego de sprites de cada sala (0xC130): p00:4A4A y p00:4AB8 lo leen en 0x6185 + sala; lo leen p00:4A4A (251 bytes)
+F 0x6185 16
+D 0x6280 0x62C0 indice_de_juegos_de_sprites  32 punteros a las listas de patrones de cada juego de sprites (p00:4A51); lo leen p00:4A51 (64 bytes)
+F 0x6280 w8
+D 0x62C0 0x62C4 sprites_del_juego_0  ternas [patron][origen lo][origen hi] hasta 0xFF: cada una, unos patrones comprimidos que p00:4A69 descomprime en la VRAM 0xF800 + 8 x patron (L_4DD5); se solapan 2 bloques: (sprites_del_juego_1 62C3-62C4); lo leen p00:4A57 (4 bytes)
+F 0x62C0 3
+D 0x62C4 0x62CE sprites_del_juego_2  ternas [patron][origen lo][origen hi] hasta 0xFF: cada una, unos patrones comprimidos que p00:4A69 descomprime en la VRAM 0xF800 + 8 x patron (L_4DD5); lo leen p00:4A57 (10 bytes)
+F 0x62C4 3
+D 0x62CE 0x62D2 sprites_del_juego_3  ternas [patron][origen lo][origen hi] hasta 0xFF: cada una, unos patrones comprimidos que p00:4A69 descomprime en la VRAM 0xF800 + 8 x patron (L_4DD5); lo leen p00:4A57 (4 bytes)
+F 0x62CE 3
+D 0x62D2 0x62D6 sprites_del_juego_4  ternas [patron][origen lo][origen hi] hasta 0xFF: cada una, unos patrones comprimidos que p00:4A69 descomprime en la VRAM 0xF800 + 8 x patron (L_4DD5); lo leen p00:4A57 (4 bytes)
+F 0x62D2 3
+D 0x62D6 0x62E6 sprites_del_juego_5  ternas [patron][origen lo][origen hi] hasta 0xFF: cada una, unos patrones comprimidos que p00:4A69 descomprime en la VRAM 0xF800 + 8 x patron (L_4DD5); lo leen p00:4A57 (16 bytes)
+F 0x62D6 3
+D 0x62E6 0x62EA sprites_del_juego_6  ternas [patron][origen lo][origen hi] hasta 0xFF: cada una, unos patrones comprimidos que p00:4A69 descomprime en la VRAM 0xF800 + 8 x patron (L_4DD5); lo leen p00:4A57 (4 bytes)
+F 0x62E6 3
+D 0x62EA 0x62EE sprites_del_juego_7  ternas [patron][origen lo][origen hi] hasta 0xFF: cada una, unos patrones comprimidos que p00:4A69 descomprime en la VRAM 0xF800 + 8 x patron (L_4DD5); lo leen p00:4A57 (4 bytes)
+F 0x62EA 3
+D 0x62EE 0x62F2 sprites_del_juego_8  ternas [patron][origen lo][origen hi] hasta 0xFF: cada una, unos patrones comprimidos que p00:4A69 descomprime en la VRAM 0xF800 + 8 x patron (L_4DD5); lo leen p00:4A57 (4 bytes)
+F 0x62EE 3
+D 0x62F2 0x62F6 sprites_del_juego_9  ternas [patron][origen lo][origen hi] hasta 0xFF: cada una, unos patrones comprimidos que p00:4A69 descomprime en la VRAM 0xF800 + 8 x patron (L_4DD5); lo leen p00:4A57 (4 bytes)
+F 0x62F2 3
+D 0x62F6 0x62FD sprites_del_juego_10  ternas [patron][origen lo][origen hi] hasta 0xFF: cada una, unos patrones comprimidos que p00:4A69 descomprime en la VRAM 0xF800 + 8 x patron (L_4DD5); lo leen p00:4A57 (7 bytes)
+F 0x62F6 3
+D 0x62FD 0x6304 sprites_del_juego_11  ternas [patron][origen lo][origen hi] hasta 0xFF: cada una, unos patrones comprimidos que p00:4A69 descomprime en la VRAM 0xF800 + 8 x patron (L_4DD5); lo leen p00:4A57 (7 bytes)
+F 0x62FD 3
+D 0x6304 0x6311 sprites_del_juego_12  ternas [patron][origen lo][origen hi] hasta 0xFF: cada una, unos patrones comprimidos que p00:4A69 descomprime en la VRAM 0xF800 + 8 x patron (L_4DD5); lo leen p00:4A57 (13 bytes)
+F 0x6304 3
+D 0x6311 0x6321 sprites_del_juego_13  ternas [patron][origen lo][origen hi] hasta 0xFF: cada una, unos patrones comprimidos que p00:4A69 descomprime en la VRAM 0xF800 + 8 x patron (L_4DD5); lo leen p00:4A57 (16 bytes)
+F 0x6311 3
+D 0x6321 0x632B sprites_del_juego_14  ternas [patron][origen lo][origen hi] hasta 0xFF: cada una, unos patrones comprimidos que p00:4A69 descomprime en la VRAM 0xF800 + 8 x patron (L_4DD5); lo leen p00:4A57 (10 bytes)
+F 0x6321 3
+D 0x632B 0x632F sprites_del_juego_15  ternas [patron][origen lo][origen hi] hasta 0xFF: cada una, unos patrones comprimidos que p00:4A69 descomprime en la VRAM 0xF800 + 8 x patron (L_4DD5); lo leen p00:4A57 (4 bytes)
+F 0x632B 3
+D 0x632F 0x6336 sprites_del_juego_16  ternas [patron][origen lo][origen hi] hasta 0xFF: cada una, unos patrones comprimidos que p00:4A69 descomprime en la VRAM 0xF800 + 8 x patron (L_4DD5); lo leen p00:4A57 (7 bytes)
+F 0x632F 3
+D 0x6336 0x6340 sprites_del_juego_17  ternas [patron][origen lo][origen hi] hasta 0xFF: cada una, unos patrones comprimidos que p00:4A69 descomprime en la VRAM 0xF800 + 8 x patron (L_4DD5); lo leen p00:4A57 (10 bytes)
+F 0x6336 3
+D 0x6340 0x6347 sprites_del_juego_18  ternas [patron][origen lo][origen hi] hasta 0xFF: cada una, unos patrones comprimidos que p00:4A69 descomprime en la VRAM 0xF800 + 8 x patron (L_4DD5); lo leen p00:4A57 (7 bytes)
+F 0x6340 3
+D 0x6347 0x634B sprites_del_juego_19  ternas [patron][origen lo][origen hi] hasta 0xFF: cada una, unos patrones comprimidos que p00:4A69 descomprime en la VRAM 0xF800 + 8 x patron (L_4DD5); lo leen p00:4A57 (4 bytes)
+F 0x6347 3
+D 0x634B 0x6358 sprites_del_juego_25  ternas [patron][origen lo][origen hi] hasta 0xFF: cada una, unos patrones comprimidos que p00:4A69 descomprime en la VRAM 0xF800 + 8 x patron (L_4DD5); se solapan 2 bloques: (sprites_del_juego_20 634E-6358); lo leen p00:4A57 (13 bytes)
+F 0x634B 3
+D 0x6358 0x635C sprites_del_juego_21  ternas [patron][origen lo][origen hi] hasta 0xFF: cada una, unos patrones comprimidos que p00:4A69 descomprime en la VRAM 0xF800 + 8 x patron (L_4DD5); lo leen p00:4A57 (4 bytes)
+F 0x6358 3
+D 0x635C 0x6366 sprites_del_juego_22  ternas [patron][origen lo][origen hi] hasta 0xFF: cada una, unos patrones comprimidos que p00:4A69 descomprime en la VRAM 0xF800 + 8 x patron (L_4DD5); lo leen p00:4A57 (10 bytes)
+F 0x635C 3
+D 0x6366 0x6373 sprites_del_juego_23  ternas [patron][origen lo][origen hi] hasta 0xFF: cada una, unos patrones comprimidos que p00:4A69 descomprime en la VRAM 0xF800 + 8 x patron (L_4DD5); lo leen p00:4A57 (13 bytes)
+F 0x6366 3
+D 0x6373 0x6377 sprites_del_juego_24  ternas [patron][origen lo][origen hi] hasta 0xFF: cada una, unos patrones comprimidos que p00:4A69 descomprime en la VRAM 0xF800 + 8 x patron (L_4DD5); lo leen p00:4A57 (4 bytes)
+F 0x6373 3
+D 0x6377 0x637E sprites_del_juego_27  ternas [patron][origen lo][origen hi] hasta 0xFF: cada una, unos patrones comprimidos que p00:4A69 descomprime en la VRAM 0xF800 + 8 x patron (L_4DD5); lo leen p00:4A57 (7 bytes)
+F 0x6377 3
+D 0x637E 0x6388 sprites_del_juego_28  ternas [patron][origen lo][origen hi] hasta 0xFF: cada una, unos patrones comprimidos que p00:4A69 descomprime en la VRAM 0xF800 + 8 x patron (L_4DD5); lo leen p00:4A57 (10 bytes)
+F 0x637E 3
+D 0x6392 0x63B0 indice_de_patrones_de_las_armas  15 punteros, armas 1-15 (0xC134), a los patrones comprimidos del proyectil: p00:4BFF los lee con L_42B4 y L_4DD5 los descomprime en la VRAM 0xF880; las armas 4 y 7 no cargan nada (p00:4BF6) y su palabra (0x63A0) apunta aqui dentro; lo leen p00:4BFF (30 bytes)
+F 0x6392 w5
+D 0x63B0 0x63C8 indice_de_atributos_de_las_armas  12 punteros a listas de atributos por cuadro ((ix+0x0B)): p00:53E0; lo leen p00:53E0 (24 bytes)
+F 0x63B0 w8
+D 0x63C8 0x6436 atributos_de_las_armas  las listas de atributos de los proyectiles, una por cuadro: por sprite [y][x][patron][color], o 0x80 si va escondido; cuantos sprites lo dice el actor ((ix+0x20)), por eso no llevan cuenta (p00:53F2); lo leen p00:53F2 (110 bytes)
+F 0x63C8 4
+D 0x6436 0x64AB patrones_de_snake_4  patrones de sprite de Snake (juego 4), comprimidos: n < 0x80 repite el byte siguiente n veces, n > 0x80 copia n & 0x7F bytes, 0 acaba (p00:53C2 los manda a la VRAM 0xF800); lo leen p00:53C2 (117 bytes)
+D 0x64AB 0x6521 patrones_de_snake_3  patrones de sprite de Snake (juego 3), comprimidos: n < 0x80 repite el byte siguiente n veces, n > 0x80 copia n & 0x7F bytes, 0 acaba (p00:53C2 los manda a la VRAM 0xF800); lo leen p00:53C2 (118 bytes)
+D 0x6521 0x659A patrones_de_snake_5  patrones de sprite de Snake (juego 5), comprimidos: n < 0x80 repite el byte siguiente n veces, n > 0x80 copia n & 0x7F bytes, 0 acaba (p00:53C2 los manda a la VRAM 0xF800); lo leen p00:53C2 (121 bytes)
+D 0x659A 0x660D patrones_de_snake_7  patrones de sprite de Snake (juego 7), comprimidos: n < 0x80 repite el byte siguiente n veces, n > 0x80 copia n & 0x7F bytes, 0 acaba (p00:53C2 los manda a la VRAM 0xF800); lo leen p00:53C2 (115 bytes)
+D 0x660D 0x668B patrones_de_snake_6  patrones de sprite de Snake (juego 6), comprimidos: n < 0x80 repite el byte siguiente n veces, n > 0x80 copia n & 0x7F bytes, 0 acaba (p00:53C2 los manda a la VRAM 0xF800); lo leen p00:53C2 (126 bytes)
+D 0x668B 0x6708 patrones_de_snake_8  patrones de sprite de Snake (juego 8), comprimidos: n < 0x80 repite el byte siguiente n veces, n > 0x80 copia n & 0x7F bytes, 0 acaba (p00:53C2 los manda a la VRAM 0xF800); lo leen p00:53C2 (125 bytes)
+D 0x6708 0x6781 patrones_de_snake_1  patrones de sprite de Snake (juego 1), comprimidos: n < 0x80 repite el byte siguiente n veces, n > 0x80 copia n & 0x7F bytes, 0 acaba (p00:53C2 los manda a la VRAM 0xF800); lo leen p00:53C2 (121 bytes)
+D 0x6781 0x67F9 patrones_de_snake_0  patrones de sprite de Snake (juego 0), comprimidos: n < 0x80 repite el byte siguiente n veces, n > 0x80 copia n & 0x7F bytes, 0 acaba (p00:53C2 los manda a la VRAM 0xF800); lo leen p00:53C2 (120 bytes)
+D 0x67F9 0x6873 patrones_de_snake_2  patrones de sprite de Snake (juego 2), comprimidos: n < 0x80 repite el byte siguiente n veces, n > 0x80 copia n & 0x7F bytes, 0 acaba (p00:53C2 los manda a la VRAM 0xF800); lo leen p00:53C2 (122 bytes)
+D 0x6873 0x68E8 patrones_de_snake_10  patrones de sprite de Snake (juego 10), comprimidos: n < 0x80 repite el byte siguiente n veces, n > 0x80 copia n & 0x7F bytes, 0 acaba (p00:53C2 los manda a la VRAM 0xF800); lo leen p00:53C2 (117 bytes)
+D 0x68E8 0x6965 patrones_de_snake_9  patrones de sprite de Snake (juego 9), comprimidos: n < 0x80 repite el byte siguiente n veces, n > 0x80 copia n & 0x7F bytes, 0 acaba (p00:53C2 los manda a la VRAM 0xF800); lo leen p00:53C2 (125 bytes)
+D 0x6965 0x69E0 patrones_de_snake_11  patrones de sprite de Snake (juego 11), comprimidos: n < 0x80 repite el byte siguiente n veces, n > 0x80 copia n & 0x7F bytes, 0 acaba (p00:53C2 los manda a la VRAM 0xF800); lo leen p00:53C2 (123 bytes)
+D 0x69E0 0x6A5D patrones_de_snake_16  patrones de sprite de Snake (juego 16), comprimidos: n < 0x80 repite el byte siguiente n veces, n > 0x80 copia n & 0x7F bytes, 0 acaba (p00:53C2 los manda a la VRAM 0xF800); lo leen p00:53C2 (125 bytes)
+D 0x6A5D 0x6AD6 patrones_de_snake_15  patrones de sprite de Snake (juego 15), comprimidos: n < 0x80 repite el byte siguiente n veces, n > 0x80 copia n & 0x7F bytes, 0 acaba (p00:53C2 los manda a la VRAM 0xF800); lo leen p00:53C2 (121 bytes)
+D 0x6AD6 0x6B54 patrones_de_snake_17  patrones de sprite de Snake (juego 17), comprimidos: n < 0x80 repite el byte siguiente n veces, n > 0x80 copia n & 0x7F bytes, 0 acaba (p00:53C2 los manda a la VRAM 0xF800); lo leen p00:53C2 (126 bytes)
+D 0x6B54 0x6BD0 patrones_de_snake_19  patrones de sprite de Snake (juego 19), comprimidos: n < 0x80 repite el byte siguiente n veces, n > 0x80 copia n & 0x7F bytes, 0 acaba (p00:53C2 los manda a la VRAM 0xF800); lo leen p00:53C2 (124 bytes)
+D 0x6BD0 0x6C4C patrones_de_snake_18  patrones de sprite de Snake (juego 18), comprimidos: n < 0x80 repite el byte siguiente n veces, n > 0x80 copia n & 0x7F bytes, 0 acaba (p00:53C2 los manda a la VRAM 0xF800); lo leen p00:53C2 (124 bytes)
+D 0x6C4C 0x6CC9 patrones_de_snake_20  patrones de sprite de Snake (juego 20), comprimidos: n < 0x80 repite el byte siguiente n veces, n > 0x80 copia n & 0x7F bytes, 0 acaba (p00:53C2 los manda a la VRAM 0xF800); lo leen p00:53C2 (125 bytes)
+D 0x6CC9 0x6D3F patrones_de_snake_13  patrones de sprite de Snake (juego 13), comprimidos: n < 0x80 repite el byte siguiente n veces, n > 0x80 copia n & 0x7F bytes, 0 acaba (p00:53C2 los manda a la VRAM 0xF800); lo leen p00:53C2 (118 bytes)
+D 0x6D3F 0x6DBD patrones_de_snake_12  patrones de sprite de Snake (juego 12), comprimidos: n < 0x80 repite el byte siguiente n veces, n > 0x80 copia n & 0x7F bytes, 0 acaba (p00:53C2 los manda a la VRAM 0xF800); lo leen p00:53C2 (126 bytes)
+D 0x6DBD 0x6E3E patrones_de_snake_14  patrones de sprite de Snake (juego 14), comprimidos: n < 0x80 repite el byte siguiente n veces, n > 0x80 copia n & 0x7F bytes, 0 acaba (p00:53C2 los manda a la VRAM 0xF800); lo leen p00:53C2 (129 bytes)
+D 0x6E3E 0x6EBB patrones_de_snake_22  patrones de sprite de Snake (juego 22), comprimidos: n < 0x80 repite el byte siguiente n veces, n > 0x80 copia n & 0x7F bytes, 0 acaba (p00:53C2 los manda a la VRAM 0xF800); lo leen p00:53C2 (125 bytes)
+D 0x6EBB 0x6F36 patrones_de_snake_21  patrones de sprite de Snake (juego 21), comprimidos: n < 0x80 repite el byte siguiente n veces, n > 0x80 copia n & 0x7F bytes, 0 acaba (p00:53C2 los manda a la VRAM 0xF800); lo leen p00:53C2 (123 bytes)
+D 0x6F36 0x6FAF patrones_de_snake_23  patrones de sprite de Snake (juego 23), comprimidos: n < 0x80 repite el byte siguiente n veces, n > 0x80 copia n & 0x7F bytes, 0 acaba (p00:53C2 los manda a la VRAM 0xF800); lo leen p00:53C2 (121 bytes)
+D 0x6FAF 0x702F patrones_de_snake_25  patrones de sprite de Snake (juego 25), comprimidos: n < 0x80 repite el byte siguiente n veces, n > 0x80 copia n & 0x7F bytes, 0 acaba (p00:53C2 los manda a la VRAM 0xF800); lo leen p00:53C2 (128 bytes)
+D 0x702F 0x70A6 patrones_de_snake_26  patrones de sprite de Snake (juego 26), comprimidos: n < 0x80 repite el byte siguiente n veces, n > 0x80 copia n & 0x7F bytes, 0 acaba (p00:53C2 los manda a la VRAM 0xF800); lo leen p00:53C2 (119 bytes)
+D 0x70A6 0x7125 patrones_de_snake_24  patrones de sprite de Snake (juego 24), comprimidos: n < 0x80 repite el byte siguiente n veces, n > 0x80 copia n & 0x7F bytes, 0 acaba (p00:53C2 los manda a la VRAM 0xF800); lo leen p00:53C2 (127 bytes)
+D 0x7125 0x719A patrones_de_snake_27  patrones de sprite de Snake (juego 27), comprimidos: n < 0x80 repite el byte siguiente n veces, n > 0x80 copia n & 0x7F bytes, 0 acaba (p00:53C2 los manda a la VRAM 0xF800); lo leen p00:53C2 (117 bytes)
+D 0x719A 0x71DC patrones_de_snake_29  patrones de sprite de Snake (juego 29), comprimidos: n < 0x80 repite el byte siguiente n veces, n > 0x80 copia n & 0x7F bytes, 0 acaba (p00:53C2 los manda a la VRAM 0xF800); lo leen p00:53C2 (66 bytes)
+D 0x71DC 0x721C patrones_de_snake_30  patrones de sprite de Snake (juego 30), comprimidos: n < 0x80 repite el byte siguiente n veces, n > 0x80 copia n & 0x7F bytes, 0 acaba (p00:53C2 los manda a la VRAM 0xF800); lo leen p00:53C2 (64 bytes)
+D 0x721C 0x725C patrones_de_snake_28  patrones de sprite de Snake (juego 28), comprimidos: n < 0x80 repite el byte siguiente n veces, n > 0x80 copia n & 0x7F bytes, 0 acaba (p00:53C2 los manda a la VRAM 0xF800); lo leen p00:53C2 (64 bytes)
+D 0x725C 0x729C patrones_de_snake_31  patrones de sprite de Snake (juego 31), comprimidos: n < 0x80 repite el byte siguiente n veces, n > 0x80 copia n & 0x7F bytes, 0 acaba (p00:53C2 los manda a la VRAM 0xF800); lo leen p00:53C2 (64 bytes)
+D 0x729C 0x72DE patrones_de_snake_33  patrones de sprite de Snake (juego 33), comprimidos: n < 0x80 repite el byte siguiente n veces, n > 0x80 copia n & 0x7F bytes, 0 acaba (p00:53C2 los manda a la VRAM 0xF800); lo leen p00:53C2 (66 bytes)
+D 0x72DE 0x7320 patrones_de_snake_34  patrones de sprite de Snake (juego 34), comprimidos: n < 0x80 repite el byte siguiente n veces, n > 0x80 copia n & 0x7F bytes, 0 acaba (p00:53C2 los manda a la VRAM 0xF800); lo leen p00:53C2 (66 bytes)
+D 0x7320 0x7362 patrones_de_snake_32  patrones de sprite de Snake (juego 32), comprimidos: n < 0x80 repite el byte siguiente n veces, n > 0x80 copia n & 0x7F bytes, 0 acaba (p00:53C2 los manda a la VRAM 0xF800); lo leen p00:53C2 (66 bytes)
+D 0x7362 0x73A4 patrones_de_snake_35  patrones de sprite de Snake (juego 35), comprimidos: n < 0x80 repite el byte siguiente n veces, n > 0x80 copia n & 0x7F bytes, 0 acaba (p00:53C2 los manda a la VRAM 0xF800); lo leen p00:53C2 (66 bytes)
+D 0x73A4 0x74DD patrones_de_snake_36  patrones de sprite de Snake (juego 36), comprimidos: n < 0x80 repite el byte siguiente n veces, n > 0x80 copia n & 0x7F bytes, 0 acaba (p00:53C2 los manda a la VRAM 0xF800); lo leen p00:53C2 (313 bytes)
+D 0x74DD 0x7505 patrones_de_snake_37  patrones de sprite de Snake (juego 37), comprimidos: n < 0x80 repite el byte siguiente n veces, n > 0x80 copia n & 0x7F bytes, 0 acaba (p00:53C2 los manda a la VRAM 0xF800); lo leen p00:53C2 (40 bytes)
+D 0x7505 0x752E patrones_de_snake_38  patrones de sprite de Snake (juego 38), comprimidos: n < 0x80 repite el byte siguiente n veces, n > 0x80 copia n & 0x7F bytes, 0 acaba (p00:53C2 los manda a la VRAM 0xF800); lo leen p00:53C2 (41 bytes)
+D 0x752E 0x75A1 patrones_de_snake_39  patrones de sprite de Snake (juego 39), comprimidos: n < 0x80 repite el byte siguiente n veces, n > 0x80 copia n & 0x7F bytes, 0 acaba (p00:53C2 los manda a la VRAM 0xF800); lo leen p00:53C2 (115 bytes)
+D 0x75A1 0x7617 patrones_de_snake_40  patrones de sprite de Snake (juego 40), comprimidos: n < 0x80 repite el byte siguiente n veces, n > 0x80 copia n & 0x7F bytes, 0 acaba (p00:53C2 los manda a la VRAM 0xF800); lo leen p00:53C2 (118 bytes)
+D 0x7617 0x767D patrones_de_snake_43  patrones de sprite de Snake (juego 43), comprimidos: n < 0x80 repite el byte siguiente n veces, n > 0x80 copia n & 0x7F bytes, 0 acaba (p00:53C2 los manda a la VRAM 0xF800); lo leen p00:53C2 (102 bytes)
+D 0x767D 0x76F1 patrones_de_snake_41  patrones de sprite de Snake (juego 41), comprimidos: n < 0x80 repite el byte siguiente n veces, n > 0x80 copia n & 0x7F bytes, 0 acaba (p00:53C2 los manda a la VRAM 0xF800); lo leen p00:53C2 (116 bytes)
+D 0x76F1 0x773E patrones_de_snake_42  patrones de sprite de Snake (juego 42), comprimidos: n < 0x80 repite el byte siguiente n veces, n > 0x80 copia n & 0x7F bytes, 0 acaba (p00:53C2 los manda a la VRAM 0xF800); lo leen p00:53C2 (77 bytes)
+D 0x773E 0x77D3 patrones_773E  patrones de sprite comprimidos (n < 0x80 repite el byte siguiente n veces, n == 0x80 trae otro destino, n > 0x80 copia n & 0x7F bytes, 0 acaba; L_4DD5): juego 5, patron 56; juego 12, patron 56; juego 13, patron 56; juego 14, patron 56; lo leen p00:4DD5 (149 bytes)
+D 0x77D3 0x78AB patrones_77D3  patrones de sprite comprimidos (n < 0x80 repite el byte siguiente n veces, n == 0x80 trae otro destino, n > 0x80 copia n & 0x7F bytes, 0 acaba; L_4DD5): juego 12, patron 224; juego 13, patron 224; juego 14, patron 224; juego 23, patron 224; lo leen p00:4DD5 (216 bytes)
+D 0x78AB 0x79C8 patrones_78AB  patrones de sprite comprimidos (n < 0x80 repite el byte siguiente n veces, n == 0x80 trae otro destino, n > 0x80 copia n & 0x7F bytes, 0 acaba; L_4DD5): juego 0, patron 56; lo leen p00:4DD5 (285 bytes)
+D 0x79C8 0x7B02 patrones_79C8  patrones de sprite comprimidos (n < 0x80 repite el byte siguiente n veces, n == 0x80 trae otro destino, n > 0x80 copia n & 0x7F bytes, 0 acaba; L_4DD5): juego 3, patron 208; juego 17, patron 208; juego 27, patron 208; lo leen p00:4DD5 (314 bytes)
+D 0x7B02 0x7C38 patrones_7B02  patrones de sprite comprimidos (n < 0x80 repite el byte siguiente n veces, n == 0x80 trae otro destino, n > 0x80 copia n & 0x7F bytes, 0 acaba; L_4DD5): juego 9, patron 208; lo leen p00:4DD5 (310 bytes)
+D 0x7C38 0x7F25 patrones_7C38  patrones de sprite comprimidos (n < 0x80 repite el byte siguiente n veces, n == 0x80 trae otro destino, n > 0x80 copia n & 0x7F bytes, 0 acaba; L_4DD5): juego 18, patron 96; lo leen p00:4DD5 (749 bytes)
+D 0x7F25 0x8000 patrones_7F25  patrones de sprite comprimidos (n < 0x80 repite el byte siguiente n veces, n == 0x80 trae otro destino, n > 0x80 copia n & 0x7F bytes, 0 acaba; L_4DD5): juego 10, patron 96 (sigue en el banco 11, en 0x8000); lo leen p00:4DD5 (219 bytes)
+# --- fin de los bloques de bloques.py ---

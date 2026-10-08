@@ -1,0 +1,24 @@
+# Puntos de entrada del banco 6 (se ejecuta en 0xa000).
+#
+# Cada uno lleva la instruccion que lo justifica. Los que ponen "pNN:XXXX"
+# vienen de OTRO banco: el trazador de una sola pagina no puede seguirlos,
+# porque en esa direccion -segun lo que haya en el registro del mapper- puede
+# estar cualquiera de seis bancos. Los que ponen "tabla" salen de una tabla
+# del despachador 0x41EA, que va pegada detras de su `call` y esta declarada
+# como datos en el .nocode: el trazador tampoco puede seguirla.
+#
+# Los saltos y llamadas DENTRO del propio banco no se ponen aqui: los
+# encuentra tools/z80trace.py solo, siguiendo el flujo.
+#
+# Este fichero lo regenera `make semillas` (tools/bancos.py escribe).
+0xBB8E   # p01:743A call
+0xBBDD   # p01:6E79 call
+0xBC47   # p01:6CAC call
+0xBCAE   # p01:6730 call
+0xBD3F   # p01:6714 call
+0xBD6D   # p01:6711 call
+0xBDF8   # p01:6E19 call
+0xBE17   # p01:6DD0 call
+0xBEA2   # p01:6857 call
+0xBEA8   # p01:6822 call
+0xBF2F   # p01:6876 call

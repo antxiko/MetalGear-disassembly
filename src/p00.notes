@@ -1,0 +1,38 @@
+# notas del banco 00
+
+# --- A MANO: comentarios, nombres y bloques ---
+D 0x5FFE 0x6000 call_partido_al_despachador  los dos primeros bytes (CD EA) de `call 0x41EA`: el tercero (41) es el primer byte del banco 1, en 0x6000. Es el despachador del estado del jugador (A = 0xC180, leido en p00:5FFB) y su tabla de 9 destinos empieza en p01:6001. Ningun trazador de un solo banco puede ver la instruccion entera: por eso va como datos
+D 0x4000 0x4010 cabecera  la cabecera del cartucho: "AB", INIT = 0x41F3 (p00:41F3 arranca ahi), STATEMENT, DEVICE y TEXT a 0 y 6 bytes reservados; la BIOS la lee al encender
+D 0x4010 0x4030 segunda_cabecera  "CD" y la palabra 0x5007 seguidos de 28 ceros; 0x5007 cae en medio de una instruccion de L_4FCD (`out (c),a`), asi que no es una entrada: ninguna instruccion de los 16 bancos lee estos bytes
+D 0x4030 0x4050 direcciones_del_sonido  16 palabras: las direcciones de la RAM del controlador de sonido (0xC0F8, 0xC012, 0xC032, 0xC052, 0xC010, 0xC011, 0xC030, 0xC031, 0xC050, 0xC051, 0xC0F2, 0xC0F4, 0xC072, 0xC070, 0xC071) y la del indice de sonidos del banco 4 (0x6892); ninguna instruccion de los 16 bancos las nombra (grep de 0x4030-0x404E en los listados). SIN LECTOR A LA VISTA
+F 0x4030 w8
+D 0x45DE 0x45EF salas_sin_cambio_de_musica  17 numeros de sala (6, 9, 0xA, 0x14, 0x66, 0x67, 0x78, 0xAD, 0xAE, 0xAF, 0xD0, 0xD1, 0x87, 0xC7, 0x85, 0x81, 0x8F) que p00:450B compara con la sala (0xC130): si esta, o si es 0x40-0x44 o 0xF0+, p00:4524 guarda C en 0xC602 sin mirar 0xC5B6 (el `inc c` de 0x4523)
+D 0x490C 0x4913 decimales_de_las_frecuencias  los decimales de las 7 frecuencias del transceptor en BCD (120.85, 120.79, 120.33, 120.26, 120.91, 120.48 y 120.13): p00:48D9 lee 0x490C + nibble alto - 1 de cada llamada de radio (0xB659 del banco 15) y lo deja en 0xC880 + 0x1D x n, y en 0xC138 si el bit 1 esta puesto
+D 0x4AA3 0x4AAA paleta_de_snake  dos ternas [registro][RB][G] (los colores 7 y 10) y 0xFF, que p00:4A9D manda al VDP con L_4EC4
+F 0x4AA3 3
+D 0x4B13 0x4B1B colores_por_defecto  8 bytes: a que color de la paleta va cada indice de 3 bits de las fichas en 3 planos (L_5288); L_42C4 los copia a 0xE700 (desde p00:4935, 4BBF, 4BD2 y 4B55)
+D 0x4B1B 0x4B23 colores_de_los_objetos  8 bytes de la misma tabla para las fichas de objetos del banco 6 (p00:4B39 -> L_42C7)
+D 0x4B23 0x4B27 colores_de_la_camara  4 bytes (fichas en 2 planos, L_5221) para la camara (p00:4B71 -> L_42C9 con C = 4)
+D 0x4B27 0x4B2B colores_del_pozo  4 bytes que p03:A6BC copia a 0xE700 (C = 4) antes de pintar el pozo
+D 0x4B2B 0x4B33 colores_del_retrato  8 bytes para el retrato de Snake del banco 9 (p00:4B92 -> L_42C7)
+D 0x4EA4 0x4EC4 paleta_por_defecto  16 parejas [RB][G], colores 0-15, que p00:4E97 manda al VDP uno a uno con L_4E66 (registro 16 = color, y la copia en la RAM 0xF680)
+F 0x4EA4 2
+D 0x556F 0x5599 grupos_de_sprites  21 punteros a listas de parejas [y][x] del banco 5 (0x9DA5-0x9E99): los atributos de un actor pueden traer un byte 0x91-0xA5 que p00:554A cambia por el grupo 0x556F[n - 0x91] (p00:5552 va sumando la posicion del actor)
+F 0x556F w7
+D 0x5A5E 0x5A6A velocidades_5a5e  6 palabras (+1, -1, +1,25, -1,25, +1,5 y -1,5 en 1/256) que p00:5A38 y p00:5A4D leen en 0x5A5C + 2 x d + (ix+0x43): la d (1 o 2) es el sentido y (ix+0x43) la marcha (0, 4 u 8, p00:5935-593D)
+F 0x5A5E w6
+D 0x5B9E 0x5BA2 pasos_5b9e  4 bytes (1, 2, 1, 0) que p00:5B91 lee en 0x5B9D + (ix+0x7F) (1-4, baja uno por cuadro y vuelve a 4) y suma a B y C para (ix+0x0B)
+D 0x5C1D 0x5C25 rotulo_pause  rotulo con posicion ([fila 0x6C][columna 0x58] "PAUSE" 0xFF) que p01:67CA escribe con L_510C
+D 0x5F4C 0x5F74 ventanas_de_texto  5 fichas de 8 bytes, una por tipo de ventana (nibble bajo de 0xCEF5, 0-4), que p00:5D33 copia a 0xC528 (0x5F4C + 8 x tipo)
+F 0x5F4C 8
+D 0x5F74 0x5F92 marcos_de_texto  5 fichas de 6 bytes, una por tipo de ventana: [e][d][c][b] (p00:5F44 -> 0xCEF6/0xCEF8) y una palabra (p00:5D55 -> 0xCF00); p00:5D44 lee 0x5F74 + 6 x tipo
+F 0x5F74 6
+D 0x5F92 0x5FA6 recuadros_de_texto  5 fichas de 4 bytes [e][d][c][b], una por tipo de ventana, que p00:5F3E lee en 0x5F92 + 4 x tipo y pasa a L_4FCD (el recuadro que se borra)
+F 0x5F92 4
+
+# --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0x5762 0x57E2 tabla_5762  64 destinos del despachador p00:41EA (call en p00:575F, el indice en A): A5F4, A5F4, 9D7F, 593D, 5939, 9EAF, AF52, 99E9, B9B1, A749, A749, B933, ACC3, AB08, 99C8, A6BC, 57E3, B248, A9D7, AFC4, B038, B091, BB10, B278, 9B14, BB51, B3D8, BCA9, B58B, 5935, B132, BD8D, B5C0, B6D4, 5419, A4A2, A4DD, B843, B8E5, BF79, 971D, 57E2, B693, A1F5, 7E01, 9A25, A9BF, 9AA5, 9C4F, 9C4F, 9C4F, 9C4F, 9E99, A04A, 9C4F, 9C4F, AE46, AE00, AE1A, B80E, B8D2, BB28, 9662, A0D6; lo leen p00:575F (128 bytes)
+F 0x5762 w8
+D 0x5D1D 0x5D29 tabla_5D1D  6 destinos del despachador p00:41EA (call en p00:5D1A, el indice en A): 5D29, 5D83, 5D99, 5E6B, 5EC1, 5EE9; lo leen p00:5D1A (12 bytes)
+F 0x5D1D w6
+# --- fin de los bloques de bloques.py ---

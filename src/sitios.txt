@@ -1,0 +1,46 @@
+# Sitios con el reparto de bancos FORZADO: 'pNN 0xPC b6000 b8000 bA000  # por que'.
+#
+# Son las instrucciones de los bancos 0-2 que saltan o llaman a 0xA000-0xBFFF
+# y a las que el trazador de cartucho entero (tools/bancos.py) llegaba con mas
+# de un banco en 0xA000: el 3 por el camino normal, y el 6, el 12 o el 15 por
+# los caminos en los que la sombra 0xF0F6 guardaba un banco de zona y un
+# `call p00:4198` posterior lo devolvia. Con el 6/12/15 puestos el trazador
+# entraba en los graficos y los textos de esos bancos como si fueran codigo
+# (5.281 bytes en el 6, 1.318 en el 12 y 1.775 en el 15, medido con el cruce
+# del 2026-10-08 contra el listado de Manuel Pazos).
+#
+# El reparto bueno es 1-2-3: son manejadores de actores (minas, camaras,
+# llamas, guardias, HIND D, Big Boss...) que viven en el banco 3. La pista es
+# el desensamblado de Manuel Pazos (GuillianSeed/MetalGear, 2017), que
+# ensambla a este MISMO binario (sha256 d16fff4a...) y tiene cada destino en
+# su Banks0123.asm, carpeta logic/actors; aqui se da el nombre que el le pone
+# como referencia, y cada uno queda por COMPROBAR en openMSX con
+# tools/omsx_juega.tcl (los 12 sitios medidos hasta ahora casan con el
+# trazador). Los numeros son nuestros: el trazador los lee de aqui.
+p00 0x5F08 1 2 3  # call 0xA6FB: dibuja las trampas abiertas (Pazos: DrawOpenPitfalls, actors/pitfall.asm)
+p01 0x6CC4 1 2 3  # call 0xAF9C tras `call p00:4248` en p01:6CC1: las minas (Pazos: DrawMines)
+p01 0x6CC7 1 2 3  # call 0xB862: el HIND D (Pazos: ChkDrawHindD)
+p01 0x6CCA 1 2 3  # call 0xA6FB: las trampas (Pazos: DrawOpenPitfalls)
+p01 0x6CCD 1 2 3  # call 0xA1D3: las camaras (Pazos: DrawCameras)
+p01 0x7378 1 2 3  # jp z,0xA538 con el tipo 0x25: la llama que sale de pantalla (Pazos: FlameOutScreen)
+p01 0x73F6 1 2 3  # call z,0xB26F con el tipo 0x12: el bulldozer KO (Pazos: SetBulldozerKO); con el 12 puesto eran los textos
+p01 0x7449 1 2 3  # call 0xAF8C: el fondo de una mina (Pazos: GetMineBackXY)
+p01 0x7695 1 2 3  # jp z,0xB8C6 con el tipo 0x26: quitar el HIND D (Pazos: RemoveHindD)
+p01 0x7E5A 1 2 3  # call 0xA908: el guardia en alerta anda rapido (Pazos: SetWalkSpeedFast)
+p01 0x7E60 1 2 3  # call 0xA920: animar al guardia (Pazos: AnimateGuard)
+p01 0x7E7A 1 2 3  # call 0xA908 (Pazos: SetWalkSpeedFast)
+p01 0x7E7D 1 2 3  # call 0xA920 (Pazos: AnimateGuard)
+p02 0x98AE 1 2 3  # call 0xAC4D: guarda el fondo del icono de alerta (Pazos: SaveAlertIconBacknd)
+p02 0x98CF 1 2 3  # call 0xAC5B: pinta 16x16 (Pazos: Draw16x16)
+p02 0x9B3F 1 2 3  # call 0xA9B7: azar de 0-2 (Pazos: GetRandom3)
+p02 0x9BB1 1 2 3  # call 0xA9B7 (Pazos: GetRandom3)
+p02 0x9F29 1 2 3  # jp nz,0xA1A0: dibujar una camara (Pazos: RenderCamera); con el 6 puesto era una ruta de guardia (paths)
+p02 0x9F71 1 2 3  # jp 0xA1A0 (Pazos: RenderCamera)
+p02 0x9FF3 1 2 3  # jr c,$+14 que cruza a 0xA001: el codigo de la camara sigue de largo del banco 2 al 3 (Pazos: LaserCameraShot4, actors/camera.asm)
+# Los dos despachadores de actores: la tabla de 65 destinos de p01:722F (la
+# logica de cada tipo, cada cuadro) y la de 64 de p00:5762 (preparar un actor
+# al crearlo). Con el 6 puesto, 15 de sus destinos caian en los graficos y las
+# tablas de ese banco (maths, items, camera) y el trazador los leia como
+# codigo: 5.264 bytes. Corren con el 3 (Pazos: RunEnemyLogic y SetupActor).
+p01 0x722C 1 2 3  # call 0x41EA: el despachador de la logica de los actores por tipo
+p00 0x575F 1 2 3  # call 0x41EA: el despachador que prepara cada tipo de actor

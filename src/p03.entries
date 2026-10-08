@@ -1,0 +1,185 @@
+# Puntos de entrada del banco 3 (se ejecuta en 0xa000).
+#
+# Cada uno lleva la instruccion que lo justifica. Los que ponen "pNN:XXXX"
+# vienen de OTRO banco: el trazador de una sola pagina no puede seguirlos,
+# porque en esa direccion -segun lo que haya en el registro del mapper- puede
+# estar cualquiera de seis bancos. Los que ponen "tabla" salen de una tabla
+# del despachador 0x41EA, que va pegada detras de su `call` y esta declarada
+# como datos en el .nocode: el trazador tampoco puede seguirla.
+#
+# Los saltos y llamadas DENTRO del propio banco no se ponen aqui: los
+# encuentra tools/z80trace.py solo, siguiendo el flujo.
+#
+# Este fichero lo regenera `make semillas` (tools/bancos.py escribe).
+0xA001   # p02:9FF3 jr cc
+0xA049   # p02:9F91 entrada 2 de la tabla de 0x9F94 (call 0x41EA en 0x9F91)
+0xA04A   # p00:575F entrada 53 de la tabla de 0x5762 (call 0x41EA en 0x575F)
+0xA072   # p01:722C entrada 53 de la tabla de 0x722F (call 0x41EA en 0x722C)
+0xA07E   # p03:A075 entrada 0 de la tabla de 0xA078 (call 0x41EA en 0xA075)
+0xA0AD   # p03:A075 entrada 1 de la tabla de 0xA078 (call 0x41EA en 0xA075)
+0xA0D5   # p03:A075 entrada 2 de la tabla de 0xA078 (call 0x41EA en 0xA075)
+0xA0D6   # p00:575F entrada 63 de la tabla de 0x5762 (call 0x41EA en 0x575F)
+0xA0E8   # p01:722C entrada 63 de la tabla de 0x722F (call 0x41EA en 0x722C)
+0xA10C   # p00:59A4 call cc
+0xA129   # p00:59A9 call cc
+0xA134   # p00:59AE call cc
+0xA13F   # p00:59B3 call cc
+0xA14B   # p00:59B7 call cc
+0xA15D   # p00:59BB call cc
+0xA16D   # p00:59C0 call cc
+0xA17B   # p00:59C5 call cc
+0xA190   # p02:9AB8 call cc
+0xA1A0   # p02:9F71 jp cc
+0xA1D3   # p01:6CCD call
+0xA1F5   # p00:575F entrada 43 de la tabla de 0x5762 (call 0x41EA en 0x575F)
+0xA202   # p01:722C entrada 43 de la tabla de 0x722F (call 0x41EA en 0x722C)
+0xA24C   # p01:722C entrada 35 de la tabla de 0x722F (call 0x41EA en 0x722C)
+0xA25E   # p03:A24F entrada 0 de la tabla de 0xA252 (call 0x41EA en 0xA24F)
+0xA26A   # p03:A24F entrada 1 de la tabla de 0xA252 (call 0x41EA en 0xA24F)
+0xA2B4   # p03:A24F entrada 2 de la tabla de 0xA252 (call 0x41EA en 0xA24F)
+0xA327   # p03:A24F entrada 3 de la tabla de 0xA252 (call 0x41EA en 0xA24F)
+0xA351   # p03:A24F entrada 4 de la tabla de 0xA252 (call 0x41EA en 0xA24F)
+0xA439   # p03:A24F entrada 5 de la tabla de 0xA252 (call 0x41EA en 0xA24F)
+0xA46E   # 52 bytes: suma la velocidad a la posicion en dos campos (B = 2); nadie lo llama
+0xA4A2   # p00:575F entrada 35 de la tabla de 0x5762 (call 0x41EA en 0x575F)
+0xA4DD   # p00:575F entrada 36 de la tabla de 0x5762 (call 0x41EA en 0x575F)
+0xA502   # p01:722C entrada 36 de la tabla de 0x722F (call 0x41EA en 0x722C)
+0xA538   # p01:7378 jp cc
+0xA549   # p01:722C entrada 0 de la tabla de 0x722F (call 0x41EA en 0x722C)
+0xA5F4   # p00:575F entrada 0 de la tabla de 0x5762 (call 0x41EA en 0x575F)
+0xA604   # p01:722C entrada 15 de la tabla de 0x722F (call 0x41EA en 0x722C)
+0xA6BC   # p00:575F entrada 15 de la tabla de 0x5762 (call 0x41EA en 0x575F)
+0xA6FB   # p01:6CCA call
+0xA749   # p00:575F entrada 9 de la tabla de 0x5762 (call 0x41EA en 0x575F)
+0xA7BB   # p01:722C entrada 9 de la tabla de 0x722F (call 0x41EA en 0x722C)
+0xA7CE   # p03:A7C1 entrada 0 de la tabla de 0xA7C4 (call 0x41EA en 0xA7C1)
+0xA830   # 16 bytes: `call 0x8356` y sigue en L_A908; nadie lo llama
+0xA859   # p03:A7C1 entrada 1 de la tabla de 0xA7C4 (call 0x41EA en 0xA7C1)
+0xA88F   # p03:A7C1 entrada 2 de la tabla de 0xA7C4 (call 0x41EA en 0xA7C1)
+0xA8CB   # p03:A7C1 entrada 3 de la tabla de 0xA7C4 (call 0x41EA en 0xA7C1)
+0xA8E8   # p03:A7C1 entrada 4 de la tabla de 0xA7C4 (call 0x41EA en 0xA7C1)
+0xA9BF   # p00:575F entrada 46 de la tabla de 0x5762 (call 0x41EA en 0x575F)
+0xA9D7   # p00:575F entrada 18 de la tabla de 0x5762 (call 0x41EA en 0x575F)
+0xAA3C   # p01:722C entrada 18 de la tabla de 0x722F (call 0x41EA en 0x722C)
+0xAB08   # p00:575F entrada 13 de la tabla de 0x5762 (call 0x41EA en 0x575F)
+0xAB5C   # p01:722C entrada 13 de la tabla de 0x722F (call 0x41EA en 0x722C)
+0xAB7A   # p03:AB6D entrada 0 de la tabla de 0xAB70 (call 0x41EA en 0xAB6D)
+0xABBF   # p03:AB6D entrada 1 de la tabla de 0xAB70 (call 0x41EA en 0xAB6D)
+0xAC4D   # p02:98AE call
+0xAC5B   # p02:98CF call
+0xAC8C   # p03:AB6D entrada 2 de la tabla de 0xAB70 (call 0x41EA en 0xAB6D)
+0xACA1   # p03:AB6D entrada 3 de la tabla de 0xAB70 (call 0x41EA en 0xAB6D)
+0xACC0   # p03:AB6D entrada 4 de la tabla de 0xAB70 (call 0x41EA en 0xAB6D)
+0xACC3   # p00:575F entrada 12 de la tabla de 0x5762 (call 0x41EA en 0x575F)
+0xAD40   # p01:722C entrada 12 de la tabla de 0x722F (call 0x41EA en 0x722C)
+0xAD5D   # p03:AD52 entrada 0 de la tabla de 0xAD55 (call 0x41EA en 0xAD52)
+0xAD8D   # p03:AD52 entrada 1 de la tabla de 0xAD55 (call 0x41EA en 0xAD52)
+0xADAB   # p03:AD52 entrada 2 de la tabla de 0xAD55 (call 0x41EA en 0xAD52)
+0xADD7   # p03:AD52 entrada 3 de la tabla de 0xAD55 (call 0x41EA en 0xAD52)
+0xAE00   # p00:575F entrada 57 de la tabla de 0x5762 (call 0x41EA en 0x575F)
+0xAE1A   # p00:575F entrada 58 de la tabla de 0x5762 (call 0x41EA en 0x575F)
+0xAE46   # p00:575F entrada 56 de la tabla de 0x5762 (call 0x41EA en 0x575F)
+0xAE7F   # p01:722C entrada 56 de la tabla de 0x722F (call 0x41EA en 0x722C)
+0xAE97   # p03:AE8C entrada 0 de la tabla de 0xAE8F (call 0x41EA en 0xAE8C)
+0xAEB6   # p03:AE8C entrada 1 de la tabla de 0xAE8F (call 0x41EA en 0xAE8C)
+0xAEDF   # p03:AE8C entrada 2 de la tabla de 0xAE8F (call 0x41EA en 0xAE8C)
+0xAEFA   # p03:AE8C entrada 3 de la tabla de 0xAE8F (call 0x41EA en 0xAE8C)
+0xAF52   # p00:575F entrada 6 de la tabla de 0x5762 (call 0x41EA en 0x575F)
+0xAF9C   # p01:6CC4 call
+0xAFC4   # p00:575F entrada 19 de la tabla de 0x5762 (call 0x41EA en 0x575F)
+0xB00F   # p01:722C entrada 19 de la tabla de 0x722F (call 0x41EA en 0x722C)
+0xB038   # p00:575F entrada 20 de la tabla de 0x5762 (call 0x41EA en 0x575F)
+0xB053   # p01:722C entrada 20 de la tabla de 0x722F (call 0x41EA en 0x722C)
+0xB091   # p00:575F entrada 21 de la tabla de 0x5762 (call 0x41EA en 0x575F)
+0xB0B8   # p01:722C entrada 21 de la tabla de 0x722F (call 0x41EA en 0x722C)
+0xB0D9   # 3 bytes: `ld a,(ix+0x11)` delante de 0xB0DC; nadie lo llama
+0xB132   # p00:575F entrada 30 de la tabla de 0x5762 (call 0x41EA en 0x575F)
+0xB146   # p01:722C entrada 30 de la tabla de 0x722F (call 0x41EA en 0x722C)
+0xB152   # p03:B149 entrada 0 de la tabla de 0xB14C (call 0x41EA en 0xB149)
+0xB192   # p03:B149 entrada 1 de la tabla de 0xB14C (call 0x41EA en 0xB149)
+0xB1A5   # p03:B149 entrada 2 de la tabla de 0xB14C (call 0x41EA en 0xB149)
+0xB1BC   # 3 bytes: `ld a,(ix+0x11)` delante de 0xB1BF; nadie lo llama
+0xB1F6   # p01:722C entrada 17 de la tabla de 0x722F (call 0x41EA en 0x722C)
+0xB212   # p03:B201 entrada 0 de la tabla de 0xB204 (call 0x41EA en 0xB201)
+0xB21F   # p03:B201 entrada 1 de la tabla de 0xB204 (call 0x41EA en 0xB201)
+0xB230   # p03:B201 entrada 3 de la tabla de 0xB204 (call 0x41EA en 0xB201)
+0xB239   # p03:B201 entrada 5 de la tabla de 0xB204 (call 0x41EA en 0xB201)
+0xB248   # p00:575F entrada 17 de la tabla de 0x5762 (call 0x41EA en 0x575F)
+0xB26F   # p01:73F6 call cc
+0xB277   # p03:B201 entrada 6 de la tabla de 0xB204 (call 0x41EA en 0xB201)
+0xB278   # p00:575F entrada 23 de la tabla de 0x5762 (call 0x41EA en 0x575F)
+0xB290   # p01:722C entrada 23 de la tabla de 0x722F (call 0x41EA en 0x722C)
+0xB2A4   # p03:B293 entrada 0 de la tabla de 0xB296 (call 0x41EA en 0xB293)
+0xB2DB   # p03:B293 entrada 1 de la tabla de 0xB296 (call 0x41EA en 0xB293)
+0xB351   # p03:B293 entrada 2 de la tabla de 0xB296 (call 0x41EA en 0xB293)
+0xB376   # p03:B293 entrada 3 de la tabla de 0xB296 (call 0x41EA en 0xB293)
+0xB38F   # p03:B293 entrada 4 de la tabla de 0xB296 (call 0x41EA en 0xB293)
+0xB3A6   # p03:B293 entrada 5 de la tabla de 0xB296 (call 0x41EA en 0xB293)
+0xB3C0   # p03:B293 entrada 6 de la tabla de 0xB296 (call 0x41EA en 0xB293)
+0xB3D8   # p00:575F entrada 26 de la tabla de 0x5762 (call 0x41EA en 0x575F)
+0xB3F8   # p00:5904 call
+0xB42C   # p01:722C entrada 26 de la tabla de 0x722F (call 0x41EA en 0x722C)
+0xB448   # p03:B43F entrada 2 de la tabla de 0xB442 (call 0x41EA en 0xB43F)
+0xB474   # p03:B43F entrada 0 de la tabla de 0xB442 (call 0x41EA en 0xB43F)
+0xB48A   # p03:B43F entrada 1 de la tabla de 0xB442 (call 0x41EA en 0xB43F)
+0xB58B   # p00:575F entrada 28 de la tabla de 0x5762 (call 0x41EA en 0x575F)
+0xB5A4   # p01:722C entrada 28 de la tabla de 0x722F (call 0x41EA en 0x722C)
+0xB5C0   # p00:575F entrada 32 de la tabla de 0x5762 (call 0x41EA en 0x575F)
+0xB5F0   # p01:722C entrada 32 de la tabla de 0x722F (call 0x41EA en 0x722C)
+0xB5FC   # p03:B5F3 entrada 0 de la tabla de 0xB5F6 (call 0x41EA en 0xB5F3)
+0xB615   # p03:B5F3 entrada 1 de la tabla de 0xB5F6 (call 0x41EA en 0xB5F3)
+0xB641   # p03:B5F3 entrada 2 de la tabla de 0xB5F6 (call 0x41EA en 0xB5F3)
+0xB693   # p00:575F entrada 42 de la tabla de 0x5762 (call 0x41EA en 0x575F)
+0xB6AF   # p01:722C entrada 42 de la tabla de 0x722F (call 0x41EA en 0x722C)
+0xB6D4   # p00:575F entrada 33 de la tabla de 0x5762 (call 0x41EA en 0x575F)
+0xB6E5   # p01:722C entrada 33 de la tabla de 0x722F (call 0x41EA en 0x722C)
+0xB6F5   # p03:B6E8 entrada 0 de la tabla de 0xB6EB (call 0x41EA en 0xB6E8)
+0xB711   # p03:B6E8 entrada 1 de la tabla de 0xB6EB (call 0x41EA en 0xB6E8)
+0xB75A   # p03:B6E8 entrada 2 de la tabla de 0xB6EB (call 0x41EA en 0xB6E8)
+0xB77B   # p03:B6E8 entrada 3 de la tabla de 0xB6EB (call 0x41EA en 0xB6E8)
+0xB7ED   # p03:B6E8 entrada 4 de la tabla de 0xB6EB (call 0x41EA en 0xB6E8)
+0xB80E   # p00:575F entrada 59 de la tabla de 0x5762 (call 0x41EA en 0x575F)
+0xB81B   # p01:722C entrada 59 de la tabla de 0x722F (call 0x41EA en 0x722C)
+0xB843   # p00:575F entrada 37 de la tabla de 0x5762 (call 0x41EA en 0x575F)
+0xB862   # p01:6CC7 call
+0xB871   # p01:722C entrada 37 de la tabla de 0x722F (call 0x41EA en 0x722C)
+0xB8C5   # p01:722C entrada 22 de la tabla de 0x722F (call 0x41EA en 0x722C)
+0xB8C6   # p01:7695 jp cc
+0xB8D2   # p00:575F entrada 60 de la tabla de 0x5762 (call 0x41EA en 0x575F)
+0xB8E5   # p00:575F entrada 38 de la tabla de 0x5762 (call 0x41EA en 0x575F)
+0xB8F5   # p01:722C entrada 38 de la tabla de 0x722F (call 0x41EA en 0x722C)
+0xB933   # p00:575F entrada 11 de la tabla de 0x5762 (call 0x41EA en 0x575F)
+0xB959   # p01:722C entrada 11 de la tabla de 0x722F (call 0x41EA en 0x722C)
+0xB97D   # p01:722C entrada 64 de la tabla de 0x722F (call 0x41EA en 0x722C)
+0xB9B1   # p00:575F entrada 8 de la tabla de 0x5762 (call 0x41EA en 0x575F)
+0xB9E6   # p02:972E jp
+0xB9F4   # p01:722C entrada 8 de la tabla de 0x722F (call 0x41EA en 0x722C)
+0xBABF   # p03:BAB4 entrada 0 de la tabla de 0xBAB7 (call 0x41EA en 0xBAB4)
+0xBAE7   # p03:BAB4 entrada 1 de la tabla de 0xBAB7 (call 0x41EA en 0xBAB4)
+0xBB0B   # p03:BAB4 entrada 3 de la tabla de 0xBAB7 (call 0x41EA en 0xBAB4)
+0xBB10   # p00:575F entrada 22 de la tabla de 0x5762 (call 0x41EA en 0x575F)
+0xBB28   # p00:575F entrada 61 de la tabla de 0x5762 (call 0x41EA en 0x575F)
+0xBB33   # p01:722C entrada 61 de la tabla de 0x722F (call 0x41EA en 0x722C)
+0xBB51   # p00:575F entrada 25 de la tabla de 0x5762 (call 0x41EA en 0x575F)
+0xBB75   # p01:722C entrada 25 de la tabla de 0x722F (call 0x41EA en 0x722C)
+0xBB8B   # p03:BB80 entrada 0 de la tabla de 0xBB83 (call 0x41EA en 0xBB80)
+0xBBC9   # p03:BB80 entrada 1 de la tabla de 0xBB83 (call 0x41EA en 0xBB80)
+0xBC05   # p03:BB80 entrada 2 de la tabla de 0xBB83 (call 0x41EA en 0xBB80)
+0xBC55   # p03:BB80 entrada 3 de la tabla de 0xBB83 (call 0x41EA en 0xBB80)
+0xBCA9   # p00:575F entrada 27 de la tabla de 0x5762 (call 0x41EA en 0x575F)
+0xBCD3   # p01:722C entrada 27 de la tabla de 0x722F (call 0x41EA en 0x722C)
+0xBCE3   # p03:BCD6 entrada 0 de la tabla de 0xBCD9 (call 0x41EA en 0xBCD6)
+0xBD16   # p03:BCD6 entrada 1 de la tabla de 0xBCD9 (call 0x41EA en 0xBCD6)
+0xBD27   # p03:BCD6 entrada 2 de la tabla de 0xBCD9 (call 0x41EA en 0xBCD6)
+0xBD45   # p03:BCD6 entrada 3 de la tabla de 0xBCD9 (call 0x41EA en 0xBCD6)
+0xBD5A   # p03:BCD6 entrada 4 de la tabla de 0xBCD9 (call 0x41EA en 0xBCD6)
+0xBD8D   # p00:575F entrada 31 de la tabla de 0x5762 (call 0x41EA en 0x575F)
+0xBDA2   # p01:722C entrada 31 de la tabla de 0x722F (call 0x41EA en 0x722C)
+0xBDB4   # p03:BDA5 entrada 0 de la tabla de 0xBDA8 (call 0x41EA en 0xBDA5)
+0xBDCC   # p03:BDA5 entrada 1 de la tabla de 0xBDA8 (call 0x41EA en 0xBDA5)
+0xBE09   # p03:BDA5 entrada 2 de la tabla de 0xBDA8 (call 0x41EA en 0xBDA5)
+0xBE26   # p03:BDA5 entrada 3 de la tabla de 0xBDA8 (call 0x41EA en 0xBDA5)
+0xBE3B   # p03:BDA5 entrada 4 de la tabla de 0xBDA8 (call 0x41EA en 0xBDA5)
+0xBE5F   # p03:BDA5 entrada 5 de la tabla de 0xBDA8 (call 0x41EA en 0xBDA5)
+0xBF79   # p00:575F entrada 39 de la tabla de 0x5762 (call 0x41EA en 0x575F)
+0xBF90   # p01:722C entrada 39 de la tabla de 0x722F (call 0x41EA en 0x722C)

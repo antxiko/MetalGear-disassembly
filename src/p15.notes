@@ -1,0 +1,535 @@
+# notas del banco 15
+
+# --- A MANO: comentarios, nombres y bloques ---
+
+# --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0xA000 0xA5B0 metafichas_juego_5_cola  las 96 metafichas del juego 5, 4 x 4 numeros de ficha (16 bytes) cada una; el numero de la sala es 1-96 (p00:4CC3 resta 1); lo que las salas de ese juego usan como mucho (sigue del banco 14); lo leen p00:4CC3 (1456 bytes)
+F 0xA000 16
+D 0xA5B0 0xA700 metafichas_juego_6  las 21 metafichas del juego 6, 4 x 4 numeros de ficha (16 bytes) cada una; el numero de la sala es 1-21 (p00:4CC3 resta 1); lo que las salas de ese juego usan como mucho; lo leen p00:4CC3 (336 bytes)
+F 0xA5B0 16
+D 0xA700 0xA720 a700  32 bytes que leen p01:7778 (0xA700) y p01:7C44 (0xA710); lo leen p01:7778, p01:7C44 (32 bytes)
+F 0xA700 16
+D 0xA720 0xA7C0 fichas_de_tipo_de_puerta  20 fichas de 8 bytes, una por numero de puerta (p00:445D lee 0xA720 + 8 x (puerta - 1)): 4 parejas de desplazamiento que suma a la posicion de la puerta; lo leen p00:445D (160 bytes)
+F 0xA720 8
+D 0xA7C0 0xA998 indice_de_puertas_por_sala  236 punteros, salas 0-0xE0 y 0xF0-0xFA (que restan 0xF: p00:440C), a las puertas de cada sala (p00:4411 -> L_42B4); lo leen p00:4411 (472 bytes)
+F 0xA7C0 w8
+D 0xA998 0xA99E puertas_de_la_sala_3  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xA998 5
+D 0xA99E 0xA9B8 puertas_de_la_sala_5  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (26 bytes)
+F 0xA99E 5
+D 0xA9B8 0xA9C8 puertas_de_la_sala_6  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (16 bytes)
+F 0xA9B8 5
+D 0xA9C8 0xA9E2 puertas_de_la_sala_7  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (26 bytes)
+F 0xA9C8 5
+D 0xA9E2 0xA9E8 puertas_de_la_sala_8  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xA9E2 5
+D 0xA9E8 0xAA02 puertas_de_la_sala_9  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (26 bytes)
+F 0xA9E8 5
+D 0xAA02 0xAA08 puertas_de_la_sala_10  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAA02 5
+D 0xAA08 0xAA13 puertas_de_la_sala_11  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+F 0xAA08 5
+D 0xAA13 0xAA1E puertas_de_la_sala_13  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+F 0xAA13 5
+D 0xAA1E 0xAA24 puertas_de_la_sala_14  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAA1E 5
+D 0xAA24 0xAA2A puertas_de_la_sala_15  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAA24 5
+D 0xAA2A 0xAA35 puertas_de_la_sala_16  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+F 0xAA2A 5
+D 0xAA35 0xAA40 puertas_de_la_sala_17  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+F 0xAA35 5
+D 0xAA40 0xAA46 puertas_de_la_sala_19  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAA40 5
+D 0xAA46 0xAA56 puertas_de_la_sala_20  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (16 bytes)
+F 0xAA46 5
+D 0xAA56 0xAA61 puertas_de_la_sala_21  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+F 0xAA56 5
+D 0xAA61 0xAA6C puertas_de_la_sala_22  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+F 0xAA61 5
+D 0xAA6C 0xAA72 puertas_de_la_sala_23  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAA6C 5
+D 0xAA72 0xAA78 puertas_de_la_sala_24  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAA72 5
+D 0xAA78 0xAA7E puertas_de_la_sala_27  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAA78 5
+D 0xAA7E 0xAA8E puertas_de_la_sala_28  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (16 bytes)
+F 0xAA7E 5
+D 0xAA8E 0xAA99 puertas_de_la_sala_29  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+F 0xAA8E 5
+D 0xAA99 0xAAA4 puertas_de_la_sala_30  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+F 0xAA99 5
+D 0xAAA4 0xAAAA puertas_de_la_sala_31  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAAA4 5
+D 0xAAAA 0xAAB5 puertas_de_la_sala_32  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+F 0xAAAA 5
+D 0xAAB5 0xAAC0 puertas_de_la_sala_33  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+F 0xAAB5 5
+D 0xAAC0 0xAACB puertas_de_la_sala_35  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+F 0xAAC0 5
+D 0xAACB 0xAAD6 puertas_de_la_sala_36  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+F 0xAACB 5
+D 0xAAD6 0xAADC puertas_de_la_sala_38  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAAD6 5
+D 0xAADC 0xAAE2 puertas_de_la_sala_39  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAADC 5
+D 0xAAE2 0xAAE8 puertas_de_la_sala_40  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAAE2 5
+D 0xAAE8 0xAAEE puertas_de_la_sala_41  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAAE8 5
+D 0xAAEE 0xAAF4 puertas_de_la_sala_42  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAAEE 5
+D 0xAAF4 0xAAFA puertas_de_la_sala_51  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAAF4 5
+D 0xAAFA 0xAB00 puertas_de_la_sala_53  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAAFA 5
+D 0xAB00 0xAB0B puertas_de_la_sala_54  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+F 0xAB00 5
+D 0xAB0B 0xAB16 puertas_de_la_sala_55  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+F 0xAB0B 5
+D 0xAB16 0xAB1C puertas_de_la_sala_56  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAB16 5
+D 0xAB1C 0xAB2C puertas_de_la_sala_57  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (16 bytes)
+F 0xAB1C 5
+D 0xAB2C 0xAB3C puertas_de_la_sala_58  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (16 bytes)
+F 0xAB2C 5
+D 0xAB3C 0xAB42 puertas_de_la_sala_59  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAB3C 5
+D 0xAB42 0xAB48 puertas_de_la_sala_60  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAB42 5
+D 0xAB48 0xAB4E puertas_de_la_sala_61  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAB48 5
+D 0xAB4E 0xAB54 puertas_de_la_sala_62  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAB4E 5
+D 0xAB54 0xAB5F puertas_de_la_sala_63  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+F 0xAB54 5
+D 0xAB5F 0xAB6F puertas_de_la_sala_64  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (16 bytes)
+F 0xAB5F 5
+D 0xAB6F 0xAB7F puertas_de_la_sala_65  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (16 bytes)
+F 0xAB6F 5
+D 0xAB7F 0xAB85 puertas_de_la_sala_69  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAB7F 5
+D 0xAB85 0xAB95 puertas_de_la_sala_70  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (16 bytes)
+F 0xAB85 5
+D 0xAB95 0xABA0 puertas_de_la_sala_71  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+F 0xAB95 5
+D 0xABA0 0xABAB puertas_de_la_sala_72  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+F 0xABA0 5
+D 0xABAB 0xABB6 puertas_de_la_sala_73  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+F 0xABAB 5
+D 0xABB6 0xABBC puertas_de_la_sala_74  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xABB6 5
+D 0xABBC 0xABC7 puertas_de_la_sala_75  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+F 0xABBC 5
+D 0xABC7 0xABD2 puertas_de_la_sala_76  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+F 0xABC7 5
+D 0xABD2 0xABD8 puertas_de_la_sala_78  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xABD2 5
+D 0xABD8 0xABDE puertas_de_la_sala_79  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xABD8 5
+D 0xABDE 0xABE9 puertas_de_la_sala_81  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+F 0xABDE 5
+D 0xABE9 0xABF9 puertas_de_la_sala_82  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (16 bytes)
+F 0xABE9 5
+D 0xABF9 0xAC13 puertas_de_la_sala_83  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (26 bytes)
+F 0xABF9 5
+D 0xAC13 0xAC1E puertas_de_la_sala_84  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+F 0xAC13 5
+D 0xAC1E 0xAC24 puertas_de_la_sala_85  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAC1E 5
+D 0xAC24 0xAC34 puertas_de_la_sala_86  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (16 bytes)
+F 0xAC24 5
+D 0xAC34 0xAC3F puertas_de_la_sala_87  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+F 0xAC34 5
+D 0xAC3F 0xAC4A puertas_de_la_sala_88  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+F 0xAC3F 5
+D 0xAC4A 0xAC50 puertas_de_la_sala_89  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAC4A 5
+D 0xAC50 0xAC56 puertas_de_la_sala_92  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAC50 5
+D 0xAC56 0xAC66 puertas_de_la_sala_93  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (16 bytes)
+F 0xAC56 5
+D 0xAC66 0xAC6C puertas_de_la_sala_94  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAC66 5
+D 0xAC6C 0xAC77 puertas_de_la_sala_95  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+F 0xAC6C 5
+D 0xAC77 0xAC82 puertas_de_la_sala_96  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+F 0xAC77 5
+D 0xAC82 0xAC92 puertas_de_la_sala_98  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (16 bytes)
+F 0xAC82 5
+D 0xAC92 0xACA7 puertas_de_la_sala_99  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (21 bytes)
+F 0xAC92 5
+D 0xACA7 0xACB2 puertas_de_la_sala_100  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+F 0xACA7 5
+D 0xACB2 0xACBD puertas_de_la_sala_101  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+F 0xACB2 5
+D 0xACBD 0xACC3 puertas_de_la_sala_102  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xACBD 5
+D 0xACC3 0xACEC puertas_de_la_sala_104  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (41 bytes)
+F 0xACC3 5
+D 0xACEC 0xACFC puertas_de_la_sala_108  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (16 bytes)
+F 0xACEC 5
+D 0xACFC 0xAD02 puertas_de_la_sala_109  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xACFC 5
+D 0xAD02 0xAD0D puertas_de_la_sala_110  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+F 0xAD02 5
+D 0xAD0D 0xAD13 puertas_de_la_sala_111  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAD0D 5
+D 0xAD13 0xAD23 puertas_de_la_sala_112  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (16 bytes)
+F 0xAD13 5
+D 0xAD23 0xAD2E puertas_de_la_sala_113  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+F 0xAD23 5
+D 0xAD2E 0xAD39 puertas_de_la_sala_114  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+F 0xAD2E 5
+D 0xAD39 0xAD49 puertas_de_la_sala_115  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (16 bytes)
+F 0xAD39 5
+D 0xAD49 0xAD4F puertas_de_la_sala_116  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAD49 5
+D 0xAD4F 0xAD55 puertas_de_la_sala_117  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAD4F 5
+D 0xAD55 0xAD5B puertas_de_la_sala_118  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAD55 5
+D 0xAD5B 0xAD66 puertas_de_la_sala_119  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+F 0xAD5B 5
+D 0xAD66 0xAD6C puertas_de_la_sala_122  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAD66 5
+D 0xAD6C 0xAD72 puertas_de_la_sala_123  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAD6C 5
+D 0xAD72 0xAD78 puertas_de_la_sala_125  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAD72 5
+D 0xAD78 0xAD7E puertas_de_la_sala_126  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAD78 5
+D 0xAD7E 0xAD84 puertas_de_la_sala_127  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAD7E 5
+D 0xAD84 0xAD8A puertas_de_la_sala_128  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAD84 5
+D 0xAD8A 0xAD90 puertas_de_la_sala_129  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAD8A 5
+D 0xAD90 0xAD96 puertas_de_la_sala_130  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAD90 5
+D 0xAD96 0xAD9C puertas_de_la_sala_131  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAD96 5
+D 0xAD9C 0xADA2 puertas_de_la_sala_132  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAD9C 5
+D 0xADA2 0xADA8 puertas_de_la_sala_133  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xADA2 5
+D 0xADA8 0xADAE puertas_de_la_sala_134  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xADA8 5
+D 0xADAE 0xADB4 puertas_de_la_sala_135  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xADAE 5
+D 0xADB4 0xADBA puertas_de_la_sala_136  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xADB4 5
+D 0xADBA 0xADC0 puertas_de_la_sala_137  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xADBA 5
+D 0xADC0 0xADC6 puertas_de_la_sala_138  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xADC0 5
+D 0xADC6 0xADCC puertas_de_la_sala_139  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xADC6 5
+D 0xADCC 0xADD2 puertas_de_la_sala_140  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xADCC 5
+D 0xADD2 0xADDD puertas_de_la_sala_141  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+F 0xADD2 5
+D 0xADDD 0xADF2 puertas_de_la_sala_142  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (21 bytes)
+F 0xADDD 5
+D 0xADF2 0xADF8 puertas_de_la_sala_143  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xADF2 5
+D 0xADF8 0xADFE puertas_de_la_sala_144  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xADF8 5
+D 0xADFE 0xAE04 puertas_de_la_sala_145  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xADFE 5
+D 0xAE04 0xAE0A puertas_de_la_sala_146  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAE04 5
+D 0xAE0A 0xAE10 puertas_de_la_sala_147  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAE0A 5
+D 0xAE10 0xAE1B puertas_de_la_sala_148  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+F 0xAE10 5
+D 0xAE1B 0xAE26 puertas_de_la_sala_149  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+F 0xAE1B 5
+D 0xAE26 0xAE31 puertas_de_la_sala_150  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+F 0xAE26 5
+D 0xAE31 0xAE37 puertas_de_la_sala_151  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAE31 5
+D 0xAE37 0xAE3D puertas_de_la_sala_152  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAE37 5
+D 0xAE3D 0xAE48 puertas_de_la_sala_153  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+F 0xAE3D 5
+D 0xAE48 0xAE53 puertas_de_la_sala_154  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+F 0xAE48 5
+D 0xAE53 0xAE59 puertas_de_la_sala_156  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAE53 5
+D 0xAE59 0xAE5F puertas_de_la_sala_157  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAE59 5
+D 0xAE5F 0xAE65 puertas_de_la_sala_158  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAE5F 5
+D 0xAE65 0xAE6B puertas_de_la_sala_159  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAE65 5
+D 0xAE6B 0xAE71 puertas_de_la_sala_160  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAE6B 5
+D 0xAE71 0xAE77 puertas_de_la_sala_161  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAE71 5
+D 0xAE77 0xAE7D puertas_de_la_sala_162  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAE77 5
+D 0xAE7D 0xAE83 puertas_de_la_sala_163  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAE7D 5
+D 0xAE83 0xAE8E puertas_de_la_sala_164  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+F 0xAE83 5
+D 0xAE8E 0xAE94 puertas_de_la_sala_165  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAE8E 5
+D 0xAE94 0xAE9F puertas_de_la_sala_166  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+F 0xAE94 5
+D 0xAE9F 0xAEA5 puertas_de_la_sala_167  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAE9F 5
+D 0xAEA5 0xAEAB puertas_de_la_sala_168  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAEA5 5
+D 0xAEAB 0xAEB1 puertas_de_la_sala_169  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAEAB 5
+D 0xAEB1 0xAEB7 puertas_de_la_sala_170  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAEB1 5
+D 0xAEB7 0xAEBD puertas_de_la_sala_171  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAEB7 5
+D 0xAEBD 0xAEC3 puertas_de_la_sala_172  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAEBD 5
+D 0xAEC3 0xAEC9 puertas_de_la_sala_173  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAEC3 5
+D 0xAEC9 0xAECF puertas_de_la_sala_174  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAEC9 5
+D 0xAECF 0xAED5 puertas_de_la_sala_175  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAECF 5
+D 0xAED5 0xAEDB puertas_de_la_sala_176  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAED5 5
+D 0xAEDB 0xAEE1 puertas_de_la_sala_177  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAEDB 5
+D 0xAEE1 0xAEE7 puertas_de_la_sala_178  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAEE1 5
+D 0xAEE7 0xAEED puertas_de_la_sala_179  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAEE7 5
+D 0xAEED 0xAEF3 puertas_de_la_sala_180  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAEED 5
+D 0xAEF3 0xAEF9 puertas_de_la_sala_181  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAEF3 5
+D 0xAEF9 0xAEFF puertas_de_la_sala_182  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAEF9 5
+D 0xAEFF 0xAF05 puertas_de_la_sala_183  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAEFF 5
+D 0xAF05 0xAF0B puertas_de_la_sala_184  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAF05 5
+D 0xAF0B 0xAF11 puertas_de_la_sala_185  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAF0B 5
+D 0xAF11 0xAF17 puertas_de_la_sala_186  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAF11 5
+D 0xAF17 0xAF1D puertas_de_la_sala_187  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAF17 5
+D 0xAF1D 0xAF28 puertas_de_la_sala_188  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+F 0xAF1D 5
+D 0xAF28 0xAF33 puertas_de_la_sala_189  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+F 0xAF28 5
+D 0xAF33 0xAF39 puertas_de_la_sala_190  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAF33 5
+D 0xAF39 0xAF3F puertas_de_la_sala_191  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAF39 5
+D 0xAF3F 0xAF45 puertas_de_la_sala_192  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAF3F 5
+D 0xAF45 0xAF4B puertas_de_la_sala_193  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAF45 5
+D 0xAF4B 0xAF51 puertas_de_la_sala_194  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAF4B 5
+D 0xAF51 0xAF57 puertas_de_la_sala_195  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAF51 5
+D 0xAF57 0xAF5D puertas_de_la_sala_196  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAF57 5
+D 0xAF5D 0xAF63 puertas_de_la_sala_197  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAF5D 5
+D 0xAF63 0xAF69 puertas_de_la_sala_198  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAF63 5
+D 0xAF69 0xAF6F puertas_de_la_sala_199  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAF69 5
+D 0xAF6F 0xAF75 puertas_de_la_sala_200  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAF6F 5
+D 0xAF75 0xAF7B puertas_de_la_sala_201  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAF75 5
+D 0xAF7B 0xAF81 puertas_de_la_sala_202  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAF7B 5
+D 0xAF81 0xAF87 puertas_de_la_sala_203  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAF81 5
+D 0xAF87 0xAF97 puertas_de_la_sala_204  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (16 bytes)
+F 0xAF87 5
+D 0xAF97 0xAFA2 puertas_de_la_sala_205  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+F 0xAF97 5
+D 0xAFA2 0xAFAD puertas_de_la_sala_206  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+F 0xAFA2 5
+D 0xAFAD 0xAFB8 puertas_de_la_sala_207  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+F 0xAFAD 5
+D 0xAFB8 0xAFBE puertas_de_la_sala_213  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAFB8 5
+D 0xAFBE 0xAFC4 puertas_de_la_sala_214  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAFBE 5
+D 0xAFC4 0xAFCA puertas_de_la_sala_215  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAFC4 5
+D 0xAFCA 0xAFD0 puertas_de_la_sala_216  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAFCA 5
+D 0xAFD0 0xAFD6 puertas_de_la_sala_217  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAFD0 5
+D 0xAFD6 0xAFDC puertas_de_la_sala_218  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAFD6 5
+D 0xAFDC 0xAFE2 puertas_de_la_sala_219  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAFDC 5
+D 0xAFE2 0xAFE8 puertas_de_la_sala_224  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xAFE2 5
+D 0xAFE8 0xAFF3 puertas_de_la_sala_225  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+F 0xAFE8 5
+D 0xAFF3 0xB003 puertas_de_la_sala_226  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (16 bytes)
+F 0xAFF3 5
+D 0xB003 0xB00E puertas_de_la_sala_227  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+F 0xB003 5
+D 0xB00E 0xB01E puertas_de_la_sala_228  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (16 bytes)
+F 0xB00E 5
+D 0xB01E 0xB024 puertas_de_la_sala_229  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xB01E 5
+D 0xB024 0xB034 puertas_de_la_sala_230  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (16 bytes)
+F 0xB024 5
+D 0xB034 0xB03A puertas_de_la_sala_231  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xB034 5
+D 0xB03A 0xB040 puertas_de_la_sala_232  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+F 0xB03A 5
+D 0xB040 0xB046 puertas_de_la_sala_235  fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y de 0xB046); se solapan 2 bloques: (puertas_de_la_sala_0 B045-B046); lo leen p00:441A (6 bytes)
+F 0xB040 5
+D 0xB046 0xB0E6 cerrojo_de_cada_puerta  160 bytes, uno por puerta: p00:4347 pone a 1 en 0xC450 las que no tienen los bits 6-7 a 10, y p00:4434 lee el byte de la puerta; lo leen p00:4347, p00:4434 (160 bytes)
+F 0xB046 16
+D 0xB0E6 0xB0FC puerta_B0E2_resto  el resto del registro de puerta que p01:780F carga desde 0xB0E2: sus 4 primeros bytes son los ultimos cerrojos de 0xB046; lo leen p01:780F (22 bytes)
+D 0xB0FC 0xB102 puerta_B0FC  datos de dibujo de una puerta que p01:7814 carga en DE para p01:784E; lo leen p01:7814 (6 bytes)
+D 0xB102 0xB12B puerta_B102  datos de dibujo de una puerta que p01:7819 carga en DE para p01:784E; lo leen p01:7819 (41 bytes)
+D 0xB12B 0xB16E puerta_B12B  datos de dibujo de una puerta que p01:781E carga en DE para p01:784E; lo leen p01:781E (67 bytes)
+D 0xB16E 0xB1AC puerta_B16E  datos de dibujo de una puerta que p01:7823 carga en DE para p01:784E; lo leen p01:7823 (62 bytes)
+D 0xB1AC 0xB1B2 puerta_B1AC  datos de dibujo de una puerta que p01:7828 carga en DE para p01:784E; lo leen p01:7828 (6 bytes)
+D 0xB1B2 0xB1DB puerta_B1B2  datos de dibujo de una puerta que p01:7832 carga en DE para p01:784E; lo leen p01:7832 (41 bytes)
+D 0xB1DB 0xB1F5 puerta_B1DB  datos de dibujo de una puerta que p01:7837 carga en DE para p01:784E; lo leen p01:7837 (26 bytes)
+D 0xB1F5 0xB247 puerta_B1F5  datos de dibujo de una puerta que p01:783C carga en DE para p01:784E; lo leen p01:783C (82 bytes)
+D 0xB247 0xB261 puerta_B247  datos de dibujo de una puerta que p01:7841 carga en DE para p01:784E; lo leen p01:7841 (26 bytes)
+D 0xB261 0xB29F puerta_B261  datos de dibujo de una puerta que p01:7846 carga en DE para p01:784E; lo leen p01:7846 (62 bytes)
+D 0xB29F 0xB2BF puerta_B29F  datos de dibujo de una puerta que p01:784B carga en DE para p01:784E; lo leen p01:784B (32 bytes)
+D 0xB2BF 0xB31F fichas_del_interruptor  4 fichas en 3 planos que p00:4BCA vuelca en la VRAM 0x9048 (el interruptor de la corriente); lo leen p00:4BCA (96 bytes)
+F 0xB2BF 24
+D 0xB31F 0xB325 bloque_B31F  un bloque de 1 x 4 numeros de ficha ([ancho][alto] y las fichas) que p00:44BA pinta con L_4104; lo carga p15:BEF7; lo leen p15:BEF7 (6 bytes)
+F 0xB31F 1
+D 0xB325 0xB33F bloque_B325  un bloque de 3 x 8 numeros de ficha ([ancho][alto] y las fichas) que p00:44BA pinta con L_4104; lo carga p15:BF01; lo leen p15:BF01 (26 bytes)
+F 0xB325 3
+D 0xB33F 0xB369 bloque_B33F  un bloque de 5 x 8 numeros de ficha ([ancho][alto] y las fichas) que p00:44BA pinta con L_4104; lo carga p15:BF1C; lo leen p15:BF1C (42 bytes)
+F 0xB33F 5
+D 0xB369 0xB40D bloque_B369  un bloque de 9 x 18 numeros de ficha ([ancho][alto] y las fichas) que p00:44BA pinta con L_4104; lo carga p01:692A; lo leen p01:692A (164 bytes)
+F 0xB369 9
+D 0xB40D 0xB41F bloque_B40D  un bloque de 4 x 4 numeros de ficha ([ancho][alto] y las fichas) que p00:44BA pinta con L_4104; lo carga p01:6933; lo leen p01:6933 (18 bytes)
+F 0xB40D 4
+D 0xB41F 0xB425 bloque_B41F  un bloque de 2 x 2 numeros de ficha ([ancho][alto] y las fichas) que p00:44BA pinta con L_4104; sigue al anterior, su lector no esta a la vista; lo leen p00:449E (6 bytes)
+F 0xB41F 2
+D 0xB425 0xB42B bloque_B425  un bloque de 2 x 2 numeros de ficha ([ancho][alto] y las fichas) que p00:44BA pinta con L_4104; sigue al anterior, su lector no esta a la vista; lo leen p00:449E (6 bytes)
+F 0xB425 2
+D 0xB42B 0xB431 bloque_B42B  un bloque de 2 x 2 numeros de ficha ([ancho][alto] y las fichas) que p00:44BA pinta con L_4104; sigue al anterior, su lector no esta a la vista; lo leen p00:449E (6 bytes)
+F 0xB42B 2
+D 0xB431 0xB4E3 bloque_B431  un bloque de 11 x 16 numeros de ficha ([ancho][alto] y las fichas) que p00:44BA pinta con L_4104; sigue al anterior, su lector no esta a la vista; lo leen p00:449E (178 bytes)
+F 0xB431 11
+D 0xB4E3 0xB595 bloque_B4E3  un bloque de 11 x 16 numeros de ficha ([ancho][alto] y las fichas) que p00:44BA pinta con L_4104; sigue al anterior, su lector no esta a la vista; lo leen p00:449E (178 bytes)
+F 0xB4E3 11
+D 0xB595 0xB5F7 bloque_B595  un bloque de 12 x 8 numeros de ficha ([ancho][alto] y las fichas) que p00:44BA pinta con L_4104; lo carga p00:44A7; lo leen p00:44A7 (98 bytes)
+F 0xB595 12
+D 0xB5F7 0xB659 bloque_B5F7  un bloque de 12 x 8 numeros de ficha ([ancho][alto] y las fichas) que p00:44BA pinta con L_4104; lo carga p00:44AC; lo leen p00:44AC (98 bytes)
+F 0xB5F7 12
+D 0xB659 0xB65B radio_de_la_sala_0  las llamadas de radio de una sala: 0 = ninguna; si no, parejas [frecuencia (nibble alto, en 0x490C) | bits][texto] hasta la que tiene el bit 0 (p00:48D0); lo leen p00:48D0 (2 bytes)
+F 0xB659 2
+D 0xB65B 0xB65D radio_de_la_sala_4  las llamadas de radio de una sala: 0 = ninguna; si no, parejas [frecuencia (nibble alto, en 0x490C) | bits][texto] hasta la que tiene el bit 0 (p00:48D0); lo leen p00:48D0 (2 bytes)
+F 0xB65B 2
+D 0xB65D 0xB661 radio_de_la_sala_1  las llamadas de radio de una sala: 0 = ninguna; si no, parejas [frecuencia (nibble alto, en 0x490C) | bits][texto] hasta la que tiene el bit 0 (p00:48D0); lo leen p00:48D0 (4 bytes)
+F 0xB65D 2
+D 0xB661 0xB663 radio_de_la_sala_5  las llamadas de radio de una sala: 0 = ninguna; si no, parejas [frecuencia (nibble alto, en 0x490C) | bits][texto] hasta la que tiene el bit 0 (p00:48D0); lo leen p00:48D0 (2 bytes)
+F 0xB661 2
+D 0xB663 0xB665 radio_de_la_sala_20  las llamadas de radio de una sala: 0 = ninguna; si no, parejas [frecuencia (nibble alto, en 0x490C) | bits][texto] hasta la que tiene el bit 0 (p00:48D0); lo leen p00:48D0 (2 bytes)
+F 0xB663 2
+D 0xB665 0xB667 radio_de_la_sala_28  las llamadas de radio de una sala: 0 = ninguna; si no, parejas [frecuencia (nibble alto, en 0x490C) | bits][texto] hasta la que tiene el bit 0 (p00:48D0); lo leen p00:48D0 (2 bytes)
+F 0xB665 2
+D 0xB667 0xB66B radio_de_la_sala_29  las llamadas de radio de una sala: 0 = ninguna; si no, parejas [frecuencia (nibble alto, en 0x490C) | bits][texto] hasta la que tiene el bit 0 (p00:48D0); lo leen p00:48D0 (4 bytes)
+F 0xB667 2
+D 0xB66B 0xB66F radio_de_la_sala_30  las llamadas de radio de una sala: 0 = ninguna; si no, parejas [frecuencia (nibble alto, en 0x490C) | bits][texto] hasta la que tiene el bit 0 (p00:48D0); lo leen p00:48D0 (4 bytes)
+F 0xB66B 2
+D 0xB66F 0xB671 radio_de_la_sala_31  las llamadas de radio de una sala: 0 = ninguna; si no, parejas [frecuencia (nibble alto, en 0x490C) | bits][texto] hasta la que tiene el bit 0 (p00:48D0); lo leen p00:48D0 (2 bytes)
+F 0xB66F 2
+D 0xB671 0xB673 radio_de_la_sala_33  las llamadas de radio de una sala: 0 = ninguna; si no, parejas [frecuencia (nibble alto, en 0x490C) | bits][texto] hasta la que tiene el bit 0 (p00:48D0); lo leen p00:48D0 (2 bytes)
+F 0xB671 2
+D 0xB673 0xB677 radio_de_la_sala_37  las llamadas de radio de una sala: 0 = ninguna; si no, parejas [frecuencia (nibble alto, en 0x490C) | bits][texto] hasta la que tiene el bit 0 (p00:48D0); lo leen p00:48D0 (4 bytes)
+F 0xB673 2
+D 0xB677 0xB679 radio_de_la_sala_45  las llamadas de radio de una sala: 0 = ninguna; si no, parejas [frecuencia (nibble alto, en 0x490C) | bits][texto] hasta la que tiene el bit 0 (p00:48D0); lo leen p00:48D0 (2 bytes)
+F 0xB677 2
+D 0xB679 0xB67B radio_de_la_sala_50  las llamadas de radio de una sala: 0 = ninguna; si no, parejas [frecuencia (nibble alto, en 0x490C) | bits][texto] hasta la que tiene el bit 0 (p00:48D0); lo leen p00:48D0 (2 bytes)
+F 0xB679 2
+D 0xB67B 0xB67F radio_de_la_sala_53  las llamadas de radio de una sala: 0 = ninguna; si no, parejas [frecuencia (nibble alto, en 0x490C) | bits][texto] hasta la que tiene el bit 0 (p00:48D0); lo leen p00:48D0 (4 bytes)
+F 0xB67B 2
+D 0xB67F 0xB681 radio_de_la_sala_54  las llamadas de radio de una sala: 0 = ninguna; si no, parejas [frecuencia (nibble alto, en 0x490C) | bits][texto] hasta la que tiene el bit 0 (p00:48D0); lo leen p00:48D0 (2 bytes)
+F 0xB67F 2
+D 0xB681 0xB683 radio_de_la_sala_58  las llamadas de radio de una sala: 0 = ninguna; si no, parejas [frecuencia (nibble alto, en 0x490C) | bits][texto] hasta la que tiene el bit 0 (p00:48D0); lo leen p00:48D0 (2 bytes)
+F 0xB681 2
+D 0xB683 0xB685 radio_de_la_sala_67  las llamadas de radio de una sala: 0 = ninguna; si no, parejas [frecuencia (nibble alto, en 0x490C) | bits][texto] hasta la que tiene el bit 0 (p00:48D0); lo leen p00:48D0 (2 bytes)
+F 0xB683 2
+D 0xB685 0xB68B radio_de_la_sala_69  las llamadas de radio de una sala: 0 = ninguna; si no, parejas [frecuencia (nibble alto, en 0x490C) | bits][texto] hasta la que tiene el bit 0 (p00:48D0); lo leen p00:48D0 (6 bytes)
+F 0xB685 2
+D 0xB68B 0xB68D radio_de_la_sala_82  las llamadas de radio de una sala: 0 = ninguna; si no, parejas [frecuencia (nibble alto, en 0x490C) | bits][texto] hasta la que tiene el bit 0 (p00:48D0); lo leen p00:48D0 (2 bytes)
+F 0xB68B 2
+D 0xB68D 0xB68F radio_de_la_sala_83  las llamadas de radio de una sala: 0 = ninguna; si no, parejas [frecuencia (nibble alto, en 0x490C) | bits][texto] hasta la que tiene el bit 0 (p00:48D0); lo leen p00:48D0 (2 bytes)
+F 0xB68D 2
+D 0xB68F 0xB691 radio_de_la_sala_86  las llamadas de radio de una sala: 0 = ninguna; si no, parejas [frecuencia (nibble alto, en 0x490C) | bits][texto] hasta la que tiene el bit 0 (p00:48D0); lo leen p00:48D0 (2 bytes)
+F 0xB68F 2
+D 0xB691 0xB693 radio_de_la_sala_87  las llamadas de radio de una sala: 0 = ninguna; si no, parejas [frecuencia (nibble alto, en 0x490C) | bits][texto] hasta la que tiene el bit 0 (p00:48D0); lo leen p00:48D0 (2 bytes)
+F 0xB691 2
+D 0xB693 0xB695 radio_de_la_sala_93  las llamadas de radio de una sala: 0 = ninguna; si no, parejas [frecuencia (nibble alto, en 0x490C) | bits][texto] hasta la que tiene el bit 0 (p00:48D0); lo leen p00:48D0 (2 bytes)
+F 0xB693 2
+D 0xB695 0xB697 radio_de_la_sala_94  las llamadas de radio de una sala: 0 = ninguna; si no, parejas [frecuencia (nibble alto, en 0x490C) | bits][texto] hasta la que tiene el bit 0 (p00:48D0); lo leen p00:48D0 (2 bytes)
+F 0xB695 2
+D 0xB697 0xB699 radio_de_la_sala_99  las llamadas de radio de una sala: 0 = ninguna; si no, parejas [frecuencia (nibble alto, en 0x490C) | bits][texto] hasta la que tiene el bit 0 (p00:48D0); lo leen p00:48D0 (2 bytes)
+F 0xB697 2
+D 0xB699 0xB69D radio_de_la_sala_102  las llamadas de radio de una sala: 0 = ninguna; si no, parejas [frecuencia (nibble alto, en 0x490C) | bits][texto] hasta la que tiene el bit 0 (p00:48D0); lo leen p00:48D0 (4 bytes)
+F 0xB699 2
+D 0xB69D 0xB69F radio_de_la_sala_103  las llamadas de radio de una sala: 0 = ninguna; si no, parejas [frecuencia (nibble alto, en 0x490C) | bits][texto] hasta la que tiene el bit 0 (p00:48D0); lo leen p00:48D0 (2 bytes)
+F 0xB69D 2
+D 0xB69F 0xB6A1 radio_de_la_sala_104  las llamadas de radio de una sala: 0 = ninguna; si no, parejas [frecuencia (nibble alto, en 0x490C) | bits][texto] hasta la que tiene el bit 0 (p00:48D0); lo leen p00:48D0 (2 bytes)
+F 0xB69F 2
+D 0xB6A1 0xB6A5 radio_de_la_sala_108  las llamadas de radio de una sala: 0 = ninguna; si no, parejas [frecuencia (nibble alto, en 0x490C) | bits][texto] hasta la que tiene el bit 0 (p00:48D0); lo leen p00:48D0 (4 bytes)
+F 0xB6A1 2
+D 0xB6A5 0xB6A9 radio_de_la_sala_111  las llamadas de radio de una sala: 0 = ninguna; si no, parejas [frecuencia (nibble alto, en 0x490C) | bits][texto] hasta la que tiene el bit 0 (p00:48D0); lo leen p00:48D0 (4 bytes)
+F 0xB6A5 2
+D 0xB6A9 0xB6AB radio_de_la_sala_115  las llamadas de radio de una sala: 0 = ninguna; si no, parejas [frecuencia (nibble alto, en 0x490C) | bits][texto] hasta la que tiene el bit 0 (p00:48D0); lo leen p00:48D0 (2 bytes)
+F 0xB6A9 2
+D 0xB6AB 0xB6AD radio_de_la_sala_116  las llamadas de radio de una sala: 0 = ninguna; si no, parejas [frecuencia (nibble alto, en 0x490C) | bits][texto] hasta la que tiene el bit 0 (p00:48D0); lo leen p00:48D0 (2 bytes)
+F 0xB6AB 2
+D 0xB6AD 0xB6B1 radio_de_la_sala_119  las llamadas de radio de una sala: 0 = ninguna; si no, parejas [frecuencia (nibble alto, en 0x490C) | bits][texto] hasta la que tiene el bit 0 (p00:48D0); lo leen p00:48D0 (4 bytes)
+F 0xB6AD 2
+D 0xB6B1 0xB6B5 radio_de_la_sala_123  las llamadas de radio de una sala: 0 = ninguna; si no, parejas [frecuencia (nibble alto, en 0x490C) | bits][texto] hasta la que tiene el bit 0 (p00:48D0); lo leen p00:48D0 (4 bytes)
+F 0xB6B1 2
+D 0xB6B5 0xB6B7 radio_de_la_sala_150  las llamadas de radio de una sala: 0 = ninguna; si no, parejas [frecuencia (nibble alto, en 0x490C) | bits][texto] hasta la que tiene el bit 0 (p00:48D0); lo leen p00:48D0 (2 bytes)
+F 0xB6B5 2
+D 0xB6B7 0xB6B9 radio_de_la_sala_165  las llamadas de radio de una sala: 0 = ninguna; si no, parejas [frecuencia (nibble alto, en 0x490C) | bits][texto] hasta la que tiene el bit 0 (p00:48D0); lo leen p00:48D0 (2 bytes)
+F 0xB6B7 2
+D 0xB6B9 0xB6BB radio_de_la_sala_178  las llamadas de radio de una sala: 0 = ninguna; si no, parejas [frecuencia (nibble alto, en 0x490C) | bits][texto] hasta la que tiene el bit 0 (p00:48D0); lo leen p00:48D0 (2 bytes)
+F 0xB6B9 2
+D 0xB6BB 0xB6BD radio_de_la_sala_182  las llamadas de radio de una sala: 0 = ninguna; si no, parejas [frecuencia (nibble alto, en 0x490C) | bits][texto] hasta la que tiene el bit 0 (p00:48D0); lo leen p00:48D0 (2 bytes)
+F 0xB6BB 2
+D 0xB6BD 0xB6BF radio_de_la_sala_192  las llamadas de radio de una sala: 0 = ninguna; si no, parejas [frecuencia (nibble alto, en 0x490C) | bits][texto] hasta la que tiene el bit 0 (p00:48D0); lo leen p00:48D0 (2 bytes)
+F 0xB6BD 2
+D 0xB6BF 0xB6C3 radio_de_la_sala_193  las llamadas de radio de una sala: 0 = ninguna; si no, parejas [frecuencia (nibble alto, en 0x490C) | bits][texto] hasta la que tiene el bit 0 (p00:48D0); lo leen p00:48D0 (4 bytes)
+F 0xB6BF 2
+D 0xB6C3 0xB6C5 radio_de_la_sala_202  las llamadas de radio de una sala: 0 = ninguna; si no, parejas [frecuencia (nibble alto, en 0x490C) | bits][texto] hasta la que tiene el bit 0 (p00:48D0); lo leen p00:48D0 (2 bytes)
+F 0xB6C3 2
+D 0xB6C5 0xB6C6 radio_de_la_sala_2  las llamadas de radio de una sala: 0 = ninguna; si no, parejas [frecuencia (nibble alto, en 0x490C) | bits][texto] hasta la que tiene el bit 0 (p00:48D0); lo leen p00:48D0 (1 bytes)
+F 0xB6C5 2
+D 0xB6C6 0xB8BC indice_de_llamadas_de_radio  251 punteros, uno por sala (p00:48C0 -> L_42B1), a las llamadas de radio de esa sala; lo leen p00:48C0 (502 bytes)
+F 0xB6C6 w8
+D 0xBC9F 0xBCBD rotulo_BC9F  rotulo con posicion de la pantalla de guardar y cargar (L_510C), que p15:B959 escribe; lo leen p15:B959 (30 bytes)
+D 0xBCBD 0xBCDB rotulo_BCBD  rotulo con posicion de la pantalla de guardar y cargar (L_510C), que p15:BAE1 escribe; lo leen p15:BAE1 (30 bytes)
+D 0xBCDB 0xBCE4 rotulo_BCDB  rotulo con posicion de la pantalla de guardar y cargar (L_510C), que p15:B979 escribe; lo leen p15:B979 (9 bytes)
+D 0xBCE4 0xBCF1 rotulo_BCE4  rotulo con posicion de la pantalla de guardar y cargar (L_510C), que p15:B96F escribe; lo leen p15:B96F (13 bytes)
+D 0xBCF1 0xBD00 rotulo_BCF1  rotulo con posicion de la pantalla de guardar y cargar (L_510C), que p15:BABE escribe; lo leen p15:BABE (15 bytes)
+D 0xBD00 0xBD1A rotulo_BD00  rotulo con posicion de la pantalla de guardar y cargar (L_510C), que p15:BA5E escribe; se solapan 2 bloques: (rotulo_BD11 BD11-BD1A); lo leen p15:BA5E, p15:BA04 (26 bytes)
+D 0xBD1A 0xBD3B rotulo_BD1A  rotulo con posicion de la pantalla de guardar y cargar (L_510C), que p15:B9E6 escribe; se solapan 2 bloques: (rotulo_BD25 BD25-BD3B); lo leen p15:B9E6, p15:BA0A (33 bytes)
+D 0xBD3B 0xBD41 rotulo_BD3B  rotulo con posicion de la pantalla de guardar y cargar (L_510C), que p15:BA1C escribe; lo leen p15:BA1C (6 bytes)
+D 0xBD41 0xBD48 rotulo_BD41  rotulo con posicion de la pantalla de guardar y cargar (L_510C), que p15:BBE1 escribe; lo leen p15:BBE1 (7 bytes)
+D 0xBD48 0xBD52 rotulo_BD48  rotulo con posicion de la pantalla de guardar y cargar (L_510C), que p15:BBCE escribe; lo leen p15:BBCE (10 bytes)
+D 0xBD52 0xBD62 rotulo_BD52  rotulo con posicion de la pantalla de guardar y cargar (L_510C), que p15:BAFC escribe; lo leen p15:BAFC (16 bytes)
+D 0xBFA7 0xC000 relleno_ff  89 bytes a 0xFF hasta el final del banco: relleno; lo leen nadie (89 bytes)
+F 0xBFA7 16
+# --- fin de los bloques de bloques.py ---

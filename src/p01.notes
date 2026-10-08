@@ -1,0 +1,52 @@
+# notas del banco 01
+
+# --- A MANO: comentarios, nombres y bloques ---
+D 0x6000 0x6001 tercer_byte_del_call_de_p00_5FFE  el byte alto (41) del `call 0x41EA` que empieza en p00:5FFE: la instruccion cruza del banco 0 a este. Detras, en 0x6001, la tabla de 9 destinos de ese despachador (el estado del jugador)
+D 0x6150 0x6160 tabla_6150  16 bytes (0, 1, 2, 0, 3, 0, 0, 0, 4 y ceros) que p01:6145 lee en 0x6150 + A (los bits 0-3 de 0xC191) y guarda en 0xC18C
+D 0x6342 0x634C salas_6342  10 numeros de sala (0x46, 0x49, 0x4A, 0x4D, 0x4E, 0x6B, 0x69, 0x6A, 0xD3, 0xD4): p01:62C3 compara 0xC130 con las 10 y p01:6317 solo con las 6 primeras
+D 0x666A 0x6672 parejas_666a  4 parejas, una por direccion (0xC185 = 1-4): p01:662E lee 0x666A + 2 x (direccion - 1)
+F 0x666A 2
+D 0x6B34 0x6B48 caracteres_de_las_frecuencias  10 parejas de caracteres (0xA4-0xAF, los digitos grandes del transceptor), una por frecuencia (nibble bajo de 0xC138): p01:6B18 lee 0x6B34 + 2 x n y p01:6B1E los pinta con L_5135
+F 0x6B34 2
+D 0x6B48 0x6B4F rotulo_recv  [fila 0x38][columna 0x40] "RECV" 0xFF, que p01:69F7 (L_5110) escribe o borra segun quien habla (p01:696D, 698C, 69E7, 69EF)
+D 0x6B4F 0x6B56 rotulo_send  [fila 0x38][columna 0x38] "SEND" 0xFF, la pareja del anterior
+D 0x71DA 0x71DF tabla_71da  5 bytes (0, 0x9A, 0x9B, 0x99, 0x3C) que p01:71C8 lee en 0x71DA + (0xC19B - 1) y manda a 0xC0C4
+D 0x74D0 0x74F1 nibbles_74d0  64 nibbles y un byte: p01:74BA lee el nibble (A & 0x7F) - 1 con L_42D4 y con el llama al despachador de 0x74BD (la tabla de 0x74C0)
+F 0x74D0 16
+D 0x7645 0x767B fichas_7645  54 bytes en los que p01:7521-763F pone HL (0x7645, 0x7647, 0x7649, 0x764B, 0x764D, 0x7659, 0x766B o 0x7673 segun (ix+0x0C)) y C para p01:75BB: parejas [0x06][0x48] y [0x0E][0x0E] con ceros entre medias
+F 0x7645 2
+D 0x7703 0x7707 dos_posiciones  dos parejas (0x30, 0x38) y (0x50, 0x70): p01:76CA coge la segunda en la sala 0x28 y la primera en las demas (`dec hl` x 2) y las pasa a L_4FCD
+F 0x7703 2
+D 0x7A50 0x7A5E tabla_por_puerta  14 bytes (2, 2, 3, 4, 3, 1, 2, 3, 4, 1, 4, 4, 1, 3), uno por numero de puerta 7-20: p01:79EE y p01:7A31 leen 0x7A50 + puerta - 7 y usan el byte como D
+D 0x7AE3 0x7AE9 tabla_7ae3  6 bytes (0x19 x 4 y 0x1B x 2) que p01:7AD1 lee con 0xC4FD - 1 cuando es menor que 6 (si no, C = 0x1E)
+D 0x7C56 0x7C5C parejas_7c56  3 parejas ([0xFF][0x21], [0x24][0xFF], [0x0D][0x21]) que p01:7AC4 lee en 0x7C56 + 2 x (0xC4FD - 1)
+F 0x7C56 2
+D 0x7CA2 0x7CAA registros_del_vdp  4 parejas [registro][valor] que p01:7C83 escribe en el VDP al arrancar: R1 = 0x62, R5 = 0xEF, R6 = 0x1F y R11 = 1
+F 0x7CA2 2
+
+# --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
+D 0x6001 0x6013 tabla_6001  9 destinos del despachador p00:41EA (call en p01:5FFE, el indice en A): 6013, 605B, 6064, 6061, 6082, 609C, 60AD, 60C6, 60E3; lo leen p01:5FFE (18 bytes)
+F 0x6001 w8
+D 0x6508 0x6518 tabla_6508  8 destinos del despachador p00:41EA (call en p01:6505, el indice en A): 6518, 6561, 656A, 6589, 658E, 65A5, 65CA, 65E4; lo leen p01:6505 (16 bytes)
+F 0x6508 w8
+D 0x6686 0x6698 tabla_6686  9 destinos del despachador p00:41EA (call en p01:6683, el indice en A): 6698, 6701, 670C, 6740, 675E, 6777, 67D0, 6819, 6897; lo leen p01:6683 (18 bytes)
+F 0x6686 w8
+D 0x6908 0x6912 tabla_6908  5 destinos del despachador p00:41EA (call en p01:6905, el indice en A): 6912, 695E, 699F, 69B8, 69CC; lo leen p01:6905 (10 bytes)
+F 0x6908 w5
+D 0x6F7A 0x6F94 tabla_6F7A  13 destinos del despachador p00:41EA (call en p01:6F77, el indice en A): 6F94, 6DEB, 6BBC, 7EB5, 68FA, 7024, 702F, 7046, 704B, 7060, 7070, 7086, 708E; lo leen p01:6F77 (26 bytes)
+F 0x6F7A w8
+D 0x722F 0x72B1 tabla_722F  65 destinos del despachador p00:41EA (call en p01:722C, el indice en A): A549, 7211, 9CD4, 9DA9, 9DA9, 9F19, 7211, 99F7, B9F4, A7BB, A7BB, B959, AD40, AB5C, 994E, A604, 7211, B1F6, AA3C, B00F, B053, B0B8, B8C5, B290, 9B2F, BB75, B42C, BCD3, B5A4, 9DA9, B146, BDA2, B5F0, B6E5, 54AF, A24C, A502, B871, B8F5, BF90, 95BF, 7211, B6AF, A202, 7E0E, 9A39, 830D, 9AD9, 9C9E, 9C9E, 9C9E, 9C9E, 9F8E, A072, 9C04, 7211, AE7F, B8C5, 830D, B81B, B8C5, BB33, 969A, A0E8, B97D; lo leen p01:722C (130 bytes)
+F 0x722F w8
+D 0x74C0 0x74D0 tabla_74C0  8 destinos del despachador p00:41EA (call en p01:74BD, el indice en A): 7371, 7512, 7507, 74F1, 7521, 753C, 7562, 7684; lo leen p01:74BD (16 bytes)
+F 0x74C0 w8
+D 0x773C 0x7762 tabla_773C  19 destinos del despachador p00:41EA (call en p01:7739, el indice en A): 77D8, 7762, 777E, 77A7, 77F3, 7737, 780F, 7814, 7819, 781E, 7823, 7828, 782D, 7832, 7837, 783C, 7841, 7846, 784B; lo leen p01:7739 (38 bytes)
+F 0x773C w8
+D 0x78F4 0x7914 tabla_78F4  16 destinos del despachador p00:41EA (call en p01:78F1, el indice en A): 7914, 792F, 7933, 7937, 793B, 793F, 7943, 7947, 794B, 7960, 7973, 79A7, 79C9, 79D9, 79E9, 7A18; lo leen p01:78F1 (32 bytes)
+F 0x78F4 w8
+D 0x7A8A 0x7AB2 tabla_7A8A  20 destinos del despachador p00:41EA (call en p01:7A87, el indice en A): 7AB2, 7AE9, 7B06, 7B20, 7B48, 7B74, 7BA4, 7BA5, 7BAA, 7BAF, 7BB4, 7BB9, 7BA4, 7BBE, 7BAF, 7BC3, 7BC8, 7BC3, 7BB9, 7BCD; lo leen p01:7A87 (40 bytes)
+F 0x7A8A w8
+D 0x7D85 0x7D91 tabla_7D85  6 destinos del despachador p00:41EA (call en p01:7D82, el indice en A): 7D91, 7DAE, 7DA0, 7DAF, 7DB9, 7DC5; lo leen p01:7D82 (12 bytes)
+F 0x7D85 w6
+D 0x7E14 0x7E22 tabla_7E14  7 destinos del despachador p00:41EA (call en p01:7E11, el indice en A): 7E22, 7E2A, 7E60, 7E7D, 7E99, 7EA9, 7EB4; lo leen p01:7E11 (14 bytes)
+F 0x7E14 w7
+# --- fin de los bloques de bloques.py ---
