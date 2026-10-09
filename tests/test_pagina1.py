@@ -60,7 +60,8 @@ class Pagina1(unittest.TestCase):
         """Los cinco bloques de puertas (44 fichas) y las 132 de objetos."""
         import pagina1 as P1
         p1 = P1.pagina1()
-        self.assertEqual(len(p1), 64 * (16 + 16 + 4 + 4 + 4) + 64 * 132)
+        self.assertEqual(len(p1), 64 * (16 + 16 + 4 + 4 + 4) + 64 * 132
+                         + 64 * (4 + 31 + 7 + 8 + 8 + 16 + 3))   # p00:4B4A-4BAB
         self.assertTrue(any(p1[(192 + i, 160 + j)] for i in range(32) for j in range(32)))
 
 

@@ -85,6 +85,84 @@ def pixeles_de_dibujo(r, a, x, y):
     return px, faltan
 
 
+def pixeles_de_dibujo_abajo(a, x, y):
+    """Como pixeles_de_dibujo, pero con el bit 0 de 0xC168 puesto (L_51BC):
+    la ficha t sale de la pagina 1 en (8 x (t mod 32), 128 + 8 x (t / 32)),
+    lo que cargan p00:4B4A-4BAB (pagina1.pagina1). Las fichas que no carga
+    nadie quedan a 0 y TIMP no las copia: se devuelven aparte."""
+    import pagina1 as P1
+    p1 = P1.pagina1()
+    px, faltan = {}, set()
+    filas, columnas, t = dibujo(a)
+    for f in range(filas):
+        for c in range(columnas):
+            sx, sy = 8 * (t[f][c] % 32), 128 + 8 * (t[f][c] // 32)
+            if (sx, sy) not in p1:
+                faltan.add(t[f][c])
+                continue
+            for yy in range(8):
+                for xx in range(8):
+                    col = p1[(sx + xx, sy + yy)]
+                    if col:
+                        px[(x + 8 * c + xx, y + 8 * f + yy)] = col
+    return px, faltan
+
+
+def pantalla_del_transceptor():
+    """p01:6912: paleta p05:8B1E (L_4AAA) encima de la del juego, 0xC168 = 1
+    y los dibujos p15:B369 en (0x30, 0x18) y p15:B40D (el retrato) en (0xC8,
+    0x28) con L_449E. Devuelve ({(x, y): color}, paleta, fichas sin cargar).
+    Los rotulos (p00:4BB1 -> L_510C con p06:B833) y lo que pintan L_6B04 y
+    L_69B3 NO estan."""
+    pal = S.aplica_paleta(S.paleta_de_juego(), 4, 0x8B1E)
+    px, faltan = pixeles_de_dibujo_abajo(0xB369, 0x30, 0x18)
+    p2, f2 = pixeles_de_dibujo_abajo(0xB40D, 0xC8, 0x28)
+    px.update(p2)
+    return px, pal, faltan | f2
+
+
+def titulo(y=0x20):
+    """El titulo (p09:B4DA-B503 y el menu p09:B515):
+      - L_B0A3: L_4F91 (HMMV) pone a 0 la esquina (0,0) de la pagina 1, 24 x
+        8: la ficha 0 queda vacia.
+      - L_B5B5: la tabla de colores de 0xE700 = p09:B5AD; L_524C (0x4168)
+        carga 70 fichas en 3 planos de p09:B8B9 en la VRAM 0x8004 (fichas
+        1-70); L_B5E0 pone con L_518A (HMMM, opaca, pagina 1 -> 1) los
+        dibujos p09:B618 (13 columnas x 4 filas) en (0x20, 0x68) y p09:B64C
+        (9 x 4) en (0x88, 0x70). OJO: aqui el ancho va en B y el alto en C,
+        no en la ROM.
+      - Paleta p09:B602 (0x4118 = L_4EC4): fija 2, 3, 4, 5, 9, 10 y 14, que
+        son los de la tabla menos el 0.
+      - L_B534 copia con TIMP (A = 0x48) (0x20, 0x68) de 0x68 x 0x20 a (0x20,
+        y) y (0x88, 0x68) de 0x48 x 0x20 a (0x88, y + 8), con y de p09:B5F7
+        (0xC0 ... 0x20: el titulo sube) y se queda en y = 0x20 (p09:B55F).
+        La segunda copia corta la ultima fila del segundo dibujo (la ficha
+        0x46) y arrastra 8 lineas de la pagina 1 que nadie limpia a la
+        vista: SUPOSICION, que estan a 0.
+    Devuelve ({(x, y): color}, paleta)."""
+    colores = [leer(7, 0xB5AD + i) for i in range(8)]
+    p1 = {}
+    fichas = {0: [[0] * 8 for _ in range(8)]}
+    for k in range(70):
+        fichas[k + 1] = [[colores[c] for c in fila] for fila in S.ficha_3_planos(7, 0xB8B9 + 24 * k)]
+    for (a, x0, y0, cols, filas) in ((0xB618, 0x20, 0x68, 13, 4), (0xB64C, 0x88, 0x70, 9, 4)):
+        for f in range(filas):
+            for c in range(cols):
+                fi = fichas[leer(7, a + cols * f + c)]
+                for yy in range(8):
+                    for xx in range(8):
+                        p1[(x0 + 8 * c + xx, y0 + 8 * f + yy)] = fi[yy][xx]
+    px = {}
+    for (sx, sy, w, h, dx, dy) in ((0x20, 0x68, 0x68, 0x20, 0x20, y), (0x88, 0x68, 0x48, 0x20, 0x88, y + 8)):
+        for j in range(h):
+            for i in range(w):
+                col = p1.get((sx + i, sy + j), 0)
+                if col:
+                    px[(dx + i, dy + j)] = col
+    pal = S.aplica_paleta(S.paleta_de_arranque(), 7, 0xB602)
+    return px, pal
+
+
 def jefe_de_sala(r):
     """El primer actor de la sala, si es uno de los dos jefes que se pintan
     con fichas: (tipo, dibujo, X, Y, quien) o None."""

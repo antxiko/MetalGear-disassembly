@@ -69,6 +69,34 @@ class Dibujos(unittest.TestCase):
             n += bool(px)
         self.assertEqual(n, 19)        # las 19 salas de `dibujos.py lista`
 
+    def test_el_transceptor_tiene_sus_fichas(self):
+        """p01:6912: el marco (p15:B369, 9 x 18) y el retrato (p15:B40D,
+        4 x 4) salen de las fichas de abajo de la pagina 1; solo la 0x40
+        no la carga nadie (queda a 0, TIMP no la copia)."""
+        import dibujos as D
+        self.assertEqual(D.dibujo(0xB369)[:2], (9, 18))
+        self.assertEqual(D.dibujo(0xB40D)[:2], (4, 4))
+        px, pal, faltan = D.pantalla_del_transceptor()
+        self.assertEqual(faltan, {0x40})
+        self.assertTrue(all(0 <= x < 256 and 0 <= y < 192 for (x, y) in px))
+        self.assertEqual(len(pal), 16)
+
+    def test_el_titulo_cabe_y_usa_solo_colores_fijados(self):
+        """El titulo (p09:B5B5 y B534) en su sitio final cae entre x 0x20 y
+        0xD0 e y 0x20 y 0x48, y solo usa colores que fija p09:B602 (el 0 no
+        se copia)."""
+        import dibujos as D
+        from bloques import leer
+        px, pal = D.titulo()
+        fijados = set()
+        a = 0xB602
+        while leer(7, a) != 0xFF:
+            fijados.add(leer(7, a))
+            a += 3
+        self.assertGreater(len(px), 3000)
+        self.assertTrue(set(px.values()) <= fijados)
+        self.assertTrue(all(0x20 <= x < 0xD0 and 0x20 <= y < 0x48 for (x, y) in px))
+
 
 if __name__ == "__main__":
     unittest.main()

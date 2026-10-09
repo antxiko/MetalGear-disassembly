@@ -13,6 +13,9 @@ Todo leido en el listado (cada funcion cita su rutina):
   - Las 132 fichas de objetos y armas (p06:A75D, 3 planos por la tabla
     p00:4B1B) las vuelca p00:4B3F-4B47 desde 0xB000 (y 96), 32 por fila
     (L_509C pasa a la fila siguiente cuando E llega a 0x80).
+  - Abajo (y 128-151), p00:4B4A-4BAB: las fichas del transceptor, la
+    camara (2 planos, L_51FE, colores 0x4B23) y el retrato de Snake (p09,
+    colores 0x4B2B); las 7 de 0xCC00 volteadas (L_5265).
   - p06:BC47-BCA1 pinta cada objeto de la sala: [X | 16 puntos][Y] de
     origen en p06:B855 (armas 1-8) o p06:B8C0 (objetos 9-35), 32 x 16 o
     16 x 16, en la (Y, X) de su terna (p06:BC07, listas p06:BA50).
@@ -60,6 +63,42 @@ def bloque(canvas, trio, src, x, y, b, c):
             src += 32
 
 
+def sitio_en_vram(a):
+    """La (x, y) de la pagina 1 de una direccion de la VRAM (SCREEN 5: 128
+    bytes por linea, dos puntos por byte)."""
+    d = a - 0x8000
+    return 2 * (d % 128), d // 128
+
+
+def ficha_2_planos(trio, src, colores):
+    """L_5221: 8 filas de 2 bytes [e][d]; el indice de cada punto es
+    (bit de d) x 2 + (bit de e), de izquierda a derecha, y pasa por la tabla
+    de 0xE700 (L_42C9 con C = 4)."""
+    out = []
+    for f in range(8):
+        e, d = leer(trio, src + 2 * f), leer(trio, src + 2 * f + 1)
+        out.append([colores[(((d >> (7 - x)) & 1) << 1) | ((e >> (7 - x)) & 1)] for x in range(8)])
+    return out
+
+
+def fichas_seguidas(canvas, a, fichas):
+    """L_509C/L_50B1: una ficha cada 4 bytes de VRAM desde a (no cruzan de
+    fila en estas cargas: se comprueba)."""
+    x, y = sitio_en_vram(a)
+    assert x + 8 * len(fichas) <= ANCHO, hex(a)
+    for k, fi in enumerate(fichas):
+        pon_ficha(canvas, x + 8 * k, y, fi)
+
+
+def tres_planos(trio, src, n, colores, volteadas=False):
+    """L_524C (y L_5265, que pasa cada ficha por L_50B1: volteada)."""
+    out = []
+    for k in range(n):
+        fi = [[colores[c] for c in fila] for fila in S.ficha_3_planos(trio, src + 24 * k)]
+        out.append(S.voltea(fi) if volteadas else fi)
+    return out
+
+
 _P1 = None
 
 
@@ -83,6 +122,19 @@ def pagina1():
         x += 8
         if x == ANCHO:
             x, y = 0, y + 8
+    # p00:4B4A-4BAB: la parte de abajo (y 128-151), lo del transceptor;
+    # cada carga con la tabla de 0xE700 que deja la anterior
+    t1b = [leer(0, 0x4B1B + i) for i in range(8)]
+    t13 = S.colores_por_defecto()
+    t23 = [leer(0, 0x4B23 + i) for i in range(4)]
+    t2b = [leer(0, 0x4B2B + i) for i in range(8)]
+    fichas_seguidas(canvas, 0xC400, tres_planos(4, 0xB3BD, 4, t1b))          # p00:4B52
+    fichas_seguidas(canvas, 0xC804, tres_planos(4, 0xB41D, 31, t13))         # p00:4B63
+    fichas_seguidas(canvas, 0xCC00, tres_planos(4, 0xB65D, 7, t13, True))    # p00:4B6E
+    fichas_seguidas(canvas, 0xC010, [ficha_2_planos(4, 0xB705 + 16 * k, t23) for k in range(8)])  # p00:4B81
+    fichas_seguidas(canvas, 0xC410, [ficha_2_planos(4, 0xB785 + 16 * k, t23) for k in range(8)])  # p00:4B8C
+    fichas_seguidas(canvas, 0xC040, tres_planos(7, 0xABA1, 16, t2b))        # p00:4BA0 (p09)
+    fichas_seguidas(canvas, 0xC440, tres_planos(7, 0xAD21, 3, t2b))         # p00:4BAB (p09)
     _P1 = canvas
     return canvas
 
