@@ -145,7 +145,7 @@ D 0x8DF4 0x8DF9 ascensor_8DF4  la ficha de un ascensor: 2 bytes que p00:433C gua
 D 0x8DF9 0x8DFE ascensor_8DF9  la ficha de un ascensor: 2 bytes que p00:433C guarda en 0xC197/0xC198 y ternas [sala][b][c] que p00:431F busca por la sala de 0xC136; lo leen p00:432D (5 bytes)
 D 0x8DFE 0x8E09 ascensor_8DFE  la ficha de un ascensor: 2 bytes que p00:433C guarda en 0xC197/0xC198 y ternas [sala][b][c] que p00:431F busca por la sala de 0xC136; lo leen p00:432D (11 bytes)
 D 0x8E09 0x8E0E ascensor_8E09  la ficha de un ascensor: 2 bytes que p00:433C guarda en 0xC197/0xC198 y ternas [sala][b][c] que p00:431F busca por la sala de 0xC136; lo leen p00:432D (5 bytes)
-D 0x8E0E 0x907E salas_vecinas  156 fichas de 4 bytes, una por sala (p00:4302: las salas 0x7E-0xCF restan 0x52 y las 0xD0-0xE3 y 0xF1+ restan 0x5F), con la sala a la que se sale por cada lado (0xC133 - 1 elige el byte; 0xFF = no hay); lo leen p00:4302 (624 bytes)
+D 0x8E0E 0x907E salas_vecinas  156 fichas de 4 bytes, una por sala (L_42E6: las salas < 0x7E van tal cual, las 0xD0-0xE3 restan 0x52 y las 0xF1+ restan 0x5F; las 0x7E-0xCF y 0xE4-0xF0 no tienen), con la sala a la que se sale por arriba, abajo, izquierda y derecha (0xC133 - 1 elige el byte, p01:63FC-6462; 0xFF = no hay); lo leen p00:4302 (624 bytes)
 F 0x8E0E 4
 D 0x907E 0x9088 actores_de_la_sala_1  [cuantos (nibble bajo)] y 3 ternas [tipo][y][x]: p00:5660 crea un actor por terna (L_569A; la Y va a (ix+3) y la X a (ix+5), p00:5727/572B, y p00:5526 suma (ix+3) a la Y del sprite); lo leen p00:5660 (10 bytes)
 F 0x907E 1,3

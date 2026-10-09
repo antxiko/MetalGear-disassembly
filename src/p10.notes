@@ -86,7 +86,7 @@ D 0x6377 0x637E sprites_del_juego_27  ternas [patron][origen lo][origen hi] hast
 F 0x6377 3
 D 0x637E 0x6388 sprites_del_juego_28  ternas [patron][origen lo][origen hi] hasta 0xFF: cada una, unos patrones comprimidos que p00:4A69 descomprime en la VRAM 0xF800 + 8 x patron (L_4DD5); lo leen p00:4A57 (10 bytes)
 F 0x637E 3
-D 0x6392 0x63B0 indice_de_patrones_de_las_armas  15 punteros, armas 1-15 (0xC134), a los patrones comprimidos del proyectil: p00:4BFF los lee con L_42B4 y L_4DD5 los descomprime en la VRAM 0xF880; las armas 4 y 7 no cargan nada (p00:4BF6) y su palabra (0x63A0) apunta aqui dentro; lo leen p00:4BFF (30 bytes)
+D 0x6392 0x63B0 indice_de_patrones_de_las_armas  15 punteros a patrones comprimidos de proyectil que L_4DD5 descomprime en la VRAM 0xF880: p00:4BFF elige el del arma (0xC134) al entrar en la sala, salvo ROCKET (4) y MISSILE (7), que cargan el suyo al disparar segun la direccion (0xC185) con L_4C2E: 0x63A0 + 2 x (direccion - 1) el cohete (p02:86A1) y 0x63A8 el misil (p02:8886, 88CE); la palabra de las armas 4 y 7 (0x63A0) no la lee nadie; lo leen p00:4BFF (30 bytes)
 F 0x6392 w5
 D 0x63B0 0x63C8 indice_de_atributos_de_las_armas  12 punteros a listas de atributos por cuadro ((ix+0x0B)): p00:53E0; lo leen p00:53E0 (24 bytes)
 F 0x63B0 w8

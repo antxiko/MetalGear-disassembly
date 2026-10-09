@@ -493,11 +493,13 @@ DATA_lista_de_sprites_sin_indice:
 	defb 050h,013h,098h,060h,0a4h,089h,0e0h,06ah,095h,0ffh	; 6388  P..`...j..
 
 ; ----------------------------------------------------------------------
-; DATOS indice_de_patrones_de_las_armas: 15 punteros, armas 1-15 (0xC134), a
-;   los patrones comprimidos del proyectil: p00:4BFF los lee con L_42B4 y
-;   L_4DD5 los descomprime en la VRAM 0xF880; las armas 4 y 7 no cargan nada
-;   (p00:4BF6) y su palabra (0x63A0) apunta aqui dentro; lo leen p00:4BFF (30
-;   bytes)
+; DATOS indice_de_patrones_de_las_armas: 15 punteros a patrones comprimidos de
+;   proyectil que L_4DD5 descomprime en la VRAM 0xF880: p00:4BFF elige el del
+;   arma (0xC134) al entrar en la sala, salvo ROCKET (4) y MISSILE (7), que
+;   cargan el suyo al disparar segun la direccion (0xC185) con L_4C2E: 0x63A0
+;   + 2 x (direccion - 1) el cohete (p02:86A1) y 0x63A8 el misil (p02:8886,
+;   88CE); la palabra de las armas 4 y 7 (0x63A0) no la lee nadie; lo leen
+;   p00:4BFF (30 bytes)
 ;   0x6392..0x63b0  (30 bytes)
 DATA_indice_de_patrones_de_las_armas:
 	defw 09813h,09813h,0981eh,063a0h,09922h	; 6392

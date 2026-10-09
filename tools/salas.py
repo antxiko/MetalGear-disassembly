@@ -217,16 +217,17 @@ def indice_de_vecinas(r):
     return r - 0x5F
 
 
-# El lado por el que se sale (0xC133 = 1-4) se lee en el mismo orden que la
-# direccion del jugador (0xC185): las velocidades de la bala (p02:83E6) dan
-# 1 = izquierda (dx -6), 2 = derecha (dx +6), 3 = arriba (dy -6), 4 = abajo.
-# SUPOSICION: que 0xC133 y 0xC185 usan el mismo codigo; la simetria de las
-# vecinas (ver `salas.py vecinas`) es la prueba.
-LADOS = ("izquierda", "derecha", "arriba", "abajo")
+# El lado por el que se sale (0xC133 = 1-4) lo pone p01:63FC-6462 al pisar
+# el borde: Y < 0x10 -> 1 arriba, Y >= 0xBA -> 2 abajo, X < 0x0C -> 3
+# izquierda, X >= 0xF4 -> 4 derecha (la Y en 0xC181, la X en 0xC183, de
+# L_647D y L_6471); L_42E6 lee la vecina [0xC133 - 1]. La direccion del
+# jugador (0xC185) va en el mismo orden: p02:83B6 pone el primer byte de
+# p02:83E6 en (ix+8), la velocidad de la Y.
+LADOS = ("arriba", "abajo", "izquierda", "derecha")
 
 
 def vecinas(r):
-    """[izquierda, derecha, arriba, abajo] de la sala (None si no hay)."""
+    """[arriba, abajo, izquierda, derecha] de la sala (None si no hay)."""
     i = indice_de_vecinas(r)
     if i is None:
         return [None] * 4

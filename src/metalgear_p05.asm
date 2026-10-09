@@ -956,10 +956,11 @@ DATA_ascensor_8E09:
 	defb 028h,0b8h,073h,0b4h,0b8h	; 8e09
 
 ; ----------------------------------------------------------------------
-; DATOS salas_vecinas: 156 fichas de 4 bytes, una por sala (p00:4302: las
-;   salas 0x7E-0xCF restan 0x52 y las 0xD0-0xE3 y 0xF1+ restan 0x5F), con la
-;   sala a la que se sale por cada lado (0xC133 - 1 elige el byte; 0xFF = no
-;   hay); lo leen p00:4302 (624 bytes)
+; DATOS salas_vecinas: 156 fichas de 4 bytes, una por sala (L_42E6: las salas
+;   < 0x7E van tal cual, las 0xD0-0xE3 restan 0x52 y las 0xF1+ restan 0x5F;
+;   las 0x7E-0xCF y 0xE4-0xF0 no tienen), con la sala a la que se sale por
+;   arriba, abajo, izquierda y derecha (0xC133 - 1 elige el byte,
+;   p01:63FC-6462; 0xFF = no hay); lo leen p00:4302 (624 bytes)
 ;   0x8e0e..0x907e  (624 bytes)
 DATA_salas_vecinas:
 	defb 001h,079h,0ffh,004h	; 8e0e

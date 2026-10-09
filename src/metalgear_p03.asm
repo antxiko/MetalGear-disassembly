@@ -1317,7 +1317,7 @@ L_A90E:
 	jr L_A8FE		;a90e
 
 ; ----------------------------------------------------------------------
-; DATOS velocidades_a910: dos juegos de 4 parejas [dx][dy], uno por direccion:
+; DATOS velocidades_a910: dos juegos de 4 parejas [dy][dx], uno por direccion:
 ;   p03:A8FB lee 0xA90E + 2 x (ix+0x11) y p03:A90B 0xA916 + 2 x (ix+0x11), con
 ;   L_42B4, y las pone en (ix+8)/(ix+0xA)
 ;   0xa910..0xa920  (16 bytes)
@@ -2388,7 +2388,7 @@ L_B1CE:
 	ret			;b1dd
 
 ; ----------------------------------------------------------------------
-; DATOS velocidad_b1de: 4 parejas [dx][dy] (-1, 1) que p03:B1D1 lee en 0xB1DC
+; DATOS velocidad_b1de: 4 parejas [dy][dx] (-1, 1) que p03:B1D1 lee en 0xB1DC
 ;   + 2 x (ix+0x11) con L_42B4
 ;   0xb1de..0xb1e6  (8 bytes)
 DATA_velocidad_b1de:
@@ -2839,8 +2839,8 @@ L_B53A:
 	jr L_B4D4		;b540
 
 ; ----------------------------------------------------------------------
-; DATOS velocidad_b542: 4 parejas [dx][dy] (-8, 8) que p03:B497 lee en 0xB542
-;   + 2 x (ix+0x11)
+; DATOS velocidad_b542: 4 parejas [dy][dx] (-8, 8) que p03:B497 lee en 0xB542
+;   + 2 x (ix+0x11) y suma a (ix+3) y (ix+5)
 ;   0xb542..0xb54a  (8 bytes)
 DATA_velocidad_b542:
 	defb 0f8h,000h	; b542

@@ -584,15 +584,21 @@ def sprites():
                 "unos patrones comprimidos que p00:4A69 descomprime en la VRAM "
                 "0xF800 + 8 x patron (L_4DD5)", "p00:4A57", F=3)
     declara(T, 0x6392, 0x63B0, "indice_de_patrones_de_las_armas",
-            "15 punteros, armas 1-15 (0xC134), a los patrones comprimidos del "
-            "proyectil: p00:4BFF los lee con L_42B4 y L_4DD5 los descomprime en "
-            "la VRAM 0xF880; las armas 4 y 7 no cargan nada (p00:4BF6) y su "
-            "palabra (0x63A0) apunta aqui dentro", "p00:4BFF", F="w5")
+            "15 punteros a patrones comprimidos de proyectil que L_4DD5 "
+            "descomprime en la VRAM 0xF880: p00:4BFF elige el del arma (0xC134) "
+            "al entrar en la sala, salvo ROCKET (4) y MISSILE (7), que cargan el "
+            "suyo al disparar segun la direccion (0xC185) con L_4C2E: 0x63A0 + 2 "
+            "x (direccion - 1) el cohete (p02:86A1) y 0x63A8 el misil (p02:8886, "
+            "88CE); la palabra de las armas 4 y 7 (0x63A0) no la lee nadie",
+            "p00:4BFF", F="w5")
     for k in range(15):
         if k + 1 in (4, 7):
-            continue            # p00:4BF6-4BFC: las armas 4 y 7 no cargan patrones
+            continue            # p00:4BF6-4BFC: las armas 4 y 7 no cargan aqui
         d = palabra(T, 0x6392 + 2 * k)
-        rles.setdefault(d, []).append("arma %d" % (k + 1))
+        rles.setdefault(d, []).append(
+            "arma %d" % (k + 1) if k < 7 else
+            "%s hacia %s" % ("ROCKET" if k < 11 else "MISSILE",
+                             ("arriba", "abajo", "la izquierda", "la derecha")[(k - 7) % 4]))
     rles.setdefault(0x773E, []).append("p00:4C26 (VRAM 0xF900)")
     rles.setdefault(0x77D3, []).append("p00:4C1E (VRAM 0xF8C0)")
     for src in sorted(rles):
@@ -738,9 +744,11 @@ def banco5():
                 "0xC197/0xC198 y ternas [sala][b][c] que p00:431F busca por la "
                 "sala de 0xC136", "p00:432D")
     declara(T, 0x8E0E, 0x907E, "salas_vecinas",
-            "156 fichas de 4 bytes, una por sala (p00:4302: las salas 0x7E-0xCF "
-            "restan 0x52 y las 0xD0-0xE3 y 0xF1+ restan 0x5F), con la sala a la "
-            "que se sale por cada lado (0xC133 - 1 elige el byte; 0xFF = no hay)",
+            "156 fichas de 4 bytes, una por sala (L_42E6: las salas < 0x7E van "
+            "tal cual, las 0xD0-0xE3 restan 0x52 y las 0xF1+ restan 0x5F; las "
+            "0x7E-0xCF y 0xE4-0xF0 no tienen), con la sala a la que se sale por "
+            "arriba, abajo, izquierda y derecha (0xC133 - 1 elige el byte, "
+            "p01:63FC-6462; 0xFF = no hay)",
             "p00:4302", F=4)
     n = 222
     declara(T, 0x9560, 0x9560 + 2 * n, "indice_de_actores_por_sala",

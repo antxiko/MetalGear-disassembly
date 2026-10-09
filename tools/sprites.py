@@ -107,14 +107,26 @@ def patrones_de_snake(k):
     return vram
 
 
-def patrones_del_arma(w):
-    """p00:4BF6-4C08: los patrones del proyectil del arma w (1-15, 0xC134)
-    de p10:6392 en la VRAM 0xF880 (patron 0x10); las armas 4 y 7 no cargan
-    nada. Devuelve los 2048 bytes."""
+def patrones_del_arma(w, direccion=1):
+    """Los patrones del arma w (0xC134) en la VRAM. Al entrar en la sala,
+    p00:4BF6-4C08 pone el proyectil (p10:6392[w - 1]) en 0xF880 (patron
+    0x10), salvo ROCKET (4) y MISSILE (7), y p00:4C0B-4C29 la explosion:
+    p10:773E en 0xF900 (patrones 0x20-0x37) con las armas 3 y 6, p10:77D3
+    en 0xF8C0 (0x18-0x37) con la 4, la 5 y de la 7 en adelante. ROCKET y
+    MISSILE cargan su proyectil al disparar, segun la direccion (0xC185:
+    1 arriba, 2 abajo, 3 izquierda, 4 derecha): L_4C2E con p10:63A0
+    (p02:86A1) o p10:63A8 (p02:8886) en 0xF880. Devuelve los 2048 bytes."""
     vram = bytearray(2048)
     if w in (4, 7):
-        return vram
-    descomprime(10, palabra(10, 0x6392 + 2 * (w - 1)), VRAM_PATRONES + 0x80, vram)
+        tabla = 0x63A0 if w == 4 else 0x63A8
+        origen = palabra(10, tabla + 2 * (direccion - 1))
+    else:
+        origen = palabra(10, 0x6392 + 2 * (w - 1))
+    descomprime(10, origen, VRAM_PATRONES + 0x80, vram)
+    if w in (3, 6):
+        descomprime(10, 0x773E, VRAM_PATRONES + 0x100, vram)
+    elif w >= 4:
+        descomprime(10, 0x77D3, VRAM_PATRONES + 0xC0, vram)
     return vram
 
 

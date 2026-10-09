@@ -20,9 +20,25 @@ class Salas(unittest.TestCase):
         if not os.path.exists(ROM):
             raise unittest.SkipTest("hace falta metalgear.rom")
 
+    def test_el_orden_de_los_lados_es_el_del_codigo(self):
+        """p01:63FC-6462 pone 0xC133 al pisar el borde: la X (0xC183, L_6471)
+        < 0x0C da 3 y la Y (0xC181, L_647D) < 0x10 da 1. La simetria de las
+        vecinas no lo decide (una trasposicion tambien cuadra)."""
+        import salas as S
+        with open(ROM, "rb") as f:
+            rom = f.read()
+
+        def p01(a, n):
+            return rom[0x2000 + a - 0x6000:0x2000 + a - 0x6000 + n]
+        self.assertEqual(p01(0x6471, 7), bytes.fromhex("ED5B88C12A83C1"))
+        self.assertEqual(p01(0x647D, 7), bytes.fromhex("ED5B86C12A81C1"))
+        self.assertEqual(p01(0x63FC, 8), bytes.fromhex("CD71647CFE0C0E03"))
+        self.assertEqual(p01(0x640D, 8), bytes.fromhex("CD7D647CFE100E01"))
+        self.assertEqual(S.LADOS, ("arriba", "abajo", "izquierda", "derecha"))
+
     def test_las_vecinas_son_simetricas(self):
         """Si A sale por la derecha a B, B sale por la izquierda a A: con el
-        orden izquierda-derecha-arriba-abajo cuadran 332 de 335 sin contar
+        orden arriba-abajo-izquierda-derecha cuadran 332 de 335 sin contar
         las salas que se apuntan a si mismas (las tres que no, 222 y 227,
         son de un solo sentido en la ROM)."""
         import salas as S

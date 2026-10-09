@@ -449,10 +449,10 @@ L_82C9:
 	ret			;82ca
 
 ; ----------------------------------------------------------------------
-; DATOS cajas_de_choque: 12 fichas de 4 bytes, dos parejas [dx][dy] cada una,
-;   que p02:82AA recorre (B = 2) sumando a la posicion y mirando en 0xC700 si
-;   la ficha choca (L_5C09); p02:82A1 elige la ficha con 0x82C7 + 4 x (4 x B +
-;   C)
+; DATOS cajas_de_choque: 12 fichas de 4 bytes, dos parejas [dy][dx] cada una,
+;   que p02:82AA recorre (B = 2) sumando a la posicion (la Y en 0xEC00, la X
+;   en 0xEC01) y mirando en 0xC700 si la ficha choca (L_5C09); p02:82A1 elige
+;   la ficha con 0x82C7 + 4 x (4 x B + C)
 ;   0x82cb..0x82fb  (48 bytes)
 DATA_cajas_de_choque:
 	defb 0fbh,0fah,0fbh,005h	; 82cb
@@ -600,8 +600,9 @@ L_83DB:
 	jp 053dah		;83e3
 
 ; ----------------------------------------------------------------------
-; DATOS velocidad_de_la_bala: 4 parejas [dx][dy], una por direccion 1-4
-;   (0xC185): p02:83B6 lee 0x83E6 + 2 x (direccion - 1) con L_41DE
+; DATOS velocidad_de_la_bala: 4 parejas [dy][dx], una por direccion 1-4
+;   (0xC185: arriba, abajo, izquierda, derecha; p01:63FC): p02:83B6 lee 0x83E6
+;   + 2 x (direccion - 1) con L_41DE
 ;   0x83e6..0x83ee  (8 bytes)
 DATA_velocidad_de_la_bala:
 	defb 0fah,000h	; 83e6
@@ -715,8 +716,9 @@ L_84AD:
 	jp 053dah		;84b5
 
 ; ----------------------------------------------------------------------
-; DATOS velocidades_de_la_metralleta: 16 fichas de 8 bytes, 4 parejas [dx][dy]
-;   cada una: p02:847E lee 0x84B8 + 8 x A + 2 x (0xC19F - 1)
+; DATOS velocidades_de_la_metralleta: 16 fichas de 8 bytes: p02:847E lee 4
+;   bytes desde 0x84B8 + 8 x A + 2 x (0xC19F - 1), la velocidad de la Y
+;   (ix+7/8) y la de la X (ix+9/0xA), de 16 bits
 ;   0x84b8..0x8538  (128 bytes)
 DATA_velocidades_de_la_metralleta:
 	defb 000h,0fah,000h,000h,000h,0fah,080h,0feh	; 84b8  ........
@@ -788,7 +790,7 @@ L_8538:
 	jp 053dah		;85a6
 
 ; ----------------------------------------------------------------------
-; DATOS velocidad_de_la_granada: 4 parejas [dx][dy] por direccion (p02:8586 ->
+; DATOS velocidad_de_la_granada: 4 parejas [dy][dx] por direccion (p02:8586 ->
 ;   L_41DE)
 ;   0x85a9..0x85b1  (8 bytes)
 DATA_velocidad_de_la_granada:
@@ -922,7 +924,7 @@ L_8632:
 	jp 053dah		;86a7
 
 ; ----------------------------------------------------------------------
-; DATOS velocidad_del_cohete: 4 parejas [dx][dy] por direccion (p02:8684 ->
+; DATOS velocidad_del_cohete: 4 parejas [dy][dx] por direccion (p02:8684 ->
 ;   L_41DE)
 ;   0x86aa..0x86b2  (8 bytes)
 DATA_velocidad_del_cohete:
@@ -1192,7 +1194,7 @@ L_8868:
 	jp 053dah		;888c
 
 ; ----------------------------------------------------------------------
-; DATOS velocidad_888f: 4 parejas [dx][dy] por direccion (p02:886E -> L_41DE)
+; DATOS velocidad_888f: 4 parejas [dy][dx] por direccion (p02:886E -> L_41DE)
 ;   0x888f..0x8897  (8 bytes)
 DATA_velocidad_888f:
 	defb 0fch,000h	; 888f
@@ -1452,9 +1454,9 @@ L_8A44:
 	jp 04284h		;8a58
 
 ; ----------------------------------------------------------------------
-; DATOS alcance_del_punetazo: 4 parejas [dx][dy] que p02:8A67 usa segun la
-;   direccion (0xC185): 0x8A5B arriba, 0x8A61 abajo, 0x8A5D izquierda y 0x8A63
-;   derecha (p02:8A30-8A41); se solapan
+; DATOS alcance_del_punetazo: fichas de 4 bytes [dy][margen en Y][dx][margen
+;   en X] que p02:8A67 usa segun la direccion (0xC185): 0x8A5B arriba, 0x8A61
+;   abajo, 0x8A5D izquierda y 0x8A63 derecha (p02:8A30-8A41); se solapan
 ;   0x8a5b..0x8a67  (12 bytes)
 DATA_alcance_del_punetazo:
 	defb 00ch,00ch	; 8a5b
@@ -3967,7 +3969,7 @@ L_9BCD:
 	ret			;9bdc
 
 ; ----------------------------------------------------------------------
-; DATOS velocidad_9bdd: 4 parejas [dx][dy], una por direccion (ix+0x11) = 1-4:
+; DATOS velocidad_9bdd: 4 parejas [dy][dx], una por direccion (ix+0x11) = 1-4:
 ;   p02:9BD0 lee 0x9BDB + 2 x direccion con L_42B4 y las pone en
 ;   (ix+8)/(ix+0xA)
 ;   0x9bdd..0x9be5  (8 bytes)
@@ -3997,8 +3999,8 @@ L_9BE5:
 	jp L_8298		;9bf9
 
 ; ----------------------------------------------------------------------
-; DATOS velocidad_9bfc: 4 parejas [dx][dy] que p02:9BE6 lee en 0x9BFA + 2 x C
-;   con L_42B4 y suma a (ix+3)
+; DATOS velocidad_9bfc: 4 parejas [dy][dx] que p02:9BE6 lee en 0x9BFA + 2 x C
+;   con L_42B4 y suma a (ix+3) y (ix+5)
 ;   0x9bfc..0x9c04  (8 bytes)
 DATA_velocidad_9bfc:
 	defb 0f8h,000h	; 9bfc

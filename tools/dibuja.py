@@ -66,7 +66,7 @@ def pinta_sala(r, img=None, x0=0, y0=0, puertas=True, objetos=True, jefes=True):
 
 def salidas(r):
     """Las vecinas de verdad: sin 0xFF, sin la propia sala (las salas 64-69
-    se apuntan a si mismas arriba y abajo) y sin los ascensores."""
+    se apuntan a si mismas a izquierda y derecha) y sin los ascensores."""
     out = []
     for k, v in enumerate(S.vecinas(r)):
         if v is not None and v != r and v < 0xF0 and S.es_sala(v):
@@ -92,7 +92,7 @@ def zonas():
             r = cola.popleft()
             x, y = pos[r]
             for v, k in salidas(r):
-                nx, ny = x + (-1, 1, 0, 0)[k], y + (0, 0, -1, 1)[k]
+                nx, ny = x + (0, 0, -1, 1)[k], y + (-1, 1, 0, 0)[k]
                 if v in pos:
                     if pos[v] != (nx, ny):
                         choques.append((r, S.LADOS[k], v, pos[v], (nx, ny)))

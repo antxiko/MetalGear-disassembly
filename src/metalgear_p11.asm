@@ -575,7 +575,7 @@ DATA_patrones_981E:
 ; ----------------------------------------------------------------------
 ; DATOS patrones_9870: patrones de sprite comprimidos (n < 0x80 repite el byte
 ;   siguiente n veces, n == 0x80 trae otro destino, n > 0x80 copia n & 0x7F
-;   bytes, 0 acaba; L_4DD5): arma 8; lo leen p00:4DD5 (54 bytes)
+;   bytes, 0 acaba; L_4DD5): ROCKET hacia arriba; lo leen p00:4DD5 (54 bytes)
 ;   0x9870..0x98a6  (54 bytes)
 DATA_patrones_9870:
 	defb 082h,000h,001h,005h,003h,002h,001h,004h,003h,085h,002h,000h,000h,080h,040h,005h	; 9870  ..............@.
@@ -586,7 +586,8 @@ DATA_patrones_9870:
 ; ----------------------------------------------------------------------
 ; DATOS patrones_98A6: patrones de sprite comprimidos (n < 0x80 repite el byte
 ;   siguiente n veces, n == 0x80 trae otro destino, n > 0x80 copia n & 0x7F
-;   bytes, 0 acaba; L_4DD5): arma 11; lo leen p00:4DD5 (35 bytes)
+;   bytes, 0 acaba; L_4DD5): ROCKET hacia la derecha; lo leen p00:4DD5 (35
+;   bytes)
 ;   0x98a6..0x98c9  (35 bytes)
 DATA_patrones_98A6:
 	defb 006h,000h,085h,03eh,01fh,00eh,011h,03eh,00bh,000h,085h,07ch,0feh,001h,0feh,07ch	; 98a6  ...>...>...|...|
@@ -596,7 +597,7 @@ DATA_patrones_98A6:
 ; ----------------------------------------------------------------------
 ; DATOS patrones_98C9: patrones de sprite comprimidos (n < 0x80 repite el byte
 ;   siguiente n veces, n == 0x80 trae otro destino, n > 0x80 copia n & 0x7F
-;   bytes, 0 acaba; L_4DD5): arma 9; lo leen p00:4DD5 (54 bytes)
+;   bytes, 0 acaba; L_4DD5): ROCKET hacia abajo; lo leen p00:4DD5 (54 bytes)
 ;   0x98c9..0x98ff  (54 bytes)
 DATA_patrones_98C9:
 	defb 002h,000h,082h,004h,006h,003h,005h,002h,002h,005h,006h,085h,002h,001h,000h,000h	; 98c9  ................
@@ -607,7 +608,8 @@ DATA_patrones_98C9:
 ; ----------------------------------------------------------------------
 ; DATOS patrones_98FF: patrones de sprite comprimidos (n < 0x80 repite el byte
 ;   siguiente n veces, n == 0x80 trae otro destino, n > 0x80 copia n & 0x7F
-;   bytes, 0 acaba; L_4DD5): arma 10; lo leen p00:4DD5 (35 bytes)
+;   bytes, 0 acaba; L_4DD5): ROCKET hacia la izquierda; lo leen p00:4DD5 (35
+;   bytes)
 ;   0x98ff..0x9922  (35 bytes)
 DATA_patrones_98FF:
 	defb 005h,000h,085h,03eh,07fh,080h,07fh,03eh,00bh,000h,085h,07ch,088h,070h,0f8h,07ch	; 98ff  ...>...>...|.p.|
@@ -659,7 +661,7 @@ DATA_patrones_999A:
 ; ----------------------------------------------------------------------
 ; DATOS patrones_9A56: patrones de sprite comprimidos (n < 0x80 repite el byte
 ;   siguiente n veces, n == 0x80 trae otro destino, n > 0x80 copia n & 0x7F
-;   bytes, 0 acaba; L_4DD5): arma 12; lo leen p00:4DD5 (45 bytes)
+;   bytes, 0 acaba; L_4DD5): MISSILE hacia arriba; lo leen p00:4DD5 (45 bytes)
 ;   0x9a56..0x9a83  (45 bytes)
 DATA_patrones_9A56:
 	defb 083h,000h,001h,001h,008h,000h,002h,001h,082h,005h,004h,00eh,000h,002h,040h,088h	; 9a56  ..............@.
@@ -669,7 +671,8 @@ DATA_patrones_9A56:
 ; ----------------------------------------------------------------------
 ; DATOS patrones_9A83: patrones de sprite comprimidos (n < 0x80 repite el byte
 ;   siguiente n veces, n == 0x80 trae otro destino, n > 0x80 copia n & 0x7F
-;   bytes, 0 acaba; L_4DD5): arma 15; lo leen p00:4DD5 (33 bytes)
+;   bytes, 0 acaba; L_4DD5): MISSILE hacia la derecha; lo leen p00:4DD5 (33
+;   bytes)
 ;   0x9a83..0x9aa4  (33 bytes)
 DATA_patrones_9A83:
 	defb 005h,000h,085h,060h,000h,038h,000h,060h,00dh,000h,081h,006h,00ch,000h,087h,0e0h	; 9a83  ...`.8.`........
@@ -679,7 +682,7 @@ DATA_patrones_9A83:
 ; ----------------------------------------------------------------------
 ; DATOS patrones_9AA4: patrones de sprite comprimidos (n < 0x80 repite el byte
 ;   siguiente n veces, n == 0x80 trae otro destino, n > 0x80 copia n & 0x7F
-;   bytes, 0 acaba; L_4DD5): arma 13; lo leen p00:4DD5 (45 bytes)
+;   bytes, 0 acaba; L_4DD5): MISSILE hacia abajo; lo leen p00:4DD5 (45 bytes)
 ;   0x9aa4..0x9ad1  (45 bytes)
 DATA_patrones_9AA4:
 	defb 083h,000h,002h,002h,00eh,000h,084h,020h,0a0h,080h,080h,008h,000h,002h,080h,085h	; 9aa4  ....... ........
@@ -689,7 +692,8 @@ DATA_patrones_9AA4:
 ; ----------------------------------------------------------------------
 ; DATOS patrones_9AD1: patrones de sprite comprimidos (n < 0x80 repite el byte
 ;   siguiente n veces, n == 0x80 trae otro destino, n > 0x80 copia n & 0x7F
-;   bytes, 0 acaba; L_4DD5): arma 14; lo leen p00:4DD5 (33 bytes)
+;   bytes, 0 acaba; L_4DD5): MISSILE hacia la izquierda; lo leen p00:4DD5 (33
+;   bytes)
 ;   0x9ad1..0x9af2  (33 bytes)
 DATA_patrones_9AD1:
 	defb 008h,000h,081h,060h,00dh,000h,085h,006h,000h,01ch,000h,006h,00bh,000h,085h,006h	; 9ad1  ...`............

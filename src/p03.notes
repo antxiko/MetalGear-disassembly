@@ -5,11 +5,11 @@ D 0xA000 0xA001 tercer_byte_del_jp_de_p02_9FFE  el byte alto (5B) del `jp 0x5BA6
 D 0xA045 0xA049 limites_a045  4 bytes (0x10, 0x58, 0xC0, 0xF0): p03:A00A lee 0xA043 + 2 x (ix+0x0F) y compara (ix+5) con el byte
 D 0xA5E4 0xA5F4 velocidades_a5e4  8 palabras (0x40, 0x80, 0xC0, 0x100, 0x100, 0xC0, 0x80, 0x40) que p03:A578 recorre con C = (ix+0x30): la velocidad del puente
 F 0xA5E4 w8
-D 0xA910 0xA920 velocidades_a910  dos juegos de 4 parejas [dx][dy], uno por direccion: p03:A8FB lee 0xA90E + 2 x (ix+0x11) y p03:A90B 0xA916 + 2 x (ix+0x11), con L_42B4, y las pone en (ix+8)/(ix+0xA)
+D 0xA910 0xA920 velocidades_a910  dos juegos de 4 parejas [dy][dx], uno por direccion: p03:A8FB lee 0xA90E + 2 x (ix+0x11) y p03:A90B 0xA916 + 2 x (ix+0x11), con L_42B4, y las pone en (ix+8)/(ix+0xA)
 F 0xA910 2
-D 0xB1DE 0xB1E6 velocidad_b1de  4 parejas [dx][dy] (-1, 1) que p03:B1D1 lee en 0xB1DC + 2 x (ix+0x11) con L_42B4
+D 0xB1DE 0xB1E6 velocidad_b1de  4 parejas [dy][dx] (-1, 1) que p03:B1D1 lee en 0xB1DC + 2 x (ix+0x11) con L_42B4
 F 0xB1DE 2
-D 0xB542 0xB54A velocidad_b542  4 parejas [dx][dy] (-8, 8) que p03:B497 lee en 0xB542 + 2 x (ix+0x11)
+D 0xB542 0xB54A velocidad_b542  4 parejas [dy][dx] (-8, 8) que p03:B497 lee en 0xB542 + 2 x (ix+0x11) y suma a (ix+3) y (ix+5)
 F 0xB542 2
 D 0xB68F 0xB693 patrones_b68f  4 numeros de patron (0x5E, 0x5F, 0x60, 0x5F) que p03:B67E lee con los bits 1-2 de (ix+0x0C)
 D 0xB9AB 0xB9B1 palabras_b9ab  3 palabras, tipos de actor 0x73-0x75: p03:B998 lee 0xB9AB + 2 x (tipo - 0x73) con L_42B4 y las guarda en (ix+0x25)/(ix+0x2A)

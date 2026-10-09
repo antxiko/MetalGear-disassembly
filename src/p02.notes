@@ -7,23 +7,23 @@ F 0x8037 4
 D 0x806C 0x80A3 salas_806c  55 numeros de sala que p02:805D compara con 0xC130 (B = 0x37): si esta, vuelve sin hacer nada
 F 0x806C 16
 D 0x8140 0x8147 tabla_por_arma  7 bytes (1, 1, 2, 4, 4, 2, 4), uno por arma 1-7: p02:80ED lee 0x8140 + arma - 1 (0xC134) y lo deja en C
-D 0x82CB 0x82FB cajas_de_choque  12 fichas de 4 bytes, dos parejas [dx][dy] cada una, que p02:82AA recorre (B = 2) sumando a la posicion y mirando en 0xC700 si la ficha choca (L_5C09); p02:82A1 elige la ficha con 0x82C7 + 4 x (4 x B + C)
+D 0x82CB 0x82FB cajas_de_choque  12 fichas de 4 bytes, dos parejas [dy][dx] cada una, que p02:82AA recorre (B = 2) sumando a la posicion (la Y en 0xEC00, la X en 0xEC01) y mirando en 0xC700 si la ficha choca (L_5C09); p02:82A1 elige la ficha con 0x82C7 + 4 x (4 x B + C)
 F 0x82CB 4
-D 0x83E6 0x83EE velocidad_de_la_bala  4 parejas [dx][dy], una por direccion 1-4 (0xC185): p02:83B6 lee 0x83E6 + 2 x (direccion - 1) con L_41DE
+D 0x83E6 0x83EE velocidad_de_la_bala  4 parejas [dy][dx], una por direccion 1-4 (0xC185: arriba, abajo, izquierda, derecha; p01:63FC): p02:83B6 lee 0x83E6 + 2 x (direccion - 1) con L_41DE
 F 0x83E6 2
-D 0x84B8 0x8538 velocidades_de_la_metralleta  16 fichas de 8 bytes, 4 parejas [dx][dy] cada una: p02:847E lee 0x84B8 + 8 x A + 2 x (0xC19F - 1)
+D 0x84B8 0x8538 velocidades_de_la_metralleta  16 fichas de 8 bytes: p02:847E lee 4 bytes desde 0x84B8 + 8 x A + 2 x (0xC19F - 1), la velocidad de la Y (ix+7/8) y la de la X (ix+9/0xA), de 16 bits
 F 0x84B8 8
-D 0x85A9 0x85B1 velocidad_de_la_granada  4 parejas [dx][dy] por direccion (p02:8586 -> L_41DE)
+D 0x85A9 0x85B1 velocidad_de_la_granada  4 parejas [dy][dx] por direccion (p02:8586 -> L_41DE)
 F 0x85A9 2
 D 0x85E3 0x85FC parabola_de_la_granada  25 bytes (0x10, 8, 0, -4, -8 ... -0x26 ... 0), uno por cuadro (ix+2), que p02:85C7 lee en 0x85E3 + cuadro y usa como parte alta de la altura
-D 0x86AA 0x86B2 velocidad_del_cohete  4 parejas [dx][dy] por direccion (p02:8684 -> L_41DE)
+D 0x86AA 0x86B2 velocidad_del_cohete  4 parejas [dy][dx] por direccion (p02:8684 -> L_41DE)
 F 0x86AA 2
 D 0x8753 0x8763 fichas_8753  4 fichas de 4 bytes, una por direccion, que p02:8722 lee en 0x8753 + 4 x A
 F 0x8753 4
-D 0x888F 0x8897 velocidad_888f  4 parejas [dx][dy] por direccion (p02:886E -> L_41DE)
+D 0x888F 0x8897 velocidad_888f  4 parejas [dy][dx] por direccion (p02:886E -> L_41DE)
 F 0x888F 2
 D 0x8A11 0x8A1D tipos_8a11  12 tipos de actor (4, 5, 0x1E, 0xA, 0xB, 0xD, 0xE, 0x13, 0x18, 0x1C, 0x30, 0x37) que p02:8A25 compara con (ix+0) (B = 12)
-D 0x8A5B 0x8A67 alcance_del_punetazo  4 parejas [dx][dy] que p02:8A67 usa segun la direccion (0xC185): 0x8A5B arriba, 0x8A61 abajo, 0x8A5D izquierda y 0x8A63 derecha (p02:8A30-8A41); se solapan
+D 0x8A5B 0x8A67 alcance_del_punetazo  fichas de 4 bytes [dy][margen en Y][dx][margen en X] que p02:8A67 usa segun la direccion (0xC185): 0x8A5B arriba, 0x8A61 abajo, 0x8A5D izquierda y 0x8A63 derecha (p02:8A30-8A41); se solapan
 F 0x8A5B 2
 D 0x8B7E 0x8B8A tabla_8b7e  12 bytes (1, 1, 2, 3, 4 ... 0xB) que p02:8B5E lee en 0x8B7E + A - 1 cuando A es menor que 12
 D 0x8C2A 0x8C33 salas_8c2a  9 numeros de sala (0x1D, 0x5E, 0x60, 0x61, 0x62, 0x64, 0x65, 0x70, 0x72) que p02:8C0D compara con 0xC130
@@ -46,9 +46,9 @@ D 0x95B7 0x95BF sprites_95b7  2 fichas de 4 bytes [y][x][patron][color] que p02:
 F 0x95B7 4
 D 0x98DE 0x98EE tabla_98de  16 bytes que p02:9871 lee en 0x98DE + (A / 4) y deja en C
 F 0x98DE 16
-D 0x9BDD 0x9BE5 velocidad_9bdd  4 parejas [dx][dy], una por direccion (ix+0x11) = 1-4: p02:9BD0 lee 0x9BDB + 2 x direccion con L_42B4 y las pone en (ix+8)/(ix+0xA)
+D 0x9BDD 0x9BE5 velocidad_9bdd  4 parejas [dy][dx], una por direccion (ix+0x11) = 1-4: p02:9BD0 lee 0x9BDB + 2 x direccion con L_42B4 y las pone en (ix+8)/(ix+0xA)
 F 0x9BDD 2
-D 0x9BFC 0x9C04 velocidad_9bfc  4 parejas [dx][dy] que p02:9BE6 lee en 0x9BFA + 2 x C con L_42B4 y suma a (ix+3)
+D 0x9BFC 0x9C04 velocidad_9bfc  4 parejas [dy][dx] que p02:9BE6 lee en 0x9BFA + 2 x C con L_42B4 y suma a (ix+3) y (ix+5)
 F 0x9BFC 2
 D 0x9C87 0x9C9E salas_9c87  23 numeros de sala que p02:9C72 busca con cpir (0xC130) y usa la posicion (C) como indice
 F 0x9C87 23

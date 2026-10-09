@@ -126,6 +126,20 @@ class Sprites(unittest.TestCase):
             sp = SP.cuadro_de_arma(k, SP.sprites_del_arma(w))
             self.assertTrue(SP.compone(sp, SP.patrones_del_arma(w)), "arma %d cuadro %d" % (w, k))
 
+    def test_las_explosiones_y_el_cohete_tienen_patrones(self):
+        """Cada sprite de cada cuadro de las armas 1-7 pide un patron que
+        se carga: el proyectil (0x10-0x17), la explosion de p00:4C0B (0x18
+        o 0x20 hasta 0x37) y, en ROCKET y MISSILE, el de su direccion
+        (L_4C2E, p10:63A0 y p10:63A8)."""
+        import sprites as SP
+        for w, (_, cuadros) in SP.CUADROS_DE_ARMA.items():
+            for d in ((1, 2, 3, 4) if w in (4, 7) else (1,)):
+                vram = SP.patrones_del_arma(w, d)
+                for k in cuadros:
+                    for _, _, p, _ in SP.cuadro_de_arma(k, SP.sprites_del_arma(w)):
+                        self.assertTrue(any(vram[8 * p:8 * p + 32]),
+                                        "arma %d dir %d cuadro %d patron 0x%02X" % (w, d, k, p))
+
 
 if __name__ == "__main__":
     unittest.main()

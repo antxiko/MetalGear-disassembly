@@ -208,28 +208,29 @@ def sala_png(r, ruta):
 
 NOMBRE_DE_ARMA = {1: "HAND GUN", 2: "SMG", 3: "GRENADE", 4: "ROCKET", 5: "P.BOMB",
                   6: "L.MINE", 7: "MISSILE"}      # p06:B865 (los nombres del menu)
+LADO = {1: "arriba", 2: "abajo", 3: "la izquierda", 4: "la derecha"}   # 0xC185 (salas.LADOS)
 
 
 def armas_png(ruta, escala):
     """Los proyectiles de las armas 1-7 con los cuadros que ponen sus rutinas
-    (sprites.CUADROS_DE_ARMA) y sus patrones (p10:6392). La 4 y la 7 no
-    cargan patrones, y las explosiones (cuadros 3-5 y 7-9) piden los
-    patrones 0x18-0x37, que el arma no carga (quien los pone: SIN LEER):
-    esos cuadros salen vacios y rotulados."""
+    (sprites.CUADROS_DE_ARMA) con sus patrones y los de la explosion
+    (sprites.patrones_del_arma). ROCKET y MISSILE, una vez por direccion."""
     pal = [S.rgb(c) for c in S.paleta_de_juego()]
     filas = []
     for w, (rutina, cuadros) in sorted(SP.CUADROS_DE_ARMA.items()):
-        vram = SP.patrones_del_arma(w)
         n = SP.sprites_del_arma(w)
-        imgs, rots = [], []
-        for k in cuadros:
-            sp = SP.cuadro_de_arma(k, n, 64, 64)
-            imgs.append(recorte(sp, vram, pal, escala))
-            vacio = not SP.compone(sp, vram)
-            rots.append("cuadro %d%s" % (k, " (sin patrones)" if vacio else ""))
-        titulo = "arma %d %s (%s, %d sprites)%s" % (w, NOMBRE_DE_ARMA[w], rutina, n,
-                                                   ": NO CARGA PATRONES" if w in (4, 7) else "")
-        filas.append(tira(imgs, rots, titulo, escala))
+        for dr in ((1, 2, 3, 4) if w in (4, 7) else (None,)):
+            vram = SP.patrones_del_arma(w, dr or 1)
+            imgs, rots = [], []
+            for k in cuadros:
+                sp = SP.cuadro_de_arma(k, n, 64, 64)
+                imgs.append(recorte(sp, vram, pal, escala))
+                vacio = not SP.compone(sp, vram)
+                rots.append("cuadro %d%s" % (k, " (sin patrones)" if vacio else ""))
+            titulo = "arma %d %s (%s, %d sprites)%s" % (
+                w, NOMBRE_DE_ARMA[w], rutina, n,
+                ", hacia %s" % LADO[dr] if dr else "")
+            filas.append(tira(imgs, rots, titulo, escala))
     out = Image.new("RGB", (max(f.width for f in filas), sum(f.height for f in filas)), FONDO)
     y = 0
     for f in filas:
