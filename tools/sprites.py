@@ -118,6 +118,41 @@ def patrones_del_arma(w):
     return vram
 
 
+# arma (0xC134) -> (rutina de p02 por el despachador p02:80C4, cuadros
+# (ix+0x0B) que pone esa rutina, en orden). La cuenta de sprites (ix+0x20)
+# es p02:8140[arma - 1] (p02:80E9).
+CUADROS_DE_ARMA = {
+    1: ("p02:8364", [0]),                 # p02:83CD
+    2: ("p02:8416", [0]),                 # p02:849F
+    3: ("p02:8538", [1, 3, 4, 5]),        # p02:859D; 8608 y 862C: 3, 4, 5 segun (ix+2)
+    4: ("p02:8632", [2, 7]),              # p02:8698, 86DD
+    5: ("p02:86EC", [6, 7, 8, 9]),        # p02:8747; 8782 y 87A6: 7, 8, 9 segun (ix+2)
+    6: ("p02:87AC", [10, 3]),             # p02:87E7, 880F
+    7: ("p02:8817", [11]),                # p02:8882
+}
+
+
+def sprites_del_arma(w):
+    """p02:80E9: cuantos sprites lleva el proyectil del arma w (p02:8140)."""
+    return leer(1, 0x8140 + w - 1)
+
+
+def cuadro_de_arma(k, n, y=0, x=0):
+    """L_53DA: la lista p10:63B0[k] con n sprites: 0x80 = escondido (un
+    byte); si no, [dy][dx][patron][color] sumados a la Y y la X del actor.
+    Devuelve los (y, x, patron, color) que se ven."""
+    d = palabra(10, 0x63B0 + 2 * k)
+    out = []
+    for _ in range(n):
+        if leer(10, d) == 0x80:
+            d += 1
+            continue
+        dy, dx = con_signo(leer(10, d)), con_signo(leer(10, d + 1))
+        out.append((y + dy, x + dx, leer(10, d + 2), leer(10, d + 3)))
+        d += 4
+    return out
+
+
 def sprite16(vram, patron):
     """Las 16 filas (16 bits, el bit 15 a la izquierda) del sprite de 16 x
     16 cuyo patron es `patron`: 32 bytes desde 0xF800 + 8 x patron, arriba-

@@ -116,6 +116,16 @@ class Sprites(unittest.TestCase):
             for c in cu["todos"]:
                 self.assertEqual(SP.largo_de_cuadro(c), SP.sprites_por_tipo(t))
 
+    def test_los_proyectiles_de_las_armas(self):
+        """p02:8140 da 1, 1, 2, 4, 4, 2, 4 sprites a las armas 1-7; la bala
+        (cuadro 0), la granada (1), la bomba (6) y la mina (10) salen de los
+        patrones que carga su arma (p10:6392)."""
+        import sprites as SP
+        self.assertEqual([SP.sprites_del_arma(w) for w in range(1, 8)], [1, 1, 2, 4, 4, 2, 4])
+        for w, k in ((1, 0), (2, 0), (3, 1), (5, 6), (6, 10)):
+            sp = SP.cuadro_de_arma(k, SP.sprites_del_arma(w))
+            self.assertTrue(SP.compone(sp, SP.patrones_del_arma(w)), "arma %d cuadro %d" % (w, k))
+
 
 if __name__ == "__main__":
     unittest.main()

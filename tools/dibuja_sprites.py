@@ -206,6 +206,38 @@ def sala_png(r, ruta):
     print("%s: %d actores, %d sprites" % (ruta, len(SP.actores_de_sala(r)), n))
 
 
+NOMBRE_DE_ARMA = {1: "HAND GUN", 2: "SMG", 3: "GRENADE", 4: "ROCKET", 5: "P.BOMB",
+                  6: "L.MINE", 7: "MISSILE"}      # p06:B865 (los nombres del menu)
+
+
+def armas_png(ruta, escala):
+    """Los proyectiles de las armas 1-7 con los cuadros que ponen sus rutinas
+    (sprites.CUADROS_DE_ARMA) y sus patrones (p10:6392). La 4 y la 7 no
+    cargan patrones, y las explosiones (cuadros 3-5 y 7-9) piden los
+    patrones 0x18-0x37, que el arma no carga (quien los pone: SIN LEER):
+    esos cuadros salen vacios y rotulados."""
+    pal = [S.rgb(c) for c in S.paleta_de_juego()]
+    filas = []
+    for w, (rutina, cuadros) in sorted(SP.CUADROS_DE_ARMA.items()):
+        vram = SP.patrones_del_arma(w)
+        n = SP.sprites_del_arma(w)
+        imgs, rots = [], []
+        for k in cuadros:
+            sp = SP.cuadro_de_arma(k, n, 64, 64)
+            imgs.append(recorte(sp, vram, pal, escala))
+            vacio = not SP.compone(sp, vram)
+            rots.append("cuadro %d%s" % (k, " (sin patrones)" if vacio else ""))
+        titulo = "arma %d %s (%s, %d sprites)%s" % (w, NOMBRE_DE_ARMA[w], rutina, n,
+                                                   ": NO CARGA PATRONES" if w in (4, 7) else "")
+        filas.append(tira(imgs, rots, titulo, escala))
+    out = Image.new("RGB", (max(f.width for f in filas), sum(f.height for f in filas)), FONDO)
+    y = 0
+    for f in filas:
+        out.paste(f, (0, y))
+        y += f.height
+    out.save(ruta)
+
+
 def main(argv):
     if len(argv) < 3:
         sys.exit(__doc__)
@@ -216,6 +248,8 @@ def main(argv):
         snake_png(argv[2], esc)
     elif argv[1] == "cuadros":
         cuadros_png(argv[2], esc)
+    elif argv[1] == "armas":
+        armas_png(argv[2], esc)
     elif argv[1] == "sala":
         sala_png(int(argv[2], 0), argv[3])
     else:
