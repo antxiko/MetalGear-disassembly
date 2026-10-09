@@ -1559,13 +1559,10 @@ C 0x6A4A lee la frecuencia del transceptor (BCD)
 C 0x6A4E apunta a las llamadas de radio de la sala (fichas de 0x1D)
 C 0x6A58 hl_mas_a: HL = HL + A
 C 0x6A75 llamada_callada: acarreo si la llamada de HL no se oye ahora (casos 0x85, 0x13, 0x79, 0x26, 0x48 y 0x0F)
-C 0x6A7D apunta a el paso del modo
 C 0x6A8C lee el nibble de p12:A2FF de la sala
 C 0x6AC1 lee el nibble de p12:A2FF de la sala
-C 0x6AE6 lee la CLASS (0-3 estrellas)
 C 0x6B09 lee la frecuencia del transceptor (BCD)
 C 0x6B10 digito_de_frecuencia: el digito A (dos caracteres de 0x6B34) en (D, E)
-C 0x6B13 lee la frecuencia del transceptor (BCD)
 C 0x6B1B hl_mas_2a: HL = HL + 2 x A
 C 0x6B1F caracter: copia el caracter A de la pagina 1 a (D, E); con A = 0 o C = 0, el blanco
 C 0x6B28 caracter: copia el caracter A de la pagina 1 a (D, E); con A = 0 o C = 0, el blanco
@@ -1582,12 +1579,10 @@ C 0x6BB9 cierra_ventana: vuelve a la sala: monta la sala, paletas, puertas, obje
 C 0x6BBC lee las teclas de funcion nuevas (F1 1, F2 2, F3 4, F4 8, F5 0x10)
 C 0x6BC1 cierra_ventana: vuelve a la sala: monta la sala, paletas, puertas, objetos y jefes, y la enciende
 C 0x6BC4 lee el paso del modo
-C 0x6BCB apaga_la_pantalla: quita el bit 6 de R#1 y apaga los sprites (R#8)
 C 0x6BCE esconde_los_sprites: llena de 0xE0 las dos tablas de atributos de la VRAM (0xF600 y 0xF200)
 C 0x6BD1 borra_la_pagina_0: llena la pagina 0 de color 0 y pone R#23 a cero
 C 0x6BD4 paleta_del_juego: manda al VDP la paleta p05:8B0B
 C 0x6BD7 apunta a el paso del modo
-C 0x6BDB aprieta_armas: quita los huecos de la lista de armas 0xC500
 C 0x6BDE ventana_de_armas: pinta la ventana de las armas que se llevan (0xC500): dibujo, nombre y municion
 C 0x6BE1 hueco_del_arma: 0xC154 = el hueco de 0xC500 del arma elegida (1 si no esta)
 C 0x6BE4 marca_de_arma: 0xC155 = donde va la marca del hueco 0xC154 en la ventana de armas (p06:B8B0)
@@ -1596,17 +1591,12 @@ C 0x6BEA marcador: LIFE, CLASS, la llamada, el arma y el objeto
 C 0x6BED enciende_la_pantalla: pone el bit 6 de R#1 y enciende los sprites (R#8)
 C 0x6BF0 lee las teclas nuevas (1 arriba, 2 abajo, 4 izq., 8 der., 0x10, 0x20)
 C 0x6BF7 lee las teclas que hay
-C 0x6C10 lee el hueco elegido en la ventana de armas
-C 0x6C1B lee el hueco elegido en la ventana de armas
-C 0x6C28 lee el hueco elegido en la ventana de armas
-C 0x6C35 lee el hueco elegido en la ventana de armas
 C 0x6C40 sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
 C 0x6C43 borra_marca: el caracter 0 en 0xC155
 C 0x6C47 guarda el hueco elegido en la ventana de armas
 C 0x6C4A marca_de_arma: 0xC155 = donde va la marca del hueco 0xC154 en la ventana de armas (p06:B8B0)
 C 0x6C4D pon_marca: el caracter 0x3C en 0xC155
 C 0x6C50 lee la bandera de capturado (sin armas ni objetos)
-C 0x6C59 lee el hueco elegido en la ventana de armas
 C 0x6C5C cuatro_a_menos_4: HL = 4 x (A - 1)
 C 0x6C5F apunta a las armas que se llevan (fichas de 4: [arma][municion BCD])
 C 0x6C64 guarda el arma elegida (p06:B865: 1 HAND GUN, 2 SMG, 3 GRENADE, 4 ROCKET, 5 P.BOMB, 6 L.MINE, 7 MISSILE, 8 SILENCER)
@@ -1615,24 +1605,16 @@ C 0x6C6E guarda el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 tra
 C 0x6C71 apaga_la_pantalla: quita el bit 6 de R#1 y apaga los sprites (R#8)
 C 0x6C74 esconde_los_sprites: llena de 0xE0 las dos tablas de atributos de la VRAM (0xF600 y 0xF200)
 C 0x6C77 patrones_del_arma: carga los patrones del arma elegida (p10:6392) y los de su explosion
-C 0x6C85 apunta a los proyectiles (0x180 bytes)
 C 0x6C96 monta_la_sala: monta la sala (p13:6000) en 0xE000 y la pinta en la VRAM
 C 0x6C99 paleta_de_la_sala: manda al VDP la paleta de la sala (nibble p05:8B40, tabla p05:8BBE)
 C 0x6C9C paleta_de_sprites: manda al VDP la paleta del juego de sprites de la sala (p05:8CB4)
 C 0x6C9F pinta_las_puertas: pinta cerradas las puertas de la sala cuyo byte 1 no es cero, por su tipo (tabla 0x773C)
 C 0x6CA9 zona_banco_6: pone el banco 6 en 0xA000 y lo apunta en 0xF0F3 y 0xF0F6
-C 0x6CAC pinta_objetos: los 3 objetos de 0xC5D0: guarda el fondo en la pagina 1 y los pone con TIMP
 C 0x6CAF bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 C 0x6CB2 zona_banco_15: pone el banco 15 en 0xA000 y lo apunta en 0xF0F3 y 0xF0F6
-C 0x6CB5 rayos_con_goggl: con GOGGL (objeto 4), sin 0xC602, en las salas 0x18, 0x19 y 0x48: pinta los rayos de los actores
 C 0x6CB8 bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 C 0x6CBB zona_banco_12: pone el banco 12 en 0xA000 y lo apunta en 0xF0F3 y 0xF0F6
-C 0x6CBE dibujo_si_metal_gear: si el primer actor es el 0x11, el dibujo de Metal Gear en (0x60, 0x20)
 C 0x6CC1 bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
-C 0x6CC4 minas_con_detec: con DETEC (objeto 7) marca las minas (tipo 7)
-C 0x6CC7 dibujo_si_hind_d: si el primer actor es el 0x26, el dibujo p15:B431 en (0x40, 0)
-C 0x6CCA trampas_abiertas: dibuja abiertas las trampas (tipo 0x10) que lo esten
-C 0x6CCD camaras_con_c632: con 0xC632, el dibujo de cada camara (tipo 6)
 C 0x6CD0 fichas_de_c63b_si_hay: fichas_de_c63b si 0xC63B y no 0xC616
 C 0x6CD3 marcador: LIFE, CLASS, la llamada, el arma y el objeto
 C 0x6CD6 enciende_la_pantalla: pone el bit 6 de R#1 y enciende los sprites (R#8)
@@ -1649,7 +1631,6 @@ C 0x6D6F esconde_los_sprites_ram: llena de 0xE0 la copia de los atributos (0xEA0
 C 0x6D73 guarda el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
 C 0x6D7D puertas_al_empezar: 0xC450-0xC4EF: 0 si los bits 7-6 de p15:B046 son 10, 1 si no (160 puertas)
 C 0x6D86 guarda los objetos que se llevan (fichas de 4)
-C 0x6D89 guarda el objeto elegido (p06:B8F6: 3 LIGHT, 4 GOGGL, 6 CIGAL, 0x0E-0x15 CARD1-8, 0x16 RATIO, 0x19 BOX...)
 C 0x6D94 lee las banderas del juego (bit 6: se juega; en la demo no)
 C 0x6D9D guarda la sala
 C 0x6DA0 guarda la parada del ascensor
@@ -1662,29 +1643,21 @@ C 0x6DC2 fichas_del_marcador: carga en la pagina 1 las fichas de los objetos, de
 C 0x6DC5 fichas_de_las_puertas: copia las fichas de las puertas (p07:61C9-6749) a la pagina 1
 C 0x6DC8 maximos: los maximos de municion y de raciones por CLASS (0x918A-0x91BA) en 0xC380
 C 0x6DCD zona_banco_6: pone el banco 6 en 0xA000 y lo apunta en 0xF0F3 y 0xF0F6
-C 0x6DD0 vuelve_al_punto: devuelve la partida guardada en 0xCA00
 C 0x6DD3 bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 C 0x6DD6 quita_c602: la bandera 0xC602 y 0xC603-0xC607 a cero y, si se juega, la musica de la sala
 C 0x6DDA guarda la musica que suena
-C 0x6DE0 nibble_a2ff_de_la_sala: 0xC161 = el nibble de la sala en p12:A2FF
 C 0x6DE3 llamadas_de_la_sala: carga las llamadas de radio de la sala (p15:B6C6) en 0xC880 (fichas de 0x1D) y cuantas en 0xC87F
 C 0x6DE6 carga_las_puertas: copia las puertas de la sala (p15:A7C0) a 0xC3D0 con su estado (0xC450) y cuenta en 0xC4FF
-C 0x6DF8 nueva_sala: la sala nueva: por la puerta 0xC4FC, por el lado (sala_vecina) o el ascensor
 C 0x6DFB nibble_a2ff_de_la_sala: 0xC161 = el nibble de la sala en p12:A2FF
 C 0x6DFE llamadas_de_la_sala: carga las llamadas de radio de la sala (p15:B6C6) en 0xC880 (fichas de 0x1D) y cuantas en 0xC87F
 C 0x6E01 lee el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
 C 0x6E08 lee las banderas del juego (bit 6: se juega; en la demo no)
 C 0x6E10 carga_las_puertas: copia las puertas de la sala (p15:A7C0) a 0xC3D0 con su estado (0xC450) y cuenta en 0xC4FF
-C 0x6E13 entra_snake: pone a Snake en la sala nueva segun por donde entro
 C 0x6E16 zona_banco_6: pone el banco 6 en 0xA000 y lo apunta en 0xF0F3 y 0xF0F6
-C 0x6E19 punto_de_control: si (sala, parada) esta en 0xBE64 (31 parejas), guarda la partida en 0xCA00
 C 0x6E1C bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 C 0x6E1F byte_a204_de_la_sala: 0xC158 = los 3 bits bajos de p12:A204[sala]
 C 0x6E22 zona_banco_9: pone el banco 9 en 0xA000 y lo apunta en 0xF0F3 y 0xF0F6
-C 0x6E25 sube_al_camion: en las salas de 0xBF60: 0xC608 = 0x90 y el modo 5
-C 0x6E28 salas_85_y_6f: en la sala 0x85 sin 0xC660: modo 12; en la 0x6F: 0xC664 = 1
 C 0x6E2B bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
-C 0x6E41 apunta a los proyectiles (0x180 bytes)
 C 0x6E4D lee la sala
 C 0x6E61 apaga_la_pantalla: quita el bit 6 de R#1 y apaga los sprites (R#8)
 C 0x6E64 esconde_los_sprites: llena de 0xE0 las dos tablas de atributos de la VRAM (0xF600 y 0xF200)
@@ -1694,66 +1667,45 @@ C 0x6E6D sprites_de_la_sala: carga los patrones del juego de sprites de la sala 
 C 0x6E70 monta_la_sala: monta la sala (p13:6000) en 0xE000 y la pinta en la VRAM
 C 0x6E73 pinta_las_puertas: pinta cerradas las puertas de la sala cuyo byte 1 no es cero, por su tipo (tabla 0x773C)
 C 0x6E76 zona_banco_6: pone el banco 6 en 0xA000 y lo apunta en 0xF0F3 y 0xF0F6
-C 0x6E79 objetos_al_entrar: 0xC5D0 a cero y los objetos de la sala (0x7A-0xD9: 0xB9EF, 0xBA50) que no se cogieron
-C 0x6E7C pinta_objetos: los 3 objetos de 0xC5D0: guarda el fondo en la pagina 1 y los pone con TIMP
 C 0x6E7F bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 C 0x6E82 paleta_del_juego: manda al VDP la paleta p05:8B0B
 C 0x6E85 paleta_de_la_sala: manda al VDP la paleta de la sala (nibble p05:8B40, tabla p05:8BBE)
 C 0x6E88 paleta_de_sprites: manda al VDP la paleta del juego de sprites de la sala (p05:8CB4)
 C 0x6E8B marcador: LIFE, CLASS, la llamada, el arma y el objeto
-C 0x6E8E lee la cinta (1 carga, 2 graba)
 C 0x6E98 actores_de_la_sala: al entrar en sala: borra 0xD000-0xD7FF y crea los actores de la sala (p05:9560)
 C 0x6E9B zona_banco_15: pone el banco 15 en 0xA000 y lo apunta en 0xF0F3 y 0xF0F6
-C 0x6E9E rayos_con_goggl: con GOGGL (objeto 4), sin 0xC602, en las salas 0x18, 0x19 y 0x48: pinta los rayos de los actores
 C 0x6EA1 bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
-C 0x6EA4 lee la cinta (1 carga, 2 graba)
 C 0x6EAA zona_banco_12: pone el banco 12 en 0xA000 y lo apunta en 0xF0F3 y 0xF0F6
-C 0x6EAD dibujo_si_metal_gear: si el primer actor es el 0x11, el dibujo de Metal Gear en (0x60, 0x20)
 C 0x6EB0 bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
-C 0x6EB3 dibujo_si_hind_d: si el primer actor es el 0x26, el dibujo p15:B431 en (0x40, 0)
-C 0x6EB6 trampas_abiertas: dibuja abiertas las trampas (tipo 0x10) que lo esten
-C 0x6EB9 camaras_con_c632: con 0xC632, el dibujo de cada camara (tipo 6)
-C 0x6EBC minas_con_detec: con DETEC (objeto 7) marca las minas (tipo 7)
 C 0x6EBF fichas_de_c63b: pinta las dos fichas de 0x7703 (0x7705 en la sala 0x28) en 0xC63B
 C 0x6EC2 enciende_la_pantalla: pone el bit 6 de R#1 y enciende los sprites (R#8)
 C 0x6EC5 lee las banderas del juego (bit 6: se juega; en la demo no)
 C 0x6ECE guarda el banco de zona de 0xA000
 C 0x6ED1 lee la sala
-C 0x6ED8 sprites_del_ascensor: los sprites del ascensor (0x95B7) en 0xEA00 y colores 15
 C 0x6EDB zona_banco_9: pone el banco 9 en 0xA000 y lo apunta en 0xF0F3 y 0xF0F6
-C 0x6EDE sprites_de_la_cabina: los 12 sprites del ascensor (0xAE5F) en 0xEA50 y sus colores en 0xE940
 C 0x6EE1 bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
-C 0x6EE4 lee la cinta (1 carga, 2 graba)
 C 0x6EE8 bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 C 0x6EEB sprites_de_snake: atributos, colores y patrones de la pose de Snake
 C 0x6EEE atributos_de_los_actores: los atributos del cuadro de los 16 actores
 C 0x6EF1 sprites_de_los_actores: pone los sprites de los 16 actores en la copia de atributos y sus colores
 C 0x6EF4 rotulo_pause: guarda el fondo y escribe PAUSE (0x5C1D)
 C 0x6EF7 zona_banco_15: pone el banco 15 en 0xA000 y lo apunta en 0xF0F3 y 0xF0F6
-C 0x6EFA sprites_a_vram: atributos y colores a la tabla de 0xC114, empezando cada cuadro por otro grupo (0xC00F)
 C 0x6EFD cambia_tabla_de_sprites: alterna las tablas de atributos (0xF600/0xF400 y 0xF200/0xF000) con R#5
 C 0x6F00 sprites_a_vram: atributos y colores a la tabla de 0xC114, empezando cada cuadro por otro grupo (0xC00F)
 C 0x6F04 guarda la cinta (1 carga, 2 graba)
 C 0x6F0A bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 C 0x6F18 lee el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
 C 0x6F31 zona_banco_15: pone el banco 15 en 0xA000 y lo apunta en 0xF0F3 y 0xF0F6
-C 0x6F34 cambia_tabla_de_sprites: alterna las tablas de atributos (0xF600/0xF400 y 0xF200/0xF000) con R#5
 C 0x6F37 bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 C 0x6F3A lee el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
-C 0x6F41 barra_de_vida: LIFE y la barra 0xC131 sobre el maximo 0xC137
-C 0x6F44 estrellas: CLASS y las estrellas de 0xC132
 C 0x6F47 lee el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
-C 0x6F52 marcador_llamada: CALL parpadeando con 0xC15F = 1 (sonido 0x22) o la cuenta atras 0xC13D
-C 0x6F55 patrones_de_snake: descomprime los patrones de la pose 0xC18A (p10:6000) en 0xF800
 C 0x6F58 atributos_de_snake: los sprites de la pose 0xC18A (p10:606A, p10:609F) a 0xEA00 (0xEA40 en las salas 0xF0+ salvo 0xFB) mas su Y y su X
 C 0x6F5B colores_de_snake: los colores de la pose 0xC18A, 16 lineas por sprite, a 0xE800 (0xE900 en las salas 0xF0+)
 C 0x6F5E sprite_de_la_grenade: con la GRENADE (arma 3): el sprite 0xEA24 (patron 0x18, color 14) delante de Snake (0x666A), o escondido
-C 0x6F61 sprites_de_los_proyectiles: los sprites de los proyectiles a 0xEA00 y sus colores a 0xE800
 C 0x6F64 lee la sala
 C 0x6F6B atributos_de_los_actores: los atributos del cuadro de los 16 actores
 C 0x6F6E sprites_de_los_actores: pone los sprites de los 16 actores en la copia de atributos y sus colores
 C 0x6F71 lee_teclas: si se juega, las teclas de funcion en 0xC113/0xC112 y las del juego en 0xC007/0xC006
-C 0x6F74 lee el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
 C 0x6F77 despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 C 0x6F94 lee el estado de Snake
 C 0x6F9B lee la sala
@@ -1764,25 +1716,16 @@ C 0x6FBA al_modo_c: el modo de la partida 0xC151 = C (salas < 0xF0); con el 4, e
 C 0x6FBF al_modo_c: el modo de la partida 0xC151 = C (salas < 0xF0); con el 4, el sonido 0x59
 C 0x6FC7 guarda la pausa (1) o F5 (2)
 C 0x6FCB mira_c602: quita 0xC602 (y lo que sigue) segun la sala, la cuenta 0xC605 y los actores que quedan
-C 0x6FCE apunta a la cuenta de herido (Snake parpadea)
-C 0x6FD6 cuenta_de_llamada: baja 0xC160 y pasa 0xC15F de 0 a 1 (llamando) y de 1 a 2
-C 0x6FD9 cuenta_atras: con 0xC13C baja la cuenta 0xC13D (BCD); a cero, Snake muere
 C 0x6FDC lee el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
-C 0x6FE4 lee los 16 actores (fichas de 0x80)
 C 0x6FF8 estado_de_snake: despacha por el estado de Snake (0xC180, tabla en p01:6001)
-C 0x6FFB dispara: con arma, en salas < 0xE0 (no 0xCC) y sin las poses 2, 4, 7: el disparo del arma (tabla 0x80C4)
-C 0x6FFE proyectiles: un cuadro de los 6 proyectiles por su arma (tabla 0x8168); 0xFF lo quita
 C 0x7001 actores_del_cuadro: lo de 0xC669, los refuerzos y un cuadro de cada uno de los 16 actores
-C 0x7004 choques_del_cuadro: proyectiles y Snake contra los actores, fichas y salas que hieren, puertas y objetos
 C 0x7007 lee el objeto elegido (p06:B8F6: 3 LIGHT, 4 GOGGL, 6 CIGAL, 0x0E-0x15 CARD1-8, 0x16 RATIO, 0x19 BOX...)
 C 0x700C sprite_de_la_grenade: con la GRENADE (arma 3): el sprite 0xEA24 (patron 0x18, color 14) delante de Snake (0x666A), o escondido
 C 0x700F lee la cuenta de cuadros
 C 0x701F dano_4: dano 4
 C 0x7024 zona_banco_9: pone el banco 9 en 0xA000 y lo apunta en 0xF0F3 y 0xF0F6
-C 0x7027 camion: modo 5: el camion (0xC608): texto 0x5B, sonido 0x1F y la sacudida con R#23
 C 0x702A bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 C 0x702F cuenta_atras: con 0xC13C baja la cuenta 0xC13D (BCD); a cero, Snake muere
-C 0x7032 zona_banco_9: pone el banco 9 en 0xA000 y lo apunta en 0xF0F3 y 0xF0F6
 C 0x7035 ascensor: modo 6: el ascensor (0xC196): sube o baja con las teclas y para en 0x38, 0x78 y 0xB8
 C 0x7038 bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 C 0x703B patrones_de_snake: descomprime los patrones de la pose 0xC18A (p10:6000) en 0xF800
@@ -1792,7 +1735,6 @@ C 0x7046 abre_puerta: la puerta 0xC4FE se abre paso a paso (0xC4FD, tabla 0x7A8A
 C 0x7051 lee las teclas de funcion nuevas (F1 1, F2 2, F3 4, F4 8, F5 0x10)
 C 0x7058 vuelve_de_la_vecina: devuelve los actores de 0xD800 y lo guardado, y al modo C
 C 0x705B mira_la_vecina: con una tecla de direccion pone en 0xC130 la sala vecina; 0xC19C cuadros despues vuelve
-C 0x7066 estado_de_snake: despacha por el estado de Snake (0xC180, tabla en p01:6001)
 C 0x7070 lee el texto de la ventana
 C 0x7075 ventana_paso: un paso de la ventana de texto (0xCEF2, tabla 0x5D1D)
 C 0x707D ventana_paso: un paso de la ventana de texto (0xCEF2, tabla 0x5D1D)
@@ -1805,9 +1747,7 @@ C 0x7099 lee la sala
 C 0x70A8 colores_a_vram_15: colores_a_vram con el banco 15
 C 0x70AB zona_banco_15: pone el banco 15 en 0xA000 y lo apunta en 0xF0F3 y 0xF0F6
 C 0x70AE colores_a_vram: 0x280 bytes de colores de 0xE800 a la tabla de 0xC114
-C 0x70B3 zona_banco_15: pone el banco 15 en 0xA000 y lo apunta en 0xF0F3 y 0xF0F6
 C 0x70B6 colores_de_actores_a_vram: los colores de 0xE840 y los atributos de 0xEA10 a las tablas
-C 0x70BB zona_banco_15: pone el banco 15 en 0xA000 y lo apunta en 0xF0F3 y 0xF0F6
 C 0x70BE sprites_a_vram: atributos y colores a la tabla de 0xC114, empezando cada cuadro por otro grupo (0xC00F)
 C 0x70C1 bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 C 0x70C8 apunta a los 16 actores (fichas de 0x80)
@@ -1817,9 +1757,7 @@ C 0x70F7 guarda el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 tra
 C 0x7105 sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
 C 0x7109 guarda el paso del modo
 C 0x7113 lee las teclas nuevas (1 arriba, 2 abajo, 4 izq., 8 der., 0x10, 0x20)
-C 0x714D guarda el lado por el que se sale (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
 C 0x7151 sala_vecina: A = la sala vecina por el lado 0xC133 (tabla p05:8E0E); 0xFF si la sala no tiene vecinas
-C 0x7158 guarda la sala
 C 0x7164 apaga_la_pantalla: quita el bit 6 de R#1 y apaga los sprites (R#8)
 C 0x7167 borra_la_pagina_0: llena la pagina 0 de color 0 y pone R#23 a cero
 C 0x716A esconde_los_sprites: llena de 0xE0 las dos tablas de atributos de la VRAM (0xF600 y 0xF200)
@@ -1833,10 +1771,6 @@ C 0x717F paleta_de_sprites: manda al VDP la paleta del juego de sprites de la sa
 C 0x7182 carga_las_puertas: copia las puertas de la sala (p15:A7C0) a 0xC3D0 con su estado (0xC450) y cuenta en 0xC4FF
 C 0x7185 monta_la_sala: monta la sala (p13:6000) en 0xE000 y la pinta en la VRAM
 C 0x7188 pinta_las_puertas: pinta cerradas las puertas de la sala cuyo byte 1 no es cero, por su tipo (tabla 0x773C)
-C 0x718B apunta a los 16 actores (fichas de 0x80)
-C 0x7198 apunta a los atributos de los sprites de los actores
-C 0x71A5 actores_de_la_sala: al entrar en sala: borra 0xD000-0xD7FF y crea los actores de la sala (p05:9560)
-C 0x71AE apunta a los atributos de los sprites de los actores
 C 0x71BE rotulo: escribe el rotulo de HL ([X][Y], caracteres, 0xFE otra posicion, 0xFF acaba)
 C 0x71CB hl_mas_a: HL = HL + A
 C 0x71D4 caracter: copia el caracter A de la pagina 1 a (D, E); con A = 0 o C = 0, el blanco
@@ -1847,8 +1781,6 @@ C 0x71E5 apunta a los 16 actores (fichas de 0x80)
 C 0x71EB lee el tipo del actor
 C 0x71F2 lee la cuenta del golpe del actor
 C 0x71F8 baja la cuenta del golpe del actor
-C 0x71FB sacude_actor: con (ix+0x1F) 0x3F/0x3D sube la Y 4 puntos, con 0x3B/0x39 la baja
-C 0x7200 un_actor: sube (ix+0x0C) y despacha: sin aguante muere, con el bit 7 del tipo muriendo, si no su tipo (tabla 0x722F)
 C 0x7203 mueve_actor: suma las velocidades a la Y y a la X (16 bits) si (ix+6) no es cero
 C 0x7206 actor_fuera: si el actor sale de la sala (Y >= 0xC1, X >= 0xFF o < 7) lo quita
 C 0x7212 sube la cuenta de cuadros del actor
@@ -1864,7 +1796,6 @@ C 0x72D8 copia_vram: HMMM: copia B x C de (H, L) a (D, E); A = paginas (bits 0-1
 C 0x72DB lee la cuenta del golpe del actor
 C 0x72F1 lee la Y del actor
 C 0x72F5 guarda la Y del actor
-C 0x7303 la cuenta del golpe del actor = 0x40
 C 0x7308 lee el tipo del actor
 C 0x731B lee la Y del actor
 C 0x7321 lee la X del actor
@@ -1872,7 +1803,6 @@ C 0x7330 pon_objeto: p06:BB8E con A = C y DE (Y, X)
 C 0x7333 muere_actor: baja 0xC606 (tipos 10, 11, 13, 20-22), tapa el 7 y marca el tipo con el bit 7 (salvo 0x40), sonido 0x16
 C 0x7336 mira el bit 7 de el tipo del actor
 C 0x733B lee si el actor se mueve (p01:7336)
-C 0x7344 lee la velocidad Y del actor
 C 0x7347 lee la velocidad Y del actor (alta)
 C 0x734D lee la Y del actor
 C 0x7354 guarda la Y del actor
@@ -2001,8 +1931,6 @@ C 0x78CF guarda el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 tra
 C 0x78E1 lee el modo de la pose de Snake
 C 0x78F1 despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 C 0x791B lee la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
-C 0x7925 lee la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
-C 0x792C snake_en_recuadro: acarreo si Snake esta en el recuadro de HL + 4 ([Y][alto][X][ancho])
 C 0x794F lee el objeto elegido (p06:B8F6: 3 LIGHT, 4 GOGGL, 6 CIGAL, 0x0E-0x15 CARD1-8, 0x16 RATIO, 0x19 BOX...)
 C 0x7956 lee la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
 C 0x795D snake_en_recuadro: acarreo si Snake esta en el recuadro de HL + 4 ([Y][alto][X][ancho])
@@ -2135,16 +2063,12 @@ C 0x7EEE enciende_la_pantalla: pone el bit 6 de R#1 y enciende los sprites (R#8)
 C 0x7EF1 lee las teclas nuevas (1 arriba, 2 abajo, 4 izq., 8 der., 0x10, 0x20)
 C 0x7EFD lee las teclas que hay
 C 0x7F16 lee el hueco elegido en la ventana de armas
-C 0x7F21 lee el hueco elegido en la ventana de armas
-C 0x7F31 lee el hueco elegido en la ventana de armas
-C 0x7F41 lee el hueco elegido en la ventana de armas
 C 0x7F4C sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
 C 0x7F4F borra_marca: el caracter 0 en 0xC155
 C 0x7F53 guarda el hueco elegido en la ventana de armas
 C 0x7F56 marca_de_objeto: 0xC155 = donde va la marca del hueco 0xC154 en la ventana de equipo (p06:B9BB)
 C 0x7F59 pon_marca: el caracter 0x3C en 0xC155
 C 0x7F5C lee la bandera de capturado (sin armas ni objetos)
-C 0x7F65 lee el hueco elegido en la ventana de armas
 C 0x7F68 cuatro_a_menos_4: HL = 4 x (A - 1)
 C 0x7F6B apunta a los objetos que se llevan (fichas de 4)
 C 0x7F70 guarda el objeto elegido (p06:B8F6: 3 LIGHT, 4 GOGGL, 6 CIGAL, 0x0E-0x15 CARD1-8, 0x16 RATIO, 0x19 BOX...)

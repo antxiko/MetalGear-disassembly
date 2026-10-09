@@ -9,7 +9,8 @@ cada vez.
 - RUTINAS: el nombre de cada rutina (directiva L) y, en cada `call`/`jp` que
   va a ella, un comentario con lo que hace.
 - RAM: en cada instruccion que nombra una direccion de la tabla, que es.
-- CAMPOS: en cada `(ix+n)` de un tramo en el que IX es una ficha de actor.
+- CAMPOS: en cada `(ix+n)` de un tramo en el que IX es una ficha conocida
+  (los actores, los proyectiles: FICHAS en anotaciones.py).
 - Los cambios de banco (`ld (0x6000/0x8000/0xA000),a`).
 
 A QUE BANCO VA UNA LLAMADA. Una `call 0xA123` desde otro banco no dice a cual
@@ -38,7 +39,7 @@ RAIZ = os.path.dirname(AQUI)
 sys.path.insert(0, AQUI)
 
 from paginas import ORG                                    # noqa: E402
-from anotaciones import (BANCOS, CAMBIOS_DE_BANCO, CAMPOS, FICHAS_IX, IX_FICHA_POR_DEFECTO,  # noqa: E402
+from anotaciones import (BANCOS, CAMBIOS_DE_BANCO, FICHAS,  # noqa: E402
                          RAM, RAM16, RUTINAS, trio)
 
 INI = "# --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---"
@@ -99,27 +100,30 @@ def num(txt):
 
 
 def fichas_de(filas, b=None):
-    """Para cada instruccion, si IX apunta ahi a una ficha de actor: desde un
-    `ld ix,nn` con nn en FICHAS_IX hasta el siguiente `ld ix` con otra cosa,
-    un `ret` o un `jp` (un tramo sin carga de IX no cuenta, salvo dentro de
-    los tramos de IX_FICHA_POR_DEFECTO)."""
-    tramos = IX_FICHA_POR_DEFECTO.get(b, ())
+    """Para cada instruccion, los campos de la ficha a la que apunta IX (o
+    None). Cada ficha de FICHAS vale desde un `ld ix,nn` con nn en sus cargas
+    hasta el siguiente `ld ix` con otra cosa, un `ret` o un `jp`; un tramo sin
+    carga de IX no cuenta, salvo dentro de los tramos de la ficha."""
+    fuera = {}
+    for cargas, por_banco, campos in FICHAS:
+        tramos = por_banco.get(b, ())
 
-    def defecto(a):
-        return any(i <= a < f for i, f in tramos)
+        def defecto(a):
+            return any(i <= a < f for i, f in tramos)
 
-    # cargado: lo que dejo el ultimo `ld ix`/`pop ix` del tramo; sin el, manda
-    # el tramo de la tabla en el que cae cada instruccion
-    fuera, cargado = {}, None
-    for k, (a, t) in enumerate(filas):
-        m = re.match(r"ld ix,0([0-9a-f]{4})h$", t)
-        if m:
-            cargado = int(m.group(1), 16) in FICHAS_IX
-        elif t.startswith(("ld ix", "pop ix")):
-            cargado = False
-        fuera[k] = defecto(a) if cargado is None else cargado
-        if t.startswith(("ret", "jp ")) and not re.match(r"ret [a-z]", t):
-            cargado = None
+        # cargado: lo que dejo el ultimo `ld ix`/`pop ix` del tramo; sin el,
+        # manda el tramo de la tabla en el que cae cada instruccion
+        cargado = None
+        for k, (a, t) in enumerate(filas):
+            m = re.match(r"ld ix,0([0-9a-f]{4})h$", t)
+            if m:
+                cargado = int(m.group(1), 16) in cargas
+            elif t.startswith(("ld ix", "pop ix")):
+                cargado = False
+            if (defecto(a) if cargado is None else cargado) and k not in fuera:
+                fuera[k] = campos
+            if t.startswith(("ret", "jp ")) and not re.match(r"ret [a-z]", t):
+                cargado = None
     return fuera
 
 
@@ -166,11 +170,11 @@ def comentario(b, filas, k, fichas, ventanas=None, medido=None):
         if hecho:
             return "%s: %s" % hecho
     # los campos de la ficha del actor
-    if fichas.get(k, False):
+    if fichas.get(k):
         mm = re.search(r"\(ix\+0?([0-9a-f]+)h?\)", t)
         if mm:
             n = int(mm.group(1), 16)
-            que = CAMPOS.get(n)
+            que = fichas[k].get(n)
             if que:
                 op = t.split()[0]
                 if op == "ld" and t.startswith("ld (ix"):

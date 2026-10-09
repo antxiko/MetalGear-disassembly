@@ -23,21 +23,21 @@ l82c7h:	equ 0x082c7
 
 
 guarda_para_el_telescopio:		; guarda 0xC639, 0xC15F y 0xC632, los sprites de 0x8037 en 0xEA10, colores 14 y patrones p06:A6F9
-	ld (0c639h),a		;8000
+	ld (0c639h),a		;8000   ; guarda 0xC616 en 0xC639
 	ld hl,(0c15fh)		;8003   ; lee la llamada del transceptor (0 pendiente, 1 llamando, 2 ninguna) y el byte siguiente (16 bits)
-	ld (0c163h),hl		;8006
-	ld a,(0c632h)		;8009
+	ld (0c163h),hl		;8006   ; 0xC15F-0xC160 en 0xC163
+	ld a,(0c632h)		;8009   ; 0xC632 en 0xC16A
 	ld (0c16ah),a		;800c
-	ld hl,0ea0eh		;800f
+	ld hl,0ea0eh		;800f   ; los atributos de los sprites desde 0xEA0E fuera
 	ld de,0ea0fh		;8012
 	ld bc,00057h		;8015
 	ld (hl),0e0h		;8018
 	ldir		;801a
-	ld hl,08037h		;801c
+	ld hl,08037h		;801c   ; los 6 sprites de la mira (0x8037) en 0xEA10
 	ld de,0ea10h		;801f
 	ld bc,00018h		;8022
 	ldir		;8025
-	ld hl,0e840h		;8027
+	ld hl,0e840h		;8027   ; 64 lineas de color 14 en 0xE840
 	ld de,0e841h		;802a
 	ld bc,0003fh		;802d
 	ld (hl),00eh		;8030
@@ -63,20 +63,20 @@ DATA_sprites_8037:
 
 disparo_oido:		; si la sala no esta en 0x806C ni 0xC158 = 1 ni ya 0xC602: pon_c602 con la cuenta 0x5A
 	ld a,(0c158h)		;804f   ; lee los 3 bits bajos de p12:A204 de la sala
-	cp 001h		;8052
+	cp 001h		;8052   ; en las salas con el bit de p12:A204 = 1 no se oye
 	ret z			;8054
 	ld a,(0c130h)		;8055   ; lee la sala
-	ld hl,0806ch		;8058
+	ld hl,0806ch		;8058   ; ni en las 55 salas de 0x806C
 	ld b,037h		;805b
 L_805D:
-	cp (hl)			;805d
+	cp (hl)			;805d   ; busca la sala
 	ret z			;805e
 	inc hl			;805f
 	djnz L_805D		;8060
 	ld a,(0c602h)		;8062   ; lee la bandera 0xC602 (refuerzos y musica)
-	and a			;8065
+	and a			;8065   ; con la bandera ya puesta, nada
 	ret nz			;8066
-	ld a,05ah		;8067
+	ld a,05ah		;8067   ; la cuenta de 0x5A cuadros
 	jp 07d27h		;8069   ; pon_c602_con_cuenta: 0xC605 = A y pon_c602
 
 ; ----------------------------------------------------------------------
@@ -96,22 +96,22 @@ DATA_salas_806c:
 
 dispara:		; con arma, en salas < 0xE0 (no 0xCC) y sin las poses 2, 4, 7: el disparo del arma (tabla 0x80C4)
 	ld a,(0c134h)		;80a3   ; lee el arma elegida (p06:B865: 1 HAND GUN, 2 SMG, 3 GRENADE, 4 ROCKET, 5 P.BOMB, 6 L.MINE, 7 MISSILE, 8 SILENCER)
-	and a			;80a6
+	and a			;80a6   ; sin arma, nada
 	ret z			;80a7
 	ld a,(0c130h)		;80a8   ; lee la sala
-	cp 0cch		;80ab
+	cp 0cch		;80ab   ; en la sala 0xCC no se dispara
 	ret z			;80ad
-	cp 0e0h		;80ae
+	cp 0e0h		;80ae   ; ni en los ascensores (0xE0+)
 	ret nc			;80b0
 	ld a,(0c18bh)		;80b1   ; lee el modo de la pose de Snake
-	cp 002h		;80b4
+	cp 002h		;80b4   ; ni en los modos de pose 2, 4 y 7
 	ret z			;80b6
 	cp 004h		;80b7
 	ret z			;80b9
 	cp 007h		;80ba
 	ret z			;80bc
 	ld a,(0c134h)		;80bd   ; lee el arma elegida (p06:B865: 1 HAND GUN, 2 SMG, 3 GRENADE, 4 ROCKET, 5 P.BOMB, 6 L.MINE, 7 MISSILE, 8 SILENCER)
-	dec a			;80c0
+	dec a			;80c0   ; del arma 1-7 al indice
 	call 041eah		;80c1   ; despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 
 ; ----------------------------------------------------------------------
@@ -129,67 +129,67 @@ DATA_tabla_80C4:
 
 hueco_de_proyectil:		; IX = el primer proyectil libre de 0xC200 y acarreo; sin acarreo si no hay
 	ld hl,0c200h		;80d2   ; apunta a los proyectiles (0x180 bytes)
-	ld de,00040h		;80d5
-	ld b,006h		;80d8
+	ld de,00040h		;80d5   ; fichas de 0x40
+	ld b,006h		;80d8   ; 6 proyectiles
 L_80DA:
-	ld a,(hl)			;80da
+	ld a,(hl)			;80da   ; arma 0: libre
 	and a			;80db
 	jp z,L_80E4		;80dc
-	add hl,de			;80df
+	add hl,de			;80df   ; la ficha siguiente
 	djnz L_80DA		;80e0
-	and a			;80e2
+	and a			;80e2   ; ninguna libre: sin acarreo
 	ret			;80e3
 L_80E4:
-	push hl			;80e4
+	push hl			;80e4   ; IX = la ficha libre
 	pop ix		;80e5
-	scf			;80e7
+	scf			;80e7   ; acarreo
 	ret			;80e8
 sprites_del_proyectil:		; reserva en 0xEA10 los sprites del arma (0x8140); acarreo si caben
 	ld a,(0c134h)		;80e9   ; lee el arma elegida (p06:B865: 1 HAND GUN, 2 SMG, 3 GRENADE, 4 ROCKET, 5 P.BOMB, 6 L.MINE, 7 MISSILE, 8 SILENCER)
-	dec a			;80ec
-	ld hl,08140h		;80ed
+	dec a			;80ec   ; del arma 1-7 al indice
+	ld hl,08140h		;80ed   ; 0x8140: cuantos sprites tiene cada arma
 	call 041e0h		;80f0   ; hl_mas_a: HL = HL + A
 	ld c,(hl)			;80f3
-	push ix		;80f4
+	push ix		;80f4   ; IY = la ficha + 0x20
 	pop iy		;80f6
 	ld de,00020h		;80f8
 	add iy,de		;80fb
-	ld (iy+000h),c		;80fd
+	ld (iy+000h),c		;80fd   ; +0x20: cuantos sprites
 	inc iy		;8100
-	ld hl,0ea10h		;8102
-	ld e,004h		;8105
+	ld hl,0ea10h		;8102   ; los 6 huecos de sprite de los proyectiles (0xEA10)
+	ld e,004h		;8105   ; desde el sprite 4
 	ld b,006h		;8107
 L_8109:
-	ld a,(hl)			;8109
+	ld a,(hl)			;8109   ; 0xE0: libre
 	cp 0e0h		;810a
 	jr nz,L_8121		;810c
-	ld (iy+000h),e		;810e
-	ld (hl),0e1h		;8111
-	dec c			;8113
+	ld (iy+000h),e		;810e   ; +0x21 + 5 x n: el hueco
+	ld (hl),0e1h		;8111   ; ocupado (0xE1)
+	dec c			;8113   ; todos colocados: listo
 	jp z,L_8130		;8114
-	inc iy		;8117
+	inc iy		;8117   ; el siguiente sprite de la ficha
 	inc iy		;8119
 	inc iy		;811b
 	inc iy		;811d
 	inc iy		;811f
 L_8121:
-	inc e			;8121
+	inc e			;8121   ; el hueco siguiente
 	inc hl			;8122
 	inc hl			;8123
 	inc hl			;8124
 	inc hl			;8125
 	djnz L_8109		;8126
-	push ix		;8128
+	push ix		;8128   ; no caben: se devuelven
 	pop hl			;812a
 	call quita_proyectil		;812b   ; quita_proyectil: el arma del proyectil a cero y sus sprites escondidos
-	xor a			;812e
+	xor a			;812e   ; sin acarreo
 	ret			;812f
 L_8130:
-	ld a,(0c134h)		;8130   ; lee el arma elegida (p06:B865: 1 HAND GUN, 2 SMG, 3 GRENADE, 4 ROCKET, 5 P.BOMB, 6 L.MINE, 7 MISSILE, 8 SILENCER)
-	ld (ix+000h),a		;8133
-	ld (ix+001h),000h		;8136
-	ld (ix+002h),000h		;813a
-	scf			;813e
+	ld a,(0c134h)		;8130   ; el arma en la ficha
+	ld (ix+000h),a		;8133   ; guarda el arma del proyectil
+	ld (ix+001h),000h		;8136   ; el paso y la cuenta a cero
+	ld (ix+002h),000h		;813a   ; la cuenta del proyectil = 0x00
+	scf			;813e   ; acarreo: hecho
 	ret			;813f
 
 ; ----------------------------------------------------------------------
@@ -206,15 +206,15 @@ DATA_tabla_por_arma:
 
 proyectiles:		; un cuadro de los 6 proyectiles por su arma (tabla 0x8168); 0xFF lo quita
 	ld hl,0c200h		;8147   ; apunta a los proyectiles (0x180 bytes)
-	ld b,006h		;814a
+	ld b,006h		;814a   ; 6 proyectiles
 L_814C:
 	push bc			;814c
 	push hl			;814d
-	ld a,(hl)			;814e
+	ld a,(hl)			;814e   ; arma 0: libre
 	and a			;814f
 	call nz,un_proyectil		;8150   ; un_proyectil: el proyectil HL por su arma (tabla 0x8168); 0xFF lo quita
 	pop hl			;8153
-	ld de,00040h		;8154
+	ld de,00040h		;8154   ; la ficha siguiente
 	add hl,de			;8157
 	pop bc			;8158
 	djnz L_814C		;8159
@@ -222,9 +222,9 @@ L_814C:
 un_proyectil:		; el proyectil HL por su arma (tabla 0x8168); 0xFF lo quita
 	push hl			;815c
 	pop ix		;815d
-	inc a			;815f
+	inc a			;815f   ; 0xFF: quitarlo
 	jp z,quita_proyectil		;8160   ; quita_proyectil: el arma del proyectil a cero y sus sprites escondidos
-	dec a			;8163
+	dec a			;8163   ; del arma 1-7 al indice
 	dec a			;8164
 	call 041eah		;8165   ; despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 
@@ -243,116 +243,116 @@ DATA_tabla_8168:
 
 sprites_de_los_proyectiles:		; los sprites de los proyectiles a 0xEA00 y sus colores a 0xE800
 	ld hl,0c200h		;8176   ; apunta a los proyectiles (0x180 bytes)
-	ld b,006h		;8179
+	ld b,006h		;8179   ; 6 proyectiles
 L_817B:
 	push bc			;817b
 	push hl			;817c
-	ld a,(hl)			;817d
+	ld a,(hl)			;817d   ; libre: el siguiente
 	and a			;817e
 	jr z,L_81B2		;817f
-	ld a,020h		;8181
+	ld a,020h		;8181   ; +0x20: cuantos sprites
 	call 041e0h		;8183   ; hl_mas_a: HL = HL + A
 	ld b,(hl)			;8186
-	inc hl			;8187
+	inc hl			;8187   ; +0x21: el hueco del primero
 	ld c,0ffh		;8188
 L_818A:
-	push bc			;818a
-	ld a,(hl)			;818b
+	push bc			;818a   ; un sprite
+	ld a,(hl)			;818b   ; el hueco...
 	ld de,0ea00h		;818c   ; apunta a la copia de los atributos de los sprites
-	add a,a			;818f
+	add a,a			;818f   ; ...4 bytes en la copia de atributos
 	add a,a			;8190
 	ld b,a			;8191
 	call 041e5h		;8192   ; de_mas_a: DE = DE + A
 	inc hl			;8195
-	ldi		;8196
+	ldi		;8196   ; y, x, patron
 	ldi		;8198
 	ldi		;819a
 	push hl			;819c
-	ld de,0e800h		;819d
+	ld de,0e800h		;819d   ; los colores: 0xE800 + 16 x hueco
 	ld a,b			;81a0
 	call 042beh		;81a1   ; cuatro_a: HL = 4 x A
 	add hl,de			;81a4
 	ex de,hl			;81a5
 	pop hl			;81a6
-	ld a,(hl)			;81a7
+	ld a,(hl)			;81a7   ; el color...
 	inc hl			;81a8
-	ld b,010h		;81a9
+	ld b,010h		;81a9   ; ...en sus 16 lineas
 L_81AB:
 	ld (de),a			;81ab
 	inc de			;81ac
 	djnz L_81AB		;81ad
-	pop bc			;81af
+	pop bc			;81af   ; el sprite siguiente
 	djnz L_818A		;81b0
 L_81B2:
-	pop hl			;81b2
+	pop hl			;81b2   ; la ficha siguiente
 	ld de,00040h		;81b3
 	add hl,de			;81b6
 	pop bc			;81b7
 	djnz L_817B		;81b8
 	ret			;81ba
 mueve_proyectil:		; la Y (ix+3, 4) y la X (ix+5, 6) del proyectil mas sus velocidades
-	ld e,(ix+003h)		;81bb
-	ld d,(ix+004h)		;81be
-	ld l,(ix+007h)		;81c1
-	ld h,(ix+008h)		;81c4
-	add hl,de			;81c7
-	ld (ix+003h),l		;81c8
-	ld (ix+004h),h		;81cb
+	ld e,(ix+003h)		;81bb   ; lee la Y del proyectil (fraccion)
+	ld d,(ix+004h)		;81be   ; lee la Y del proyectil
+	ld l,(ix+007h)		;81c1   ; lee la velocidad Y del proyectil
+	ld h,(ix+008h)		;81c4   ; lee la velocidad Y del proyectil (alta)
+	add hl,de			;81c7   ; + la velocidad Y
+	ld (ix+003h),l		;81c8   ; guarda la Y del proyectil (fraccion)
+	ld (ix+004h),h		;81cb   ; guarda la Y del proyectil
 mueve_proyectil_x:		; la X del proyectil (ix+5, 6) mas la velocidad (ix+9, 0x0A)
-	ld e,(ix+005h)		;81ce
-	ld d,(ix+006h)		;81d1
-	ld l,(ix+009h)		;81d4
-	ld h,(ix+00ah)		;81d7
-	add hl,de			;81da
-	ld (ix+005h),l		;81db
-	ld (ix+006h),h		;81de
+	ld e,(ix+005h)		;81ce   ; lee la X del proyectil (fraccion)
+	ld d,(ix+006h)		;81d1   ; lee la X del proyectil
+	ld l,(ix+009h)		;81d4   ; lee la velocidad X del proyectil
+	ld h,(ix+00ah)		;81d7   ; lee la velocidad X del proyectil (alta)
+	add hl,de			;81da   ; + la velocidad X
+	ld (ix+005h),l		;81db   ; guarda la X del proyectil (fraccion)
+	ld (ix+006h),h		;81de   ; guarda la X del proyectil
 	ret			;81e1
 mueve_proyectil_suelo:		; la X y la Y del suelo del proyectil
 	call mueve_proyectil_x		;81e2   ; mueve_proyectil_x: la X del proyectil (ix+5, 6) mas la velocidad (ix+9, 0x0A)
 mueve_suelo:		; la Y del suelo (ix+0x0D, 0x0E) mas la velocidad Y (ix+7, 8)
-	ld e,(ix+00dh)		;81e5
-	ld d,(ix+00eh)		;81e8
-	ld l,(ix+007h)		;81eb
-	ld h,(ix+008h)		;81ee
-	add hl,de			;81f1
-	ld (ix+00dh),l		;81f2
-	ld (ix+00eh),h		;81f5
+	ld e,(ix+00dh)		;81e5   ; lee la Y del suelo bajo el proyectil (fraccion)
+	ld d,(ix+00eh)		;81e8   ; lee la Y del suelo bajo el proyectil
+	ld l,(ix+007h)		;81eb   ; lee la velocidad Y del proyectil
+	ld h,(ix+008h)		;81ee   ; lee la velocidad Y del proyectil (alta)
+	add hl,de			;81f1   ; + la velocidad Y
+	ld (ix+00dh),l		;81f2   ; guarda la Y del suelo bajo el proyectil (fraccion)
+	ld (ix+00eh),h		;81f5   ; guarda la Y del suelo bajo el proyectil
 	ret			;81f8
 choca_proyectil:		; acarreo si el proyectil (ix+4, ix+6) choca con una pared hacia (ix+0x0C)
-	ld l,(ix+004h)		;81f9
+	ld l,(ix+004h)		;81f9   ; lee la Y del proyectil
 	jr L_8201		;81fc
 choca_suelo:		; acarreo si el suelo del proyectil (ix+0x0E, ix+6) choca con una pared
-	ld l,(ix+00eh)		;81fe
+	ld l,(ix+00eh)		;81fe   ; lee la Y del suelo bajo el proyectil
 L_8201:
-	ld c,(ix+00ch)		;8201
-	ld b,002h		;8204
-	ld h,(ix+006h)		;8206
+	ld c,(ix+00ch)		;8201   ; lee la direccion del proyectil
+	ld b,002h		;8204   ; la caja grande, hacia su direccion
+	ld h,(ix+006h)		;8206   ; lee la X del proyectil
 	jp choca		;8209   ; choca: acarreo si alguno de los 2 puntos de la caja B (0x82CB) hacia C, desde Y = L, X = H, pisa una ficha con choque (0xC700 bit 0)
 proyectil_fuera:		; si el proyectil sale (Y >= 0xB8, X >= 0xF8 o < 9) lo quita
-	ld a,(ix+004h)		;820c
+	ld a,(ix+004h)		;820c   ; lee la Y del proyectil
 	cp 0b8h		;820f
-	jp nc,quita_proyectil		;8211   ; quita_proyectil: el arma del proyectil a cero y sus sprites escondidos
-	ld a,(ix+006h)		;8214
+	jp nc,quita_proyectil		;8211   ; Y >= 0xB8: fuera
+	ld a,(ix+006h)		;8214   ; lee la X del proyectil
 	cp 0f8h		;8217
-	jp nc,quita_proyectil		;8219   ; quita_proyectil: el arma del proyectil a cero y sus sprites escondidos
-	cp 009h		;821c
+	jp nc,quita_proyectil		;8219   ; X >= 0xF8: fuera
+	cp 009h		;821c   ; X < 9: fuera
 	ret nc			;821e
 quita_proyectil:		; el arma del proyectil a cero y sus sprites escondidos
 	push ix		;821f
 	pop de			;8221
-	ld (ix+000h),000h		;8222
-	ld a,020h		;8226
+	ld (ix+000h),000h		;8222   ; el arma del proyectil = 0x00
+	ld a,020h		;8226   ; +0x20: cuantos sprites
 	call 041e5h		;8228   ; de_mas_a: DE = DE + A
 	ld a,(de)			;822b
 	ld b,a			;822c
 	inc de			;822d
 L_822E:
-	ld a,(de)			;822e
+	ld a,(de)			;822e   ; el hueco de cada sprite...
 	ld hl,0ea00h		;822f   ; apunta a la copia de los atributos de los sprites
 	add a,a			;8232
 	call 041dfh		;8233   ; hl_mas_2a: HL = HL + 2 x A
-	ld (hl),0e0h		;8236
-	inc de			;8238
+	ld (hl),0e0h		;8236   ; ...fuera de la pantalla
+	inc de			;8238   ; el sprite siguiente (5 bytes)
 	inc de			;8239
 	inc de			;823a
 	inc de			;823b
@@ -360,48 +360,48 @@ L_822E:
 	djnz L_822E		;823d
 	ret			;823f
 ventana_crece:		; el recuadro de la ventana crece un paso (0xC528); acarreo al acabar
-	ld hl,0c528h		;8240
+	ld hl,0c528h		;8240   ; la cuenta de pasos de la ventana
 	dec (hl)			;8243
-	jr z,L_8290		;8244
-	ld c,000h		;8246
+	jr z,L_8290		;8244   ; al acabar, acarreo
+	ld c,000h		;8246   ; borra el marco de antes (color 0)
 	call marco_de_ventana		;8248   ; marco_de_ventana: el recuadro 0xC529 de 0xC52D en el color C
-	ld a,(0c529h)		;824b
+	ld a,(0c529h)		;824b   ; la X baja el paso X...
 	ld hl,0c52bh		;824e
 	sub (hl)			;8251
 	ld (0c529h),a		;8252
-	ld a,(hl)			;8255
+	ld a,(hl)			;8255   ; ...y el ancho crece el doble
 	ld hl,0c52dh		;8256
 	add a,a			;8259
 	add a,(hl)			;825a
 	ld (hl),a			;825b
-	ld a,(0c52ah)		;825c
+	ld a,(0c52ah)		;825c   ; la Y baja el paso Y...
 	ld hl,0c52ch		;825f
 	sub (hl)			;8262
 	ld (0c52ah),a		;8263
-	ld a,(hl)			;8266
+	ld a,(hl)			;8266   ; ...y el alto crece el doble
 	ld hl,0c52eh		;8267
 	add a,a			;826a
 	add a,(hl)			;826b
 	ld (hl),a			;826c
-	ld hl,(0c529h)		;826d
+	ld hl,(0c529h)		;826d   ; el interior...
 	inc h			;8270
 	inc l			;8271
-	ld bc,(0c52dh)		;8272
+	ld bc,(0c52dh)		;8272   ; ...2 menos de ancho y de alto...
 	dec c			;8276
 	dec c			;8277
 	dec b			;8278
 	dec b			;8279
-	xor a			;827a
+	xor a			;827a   ; ...a negro
 	ld d,a			;827b
 	call 04f91h		;827c   ; rellena: HMMV: llena B x C desde (H, L) de la pagina D con el byte A
-	ld a,(0c52fh)		;827f
+	ld a,(0c52fh)		;827f   ; el marco nuevo en su color (0xC52F)
 	ld c,a			;8282
 marco_de_ventana:		; el recuadro 0xC529 de 0xC52D en el color C
 	ld hl,(0c529h)		;8283
 	ld de,(0c52dh)		;8286
 	inc e			;828a
 	call 04f63h		;828b   ; recuadro: un recuadro de D x E desde (H, L) en el color C
-	and a			;828e
+	and a			;828e   ; sin acarreo
 	ret			;828f
 L_8290:
 	scf			;8290
@@ -411,7 +411,7 @@ choca_actor:		; choca con H = (ix+5), L = (ix+3)
 	ld h,(ix+005h)		;8295
 choca:		; acarreo si alguno de los 2 puntos de la caja B (0x82CB) hacia C, desde Y = L, X = H, pisa una ficha con choque (0xC700 bit 0)
 	ld (0ec00h),hl		;8298   ; guarda la casilla de trabajo 0xEC00 y el byte siguiente (16 bits)
-	ld a,b			;829b
+	ld a,b			;829b   ; la caja: (4 x B + C) x 4 en 0x82CB
 	add a,a			;829c
 	add a,a			;829d
 	add a,c			;829e
@@ -421,29 +421,29 @@ choca:		; acarreo si alguno de los 2 puntos de la caja B (0x82CB) hacia C, desde
 	ld d,000h		;82a4
 	ld e,a			;82a6
 	add hl,de			;82a7
-	ld b,002h		;82a8
+	ld b,002h		;82a8   ; 2 puntos por caja
 L_82AA:
 	ld a,(0ec00h)		;82aa   ; lee la casilla de trabajo 0xEC00
-	add a,(hl)			;82ad
+	add a,(hl)			;82ad   ; la Y + el desplazamiento
 	ld e,a			;82ae
 	inc hl			;82af
-	ld a,(0ec01h)		;82b0
+	ld a,(0ec01h)		;82b0   ; la X + el desplazamiento
 	add a,(hl)			;82b3
 	inc hl			;82b4
 	push hl			;82b5
-	ld h,a			;82b6
+	ld h,a			;82b6   ; la ficha de la sala en ese punto
 	ld l,e			;82b7
 	call 05c09h		;82b8   ; ficha_en_el_punto: HL = 0xE000 + (L / 8) x 32 + H / 8: la ficha de la sala montada en ese punto
-	ld d,000h		;82bb
+	ld d,000h		;82bb   ; su byte de choque en 0xC700
 	ld e,(hl)			;82bd
 	ld hl,0c700h		;82be
 	add hl,de			;82c1
 	ld a,(hl)			;82c2
-	rra			;82c3
+	rra			;82c3   ; bit 0: pared
 	pop hl			;82c4
-	jr c,L_82C9		;82c5
+	jr c,L_82C9		;82c5   ; pared: acarreo
 L_82C7:
-	djnz L_82AA		;82c7
+	djnz L_82AA		;82c7   ; el otro punto
 L_82C9:
 	ld a,c			;82c9
 	ret			;82ca
@@ -475,13 +475,13 @@ DATA_cajas_de_choque:
 
 fichas_de_snake:		; H y L = las dos fichas de la sala bajo Snake
 	ld a,(0c184h)		;82fb   ; lee la X de Snake
-	sub 004h		;82fe
+	sub 004h		;82fe   ; la X - 4
 	ld h,a			;8300
 	ld a,(0c182h)		;8301   ; lee la Y de Snake
-	ld l,a			;8304
+	ld l,a			;8304   ; y la Y
 fichas_en_el_punto:		; H y L = la ficha de la sala en el punto HL y la siguiente
 	call 05c09h		;8305   ; ficha_en_el_punto: HL = 0xE000 + (L / 8) x 32 + H / 8: la ficha de la sala montada en ese punto
-	ld a,(hl)			;8308
+	ld a,(hl)			;8308   ; H = la ficha del punto, L = la siguiente
 	inc hl			;8309
 	ld l,(hl)			;830a
 	ld h,a			;830b
@@ -490,112 +490,112 @@ cuadro_tipo_47:		; lo de cada cuadro del tipo 47
 	ld l,(ix+003h)		;830d   ; lee la Y del actor
 	ld h,(ix+005h)		;8310   ; lee la X del actor
 	call 05c09h		;8313   ; ficha_en_el_punto: HL = 0xE000 + (L / 8) x 32 + H / 8: la ficha de la sala montada en ese punto
-	ld b,002h		;8316
+	ld b,002h		;8316   ; dos filas de fichas
 L_8318:
 	ld d,000h		;8318
-	ld a,(hl)			;831a
+	ld a,(hl)			;831a   ; las fichas 0x6B y 0x6E: nada
 	cp 06bh		;831b
 	ret z			;831d
 	cp 06eh		;831e
 	ret z			;8320
-	ld e,a			;8321
+	ld e,a			;8321   ; su byte de choque
 	push hl			;8322
 	ld hl,0c700h		;8323
 	add hl,de			;8326
 	ld a,(hl)			;8327
-	rra			;8328
+	rra			;8328   ; sin pared: nada
 	pop hl			;8329
 	ret nc			;832a
-	ld de,00040h		;832b
+	ld de,00040h		;832b   ; la fila de abajo (2 filas de 32)
 	add hl,de			;832e
 	djnz L_8318		;832f
-	jp 07371h		;8331
+	jp 07371h		;8331   ; en una pared: se quita
 hacia_snake_dir:		; A = la direccion de IX hacia Snake por el eje mayor (1-4), B = la del otro eje
 	ld a,(0c182h)		;8334   ; lee la Y de Snake
 	sub (ix+003h)		;8337   ; le resta la Y del actor
-	ld d,002h		;833a
+	ld d,002h		;833a   ; Snake por debajo: abajo (2)
 	jr nc,L_8341		;833c
-	dec d			;833e
+	dec d			;833e   ; por encima: arriba (1)
 	neg		;833f
 L_8341:
-	ld b,a			;8341
+	ld b,a			;8341   ; B = |dy|
 	ld a,(0c184h)		;8342   ; lee la X de Snake
 	sub (ix+005h)		;8345   ; le resta la X del actor
-	ld e,004h		;8348
+	ld e,004h		;8348   ; Snake a la derecha: 4
 	jr nc,L_834F		;834a
-	dec e			;834c
+	dec e			;834c   ; a la izquierda: 3
 	neg		;834d
 L_834F:
-	cp b			;834f
+	cp b			;834f   ; |dx| < |dy|: manda la vertical
 	ld a,d			;8350
 	ld b,e			;8351
 	ret c			;8352
-	ld a,e			;8353
+	ld a,e			;8353   ; si no, la horizontal
 	ld b,d			;8354
 	ret			;8355
 lejos_de_snake_dir:		; las direcciones contrarias a las de hacia_snake_dir
 	call hacia_snake_dir		;8356   ; hacia_snake_dir: A = la direccion de IX hacia Snake por el eje mayor (1-4), B = la del otro eje
-	ld c,b			;8359
+	ld c,b			;8359   ; C = la otra
 	call contraria		;835a   ; contraria: A = la direccion contraria (1 y 2, 3 y 4)
-	ld b,a			;835d
+	ld b,a			;835d   ; B = la contraria de la principal
 	ld a,c			;835e
 contraria:		; A = la direccion contraria (1 y 2, 3 y 4)
-	dec a			;835f
+	dec a			;835f   ; 1 <-> 2, 3 <-> 4
 	xor 001h		;8360
 	inc a			;8362
 	ret			;8363
 dispara_hand_gun:		; HAND GUN: con la tecla 0x10 nueva gasta una bala y la lanza (sonido 0x0C, 0x0E con SILENCER)
 	ld a,(0c006h)		;8364   ; lee las teclas nuevas (1 arriba, 2 abajo, 4 izq., 8 der., 0x10, 0x20)
-	and 010h		;8367
+	and 010h		;8367   ; la tecla 0x10 nueva
 	ret z			;8369
-	ld a,001h		;836a
+	ld a,001h		;836a   ; la HAND GUN en la lista
 	call 043e8h		;836c   ; busca_arma: busca A en las 7 armas de 0xC500 (fichas de 4): C = el sitio, Z si esta, acarreo si no
-	inc hl			;836f
+	inc hl			;836f   ; la municion
 	ld (0ec00h),hl		;8370   ; guarda la casilla de trabajo 0xEC00 y el byte siguiente (16 bits)
 	ld a,(hl)			;8373
 	inc hl			;8374
 	or (hl)			;8375
-	ld a,015h		;8376
+	ld a,015h		;8376   ; sin balas: el sonido 0x15
 	jp z,0427ch		;8378   ; sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
 	call hueco_de_proyectil		;837b   ; hueco_de_proyectil: IX = el primer proyectil libre de 0xC200 y acarreo; sin acarreo si no hay
-	ret nc			;837e
+	ret nc			;837e   ; ningun hueco libre
 	call sprites_del_proyectil		;837f   ; sprites_del_proyectil: reserva en 0xEA10 los sprites del arma (0x8140); acarreo si caben
-	ret nc			;8382
+	ret nc			;8382   ; sin sprites libres
 	ld hl,(0ec00h)		;8383   ; lee la casilla de trabajo 0xEC00 y el byte siguiente (16 bits)
-	ld c,000h		;8386
+	ld c,000h		;8386   ; gasta una (C = 0: solo pinta)
 	call 04613h		;8388   ; gasta_municion: resta 1 (BCD) a la cantidad de HL y la pinta; con C = 1 o mas, al acabarse quita el arma o el objeto
-	ld (ix+002h),010h		;838b
-	ld (ix+00fh),001h		;838f
+	ld (ix+002h),010h		;838b   ; la cuenta del proyectil = 0x10
+	ld (ix+00fh),001h		;838f   ; si el proyectil hiere (bit 0) = 0x01
 	ld a,(0c182h)		;8393   ; lee la Y de Snake
-	ld (ix+003h),000h		;8396
-	ld (ix+00dh),000h		;839a
-	ld (ix+00eh),a		;839e
-	sub 00eh		;83a1
-	ld (ix+004h),a		;83a3
+	ld (ix+003h),000h		;8396   ; la Y del proyectil (fraccion) = 0x00
+	ld (ix+00dh),000h		;839a   ; la Y del suelo bajo el proyectil (fraccion) = 0x00
+	ld (ix+00eh),a		;839e   ; el suelo: la Y de Snake
+	sub 00eh		;83a1   ; la bala sale 0x0E por encima
+	ld (ix+004h),a		;83a3   ; guarda la Y del proyectil
 	ld a,(0c184h)		;83a6   ; lee la X de Snake
-	ld (ix+005h),000h		;83a9
-	ld (ix+006h),a		;83ad
+	ld (ix+005h),000h		;83a9   ; la X del proyectil (fraccion) = 0x00
+	ld (ix+006h),a		;83ad   ; guarda la X del proyectil
 	ld a,(0c185h)		;83b0   ; lee la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
-	ld (ix+00ch),a		;83b3
-	ld hl,083e6h		;83b6
+	ld (ix+00ch),a		;83b3   ; guarda la direccion del proyectil
+	ld hl,083e6h		;83b6   ; la velocidad por la direccion (0x83E6)
 	call 041deh		;83b9   ; hl_mas_2a_menos_2: HL = HL + 2 x (A - 1)
-	ld (ix+007h),000h		;83bc
+	ld (ix+007h),000h		;83bc   ; la velocidad Y del proyectil = 0x00
 	ld a,(hl)			;83c0
-	ld (ix+008h),a		;83c1
+	ld (ix+008h),a		;83c1   ; guarda la velocidad Y del proyectil (alta)
 	inc hl			;83c4
-	ld (ix+009h),000h		;83c5
+	ld (ix+009h),000h		;83c5   ; la velocidad X del proyectil = 0x00
 	ld a,(hl)			;83c9
-	ld (ix+00ah),a		;83ca
-	ld (ix+00bh),000h		;83cd
-	ld a,(0c51ch)		;83d1
+	ld (ix+00ah),a		;83ca   ; guarda la velocidad X del proyectil (alta)
+	ld (ix+00bh),000h		;83cd   ; el cuadro del proyectil = 0x00
+	ld a,(0c51ch)		;83d1   ; con SILENCER (0xC51C)...
 	and a			;83d4
-	ld a,00ch		;83d5
+	ld a,00ch		;83d5   ; ...el sonido 0x0E; sin el, el 0x0C...
 	jr z,L_83DB		;83d7
 	ld a,00eh		;83d9
 L_83DB:
 	push af			;83db
 	call 04284h		;83dc   ; sonido: pide el sonido A al controlador del banco 4 (0x67FD) con los bancos 4 y 5
-	pop af			;83df
+	pop af			;83df   ; ...y sin SILENCER se oye (disparo_oido)
 	call z,disparo_oido		;83e0   ; disparo_oido: si la sala no esta en 0x806C ni 0xC158 = 1 ni ya 0xC602: pon_c602 con la cuenta 0x5A
 	jp 053dah		;83e3   ; atributos_del_proyectil: el cuadro (ix+0x0B) de p10:63B0 a los sprites de IX sumando (ix+4) y (ix+6); 0x80 = escondido
 
@@ -616,19 +616,19 @@ DATA_velocidad_de_la_bala:
 
 
 vuela_bala:		; la bala de las armas 1 y 2: vida (ix+2), mueve, choca y sale
-	dec (ix+002h)		;83ee
+	dec (ix+002h)		;83ee   ; baja la cuenta del proyectil
 	jp z,quita_proyectil		;83f1   ; quita_proyectil: el arma del proyectil a cero y sus sprites escondidos
 	call mueve_proyectil		;83f4   ; mueve_proyectil: la Y (ix+3, 4) y la X (ix+5, 6) del proyectil mas sus velocidades
 	call mueve_suelo		;83f7   ; mueve_suelo: la Y del suelo (ix+0x0D, 0x0E) mas la velocidad Y (ix+7, 8)
 	call choca_proyectil		;83fa   ; choca_proyectil: acarreo si el proyectil (ix+4, ix+6) choca con una pared hacia (ix+0x0C)
-	jr nc,L_8405		;83fd
+	jr nc,L_8405		;83fd   ; sin pared por arriba, sigue
 	call choca_suelo		;83ff   ; choca_suelo: acarreo si el suelo del proyectil (ix+0x0E, ix+6) choca con una pared
 	jp c,quita_proyectil		;8402   ; quita_proyectil: el arma del proyectil a cero y sus sprites escondidos
 L_8405:
 	call proyectil_fuera		;8405   ; proyectil_fuera: si el proyectil sale (Y >= 0xB8, X >= 0xF8 o < 9) lo quita
 	jp 053dah		;8408   ; atributos_del_proyectil: el cuadro (ix+0x0B) de p10:63B0 a los sprites de IX sumando (ix+4) y (ix+6); 0x80 = escondido
 sin_balas:		; el sonido 0x15 y la cuenta de la SMG a cero
-	ld a,015h		;840b
+	ld a,015h		;840b   ; el sonido 0x15 (sin balas)
 	call 0427ch		;840d   ; sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
 dos_ceros:		; pone a cero (HL) y (HL + 1)
 	ld (hl),000h		;8410
@@ -636,74 +636,74 @@ dos_ceros:		; pone a cero (HL) y (HL + 1)
 	ld (hl),000h		;8413
 	ret			;8415
 dispara_smg:		; SMG: con la tecla 0x10 mantenida, una bala cada 2 cuadros en abanico (0xC19F, 0x84B8)
-	ld hl,0c19eh		;8416
+	ld hl,0c19eh		;8416   ; 0xC19E: la cuenta de cadencia
 	ld a,(0c007h)		;8419   ; lee las teclas que hay
-	and 010h		;841c
+	and 010h		;841c   ; sin la tecla 0x10, la cuenta y el abanico a cero
 	jr z,dos_ceros		;841e
-	inc (hl)			;8420
+	inc (hl)			;8420   ; cada 2 cuadros
 	ld a,(hl)			;8421
 	cp 002h		;8422
 	ret nz			;8424
 	ld (hl),000h		;8425
-	inc hl			;8427
+	inc hl			;8427   ; 0xC19F: la posicion del abanico (1-8)
 	inc (hl)			;8428
 	ld a,(hl)			;8429
 	cp 009h		;842a
 	jr nz,L_8430		;842c
 	ld (hl),001h		;842e
 L_8430:
-	ld a,002h		;8430
+	ld a,002h		;8430   ; la SMG en la lista
 	call 043e8h		;8432   ; busca_arma: busca A en las 7 armas de 0xC500 (fichas de 4): C = el sitio, Z si esta, acarreo si no
 	inc hl			;8435
 	ld (0ec00h),hl		;8436   ; guarda la casilla de trabajo 0xEC00 y el byte siguiente (16 bits)
-	ld a,(hl)			;8439
+	ld a,(hl)			;8439   ; sin balas: el sonido 0x15
 	inc hl			;843a
 	or (hl)			;843b
 	jr z,sin_balas		;843c
 	call hueco_de_proyectil		;843e   ; hueco_de_proyectil: IX = el primer proyectil libre de 0xC200 y acarreo; sin acarreo si no hay
-	ret nc			;8441
+	ret nc			;8441   ; ningun hueco libre
 	call sprites_del_proyectil		;8442   ; sprites_del_proyectil: reserva en 0xEA10 los sprites del arma (0x8140); acarreo si caben
-	ret nc			;8445
+	ret nc			;8445   ; sin sprites libres
 	ld hl,(0ec00h)		;8446   ; lee la casilla de trabajo 0xEC00 y el byte siguiente (16 bits)
-	ld c,000h		;8449
+	ld c,000h		;8449   ; gasta una
 	call 04613h		;844b   ; gasta_municion: resta 1 (BCD) a la cantidad de HL y la pinta; con C = 1 o mas, al acabarse quita el arma o el objeto
-	ld (ix+002h),010h		;844e
-	ld (ix+00fh),001h		;8452
+	ld (ix+002h),010h		;844e   ; la cuenta del proyectil = 0x10
+	ld (ix+00fh),001h		;8452   ; si el proyectil hiere (bit 0) = 0x01
 	ld a,(0c182h)		;8456   ; lee la Y de Snake
-	ld (ix+003h),000h		;8459
-	ld (ix+00dh),000h		;845d
-	ld (ix+00eh),a		;8461
-	sub 00eh		;8464
-	ld (ix+004h),a		;8466
+	ld (ix+003h),000h		;8459   ; la Y del proyectil (fraccion) = 0x00
+	ld (ix+00dh),000h		;845d   ; la Y del suelo bajo el proyectil (fraccion) = 0x00
+	ld (ix+00eh),a		;8461   ; guarda la Y del suelo bajo el proyectil
+	sub 00eh		;8464   ; la bala sale 0x0E por encima
+	ld (ix+004h),a		;8466   ; guarda la Y del proyectil
 	ld a,(0c184h)		;8469   ; lee la X de Snake
-	ld (ix+005h),000h		;846c
-	ld (ix+006h),a		;8470
+	ld (ix+005h),000h		;846c   ; la X del proyectil (fraccion) = 0x00
+	ld (ix+006h),a		;8470   ; guarda la X del proyectil
 	ld a,(0c185h)		;8473   ; lee la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
-	ld (ix+00ch),a		;8476
-	dec a			;8479
+	ld (ix+00ch),a		;8476   ; guarda la direccion del proyectil
+	dec a			;8479   ; 16 bytes por direccion...
 	add a,a			;847a
 	add a,a			;847b
 	add a,a			;847c
 	add a,a			;847d
-	ld hl,084b8h		;847e
+	ld hl,084b8h		;847e   ; ...en 0x84B8
 	call 041dfh		;8481   ; hl_mas_2a: HL = HL + 2 x A
-	ld a,(0c19fh)		;8484
+	ld a,(0c19fh)		;8484   ; 4 por posicion del abanico
 	dec a			;8487
 	add a,a			;8488
 	call 041dfh		;8489   ; hl_mas_2a: HL = HL + 2 x A
 	ld a,(hl)			;848c
-	ld (ix+007h),a		;848d
+	ld (ix+007h),a		;848d   ; guarda la velocidad Y del proyectil
 	inc hl			;8490
 	ld a,(hl)			;8491
-	ld (ix+008h),a		;8492
+	ld (ix+008h),a		;8492   ; guarda la velocidad Y del proyectil (alta)
 	inc hl			;8495
 	ld a,(hl)			;8496
-	ld (ix+009h),a		;8497
+	ld (ix+009h),a		;8497   ; guarda la velocidad X del proyectil
 	inc hl			;849a
 	ld a,(hl)			;849b
-	ld (ix+00ah),a		;849c
-	ld (ix+00bh),000h		;849f
-	ld a,(0c51ch)		;84a3
+	ld (ix+00ah),a		;849c   ; guarda la velocidad X del proyectil (alta)
+	ld (ix+00bh),000h		;849f   ; el cuadro del proyectil = 0x00
+	ld a,(0c51ch)		;84a3   ; con SILENCER, el sonido 0x0E; sin el, el 0x0D y se oye
 	and a			;84a6
 	ld a,00dh		;84a7
 	jr z,L_84AD		;84a9
@@ -745,47 +745,47 @@ DATA_velocidades_de_la_metralleta:
 
 lanza_grenade:		; GRENADE: la lanza en parabola (0x85A9) con el sonido 0x12
 	ld a,(0c006h)		;8538   ; lee las teclas nuevas (1 arriba, 2 abajo, 4 izq., 8 der., 0x10, 0x20)
-	and 010h		;853b
+	and 010h		;853b   ; la tecla 0x10 nueva
 	ret z			;853d
-	ld a,003h		;853e
+	ld a,003h		;853e   ; la GRENADE en la lista
 	call 043e8h		;8540   ; busca_arma: busca A en las 7 armas de 0xC500 (fichas de 4): C = el sitio, Z si esta, acarreo si no
 	inc hl			;8543
 	ld (0ec00h),hl		;8544   ; guarda la casilla de trabajo 0xEC00 y el byte siguiente (16 bits)
 	ld a,(hl)			;8547
 	inc hl			;8548
 	or (hl)			;8549
-	ret z			;854a
+	ret z			;854a   ; sin granadas, nada
 	call hueco_de_proyectil		;854b   ; hueco_de_proyectil: IX = el primer proyectil libre de 0xC200 y acarreo; sin acarreo si no hay
-	ret nc			;854e
+	ret nc			;854e   ; ningun hueco libre
 	call sprites_del_proyectil		;854f   ; sprites_del_proyectil: reserva en 0xEA10 los sprites del arma (0x8140); acarreo si caben
-	ret nc			;8552
+	ret nc			;8552   ; sin sprites libres
 	ld hl,(0ec00h)		;8553   ; lee la casilla de trabajo 0xEC00 y el byte siguiente (16 bits)
-	ld c,000h		;8556
+	ld c,000h		;8556   ; gasta una
 	call 04613h		;8558   ; gasta_municion: resta 1 (BCD) a la cantidad de HL y la pinta; con C = 1 o mas, al acabarse quita el arma o el objeto
-	ld (ix+002h),018h		;855b
-	ld (ix+00fh),000h		;855f
+	ld (ix+002h),018h		;855b   ; la cuenta del proyectil = 0x18
+	ld (ix+00fh),000h		;855f   ; si el proyectil hiere (bit 0) = 0x00
 	ld a,(0c182h)		;8563   ; lee la Y de Snake
-	ld (ix+003h),000h		;8566
-	ld (ix+00dh),000h		;856a
-	sub 010h		;856e
-	ld (ix+004h),a		;8570
-	ld (ix+00eh),a		;8573
+	ld (ix+003h),000h		;8566   ; la Y del proyectil (fraccion) = 0x00
+	ld (ix+00dh),000h		;856a   ; la Y del suelo bajo el proyectil (fraccion) = 0x00
+	sub 010h		;856e   ; sale 0x10 por encima
+	ld (ix+004h),a		;8570   ; guarda la Y del proyectil
+	ld (ix+00eh),a		;8573   ; guarda la Y del suelo bajo el proyectil
 	ld a,(0c184h)		;8576   ; lee la X de Snake
-	ld (ix+005h),000h		;8579
-	ld (ix+006h),a		;857d
+	ld (ix+005h),000h		;8579   ; la X del proyectil (fraccion) = 0x00
+	ld (ix+006h),a		;857d   ; guarda la X del proyectil
 	ld a,(0c185h)		;8580   ; lee la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
-	ld (ix+00ch),a		;8583
-	ld hl,085a9h		;8586
+	ld (ix+00ch),a		;8583   ; guarda la direccion del proyectil
+	ld hl,085a9h		;8586   ; la velocidad por la direccion (0x85A9)
 	call 041deh		;8589   ; hl_mas_2a_menos_2: HL = HL + 2 x (A - 1)
-	ld (ix+007h),000h		;858c
+	ld (ix+007h),000h		;858c   ; la velocidad Y del proyectil = 0x00
 	ld a,(hl)			;8590
-	ld (ix+008h),a		;8591
+	ld (ix+008h),a		;8591   ; guarda la velocidad Y del proyectil (alta)
 	inc hl			;8594
-	ld (ix+009h),000h		;8595
+	ld (ix+009h),000h		;8595   ; la velocidad X del proyectil = 0x00
 	ld a,(hl)			;8599
-	ld (ix+00ah),a		;859a
-	ld (ix+00bh),001h		;859d
-	ld a,012h		;85a1
+	ld (ix+00ah),a		;859a   ; guarda la velocidad X del proyectil (alta)
+	ld (ix+00bh),001h		;859d   ; el cuadro del proyectil = 0x01
+	ld a,012h		;85a1   ; el sonido 0x12
 	call 0427ch		;85a3   ; sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
 	jp 053dah		;85a6   ; atributos_del_proyectil: el cuadro (ix+0x0B) de p10:63B0 a los sprites de IX sumando (ix+4) y (ix+6); 0x80 = escondido
 
@@ -805,7 +805,7 @@ DATA_velocidad_de_la_granada:
 
 
 vuela_grenade:		; la GRENADE: paso 0 vuela (0x85E3), paso 1 explota
-	ld a,(ix+001h)		;85b1
+	ld a,(ix+001h)		;85b1   ; el paso
 	call 041eah		;85b4   ; despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 
 ; ----------------------------------------------------------------------
@@ -821,19 +821,19 @@ DATA_tabla_85B7:
 
 
 L_85BB:
-	dec (ix+002h)		;85bb
+	dec (ix+002h)		;85bb   ; baja la cuenta del proyectil
 	jp z,grenade_explota		;85be   ; grenade_explota: sonido 0x1A, la explosion (cuadros 3-5) y disparo_oido
 	call mueve_proyectil_suelo		;85c1   ; mueve_proyectil_suelo: la X y la Y del suelo del proyectil
-	ld a,(ix+002h)		;85c4
+	ld a,(ix+002h)		;85c4   ; la altura de la parabola (0x85E3) por la cuenta...
 	ld hl,085e3h		;85c7
 	call 041e0h		;85ca   ; hl_mas_a: HL = HL + A
-	ld h,(hl)			;85cd
+	ld h,(hl)			;85cd   ; ...sobre la Y del suelo
 	ld l,000h		;85ce
-	ld e,(ix+00dh)		;85d0
-	ld d,(ix+00eh)		;85d3
+	ld e,(ix+00dh)		;85d0   ; lee la Y del suelo bajo el proyectil (fraccion)
+	ld d,(ix+00eh)		;85d3   ; lee la Y del suelo bajo el proyectil
 	add hl,de			;85d6
-	ld (ix+003h),l		;85d7
-	ld (ix+004h),h		;85da
+	ld (ix+003h),l		;85d7   ; guarda la Y del proyectil (fraccion)
+	ld (ix+004h),h		;85da   ; guarda la Y del proyectil
 	call proyectil_fuera		;85dd   ; proyectil_fuera: si el proyectil sale (Y >= 0xB8, X >= 0xF8 o < 9) lo quita
 	jp 053dah		;85e0   ; atributos_del_proyectil: el cuadro (ix+0x0B) de p10:63B0 a los sprites de IX sumando (ix+4) y (ix+6); 0x80 = escondido
 
@@ -852,74 +852,74 @@ DATA_parabola_de_la_granada:
 
 
 grenade_explota:		; sonido 0x1A, la explosion (cuadros 3-5) y disparo_oido
-	ld a,01ah		;85fc
+	ld a,01ah		;85fc   ; el sonido 0x1A
 	call 0427ch		;85fe   ; sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
-	inc (ix+001h)		;8601
-	ld (ix+002h),00fh		;8604
-	ld (ix+00bh),003h		;8608
-	ld (ix+00fh),001h		;860c
+	inc (ix+001h)		;8601   ; al paso 1: la explosion
+	ld (ix+002h),00fh		;8604   ; la cuenta del proyectil = 0x0F
+	ld (ix+00bh),003h		;8608   ; el cuadro del proyectil = 0x03
+	ld (ix+00fh),001h		;860c   ; si el proyectil hiere (bit 0) = 0x01
 	jp disparo_oido		;8610   ; disparo_oido: si la sala no esta en 0x806C ni 0xC158 = 1 ni ya 0xC602: pon_c602 con la cuenta 0x5A
 explosion_pequena:		; la explosion: cuadros 3, 4 y 5 y la quita
-	ld (ix+00fh),000h		;8613
-	dec (ix+002h)		;8617
+	ld (ix+00fh),000h		;8613   ; si el proyectil hiere (bit 0) = 0x00
+	dec (ix+002h)		;8617   ; baja la cuenta del proyectil
 	jp z,quita_proyectil		;861a   ; quita_proyectil: el arma del proyectil a cero y sus sprites escondidos
-	ld a,(ix+002h)		;861d
-	cp 00ah		;8620
+	ld a,(ix+002h)		;861d   ; lee la cuenta del proyectil
+	cp 00ah		;8620   ; cuenta 0x0A-0x0F: cuadro 3
 	ld c,003h		;8622
 	jr nc,L_862C		;8624
-	cp 005h		;8626
+	cp 005h		;8626   ; 5-9: el 4; 0-4: el 5
 	inc c			;8628
 	jr nc,L_862C		;8629
 	inc c			;862b
 L_862C:
-	ld (ix+00bh),c		;862c
+	ld (ix+00bh),c		;862c   ; guarda el cuadro del proyectil
 	jp 053dah		;862f   ; atributos_del_proyectil: el cuadro (ix+0x0B) de p10:63B0 a los sprites de IX sumando (ix+4) y (ix+6); 0x80 = escondido
 dispara_rocket:		; ROCKET: uno solo (0xC200), velocidad 0x86AA y sus patrones (p10:63A0)
 	ld a,(0c006h)		;8632   ; lee las teclas nuevas (1 arriba, 2 abajo, 4 izq., 8 der., 0x10, 0x20)
-	and 010h		;8635
+	and 010h		;8635   ; la tecla 0x10 nueva
 	ret z			;8637
-	ld a,004h		;8638
+	ld a,004h		;8638   ; el ROCKET en la lista
 	call 043e8h		;863a   ; busca_arma: busca A en las 7 armas de 0xC500 (fichas de 4): C = el sitio, Z si esta, acarreo si no
 	inc hl			;863d
 	ld (0ec00h),hl		;863e   ; guarda la casilla de trabajo 0xEC00 y el byte siguiente (16 bits)
 	ld a,(hl)			;8641
 	inc hl			;8642
 	or (hl)			;8643
-	ret z			;8644
+	ret z			;8644   ; sin cohetes, nada
 	ld a,(0c200h)		;8645   ; lee los proyectiles (0x180 bytes)
-	and a			;8648
+	and a			;8648   ; solo uno a la vez (el primer hueco)
 	ret nz			;8649
 	ld ix,0c200h		;864a   ; apunta a los proyectiles (0x180 bytes)
 	call sprites_del_proyectil		;864e   ; sprites_del_proyectil: reserva en 0xEA10 los sprites del arma (0x8140); acarreo si caben
-	ret nc			;8651
+	ret nc			;8651   ; sin sprites libres
 	ld hl,(0ec00h)		;8652   ; lee la casilla de trabajo 0xEC00 y el byte siguiente (16 bits)
-	ld c,000h		;8655
+	ld c,000h		;8655   ; gasta uno
 	call 04613h		;8657   ; gasta_municion: resta 1 (BCD) a la cantidad de HL y la pinta; con C = 1 o mas, al acabarse quita el arma o el objeto
-	ld (ix+00fh),001h		;865a
+	ld (ix+00fh),001h		;865a   ; si el proyectil hiere (bit 0) = 0x01
 	ld a,(0c182h)		;865e   ; lee la Y de Snake
-	ld (ix+003h),000h		;8661
-	ld (ix+00dh),000h		;8665
-	ld (ix+00eh),a		;8669
-	sub 010h		;866c
-	ld (ix+004h),a		;866e
+	ld (ix+003h),000h		;8661   ; la Y del proyectil (fraccion) = 0x00
+	ld (ix+00dh),000h		;8665   ; la Y del suelo bajo el proyectil (fraccion) = 0x00
+	ld (ix+00eh),a		;8669   ; guarda la Y del suelo bajo el proyectil
+	sub 010h		;866c   ; sale 0x10 por encima
+	ld (ix+004h),a		;866e   ; guarda la Y del proyectil
 	ld a,(0c184h)		;8671   ; lee la X de Snake
-	ld (ix+005h),000h		;8674
-	ld (ix+006h),a		;8678
+	ld (ix+005h),000h		;8674   ; la X del proyectil (fraccion) = 0x00
+	ld (ix+006h),a		;8678   ; guarda la X del proyectil
 	ld a,(0c185h)		;867b   ; lee la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
-	ld (ix+00ch),a		;867e
-	ld hl,086aah		;8681
+	ld (ix+00ch),a		;867e   ; guarda la direccion del proyectil
+	ld hl,086aah		;8681   ; la velocidad por la direccion (0x86AA)
 	call 041deh		;8684   ; hl_mas_2a_menos_2: HL = HL + 2 x (A - 1)
-	ld (ix+007h),000h		;8687
+	ld (ix+007h),000h		;8687   ; la velocidad Y del proyectil = 0x00
 	ld a,(hl)			;868b
-	ld (ix+008h),a		;868c
+	ld (ix+008h),a		;868c   ; guarda la velocidad Y del proyectil (alta)
 	inc hl			;868f
-	ld (ix+009h),000h		;8690
+	ld (ix+009h),000h		;8690   ; la velocidad X del proyectil = 0x00
 	ld a,(hl)			;8694
-	ld (ix+00ah),a		;8695
-	ld (ix+00bh),002h		;8698
-	ld a,013h		;869c
+	ld (ix+00ah),a		;8695   ; guarda la velocidad X del proyectil (alta)
+	ld (ix+00bh),002h		;8698   ; el cuadro del proyectil = 0x02
+	ld a,013h		;869c   ; el sonido 0x13
 	call 0427ch		;869e   ; sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
-	ld de,063a0h		;86a1
+	ld de,063a0h		;86a1   ; los patrones del cohete de p10:63A0
 	call 04c2eh		;86a4   ; patrones_del_cohete: carga los patrones del proyectil por la direccion (ix+0x0C) en 0xF880
 	jp 053dah		;86a7   ; atributos_del_proyectil: el cuadro (ix+0x0B) de p10:63B0 a los sprites de IX sumando (ix+4) y (ix+6); 0x80 = escondido
 
@@ -939,7 +939,7 @@ DATA_velocidad_del_cohete:
 
 
 vuela_rocket:		; el ROCKET: vuela hasta chocar, explota y la explosion grande
-	ld a,(ix+001h)		;86b2
+	ld a,(ix+001h)		;86b2   ; el paso
 	call 041eah		;86b5   ; despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 
 ; ----------------------------------------------------------------------
@@ -958,72 +958,72 @@ L_86BE:
 	call mueve_proyectil		;86be   ; mueve_proyectil: la Y (ix+3, 4) y la X (ix+5, 6) del proyectil mas sus velocidades
 	call mueve_suelo		;86c1   ; mueve_suelo: la Y del suelo (ix+0x0D, 0x0E) mas la velocidad Y (ix+7, 8)
 	call choca_proyectil		;86c4   ; choca_proyectil: acarreo si el proyectil (ix+4, ix+6) choca con una pared hacia (ix+0x0C)
-	jr nc,L_86CE		;86c7
+	jr nc,L_86CE		;86c7   ; sin pared, sigue
 	call choca_suelo		;86c9   ; choca_suelo: acarreo si el suelo del proyectil (ix+0x0E, ix+6) choca con una pared
-	jr c,L_86E8		;86cc
+	jr c,L_86E8		;86cc   ; el suelo tambien choca: explota
 L_86CE:
 	call proyectil_fuera		;86ce   ; proyectil_fuera: si el proyectil sale (Y >= 0xB8, X >= 0xF8 o < 9) lo quita
 	jp 053dah		;86d1   ; atributos_del_proyectil: el cuadro (ix+0x0B) de p10:63B0 a los sprites de IX sumando (ix+4) y (ix+6); 0x80 = escondido
 rocket_explota:		; sonido 0x1A, cuadro 7 y disparo_oido
-	ld a,01ah		;86d4
+	ld a,01ah		;86d4   ; el sonido 0x1A
 	call 0427ch		;86d6   ; sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
-	ld (ix+002h),00fh		;86d9
-	ld (ix+00bh),007h		;86dd
-	ld (ix+00fh),000h		;86e1
+	ld (ix+002h),00fh		;86d9   ; la cuenta del proyectil = 0x0F
+	ld (ix+00bh),007h		;86dd   ; el cuadro del proyectil = 0x07
+	ld (ix+00fh),000h		;86e1   ; si el proyectil hiere (bit 0) = 0x00
 	call disparo_oido		;86e5   ; disparo_oido: si la sala no esta en 0x806C ni 0xC158 = 1 ni ya 0xC602: pon_c602 con la cuenta 0x5A
 L_86E8:
-	inc (ix+001h)		;86e8
+	inc (ix+001h)		;86e8   ; sube el paso del proyectil
 	ret			;86eb
 pon_p_bomb:		; P.BOMB: una sola, delante de Snake (0x8753), 0x30 cuadros
 	ld a,(0c006h)		;86ec   ; lee las teclas nuevas (1 arriba, 2 abajo, 4 izq., 8 der., 0x10, 0x20)
-	and 010h		;86ef
+	and 010h		;86ef   ; la tecla 0x10 nueva
 	ret z			;86f1
-	ld a,005h		;86f2
+	ld a,005h		;86f2   ; la P.BOMB en la lista
 	call 043e8h		;86f4   ; busca_arma: busca A en las 7 armas de 0xC500 (fichas de 4): C = el sitio, Z si esta, acarreo si no
 	inc hl			;86f7
 	ld (0ec00h),hl		;86f8   ; guarda la casilla de trabajo 0xEC00 y el byte siguiente (16 bits)
 	ld a,(hl)			;86fb
 	inc hl			;86fc
 	or (hl)			;86fd
-	ret z			;86fe
+	ret z			;86fe   ; sin bombas, nada
 	ld a,(0c200h)		;86ff   ; lee los proyectiles (0x180 bytes)
-	and a			;8702
+	and a			;8702   ; solo una a la vez
 	ret nz			;8703
 	ld ix,0c200h		;8704   ; apunta a los proyectiles (0x180 bytes)
 	call sprites_del_proyectil		;8708   ; sprites_del_proyectil: reserva en 0xEA10 los sprites del arma (0x8140); acarreo si caben
-	ret nc			;870b
+	ret nc			;870b   ; sin sprites libres
 	ld hl,(0ec00h)		;870c   ; lee la casilla de trabajo 0xEC00 y el byte siguiente (16 bits)
-	ld c,001h		;870f
+	ld c,001h		;870f   ; gasta una (C = 1)
 	call 04613h		;8711   ; gasta_municion: resta 1 (BCD) a la cantidad de HL y la pinta; con C = 1 o mas, al acabarse quita el arma o el objeto
-	ld (ix+002h),030h		;8714
-	ld (ix+00fh),000h		;8718
+	ld (ix+002h),030h		;8714   ; 0x30 cuadros hasta explotar
+	ld (ix+00fh),000h		;8718   ; si el proyectil hiere (bit 0) = 0x00
 	ld a,(0c185h)		;871c   ; lee la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
-	dec a			;871f
+	dec a			;871f   ; 4 bytes por direccion en 0x8753...
 	add a,a			;8720
 	add a,a			;8721
 	ld de,08753h		;8722
 	call 041e5h		;8725   ; de_mas_a: DE = DE + A
-	ld a,(de)			;8728
+	ld a,(de)			;8728   ; ...el desplazamiento Y...
 	ld c,a			;8729
 	inc de			;872a
 	ld a,(de)			;872b
 	ld b,a			;872c
 	inc de			;872d
 	ld hl,(0c181h)		;872e   ; lee la Y de Snake (16 bits)
-	add hl,bc			;8731
-	ld (ix+003h),l		;8732
-	ld (ix+004h),h		;8735
-	ld a,(de)			;8738
+	add hl,bc			;8731   ; ...sobre la Y de Snake
+	ld (ix+003h),l		;8732   ; guarda la Y del proyectil (fraccion)
+	ld (ix+004h),h		;8735   ; guarda la Y del proyectil
+	ld a,(de)			;8738   ; el desplazamiento X...
 	ld c,a			;8739
 	inc de			;873a
 	ld a,(de)			;873b
 	ld b,a			;873c
 	ld hl,(0c183h)		;873d   ; lee la X de Snake (16 bits)
-	add hl,bc			;8740
-	ld (ix+005h),l		;8741
-	ld (ix+006h),h		;8744
-	ld (ix+00bh),006h		;8747
-	ld a,017h		;874b
+	add hl,bc			;8740   ; ...sobre la X de Snake
+	ld (ix+005h),l		;8741   ; guarda la X del proyectil (fraccion)
+	ld (ix+006h),h		;8744   ; guarda la X del proyectil
+	ld (ix+00bh),006h		;8747   ; el cuadro del proyectil = 0x06
+	ld a,017h		;874b   ; el sonido 0x17
 	call 0427ch		;874d   ; sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
 	jp 053dah		;8750   ; atributos_del_proyectil: el cuadro (ix+0x0B) de p10:63B0 a los sprites de IX sumando (ix+4) y (ix+6); 0x80 = escondido
 
@@ -1043,7 +1043,7 @@ DATA_fichas_8753:
 
 
 p_bomb:		; la P.BOMB: espera, explota (sonido 0x1C) y la explosion grande
-	ld a,(ix+001h)		;8763
+	ld a,(ix+001h)		;8763   ; el paso
 	call 041eah		;8766   ; despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 
 ; ----------------------------------------------------------------------
@@ -1059,66 +1059,66 @@ DATA_tabla_8769:
 
 
 L_876F:
-	dec (ix+002h)		;876f
+	dec (ix+002h)		;876f   ; espera la cuenta
 	ret nz			;8772
-	ld (ix+00fh),001h		;8773
+	ld (ix+00fh),001h		;8773   ; al explotar hiere
 	jr L_8789		;8777
 L_8779:
-	ld a,01ch		;8779
+	ld a,01ch		;8779   ; el sonido 0x1C
 	call 0427ch		;877b   ; sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
-	ld (ix+002h),00fh		;877e
-	ld (ix+00bh),007h		;8782
+	ld (ix+002h),00fh		;877e   ; la cuenta del proyectil = 0x0F
+	ld (ix+00bh),007h		;8782   ; el cuadro del proyectil = 0x07
 	call disparo_oido		;8786   ; disparo_oido: si la sala no esta en 0x806C ni 0xC158 = 1 ni ya 0xC602: pon_c602 con la cuenta 0x5A
 L_8789:
-	inc (ix+001h)		;8789
+	inc (ix+001h)		;8789   ; sube el paso del proyectil
 	ret			;878c
 explosion_grande:		; la explosion: cuadros 7, 8 y 9 y la quita
-	ld (ix+00fh),000h		;878d
-	dec (ix+002h)		;8791
+	ld (ix+00fh),000h		;878d   ; si el proyectil hiere (bit 0) = 0x00
+	dec (ix+002h)		;8791   ; baja la cuenta del proyectil
 	jp z,quita_proyectil		;8794   ; quita_proyectil: el arma del proyectil a cero y sus sprites escondidos
-	ld a,(ix+002h)		;8797
+	ld a,(ix+002h)		;8797   ; cuenta 0x0A-0x0F: cuadro 7
 	ld c,007h		;879a
 	cp 00ah		;879c
 	jr nc,L_87A6		;879e
-	inc c			;87a0
+	inc c			;87a0   ; 5-9: el 8; 0-4: el 9
 	cp 005h		;87a1
 	jr nc,L_87A6		;87a3
 	inc c			;87a5
 L_87A6:
-	ld (ix+00bh),c		;87a6
+	ld (ix+00bh),c		;87a6   ; guarda el cuadro del proyectil
 	jp 053dah		;87a9   ; atributos_del_proyectil: el cuadro (ix+0x0B) de p10:63B0 a los sprites de IX sumando (ix+4) y (ix+6); 0x80 = escondido
 pon_l_mine:		; L.MINE: en el sitio de Snake, cuadro 0x0A
 	ld a,(0c006h)		;87ac   ; lee las teclas nuevas (1 arriba, 2 abajo, 4 izq., 8 der., 0x10, 0x20)
-	and 010h		;87af
+	and 010h		;87af   ; la tecla 0x10 nueva
 	ret z			;87b1
-	ld a,006h		;87b2
+	ld a,006h		;87b2   ; la L.MINE en la lista
 	call 043e8h		;87b4   ; busca_arma: busca A en las 7 armas de 0xC500 (fichas de 4): C = el sitio, Z si esta, acarreo si no
 	inc hl			;87b7
 	ld (0ec00h),hl		;87b8   ; guarda la casilla de trabajo 0xEC00 y el byte siguiente (16 bits)
 	ld a,(hl)			;87bb
 	inc hl			;87bc
 	or (hl)			;87bd
-	ret z			;87be
+	ret z			;87be   ; sin minas, nada
 	call hueco_de_proyectil		;87bf   ; hueco_de_proyectil: IX = el primer proyectil libre de 0xC200 y acarreo; sin acarreo si no hay
-	ret nc			;87c2
+	ret nc			;87c2   ; ningun hueco libre
 	call sprites_del_proyectil		;87c3   ; sprites_del_proyectil: reserva en 0xEA10 los sprites del arma (0x8140); acarreo si caben
-	ret nc			;87c6
+	ret nc			;87c6   ; sin sprites libres
 	ld hl,(0ec00h)		;87c7   ; lee la casilla de trabajo 0xEC00 y el byte siguiente (16 bits)
-	ld c,001h		;87ca
+	ld c,001h		;87ca   ; gasta una (C = 1)
 	call 04613h		;87cc   ; gasta_municion: resta 1 (BCD) a la cantidad de HL y la pinta; con C = 1 o mas, al acabarse quita el arma o el objeto
-	ld (ix+00fh),001h		;87cf
+	ld (ix+00fh),001h		;87cf   ; si el proyectil hiere (bit 0) = 0x01
 	ld a,(0c182h)		;87d3   ; lee la Y de Snake
-	ld (ix+004h),a		;87d6
-	ld (ix+003h),000h		;87d9
+	ld (ix+004h),a		;87d6   ; en la Y de Snake...
+	ld (ix+003h),000h		;87d9   ; la Y del proyectil (fraccion) = 0x00
 	ld a,(0c184h)		;87dd   ; lee la X de Snake
-	ld (ix+006h),a		;87e0
-	ld (ix+005h),000h		;87e3
-	ld (ix+00bh),00ah		;87e7
-	ld a,017h		;87eb
+	ld (ix+006h),a		;87e0   ; ...y en su X
+	ld (ix+005h),000h		;87e3   ; la X del proyectil (fraccion) = 0x00
+	ld (ix+00bh),00ah		;87e7   ; el cuadro del proyectil = 0x0A
+	ld a,017h		;87eb   ; el sonido 0x17
 	call 0427ch		;87ed   ; sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
 	jp 053dah		;87f0   ; atributos_del_proyectil: el cuadro (ix+0x0B) de p10:63B0 a los sprites de IX sumando (ix+4) y (ix+6); 0x80 = escondido
 l_mine:		; la L.MINE: quieta hasta que algo la pisa, explota (sonido 0x1C)
-	ld a,(ix+001h)		;87f3
+	ld a,(ix+001h)		;87f3   ; el paso (0: quieta; lo pasa a 1 quien la pisa)
 	call 041eah		;87f6   ; despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 
 ; ----------------------------------------------------------------------
@@ -1134,62 +1134,62 @@ DATA_tabla_87F9:
 
 
 L_87FF:
-	ld a,01ch		;87ff
+	ld a,01ch		;87ff   ; el sonido 0x1C
 	call 0427ch		;8801   ; sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
-	inc (ix+001h)		;8804
-	ld (ix+00fh),000h		;8807
-	ld (ix+002h),00fh		;880b
-	ld (ix+00bh),003h		;880f
+	inc (ix+001h)		;8804   ; sube el paso del proyectil
+	ld (ix+00fh),000h		;8807   ; si el proyectil hiere (bit 0) = 0x00
+	ld (ix+002h),00fh		;880b   ; la cuenta del proyectil = 0x0F
+	ld (ix+00bh),003h		;880f   ; el cuadro del proyectil = 0x03
 	call disparo_oido		;8813   ; disparo_oido: si la sala no esta en 0x806C ni 0xC158 = 1 ni ya 0xC602: pon_c602 con la cuenta 0x5A
 L_8816:
 	ret			;8816
 dispara_missile:		; MISSILE: uno solo, por la direccion de Snake, patrones p10:63A8
 	ld a,(0c006h)		;8817   ; lee las teclas nuevas (1 arriba, 2 abajo, 4 izq., 8 der., 0x10, 0x20)
-	and 010h		;881a
+	and 010h		;881a   ; la tecla 0x10 nueva
 	ret z			;881c
-	ld a,007h		;881d
+	ld a,007h		;881d   ; el MISSILE en la lista
 	call 043e8h		;881f   ; busca_arma: busca A en las 7 armas de 0xC500 (fichas de 4): C = el sitio, Z si esta, acarreo si no
 	inc hl			;8822
 	ld (0ec00h),hl		;8823   ; guarda la casilla de trabajo 0xEC00 y el byte siguiente (16 bits)
 	ld a,(hl)			;8826
 	inc hl			;8827
 	or (hl)			;8828
-	ret z			;8829
+	ret z			;8829   ; sin misiles, nada
 	ld a,(0c200h)		;882a   ; lee los proyectiles (0x180 bytes)
-	and a			;882d
+	and a			;882d   ; solo uno a la vez
 	ret nz			;882e
 	ld ix,0c200h		;882f   ; apunta a los proyectiles (0x180 bytes)
 	call sprites_del_proyectil		;8833   ; sprites_del_proyectil: reserva en 0xEA10 los sprites del arma (0x8140); acarreo si caben
-	ret nc			;8836
+	ret nc			;8836   ; sin sprites libres
 	ld hl,(0ec00h)		;8837   ; lee la casilla de trabajo 0xEC00 y el byte siguiente (16 bits)
-	ld c,001h		;883a
+	ld c,001h		;883a   ; gasta uno (C = 1)
 	call 04613h		;883c   ; gasta_municion: resta 1 (BCD) a la cantidad de HL y la pinta; con C = 1 o mas, al acabarse quita el arma o el objeto
-	ld (ix+00fh),001h		;883f
+	ld (ix+00fh),001h		;883f   ; si el proyectil hiere (bit 0) = 0x01
 	ld a,(0c182h)		;8843   ; lee la Y de Snake
-	ld (ix+003h),000h		;8846
-	ld (ix+00dh),000h		;884a
-	ld (ix+00eh),a		;884e
-	sub 010h		;8851
-	ld (ix+004h),a		;8853
+	ld (ix+003h),000h		;8846   ; la Y del proyectil (fraccion) = 0x00
+	ld (ix+00dh),000h		;884a   ; la Y del suelo bajo el proyectil (fraccion) = 0x00
+	ld (ix+00eh),a		;884e   ; guarda la Y del suelo bajo el proyectil
+	sub 010h		;8851   ; sale 0x10 por encima
+	ld (ix+004h),a		;8853   ; guarda la Y del proyectil
 	ld a,(0c184h)		;8856   ; lee la X de Snake
-	ld (ix+005h),000h		;8859
-	ld (ix+006h),a		;885d
-	ld a,014h		;8860
+	ld (ix+005h),000h		;8859   ; la X del proyectil (fraccion) = 0x00
+	ld (ix+006h),a		;885d   ; guarda la X del proyectil
+	ld a,014h		;8860   ; el sonido 0x14
 	call 0427ch		;8862   ; sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
 	ld a,(0c185h)		;8865   ; lee la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
 rumbo_del_missile:		; la direccion A del MISSILE, su velocidad (0x888F) y sus patrones
-	ld (ix+00ch),a		;8868
-	ld hl,0888fh		;886b
+	ld (ix+00ch),a		;8868   ; guarda la direccion del proyectil
+	ld hl,0888fh		;886b   ; la velocidad por la direccion (0x888F)
 	call 041deh		;886e   ; hl_mas_2a_menos_2: HL = HL + 2 x (A - 1)
-	ld (ix+007h),000h		;8871
+	ld (ix+007h),000h		;8871   ; la velocidad Y del proyectil = 0x00
 	ld a,(hl)			;8875
-	ld (ix+008h),a		;8876
+	ld (ix+008h),a		;8876   ; guarda la velocidad Y del proyectil (alta)
 	inc hl			;8879
-	ld (ix+009h),000h		;887a
+	ld (ix+009h),000h		;887a   ; la velocidad X del proyectil = 0x00
 	ld a,(hl)			;887e
-	ld (ix+00ah),a		;887f
-	ld (ix+00bh),00bh		;8882
-	ld de,063a8h		;8886
+	ld (ix+00ah),a		;887f   ; guarda la velocidad X del proyectil (alta)
+	ld (ix+00bh),00bh		;8882   ; el cuadro del proyectil = 0x0B
+	ld de,063a8h		;8886   ; los patrones del misil de p10:63A8
 	call 04c2eh		;8889   ; patrones_del_cohete: carga los patrones del proyectil por la direccion (ix+0x0C) en 0xF880
 	jp 053dah		;888c   ; atributos_del_proyectil: el cuadro (ix+0x0B) de p10:63B0 a los sprites de IX sumando (ix+4) y (ix+6); 0x80 = escondido
 
@@ -1208,7 +1208,7 @@ DATA_velocidad_888f:
 
 
 vuela_missile:		; el MISSILE: las teclas de direccion lo giran; vuela hasta chocar y explota
-	ld a,(ix+001h)		;8897
+	ld a,(ix+001h)		;8897   ; el paso
 	call 041eah		;889a   ; despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 
 ; ----------------------------------------------------------------------
@@ -1225,46 +1225,46 @@ DATA_tabla_889D:
 
 L_88A3:
 	ld a,(0c006h)		;88a3   ; lee las teclas nuevas (1 arriba, 2 abajo, 4 izq., 8 der., 0x10, 0x20)
-	rra			;88a6
+	rra			;88a6   ; la tecla nueva: arriba (1)...
 	ld c,001h		;88a7
 	jr c,L_88B7		;88a9
-	inc c			;88ab
+	inc c			;88ab   ; ...abajo (2)...
 	rra			;88ac
 	jr c,L_88B7		;88ad
-	inc c			;88af
+	inc c			;88af   ; ...izquierda (3)...
 	rra			;88b0
 	jr c,L_88B7		;88b1
-	inc c			;88b3
+	inc c			;88b3   ; ...o derecha (4)
 	rra			;88b4
 	jr nc,L_88BB		;88b5
 L_88B7:
-	ld a,c			;88b7
+	ld a,c			;88b7   ; cambia el rumbo
 	call rumbo_del_missile		;88b8   ; rumbo_del_missile: la direccion A del MISSILE, su velocidad (0x888F) y sus patrones
 L_88BB:
 	call mueve_proyectil		;88bb   ; mueve_proyectil: la Y (ix+3, 4) y la X (ix+5, 6) del proyectil mas sus velocidades
 	call mueve_suelo		;88be   ; mueve_suelo: la Y del suelo (ix+0x0D, 0x0E) mas la velocidad Y (ix+7, 8)
 	call choca_proyectil		;88c1   ; choca_proyectil: acarreo si el proyectil (ix+4, ix+6) choca con una pared hacia (ix+0x0C)
-	jr nc,L_88CB		;88c4
+	jr nc,L_88CB		;88c4   ; sin pared, sigue
 	call choca_suelo		;88c6   ; choca_suelo: acarreo si el suelo del proyectil (ix+0x0E, ix+6) choca con una pared
-	jr c,L_88EB		;88c9
+	jr c,L_88EB		;88c9   ; el suelo tambien choca: explota
 L_88CB:
 	call proyectil_fuera		;88cb   ; proyectil_fuera: si el proyectil sale (Y >= 0xB8, X >= 0xF8 o < 9) lo quita
-	ld de,063a8h		;88ce
+	ld de,063a8h		;88ce   ; los patrones por la direccion
 	call 04c2eh		;88d1   ; patrones_del_cohete: carga los patrones del proyectil por la direccion (ix+0x0C) en 0xF880
 	jp 053dah		;88d4   ; atributos_del_proyectil: el cuadro (ix+0x0B) de p10:63B0 a los sprites de IX sumando (ix+4) y (ix+6); 0x80 = escondido
 missile_explota:		; sonido 0x1A, cuadro 7 y disparo_oido
-	ld a,01ah		;88d7
+	ld a,01ah		;88d7   ; el sonido 0x1A
 	call 0427ch		;88d9   ; sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
-	ld (ix+00fh),000h		;88dc
-	ld (ix+002h),00fh		;88e0
-	ld (ix+00bh),007h		;88e4
+	ld (ix+00fh),000h		;88dc   ; si el proyectil hiere (bit 0) = 0x00
+	ld (ix+002h),00fh		;88e0   ; la cuenta del proyectil = 0x0F
+	ld (ix+00bh),007h		;88e4   ; el cuadro del proyectil = 0x07
 	call disparo_oido		;88e8   ; disparo_oido: si la sala no esta en 0x806C ni 0xC158 = 1 ni ya 0xC602: pon_c602 con la cuenta 0x5A
 L_88EB:
-	inc (ix+001h)		;88eb
+	inc (ix+001h)		;88eb   ; sube el paso del proyectil
 	ret			;88ee
 choques_del_cuadro:		; proyectiles y Snake contra los actores, fichas y salas que hieren, puertas y objetos
 	ld a,(0c151h)		;88ef   ; lee el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
-	cp 009h		;88f2
+	cp 009h		;88f2   ; Snake muerto (modo 9): nada
 	ret z			;88f4
 	call proyectiles_contra_actores		;88f5   ; proyectiles_contra_actores: con el arma 0xC142: su tabla de dano y de cajas (p05:8951 o 8992) y cada proyectil contra los actores
 	call snake_contra_actores		;88f8   ; snake_contra_actores: cada actor vivo contra Snake (golpe, contacto y dano)
@@ -1272,45 +1272,45 @@ choques_del_cuadro:		; proyectiles y Snake contra los actores, fichas y salas qu
 	call fichas_que_hieren		;88fe   ; fichas_que_hieren: en las salas 0x10, 0x25, 0x6E, 0x28 y 0x74 con 0xC616, sobre sus fichas: sonido 0x18 y dano 2
 	call salas_que_hieren		;8901   ; salas_que_hieren: en las salas de 0x8C2A, sin la MASK (objeto 5): dano 2 cada 0x10 cuadros
 	ld a,(0c151h)		;8904   ; lee el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
-	cp 009h		;8907
+	cp 009h		;8907   ; si murio en este cuadro, nada mas
 	ret z			;8909
 	call 0785bh		;890a   ; mira_las_puertas: Snake ante una puerta que se abre: modo 7; en un paso abierto: modo 1 y 0xC4FC = la puerta
 	call objetos_de_la_sala		;890d   ; objetos_de_la_sala: Snake contra los 3 objetos de 0xC5D0 (fichas de 0x10)
-	ld a,(0c5b9h)		;8910
+	ld a,(0c5b9h)		;8910   ; con 0xC5B9, sin la captura
 	and a			;8913
 	ret nz			;8914
 	ld a,(0c130h)		;8915   ; lee la sala
-	cp 008h		;8918
+	cp 008h		;8918   ; en la sala 8...
 	ret nz			;891a
 	ld a,(0c184h)		;891b   ; lee la X de Snake
-	cp 0d0h		;891e
+	cp 0d0h		;891e   ; ...con la X de Snake entre 0xC0 y 0xCF...
 	ret nc			;8920
 	cp 0c0h		;8921
 	ret c			;8923
-	ld a,00bh		;8924
+	ld a,00bh		;8924   ; ...el modo 11 (la captura)
 	ld (0c151h),a		;8926   ; guarda el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
-	xor a			;8929
+	xor a			;8929   ; el paso 0
 	ld (0c900h),a		;892a   ; guarda el paso de la secuencia 0xC900
 	ret			;892d
 snake_contra_actores:		; cada actor vivo contra Snake (golpe, contacto y dano)
-	xor a			;892e
+	xor a			;892e   ; 0xC15E a cero
 	ld (0c15eh),a		;892f
 	ld ix,0d000h		;8932   ; apunta a los 16 actores (fichas de 0x80)
 	ld a,(0c182h)		;8936   ; lee la Y de Snake
-	ld e,a			;8939
+	ld e,a			;8939   ; E = la Y de Snake
 	ld a,(0c184h)		;893a   ; lee la X de Snake
-	ld d,a			;893d
-	ld b,010h		;893e
+	ld d,a			;893d   ; D = la X
+	ld b,010h		;893e   ; 16 actores
 L_8940:
 	push bc			;8940
 	push de			;8941
 	ld a,(ix+000h)		;8942   ; lee el tipo del actor
-	bit 7,a		;8945
+	bit 7,a		;8945   ; muriendo: nada
 	jr nz,L_894D		;8947
-	and a			;8949
+	and a			;8949   ; hueco vacio: nada
 	call nz,snake_contra_actor		;894a   ; snake_contra_actor: el actor IX contra Snake: golpe con la tecla 0x20, caja por tipo (p05:89D3) y dano
 L_894D:
-	ld de,00080h		;894d
+	ld de,00080h		;894d   ; la ficha siguiente
 	add ix,de		;8950
 	pop de			;8952
 	pop bc			;8953
@@ -1318,60 +1318,60 @@ L_894D:
 	ret			;8956
 snake_contra_actor:		; el actor IX contra Snake: golpe con la tecla 0x20, caja por tipo (p05:89D3) y dano
 	ld a,(ix+01eh)		;8957   ; lee las marcas del actor (bits 0-4 el arma que le dio, 6 golpe, 7 contacto)
-	and 01fh		;895a
+	and 01fh		;895a   ; las marcas de golpe y contacto a cero
 	ld (ix+01eh),a		;895c   ; guarda las marcas del actor (bits 0-4 el arma que le dio, 6 golpe, 7 contacto)
 	ld a,(ix+000h)		;895f   ; lee el tipo del actor
-	cp 023h		;8962
+	cp 023h		;8962   ; los rayos (0x23) tienen lo suyo
 	jp z,contra_tipo_35		;8964   ; contra_tipo_35: el tipo 35 (largo ix+0x15, de lado si ix+0x16 bit 0) toca a Snake: pon_c602 y quita a todos
 	bit 0,(ix+00eh)		;8967   ; mira el bit 0 de con que choca el actor (bit 0 Snake, bit 1 proyectiles)
-	ret z			;896b
-	cp 010h		;896c
+	ret z			;896b   ; si no choca con Snake, nada
+	cp 010h		;896c   ; la trampa (0x10) tiene lo suyo
 	jp z,contra_tipo_16		;896e   ; contra_tipo_16: el tipo 16: dentro de su recuadro (ix+0x13, 0x14, 0x15) dano 0xFF
-	cp 036h		;8971
+	cp 036h		;8971   ; el tipo 0x36 tiene lo suyo
 	jp z,contra_tipo_54		;8973   ; contra_tipo_54: el tipo 54: en su columna (X +- 8) y su alto por (ix+0x0C) (0x8B7E), dano
 	ld a,(0c006h)		;8976   ; lee las teclas nuevas (1 arriba, 2 abajo, 4 izq., 8 der., 0x10, 0x20)
-	and 020h		;8979
+	and 020h		;8979   ; la tecla 0x20 nueva...
 	jr z,L_8989		;897b
 	ld a,(0c18bh)		;897d   ; lee el modo de la pose de Snake
-	dec a			;8980
+	dec a			;8980   ; ...y Snake con el modo de pose 1: el golpe
 	call z,golpea_actor		;8981   ; golpea_actor: si el tipo esta en 0x8A11 y en el alcance del golpe (0x8A5B): bit 6 de (ix+0x1E) y el sonido 8
 	bit 6,(ix+01eh)		;8984   ; mira el bit 6 de las marcas del actor (bits 0-4 el arma que le dio, 6 golpe, 7 contacto)
-	ret nz			;8988
+	ret nz			;8988   ; golpeado: nada mas
 L_8989:
 	ld a,(ix+000h)		;8989   ; lee el tipo del actor
-	ld hl,089d3h		;898c
+	ld hl,089d3h		;898c   ; p05:89D3: la caja de contacto de cada tipo
 	call 043a3h		;898f   ; byte_del_banco_5: A = el byte A - 1 de la tabla HL, con los bancos 4-5-6
 	ld l,a			;8992
-	inc a			;8993
+	inc a			;8993   ; 0xFF: sin contacto
 	ret z			;8994
 	push de			;8995
 	call 043b4h		;8996   ; caja_de_choque: copia la caja A (p05:8A55 + 4 x (A - 1)) a 0xC928; HL = 0xC928
-	pop de			;8999
+	pop de			;8999   ; la caja copiada en 0xC928 (HL)
 	call cerca_de_snake		;899a   ; cerca_de_snake: acarreo si (ix+3, ix+5) mas el desplazamiento de HL esta a menos de [alto][ancho] de (E, D)
-	ret nc			;899d
+	ret nc			;899d   ; Snake fuera de la caja: nada
 	ld a,(ix+000h)		;899e   ; lee el tipo del actor
-	sub 002h		;89a1
+	sub 002h		;89a1   ; el tipo 2: lo suyo
 	jp z,contra_tipo_2		;89a3   ; contra_tipo_2: 0xC15E = 1 y el bit 7 de (ix+0x1E)
 	ld a,(ix+01fh)		;89a6   ; lee la cuenta del golpe del actor
-	and a			;89a9
+	and a			;89a9   ; durante la sacudida no hiere
 	ret nz			;89aa
 	set 7,(ix+01eh)		;89ab   ; pone a uno el bit 7 de las marcas del actor (bits 0-4 el arma que le dio, 6 golpe, 7 contacto)
 	ld a,(ix+000h)		;89af   ; lee el tipo del actor
-	cp 007h		;89b2
+	cp 007h		;89b2   ; el tipo 7 (la mina)...
 	jr nz,L_89BA		;89b4
 	ld (ix+00dh),000h		;89b6   ; el aguante del actor = 0x00
 L_89BA:
 	ld a,(ix+000h)		;89ba   ; lee el tipo del actor
-	cp 01fh		;89bd
+	cp 01fh		;89bd   ; el tipo 0x1F (escorpion): veneno (0xC139)...
 	jr nz,L_89CB		;89bf
 	ld a,001h		;89c1
 	ld (0c139h),a		;89c3
 sonido_10:		; el sonido 0x10
-	ld a,010h		;89c6
+	ld a,010h		;89c6   ; ...y el sonido 0x10
 	jp 04284h		;89c8   ; sonido: pide el sonido A al controlador del banco 4 (0x67FD) con los bancos 4 y 5
 L_89CB:
 	ld a,(ix+000h)		;89cb   ; lee el tipo del actor
-	cp 031h		;89ce
+	cp 031h		;89ce   ; los tipos 0x31-0x34 y 0x37 no hieren
 	jr c,L_89D8		;89d0
 	cp 035h		;89d2
 	ret c			;89d4
@@ -1379,20 +1379,20 @@ L_89CB:
 	ret z			;89d7
 L_89D8:
 	ld a,(0c199h)		;89d8   ; lee la cuenta de herido (Snake parpadea)
-	and a			;89db
+	and a			;89db   ; herido hace poco: nada
 	ret nz			;89dc
 	call sonido_10		;89dd   ; sonido_10: el sonido 0x10
-	ld a,020h		;89e0
+	ld a,020h		;89e0   ; 0x20 cuadros herido
 	ld (0c199h),a		;89e2   ; guarda la cuenta de herido (Snake parpadea)
-	ld hl,08a14h		;89e5
+	ld hl,08a14h		;89e5   ; 0xEC00 = 0x8A14
 	ld (0ec00h),hl		;89e8   ; guarda la casilla de trabajo 0xEC00 y el byte siguiente (16 bits)
 	ld a,(ix+000h)		;89eb   ; lee el tipo del actor
 	push af			;89ee
-	dec a			;89ef
+	dec a			;89ef   ; el dano del tipo contra Snake (la tabla de 0xEC00)
 	call 04396h		;89f0   ; dano: A = el byte A de la tabla de dano de 0xEC00
 	ld b,a			;89f3
 	pop af			;89f4
-	cp 02bh		;89f5
+	cp 02bh		;89f5   ; los tipos 0x2B, 0x2F y 0x3A-0x3E...
 	jr z,L_8A05		;89f7
 	cp 02fh		;89f9
 	jr z,L_8A05		;89fb
@@ -1402,9 +1402,9 @@ L_89D8:
 	jr nc,L_8A0E		;8a03
 L_8A05:
 	ld a,(0c135h)		;8a05   ; lee el objeto elegido (p06:B8F6: 3 LIGHT, 4 GOGGL, 6 CIGAL, 0x0E-0x15 CARD1-8, 0x16 RATIO, 0x19 BOX...)
-	cp 001h		;8a08
+	cp 001h		;8a08   ; ...con ARMOR (objeto 1)...
 	jr nz,L_8A0E		;8a0a
-	srl b		;8a0c
+	srl b		;8a0c   ; ...hacen la mitad
 L_8A0E:
 	jp dano_a_snake		;8a0e   ; dano_a_snake: resta B a la vida 0xC131; al llegar a cero, Snake muere (estado 3, modo 9, sonido 0x44)
 
@@ -1422,17 +1422,17 @@ DATA_tipos_8a11:
 
 golpea_actor:		; si el tipo esta en 0x8A11 y en el alcance del golpe (0x8A5B): bit 6 de (ix+0x1E) y el sonido 8
 	ld a,(ix+000h)		;8a1d   ; lee el tipo del actor
-	ld b,00ch		;8a20
+	ld b,00ch		;8a20   ; los 12 tipos que se pueden golpear (0x8A11)
 	ld hl,08a11h		;8a22
 L_8A25:
-	cp (hl)			;8a25
+	cp (hl)			;8a25   ; busca el tipo
 	jr z,L_8A2C		;8a26
 	inc hl			;8a28
 	djnz L_8A25		;8a29
 	ret			;8a2b
 L_8A2C:
 	ld a,(0c185h)		;8a2c   ; lee la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
-	dec a			;8a2f
+	dec a			;8a2f   ; por la direccion de Snake, el alcance del golpe
 	ld hl,08a5bh		;8a30
 	jr z,L_8A44		;8a33
 	dec a			;8a35
@@ -1444,13 +1444,13 @@ L_8A2C:
 	ld hl,08a63h		;8a41
 L_8A44:
 	call cerca_de_snake		;8a44   ; cerca_de_snake: acarreo si (ix+3, ix+5) mas el desplazamiento de HL esta a menos de [alto][ancho] de (E, D)
-	ret nc			;8a47
+	ret nc			;8a47   ; fuera del alcance: nada
 	ld a,(ix+01fh)		;8a48   ; lee la cuenta del golpe del actor
-	cp 038h		;8a4b
+	cp 038h		;8a4b   ; si ya esta en la sacudida, nada
 	ret nc			;8a4d
 	ld (ix+01fh),000h		;8a4e   ; la cuenta del golpe del actor = 0x00
 	set 6,(ix+01eh)		;8a52   ; pone a uno el bit 6 de las marcas del actor (bits 0-4 el arma que le dio, 6 golpe, 7 contacto)
-	ld a,008h		;8a56
+	ld a,008h		;8a56   ; el sonido 8
 	jp 04284h		;8a58   ; sonido: pide el sonido A al controlador del banco 4 (0x67FD) con los bancos 4 y 5
 
 ; ----------------------------------------------------------------------
@@ -1473,37 +1473,37 @@ DATA_alcance_del_punetazo:
 
 cerca_de_snake:		; acarreo si (ix+3, ix+5) mas el desplazamiento de HL esta a menos de [alto][ancho] de (E, D)
 	ld a,(ix+003h)		;8a67   ; lee la Y del actor
-	add a,(hl)			;8a6a
+	add a,(hl)			;8a6a   ; la Y + dy...
 	inc hl			;8a6b
-	sub e			;8a6c
+	sub e			;8a6c   ; ...menos la Y de Snake...
 	jr nc,L_8A71		;8a6d
 	neg		;8a6f
 L_8A71:
-	cp (hl)			;8a71
+	cp (hl)			;8a71   ; ...menor que el alto
 	ret nc			;8a72
 	inc hl			;8a73
 	ld a,(ix+005h)		;8a74   ; lee la X del actor
-	add a,(hl)			;8a77
+	add a,(hl)			;8a77   ; la X + dx menos la X de Snake...
 	inc hl			;8a78
 	sub d			;8a79
 	jr nc,L_8A7E		;8a7a
 	neg		;8a7c
 L_8A7E:
-	cp (hl)			;8a7e
+	cp (hl)			;8a7e   ; ...menor que el ancho: acarreo
 	ret			;8a7f
 contra_tipo_35:		; el tipo 35 (largo ix+0x15, de lado si ix+0x16 bit 0) toca a Snake: pon_c602 y quita a todos
 	bit 0,(ix+001h)		;8a80   ; mira el bit 0 de el paso del actor
-	ret z			;8a84
-	bit 0,(ix+016h)		;8a85
+	ret z			;8a84   ; apagado: nada
+	bit 0,(ix+016h)		;8a85   ; bit 0 de (ix+0x16): horizontal
 	jr nz,L_8AAA		;8a89
-	ld a,d			;8a8b
+	ld a,d			;8a8b   ; vertical: la X de Snake a menos de 4...
 	sub (ix+005h)		;8a8c   ; le resta la X del actor
 	jr nc,L_8A93		;8a8f
 	neg		;8a91
 L_8A93:
 	cp 004h		;8a93
 	ret nc			;8a95
-	ld a,(ix+015h)		;8a96
+	ld a,(ix+015h)		;8a96   ; ...y la Y dentro del largo (ix+0x15)
 	srl a		;8a99
 	ld b,a			;8a9b
 	add a,008h		;8a9c
@@ -1516,14 +1516,14 @@ L_8AA6:
 	ret nc			;8aa7
 	jr L_8AC5		;8aa8
 L_8AAA:
-	ld a,e			;8aaa
+	ld a,e			;8aaa   ; horizontal: la Y de Snake a menos de 4...
 	sub (ix+003h)		;8aab   ; le resta la Y del actor
 	jr nc,L_8AB2		;8aae
 	neg		;8ab0
 L_8AB2:
 	cp 004h		;8ab2
 	ret nc			;8ab4
-	ld a,(ix+015h)		;8ab5
+	ld a,(ix+015h)		;8ab5   ; ...y la X dentro del largo
 	srl a		;8ab8
 	ld b,a			;8aba
 	add a,(ix+005h)		;8abb   ; le suma la X del actor
@@ -1535,42 +1535,42 @@ L_8AC3:
 	ret nc			;8ac4
 L_8AC5:
 	set 7,(ix+01eh)		;8ac5   ; pone a uno el bit 7 de las marcas del actor (bits 0-4 el arma que le dio, 6 golpe, 7 contacto)
-	ld a,05ah		;8ac9
+	ld a,05ah		;8ac9   ; la alarma con la cuenta 0x5A
 	call 07d27h		;8acb   ; pon_c602_con_cuenta: 0xC605 = A y pon_c602
-	push ix		;8ace
+	push ix		;8ace   ; p15:BF6E: borra los rayos...
 	call 07707h		;8ad0   ; llama_bf6e: p15:BF6E
 	call quita_a_todos		;8ad3   ; quita_a_todos: quita a los 16 actores
-	pop ix		;8ad6
+	pop ix		;8ad6   ; ...y los quita todos
 	ret			;8ad8
 quita_a_todos:		; quita a los 16 actores
 	ld ix,0d000h		;8ad9   ; apunta a los 16 actores (fichas de 0x80)
-	ld b,010h		;8add
+	ld b,010h		;8add   ; los 16 actores
 L_8ADF:
 	ld a,(ix+000h)		;8adf   ; lee el tipo del actor
-	and a			;8ae2
-	call nz,07371h		;8ae3
-	ld de,00080h		;8ae6
+	and a			;8ae2   ; hueco vacio: nada
+	call nz,07371h		;8ae3   ; p01:7371: lo quita
+	ld de,00080h		;8ae6   ; la ficha siguiente
 	add ix,de		;8ae9
 	djnz L_8ADF		;8aeb
 	ret			;8aed
 contra_tipo_2:		; 0xC15E = 1 y el bit 7 de (ix+0x1E)
-	ld a,001h		;8aee
+	ld a,001h		;8aee   ; Snake encima del tipo 2: 0xC15E = 1
 	ld (0c15eh),a		;8af0
 	set 7,(ix+01eh)		;8af3   ; pone a uno el bit 7 de las marcas del actor (bits 0-4 el arma que le dio, 6 golpe, 7 contacto)
 	ret			;8af7
 contra_tipo_16:		; el tipo 16: dentro de su recuadro (ix+0x13, 0x14, 0x15) dano 0xFF
 	bit 2,(ix+00eh)		;8af8   ; mira el bit 2 de con que choca el actor (bit 0 Snake, bit 1 proyectiles)
-	jr nz,L_8B1E		;8afc
-	ld b,(ix+015h)		;8afe
+	jr nz,L_8B1E		;8afc   ; con el bit 2 de (ix+0x0E), la zona grande
+	ld b,(ix+015h)		;8afe   ; el recuadro: media anchura...
 	srl b		;8b01
-	ld a,(ix+013h)		;8b03
+	ld a,(ix+013h)		;8b03   ; ...desde (ix+0x13, ix+0x14)
 	add a,b			;8b06
 	sub e			;8b07
 	jr nc,L_8B0C		;8b08
 	neg		;8b0a
 L_8B0C:
 	cp b			;8b0c
-	ret nc			;8b0d
+	ret nc			;8b0d   ; Snake fuera: nada
 	ld a,(ix+014h)		;8b0e
 	add a,b			;8b11
 	sub d			;8b12
@@ -1579,49 +1579,49 @@ L_8B0C:
 L_8B17:
 	cp b			;8b17
 	ret nc			;8b18
-	ld b,0ffh		;8b19
+	ld b,0ffh		;8b19   ; dentro: dano 0xFF (muere)
 	jp dano_a_snake		;8b1b   ; dano_a_snake: resta B a la vida 0xC131; al llegar a cero, Snake muere (estado 3, modo 9, sonido 0x44)
 L_8B1E:
 	ld a,(ix+003h)		;8b1e   ; lee la Y del actor
-	sub e			;8b21
+	sub e			;8b21   ; a menos de 0x28 en Y...
 	jr nc,L_8B26		;8b22
 	neg		;8b24
 L_8B26:
 	cp 028h		;8b26
 	ret nc			;8b28
 	ld a,(ix+005h)		;8b29   ; lee la X del actor
-	sub d			;8b2c
+	sub d			;8b2c   ; ...y en X...
 	jr nc,L_8B31		;8b2d
 	neg		;8b2f
 L_8B31:
 	cp 028h		;8b31
 	ret nc			;8b33
 	set 7,(ix+01eh)		;8b34   ; pone a uno el bit 7 de las marcas del actor (bits 0-4 el arma que le dio, 6 golpe, 7 contacto)
-	ret			;8b38
+	ret			;8b38   ; ...el bit 7 de (ix+0x1E)
 contra_tipo_54:		; el tipo 54: en su columna (X +- 8) y su alto por (ix+0x0C) (0x8B7E), dano
 	ld a,(ix+005h)		;8b39   ; lee la X del actor
-	sub d			;8b3c
+	sub d			;8b3c   ; la X de Snake a menos de 8
 	jr nc,L_8B41		;8b3d
 	neg		;8b3f
 L_8B41:
 	cp 008h		;8b41
 	ret nc			;8b43
 	ld a,(0c130h)		;8b44   ; lee la sala
-	cp 06fh		;8b47
+	cp 06fh		;8b47   ; en la sala 0x6F...
 	jr nz,L_8B56		;8b49
 	ld a,(ix+00ch)		;8b4b   ; lee la cuenta de cuadros del actor
-	cp 008h		;8b4e
+	cp 008h		;8b4e   ; ...el cuadro, hasta 7
 	jr c,L_8B59		;8b50
 	ld a,007h		;8b52
 	jr L_8B59		;8b54
 L_8B56:
 	ld a,(ix+00ch)		;8b56   ; lee la cuenta de cuadros del actor
 L_8B59:
-	cp 00ch		;8b59
+	cp 00ch		;8b59   ; el 0x0C y el 0: no toca
 	ret z			;8b5b
 	and a			;8b5c
 	ret z			;8b5d
-	ld hl,08b7eh		;8b5e
+	ld hl,08b7eh		;8b5e   ; el alto por la cuenta (0x8B7E)...
 	dec a			;8b61
 	cp 00ch		;8b62
 	ld d,00ch		;8b64
@@ -1629,19 +1629,19 @@ L_8B59:
 	call 041e0h		;8b68   ; hl_mas_a: HL = HL + A
 	ld d,(hl)			;8b6b
 L_8B6C:
-	ld a,d			;8b6c
+	ld a,d			;8b6c   ; ...por 8
 	add a,a			;8b6d
 	add a,a			;8b6e
 	add a,a			;8b6f
 	ld d,a			;8b70
 	add a,(ix+003h)		;8b71   ; le suma la Y del actor
-	sub e			;8b74
+	sub e			;8b74   ; la Y de Snake dentro del alto
 	jr nc,L_8B79		;8b75
 	neg		;8b77
 L_8B79:
 	cp d			;8b79
 	ret nc			;8b7a
-	jp L_89CB		;8b7b
+	jp L_89CB		;8b7b   ; hiere como un actor
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_8b7e: 12 bytes (1, 1, 2, 3, 4 ... 0xB) que p02:8B5E lee en
@@ -1657,58 +1657,58 @@ DATA_tabla_8b7e:
 
 trampilla:		; en las salas 0x2D/0x2E, sobre las fichas 1 y 1 (sin 0xC15E): modo 1 por la puerta 0x5B/0x81
 	ld a,(0c130h)		;8b8a   ; lee la sala
-	cp 02dh		;8b8d
+	cp 02dh		;8b8d   ; solo en las salas 0x2D y 0x2E
 	jr z,L_8B94		;8b8f
 	cp 02eh		;8b91
 	ret nz			;8b93
 L_8B94:
-	ld a,(0c15eh)		;8b94
+	ld a,(0c15eh)		;8b94   ; encima del tipo 2 (0xC15E) no cae
 	and a			;8b97
 	ret nz			;8b98
 	call fichas_de_snake		;8b99   ; fichas_de_snake: H y L = las dos fichas de la sala bajo Snake
-	dec h			;8b9c
+	dec h			;8b9c   ; las dos fichas bajo Snake son la 1 (el hueco)
 	ret nz			;8b9d
 	dec l			;8b9e
 	ret nz			;8b9f
 	ld a,(0c130h)		;8ba0   ; lee la sala
-	cp 02dh		;8ba3
+	cp 02dh		;8ba3   ; la sala 0x2D: la puerta 0x5B, 0xC162 = 1
 	ld a,05bh		;8ba5
 	ld c,001h		;8ba7
 	jr z,L_8BAE		;8ba9
-	ld a,081h		;8bab
+	ld a,081h		;8bab   ; la 0x2E: la puerta 0x81, 0xC162 = 2
 	inc c			;8bad
 L_8BAE:
 	ld (0c4fch),a		;8bae
 	ld a,c			;8bb1
 	ld (0c162h),a		;8bb2
-	xor a			;8bb5
+	xor a			;8bb5   ; el paso 0
 	ld (0c4fdh),a		;8bb6
-	inc a			;8bb9
+	inc a			;8bb9   ; el modo 1: cambio de sala
 	ld (0c151h),a		;8bba   ; guarda el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
 	ret			;8bbd
 fichas_que_hieren:		; en las salas 0x10, 0x25, 0x6E, 0x28 y 0x74 con 0xC616, sobre sus fichas: sonido 0x18 y dano 2
 	ld a,(0c130h)		;8bbe   ; lee la sala
-	cp 010h		;8bc1
+	cp 010h		;8bc1   ; las salas 0x10, 0x25 y 0x6E: las fichas 0x60 y 0x61
 	ld bc,06061h		;8bc3
 	jr z,L_8BDD		;8bc6
 	cp 025h		;8bc8
 	jr z,L_8BDD		;8bca
 	cp 06eh		;8bcc
 	jr z,L_8BDD		;8bce
-	cp 028h		;8bd0
+	cp 028h		;8bd0   ; la 0x28: las 0x45 y 0x46
 	ld bc,04546h		;8bd2
 	jr z,L_8BDD		;8bd5
-	cp 074h		;8bd7
+	cp 074h		;8bd7   ; la 0x74: las 0x40 y 0x41
 	ld bc,04041h		;8bd9
 	ret nz			;8bdc
 L_8BDD:
-	ld a,(0c616h)		;8bdd
+	ld a,(0c616h)		;8bdd   ; solo con 0xC616
 	and a			;8be0
 	ret z			;8be1
 	push bc			;8be2
 	call fichas_de_snake		;8be3   ; fichas_de_snake: H y L = las dos fichas de la sala bajo Snake
 	pop bc			;8be6
-	ld a,h			;8be7
+	ld a,h			;8be7   ; alguna de las dos fichas bajo Snake...
 	cp b			;8be8
 	jr z,L_8BF4		;8be9
 	cp c			;8beb
@@ -1720,36 +1720,36 @@ L_8BDD:
 	ret nz			;8bf3
 L_8BF4:
 	ld a,(0c199h)		;8bf4   ; lee la cuenta de herido (Snake parpadea)
-	and a			;8bf7
+	and a			;8bf7   ; herido hace poco: nada
 	ret nz			;8bf8
-	ld a,018h		;8bf9
+	ld a,018h		;8bf9   ; el sonido 0x18
 	call 04284h		;8bfb   ; sonido: pide el sonido A al controlador del banco 4 (0x67FD) con los bancos 4 y 5
-	ld a,008h		;8bfe
+	ld a,008h		;8bfe   ; 8 cuadros herido
 	ld (0c199h),a		;8c00   ; guarda la cuenta de herido (Snake parpadea)
 	jr L_8C25		;8c03
 salas_que_hieren:		; en las salas de 0x8C2A, sin la MASK (objeto 5): dano 2 cada 0x10 cuadros
 	ld a,(0c130h)		;8c05   ; lee la sala
-	ld b,009h		;8c08
+	ld b,009h		;8c08   ; las 9 salas de 0x8C2A
 	ld hl,08c2ah		;8c0a
 L_8C0D:
-	cp (hl)			;8c0d
+	cp (hl)			;8c0d   ; busca la sala
 	jr z,L_8C14		;8c0e
 	inc hl			;8c10
 	djnz L_8C0D		;8c11
 	ret			;8c13
 L_8C14:
 	ld a,(0c135h)		;8c14   ; lee el objeto elegido (p06:B8F6: 3 LIGHT, 4 GOGGL, 6 CIGAL, 0x0E-0x15 CARD1-8, 0x16 RATIO, 0x19 BOX...)
-	cp 005h		;8c17
+	cp 005h		;8c17   ; con la MASK (objeto 5), nada
 	ret z			;8c19
-	ld c,010h		;8c1a
+	ld c,010h		;8c1a   ; 0x10 cuadros
 dano_cada_c:		; si 0xC199 es cero: 0xC199 = C y dano 2
 	ld a,(0c199h)		;8c1c   ; lee la cuenta de herido (Snake parpadea)
-	and a			;8c1f
+	and a			;8c1f   ; herido hace poco: nada
 	ret nz			;8c20
-	ld a,c			;8c21
+	ld a,c			;8c21   ; la cuenta
 	ld (0c199h),a		;8c22   ; guarda la cuenta de herido (Snake parpadea)
 L_8C25:
-	ld b,002h		;8c25
+	ld b,002h		;8c25   ; dano 2
 	jp dano_a_snake		;8c27   ; dano_a_snake: resta B a la vida 0xC131; al llegar a cero, Snake muere (estado 3, modo 9, sonido 0x44)
 
 ; ----------------------------------------------------------------------
@@ -1765,123 +1765,123 @@ DATA_salas_8c2a:
 
 
 proyectiles_contra_actores:		; con el arma 0xC142: su tabla de dano y de cajas (p05:8951 o 8992) y cada proyectil contra los actores
-	ld a,(0c142h)		;8c33
+	ld a,(0c142h)		;8c33   ; el arma de los disparos
 	and a			;8c36
 	ret z			;8c37
-	ld hl,08951h		;8c38
+	ld hl,08951h		;8c38   ; las armas 1, 2, 4 y 7: las cajas de p05:8951...
 	cp 003h		;8c3b
 	jr c,L_8C4A		;8c3d
 	cp 004h		;8c3f
 	jr z,L_8C4A		;8c41
 	cp 007h		;8c43
 	jr z,L_8C4A		;8c45
-	ld hl,08992h		;8c47
+	ld hl,08992h		;8c47   ; ...las 3, 5 y 6: las de p05:8992
 L_8C4A:
 	ld (0ec02h),hl		;8c4a
 	call 04384h		;8c4d   ; tabla_de_dano: apunta 0xEC00 a la tabla de dano del arma A (p05:87B7)
-	ld b,a			;8c50
+	ld b,a			;8c50   ; B = 6 proyectiles
 	ld ix,0c200h		;8c51   ; apunta a los proyectiles (0x180 bytes)
 L_8C55:
 	push bc			;8c55
-	ld a,(ix+000h)		;8c56
-	and a			;8c59
+	ld a,(ix+000h)		;8c56   ; lee el arma del proyectil
+	and a			;8c59   ; hueco libre: nada
 	call nz,proyectil_contra_actores		;8c5a   ; proyectil_contra_actores: el proyectil IX (si (ix+0x0F) bit 0) contra los 16 actores
-	ld de,00040h		;8c5d
+	ld de,00040h		;8c5d   ; la ficha siguiente
 	add ix,de		;8c60
 	pop bc			;8c62
 	djnz L_8C55		;8c63
 	ret			;8c65
 proyectil_contra_actores:		; el proyectil IX (si (ix+0x0F) bit 0) contra los 16 actores
-	ld a,(ix+00fh)		;8c66
+	ld a,(ix+00fh)		;8c66   ; lee si el proyectil hiere (bit 0)
 	rra			;8c69
-	ret nc			;8c6a
+	ret nc			;8c6a   ; sin herir: nada
 	ld iy,0d000h		;8c6b   ; apunta a los 16 actores (fichas de 0x80)
-	ld b,010h		;8c6f
+	ld b,010h		;8c6f   ; 16 actores
 L_8C71:
 	push bc			;8c71
-	ld a,(iy+000h)		;8c72
+	ld a,(iy+000h)		;8c72   ; hueco vacio: nada
 	and a			;8c75
 	call nz,proyectil_contra_actor		;8c76   ; proyectil_contra_actor: el proyectil IX contra el actor IY: caja, marca y dano; Metal Gear solo con el orden de 0x8D3B
-	ld de,00080h		;8c79
+	ld de,00080h		;8c79   ; la ficha siguiente
 	add iy,de		;8c7c
 	pop bc			;8c7e
 	djnz L_8C71		;8c7f
 	ret			;8c81
 proyectil_contra_actor:		; el proyectil IX contra el actor IY: caja, marca y dano; Metal Gear solo con el orden de 0x8D3B
-	bit 1,(iy+00eh)		;8c82
+	bit 1,(iy+00eh)		;8c82   ; bit 1 de (iy+0x0E): los proyectiles le dan
 	ret z			;8c86
-	ld a,(iy+000h)		;8c87
+	ld a,(iy+000h)		;8c87   ; la caja del tipo para esta arma
 	ld hl,(0ec02h)		;8c8a
 	call 043a3h		;8c8d   ; byte_del_banco_5: A = el byte A - 1 de la tabla HL, con los bancos 4-5-6
 	inc a			;8c90
-	ret z			;8c91
+	ret z			;8c91   ; 0xFF: no le toca
 	call 043b4h		;8c92   ; caja_de_choque: copia la caja A (p05:8A55 + 4 x (A - 1)) a 0xC928; HL = 0xC928
-	ld a,(iy+01eh)		;8c95
+	ld a,(iy+01eh)		;8c95   ; las marcas del arma a cero
 	and 0e0h		;8c98
 	ld (iy+01eh),a		;8c9a
-	ld a,(iy+003h)		;8c9d
+	ld a,(iy+003h)		;8c9d   ; la Y del actor + dy menos la Y del proyectil...
 	add a,(hl)			;8ca0
 	inc hl			;8ca1
-	sub (ix+004h)		;8ca2
+	sub (ix+004h)		;8ca2   ; le resta la Y del proyectil
 	jr nc,L_8CA9		;8ca5
 	neg		;8ca7
 L_8CA9:
-	cp (hl)			;8ca9
+	cp (hl)			;8ca9   ; ...menor que el alto
 	ret nc			;8caa
 	inc hl			;8cab
-	ld a,(iy+005h)		;8cac
+	ld a,(iy+005h)		;8cac   ; la X + dx menos la X del proyectil...
 	add a,(hl)			;8caf
 	inc hl			;8cb0
-	sub (ix+006h)		;8cb1
+	sub (ix+006h)		;8cb1   ; le resta la X del proyectil
 	jr nc,L_8CB8		;8cb4
 	neg		;8cb6
 L_8CB8:
-	cp (hl)			;8cb8
+	cp (hl)			;8cb8   ; ...menor que el ancho
 	ret nc			;8cb9
-	ld c,(ix+001h)		;8cba
-	ld a,(ix+000h)		;8cbd
-	cp 004h		;8cc0
+	ld c,(ix+001h)		;8cba   ; lee el paso del proyectil
+	ld a,(ix+000h)		;8cbd   ; lee el arma del proyectil
+	cp 004h		;8cc0   ; el ROCKET, la L.MINE y el MISSILE...
 	jr z,L_8CCC		;8cc2
 	cp 006h		;8cc4
 	jr z,L_8CCC		;8cc6
 	cp 007h		;8cc8
 	jr nz,L_8CD3		;8cca
 L_8CCC:
-	inc c			;8ccc
+	inc c			;8ccc   ; ...en su paso 0 pasan al 1 (explotan)
 	dec c			;8ccd
 	jr nz,L_8CD3		;8cce
-	inc (ix+001h)		;8cd0
+	inc (ix+001h)		;8cd0   ; sube el paso del proyectil
 L_8CD3:
-	ld a,(ix+000h)		;8cd3
-	or (iy+01eh)		;8cd6
+	ld a,(ix+000h)		;8cd3   ; lee el arma del proyectil
+	or (iy+01eh)		;8cd6   ; el arma queda marcada en el actor
 	ld (iy+01eh),a		;8cd9
 	ld a,(iy+000h)		;8cdc
-	dec a			;8cdf
+	dec a			;8cdf   ; el dano de esta arma contra el tipo
 	call 04396h		;8ce0   ; dano: A = el byte A de la tabla de dano de 0xEC00
 	ld c,a			;8ce3
 	inc a			;8ce4
-	jr z,L_8D32		;8ce5
-	ld a,(0c142h)		;8ce7
+	jr z,L_8D32		;8ce5   ; 0xFF: no le hace nada
+	ld a,(0c142h)		;8ce7   ; Metal Gear (0x11) con la P.BOMB:
 	cp 005h		;8cea
 	jr nz,L_8D28		;8cec
 	ld a,(iy+000h)		;8cee
 	cp 011h		;8cf1
 	jr nz,L_8D28		;8cf3
-	ld a,(ix+001h)		;8cf5
-	dec a			;8cf8
+	ld a,(ix+001h)		;8cf5   ; lee el paso del proyectil
+	dec a			;8cf8   ; solo explotando (paso 1)
 	jr nz,L_8D32		;8cf9
-	ld a,(iy+005h)		;8cfb
-	cp (ix+006h)		;8cfe
+	ld a,(iy+005h)		;8cfb   ; 1 si la bomba esta a la izquierda, 2 a la derecha
+	cp (ix+006h)		;8cfe   ; compara con la X del proyectil
 	ld a,001h		;8d01
 	jr nc,L_8D06		;8d03
 	inc a			;8d05
 L_8D06:
-	ld de,0c1ceh		;8d06
+	ld de,0c1ceh		;8d06   ; los 16 ultimos golpes en 0xC1BF-0xC1CE...
 	ld hl,0c1cdh		;8d09
 	ld bc,0000fh		;8d0c
 	lddr		;8d0f
-	ld (de),a			;8d11
-	ld hl,08d3bh		;8d12
+	ld (de),a			;8d11   ; ...el nuevo primero
+	ld hl,08d3bh		;8d12   ; comparados con el orden de 0x8D3B
 	ld b,010h		;8d15
 L_8D17:
 	ld a,(de)			;8d17
@@ -1890,20 +1890,20 @@ L_8D17:
 	inc de			;8d1b
 	inc hl			;8d1c
 	djnz L_8D17		;8d1d
-	xor a			;8d1f
+	xor a			;8d1f   ; en orden: borra 0xD08D y 0xD10D...
 	ld (0d08dh),a		;8d20
 	ld (0d10dh),a		;8d23
-	ld c,002h		;8d26
+	ld c,002h		;8d26   ; ...y dano 2
 L_8D28:
-	ld a,(iy+00dh)		;8d28
+	ld a,(iy+00dh)		;8d28   ; el aguante baja el dano...
 	sub c			;8d2b
 	jr nc,L_8D2F		;8d2c
-	xor a			;8d2e
+	xor a			;8d2e   ; ...sin pasar de cero
 L_8D2F:
 	ld (iy+00dh),a		;8d2f
 L_8D32:
-	ld a,(ix+000h)		;8d32
-	cp 003h		;8d35
+	ld a,(ix+000h)		;8d32   ; lee el arma del proyectil
+	cp 003h		;8d35   ; las balas (armas 1 y 2) se quitan al dar
 	jp c,quita_proyectil		;8d37   ; quita_proyectil: el arma del proyectil a cero y sus sprites escondidos
 	ret			;8d3a
 
@@ -1920,23 +1920,23 @@ DATA_tabla_8d3b:
 
 
 objetos_de_la_sala:		; Snake contra los 3 objetos de 0xC5D0 (fichas de 0x10)
-	ld hl,0c5d0h		;8d4b
+	ld hl,0c5d0h		;8d4b   ; los 3 objetos de la sala (fichas de 0x10)
 	ld a,(0c182h)		;8d4e   ; lee la Y de Snake
-	ld e,a			;8d51
+	ld e,a			;8d51   ; E = la Y de Snake
 	ld a,(0c184h)		;8d52   ; lee la X de Snake
-	ld d,a			;8d55
-	ld bc,00300h		;8d56
+	ld d,a			;8d55   ; D = la X
+	ld bc,00300h		;8d56   ; B = 3, C = el numero de objeto
 L_8D59:
 	push hl			;8d59
 	push de			;8d5a
 	push bc			;8d5b
 	ld a,(hl)			;8d5c
-	and a			;8d5d
+	and a			;8d5d   ; vacio: nada
 	call nz,coge_objeto		;8d5e   ; coge_objeto: si Snake esta encima del objeto HL lo coge: municion (0x23), arma (< 8), SILENCER (8) u objeto
 	ld a,(0c151h)		;8d61   ; lee el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
-	cp 00ah		;8d64
+	cp 00ah		;8d64   ; si se abrio una ventana de texto (modo 10)...
 	jr nz,L_8D6D		;8d66
-	pop bc			;8d68
+	pop bc			;8d68   ; ...no mira mas
 	ld b,001h		;8d69
 	jr L_8D6E		;8d6b
 L_8D6D:
@@ -1944,7 +1944,7 @@ L_8D6D:
 L_8D6E:
 	pop de			;8d6e
 	pop hl			;8d6f
-	ld a,010h		;8d70
+	ld a,010h		;8d70   ; la ficha siguiente
 	call 041e0h		;8d72   ; hl_mas_a: HL = HL + A
 	inc c			;8d75
 	djnz L_8D59		;8d76
@@ -1952,63 +1952,63 @@ L_8D6E:
 coge_objeto:		; si Snake esta encima del objeto HL lo coge: municion (0x23), arma (< 8), SILENCER (8) u objeto
 	push hl			;8d79
 	pop ix		;8d7a
-	ld a,c			;8d7c
+	ld a,c			;8d7c   ; 0xEC00 = el numero de objeto
 	ld (0ec00h),a		;8d7d   ; guarda la casilla de trabajo 0xEC00
 	inc hl			;8d80
-	bit 0,(hl)		;8d81
-	ld bc,01014h		;8d83
+	bit 0,(hl)		;8d81   ; bit 0 del byte 1: el dibujo es de 16 de ancho
+	ld bc,01014h		;8d83   ; 32 de ancho: la caja de 0x14...
 	jr z,L_8D8B		;8d86
-	ld bc,0080ch		;8d88
+	ld bc,0080ch		;8d88   ; 16: la de 0x0C
 L_8D8B:
 	inc hl			;8d8b
-	ld a,(hl)			;8d8c
+	ld a,(hl)			;8d8c   ; la Y + 0x10 menos la de Snake...
 	add a,010h		;8d8d
 	sub e			;8d8f
 	jr nc,L_8D94		;8d90
 	neg		;8d92
 L_8D94:
-	cp 010h		;8d94
+	cp 010h		;8d94   ; ...a menos de 0x10
 	ret nc			;8d96
 	inc hl			;8d97
-	ld a,(hl)			;8d98
+	ld a,(hl)			;8d98   ; la X + la mitad menos la de Snake...
 	add a,b			;8d99
 	sub d			;8d9a
 	jr nc,L_8D9F		;8d9b
 	neg		;8d9d
 L_8D9F:
-	cp c			;8d9f
+	cp c			;8d9f   ; ...dentro de la caja
 	ret nc			;8da0
 	inc hl			;8da1
-	ld a,(hl)			;8da2
+	ld a,(hl)			;8da2   ; +4 en 0xEC02
 	ld (0ec02h),a		;8da3
 	dec hl			;8da6
 	dec hl			;8da7
 	dec hl			;8da8
 	dec hl			;8da9
-	ld a,(hl)			;8daa
+	ld a,(hl)			;8daa   ; +0: el objeto, en 0xEC01
 	ld (0ec01h),a		;8dab
-	cp 023h		;8dae
+	cp 023h		;8dae   ; 0x23: la municion
 	jp z,coge_municion		;8db0   ; coge_municion: 0x20 balas de HAND GUN y SMG, 6 GRENADE y 2 ROCKET a las que lleve
-	cp 008h		;8db3
+	cp 008h		;8db3   ; menos de 8: un arma
 	jr c,coge_arma		;8db5
-	jr z,L_8DFD		;8db7
+	jr z,L_8DFD		;8db7   ; el 8: el SILENCER
 	call marca_cogido		;8db9   ; marca_cogido: marca el arma (0xC520) o el objeto (0xC5A0) como cogido
-	ld a,(0ec01h)		;8dbc
+	ld a,(0ec01h)		;8dbc   ; del 9 en adelante, un objeto (objeto - 8)
 	sub 008h		;8dbf
-	cp 01ah		;8dc1
+	cp 01ah		;8dc1   ; el 0x1A: lo suyo
 	jp z,coge_objeto_34		;8dc3   ; coge_objeto_34: 0xC13B = 0, 0xC5B9 = 1 y el objeto 0x17 en 0xC530
 	call 043e1h		;8dc6   ; busca_objeto: busca A en los 25 objetos de 0xC530 (fichas de 4): C = el sitio, Z si esta, acarreo si no
-	jr c,L_8DD1		;8dc9
+	jr c,L_8DD1		;8dc9   ; si ya lo lleva, suma
 	call suma_objeto		;8dcb   ; suma_objeto: suma a (HL + 1) lo de p05:8AE8 del objeto y recorta a los maximos
 	jp borra_objeto		;8dce   ; borra_objeto: tapa el objeto (copia de la pagina 1), sonido 0x24 y el texto de p05:8AC5 si es 0x3E
 L_8DD1:
 	ld a,(0ec01h)		;8dd1
 	sub 008h		;8dd4
 	ld hl,0c530h		;8dd6   ; apunta a los objetos que se llevan (fichas de 4)
-	ld b,019h		;8dd9
+	ld b,019h		;8dd9   ; 25 huecos
 	ld c,a			;8ddb
 L_8DDC:
-	ld a,(hl)			;8ddc
+	ld a,(hl)			;8ddc   ; el primer hueco vacio
 	and a			;8ddd
 	jr z,L_8DE8		;8dde
 	ld a,004h		;8de0
@@ -2016,11 +2016,11 @@ L_8DDC:
 	djnz L_8DDC		;8de5
 	ret			;8de7
 L_8DE8:
-	ld (hl),c			;8de8
+	ld (hl),c			;8de8   ; el objeto nuevo
 	ld a,c			;8de9
-	cp 008h		;8dea
+	cp 008h		;8dea   ; el 8 (ANTEN)...
 	jr nz,L_8DF7		;8dec
-	ld a,010h		;8dee
+	ld a,010h		;8dee   ; ...pone 0xC160 = 0x10 y 0xC15F = 0: una llamada
 	ld (0c160h),a		;8df0   ; guarda la cuenta hasta la llamada
 	xor a			;8df3
 	ld (0c15fh),a		;8df4   ; guarda la llamada del transceptor (0 pendiente, 1 llamando, 2 ninguna)
@@ -2029,33 +2029,33 @@ L_8DF7:
 	jp borra_objeto		;8dfa   ; borra_objeto: tapa el objeto (copia de la pagina 1), sonido 0x24 y el texto de p05:8AC5 si es 0x3E
 L_8DFD:
 	call marca_cogido		;8dfd   ; marca_cogido: marca el arma (0xC520) o el objeto (0xC5A0) como cogido
-	ld a,008h		;8e00
+	ld a,008h		;8e00   ; el SILENCER: 0xC51C = 8
 	ld (0c51ch),a		;8e02
 	jp borra_objeto		;8e05   ; borra_objeto: tapa el objeto (copia de la pagina 1), sonido 0x24 y el texto de p05:8AC5 si es 0x3E
 coge_arma:		; el arma: municion si ya la lleva; si no, al primer hueco de 0xC500 (y elegida si es la primera)
 	call marca_cogido		;8e08   ; marca_cogido: marca el arma (0xC520) o el objeto (0xC5A0) como cogido
-	ld a,(0ec01h)		;8e0b
+	ld a,(0ec01h)		;8e0b   ; el arma
 	call 043e8h		;8e0e   ; busca_arma: busca A en las 7 armas de 0xC500 (fichas de 4): C = el sitio, Z si esta, acarreo si no
-	jr c,L_8E2B		;8e11
+	jr c,L_8E2B		;8e11   ; si no la lleva, la anade
 	push hl			;8e13
 	call suma_objeto		;8e14   ; suma_objeto: suma a (HL + 1) lo de p05:8AE8 del objeto y recorta a los maximos
 	pop hl			;8e17
 	ld a,(0c134h)		;8e18   ; lee el arma elegida (p06:B865: 1 HAND GUN, 2 SMG, 3 GRENADE, 4 ROCKET, 5 P.BOMB, 6 L.MINE, 7 MISSILE, 8 SILENCER)
-	ld c,a			;8e1b
+	ld c,a			;8e1b   ; si es la elegida...
 	ld a,(0ec01h)		;8e1c
 	cp c			;8e1f
 	jp nz,borra_objeto		;8e20   ; borra_objeto: tapa el objeto (copia de la pagina 1), sonido 0x24 y el texto de p05:8AC5 si es 0x3E
-	inc hl			;8e23
+	inc hl			;8e23   ; ...pinta su municion nueva
 	inc hl			;8e24
 	call 04795h		;8e25   ; pinta_municion: el numero BCD de 2 bytes de HL en (0xC0, 0xC8)
 	jp borra_objeto		;8e28   ; borra_objeto: tapa el objeto (copia de la pagina 1), sonido 0x24 y el texto de p05:8AC5 si es 0x3E
 L_8E2B:
 	ld a,(0ec01h)		;8e2b
 	ld hl,0c500h		;8e2e   ; apunta a las armas que se llevan (fichas de 4: [arma][municion BCD])
-	ld b,007h		;8e31
+	ld b,007h		;8e31   ; 7 huecos
 	ld c,a			;8e33
 L_8E34:
-	ld a,(hl)			;8e34
+	ld a,(hl)			;8e34   ; el primer hueco vacio
 	and a			;8e35
 	jr z,L_8E40		;8e36
 	ld a,004h		;8e38
@@ -2063,18 +2063,18 @@ L_8E34:
 	djnz L_8E34		;8e3d
 	ret			;8e3f
 L_8E40:
-	ld (hl),c			;8e40
+	ld (hl),c			;8e40   ; el arma nueva
 	push hl			;8e41
 	ld a,b			;8e42
-	cp 007h		;8e43
+	cp 007h		;8e43   ; si es la primera arma...
 	jr nz,L_8E6D		;8e45
 	ld a,c			;8e47
-	cp 003h		;8e48
+	cp 003h		;8e48   ; ...(salvo la GRENADE)...
 	jr z,L_8E6D		;8e4a
-	ld (0c142h),a		;8e4c
+	ld (0c142h),a		;8e4c   ; ...queda elegida
 	ld (0c134h),a		;8e4f   ; guarda el arma elegida (p06:B865: 1 HAND GUN, 2 SMG, 3 GRENADE, 4 ROCKET, 5 P.BOMB, 6 L.MINE, 7 MISSILE, 8 SILENCER)
 	call 04bech		;8e52   ; patrones_del_arma: carga los patrones del arma elegida (p10:6392) y los de su explosion
-	ld hl,0ea10h		;8e55
+	ld hl,0ea10h		;8e55   ; los sprites de los proyectiles fuera
 	ld b,018h		;8e58
 	ld a,0e0h		;8e5a
 L_8E5C:
@@ -2082,7 +2082,7 @@ L_8E5C:
 	inc hl			;8e5d
 	djnz L_8E5C		;8e5e
 	ld hl,0c200h		;8e60   ; apunta a los proyectiles (0x180 bytes)
-	ld de,0c201h		;8e63
+	ld de,0c201h		;8e63   ; los proyectiles a cero
 	ld bc,0017fh		;8e66
 	ld (hl),000h		;8e69
 	ldir		;8e6b
@@ -2094,10 +2094,10 @@ L_8E6D:
 coge_objeto_34:		; 0xC13B = 0, 0xC5B9 = 1 y el objeto 0x17 en 0xC530
 	xor a			;8e76
 	ld (0c13bh),a		;8e77   ; guarda la bandera de capturado (sin armas ni objetos)
-	inc a			;8e7a
-	ld (0c5b9h),a		;8e7b
+	inc a			;8e7a   ; 0xC13B a cero (ya no capturado)...
+	ld (0c5b9h),a		;8e7b   ; ...y 0xC5B9 = 1
 	ld hl,0c530h		;8e7e   ; apunta a los objetos que se llevan (fichas de 4)
-	ld b,019h		;8e81
+	ld b,019h		;8e81   ; en el primer hueco vacio...
 L_8E83:
 	ld a,(hl)			;8e83
 	and a			;8e84
@@ -2106,151 +2106,151 @@ L_8E83:
 	call 041e0h		;8e89   ; hl_mas_a: HL = HL + A
 	jr L_8E83		;8e8c
 L_8E8E:
-	ld (hl),017h		;8e8e
+	ld (hl),017h		;8e8e   ; ...el objeto 0x17 con cantidad 1
 	inc hl			;8e90
 	ld a,001h		;8e91
 	ld (hl),a			;8e93
-	ld (0c5b6h),a		;8e94
+	ld (0c5b6h),a		;8e94   ; 0xC5B6 = 1
 	call 04751h		;8e97   ; marcador_arma: pinta en el marcador el arma elegida (0xC134) y su municion
 	call 04843h		;8e9a   ; marcador_objeto: pinta en el marcador el objeto elegido (0xC135)
 	jr borra_objeto		;8e9d
 coge_municion:		; 0x20 balas de HAND GUN y SMG, 6 GRENADE y 2 ROCKET a las que lleve
-	ld a,001h		;8e9f
+	ld a,001h		;8e9f   ; la HAND GUN: +0x20
 	call 043e8h		;8ea1   ; busca_arma: busca A en las 7 armas de 0xC500 (fichas de 4): C = el sitio, Z si esta, acarreo si no
 	inc hl			;8ea4
 	ld a,020h		;8ea5
 	call nc,suma_a		;8ea7   ; suma_a: suma A (BCD) a (HL) y recorta cada municion a su maximo (0xC380)
-	ld a,002h		;8eaa
+	ld a,002h		;8eaa   ; la SMG: +0x20
 	call 043e8h		;8eac   ; busca_arma: busca A en las 7 armas de 0xC500 (fichas de 4): C = el sitio, Z si esta, acarreo si no
 	inc hl			;8eaf
 	ld a,020h		;8eb0
 	call nc,suma_a		;8eb2   ; suma_a: suma A (BCD) a (HL) y recorta cada municion a su maximo (0xC380)
-	ld a,003h		;8eb5
+	ld a,003h		;8eb5   ; la GRENADE: +6
 	call 043e8h		;8eb7   ; busca_arma: busca A en las 7 armas de 0xC500 (fichas de 4): C = el sitio, Z si esta, acarreo si no
 	inc hl			;8eba
 	ld a,006h		;8ebb
 	call nc,suma_a		;8ebd   ; suma_a: suma A (BCD) a (HL) y recorta cada municion a su maximo (0xC380)
-	ld a,004h		;8ec0
+	ld a,004h		;8ec0   ; el ROCKET: +2
 	call 043e8h		;8ec2   ; busca_arma: busca A en las 7 armas de 0xC500 (fichas de 4): C = el sitio, Z si esta, acarreo si no
 	inc hl			;8ec5
 	ld a,002h		;8ec6
 	call nc,suma_a		;8ec8   ; suma_a: suma A (BCD) a (HL) y recorta cada municion a su maximo (0xC380)
 	ld a,(0c134h)		;8ecb   ; lee el arma elegida (p06:B865: 1 HAND GUN, 2 SMG, 3 GRENADE, 4 ROCKET, 5 P.BOMB, 6 L.MINE, 7 MISSILE, 8 SILENCER)
-	and a			;8ece
+	and a			;8ece   ; sin arma elegida, nada mas
 	jr z,borra_objeto		;8ecf
 	call 043e8h		;8ed1   ; busca_arma: busca A en las 7 armas de 0xC500 (fichas de 4): C = el sitio, Z si esta, acarreo si no
-	inc hl			;8ed4
+	inc hl			;8ed4   ; si no, pinta su municion
 	inc hl			;8ed5
 	call 04795h		;8ed6   ; pinta_municion: el numero BCD de 2 bytes de HL en (0xC0, 0xC8)
 borra_objeto:		; tapa el objeto (copia de la pagina 1), sonido 0x24 y el texto de p05:8AC5 si es 0x3E
 	ld a,(0ec00h)		;8ed9   ; lee la casilla de trabajo 0xEC00
-	and a			;8edc
-	ld hl,0a0b0h		;8edd
+	and a			;8edc   ; el fondo guardado del objeto 0, 1 o 2...
+	ld hl,0a0b0h		;8edd   ; ...en (0xB0, 0xA0), (0xC0, 0xA0) o (0xD0, 0xA0) de la pagina 1
 	jr z,L_8EE9		;8ee0
 	dec a			;8ee2
 	ld l,0c0h		;8ee3
 	jr z,L_8EE9		;8ee5
 	ld l,0d0h		;8ee7
 L_8EE9:
-	bit 0,(ix+001h)		;8ee9
+	bit 0,(ix+001h)		;8ee9   ; 32 x 16 o 16 x 16
 	ld bc,02010h		;8eed
 	jr z,L_8EF4		;8ef0
 	ld b,010h		;8ef2
 L_8EF4:
-	ld e,(ix+002h)		;8ef4
+	ld e,(ix+002h)		;8ef4   ; en el sitio del objeto
 	ld d,(ix+003h)		;8ef7
-	ld a,048h		;8efa
+	ld a,048h		;8efa   ; de la pagina 1 a la 0, TIMP
 	call 05011h		;8efc   ; copia_logica: LMMM: copia B x C de (H, L) a (D, E); A = [pagina origen 7-6][pagina destino 5-4][operacion 3-0]
-	ld c,(ix+000h)		;8eff
-	ld (ix+000h),000h		;8f02
-	ld a,024h		;8f06
+	ld c,(ix+000h)		;8eff   ; el objeto...
+	ld (ix+000h),000h		;8f02   ; ...fuera de la sala
+	ld a,024h		;8f06   ; el sonido 0x24
 	call 04284h		;8f08   ; sonido: pide el sonido A al controlador del banco 4 (0x67FD) con los bancos 4 y 5
-	ld a,(0ec02h)		;8f0b
+	ld a,(0ec02h)		;8f0b   ; con +4 (0xEC02) no hay texto
 	and a			;8f0e
 	ret nz			;8f0f
 	ld a,c			;8f10
-	ld hl,08ac5h		;8f11
+	ld hl,08ac5h		;8f11   ; p05:8AC5: el texto al coger cada objeto
 	call 043a3h		;8f14   ; byte_del_banco_5: A = el byte A - 1 de la tabla HL, con los bancos 4-5-6
 	and a			;8f17
 	ret z			;8f18
-	cp 03eh		;8f19
+	cp 03eh		;8f19   ; solo el 0x3E
 	ret nz			;8f1b
 	jp 05ce1h		;8f1c   ; ventana_de_texto: abre la ventana del texto A en el modo 0: 0xCEF0 = A, guarda 0xC151 en 0xCEF1 y pone 0xC151 = 10
 suma_objeto:		; suma a (HL + 1) lo de p05:8AE8 del objeto y recorta a los maximos
 	inc hl			;8f1f
-	ld a,(0ec01h)		;8f20
+	ld a,(0ec01h)		;8f20   ; lo que suma el objeto
 	dec a			;8f23
 	call 043a9h		;8f24   ; suma_de_objeto: A = el byte A de p05:8AE8 (lo que suma cada objeto)
 suma_a:		; suma A (BCD) a (HL) y recorta cada municion a su maximo (0xC380)
-	add a,(hl)			;8f27
+	add a,(hl)			;8f27   ; la cantidad (BCD)...
 	daa			;8f28
 	ld (hl),a			;8f29
-	jr nc,recorta_municion		;8f2a
+	jr nc,recorta_municion		;8f2a   ; ...con acarreo al byte alto
 	inc hl			;8f2c
 	inc (hl)			;8f2d
 recorta_municion:		; cada municion y las raciones, a su maximo (0xC380)
-	ld a,001h		;8f2e
+	ld a,001h		;8f2e   ; la HAND GUN, a su maximo (0xC380)
 	call 043e8h		;8f30   ; busca_arma: busca A en las 7 armas de 0xC500 (fichas de 4): C = el sitio, Z si esta, acarreo si no
 	ld bc,(0c380h)		;8f33
 	call nc,recorta		;8f37   ; recorta: si la cantidad de (HL + 1) pasa de BC, la deja en BC
-	ld a,002h		;8f3a
+	ld a,002h		;8f3a   ; la SMG
 	call 043e8h		;8f3c   ; busca_arma: busca A en las 7 armas de 0xC500 (fichas de 4): C = el sitio, Z si esta, acarreo si no
 	ld bc,(0c382h)		;8f3f
 	call nc,recorta		;8f43   ; recorta: si la cantidad de (HL + 1) pasa de BC, la deja en BC
-	ld a,003h		;8f46
+	ld a,003h		;8f46   ; la GRENADE
 	call 043e8h		;8f48   ; busca_arma: busca A en las 7 armas de 0xC500 (fichas de 4): C = el sitio, Z si esta, acarreo si no
 	ld bc,(0c384h)		;8f4b
 	call nc,recorta		;8f4f   ; recorta: si la cantidad de (HL + 1) pasa de BC, la deja en BC
-	ld a,004h		;8f52
+	ld a,004h		;8f52   ; el ROCKET
 	call 043e8h		;8f54   ; busca_arma: busca A en las 7 armas de 0xC500 (fichas de 4): C = el sitio, Z si esta, acarreo si no
 	ld bc,(0c386h)		;8f57
 	call nc,recorta		;8f5b   ; recorta: si la cantidad de (HL + 1) pasa de BC, la deja en BC
-	ld a,005h		;8f5e
+	ld a,005h		;8f5e   ; la P.BOMB
 	call 043e8h		;8f60   ; busca_arma: busca A en las 7 armas de 0xC500 (fichas de 4): C = el sitio, Z si esta, acarreo si no
 	ld bc,(0c388h)		;8f63
 	call nc,recorta		;8f67   ; recorta: si la cantidad de (HL + 1) pasa de BC, la deja en BC
-	ld a,006h		;8f6a
+	ld a,006h		;8f6a   ; la L.MINE
 	call 043e8h		;8f6c   ; busca_arma: busca A en las 7 armas de 0xC500 (fichas de 4): C = el sitio, Z si esta, acarreo si no
 	ld bc,(0c38ah)		;8f6f
 	call nc,recorta		;8f73   ; recorta: si la cantidad de (HL + 1) pasa de BC, la deja en BC
-	ld a,007h		;8f76
+	ld a,007h		;8f76   ; el MISSILE
 	call 043e8h		;8f78   ; busca_arma: busca A en las 7 armas de 0xC500 (fichas de 4): C = el sitio, Z si esta, acarreo si no
 	ld bc,(0c38ch)		;8f7b
 	call nc,recorta		;8f7f   ; recorta: si la cantidad de (HL + 1) pasa de BC, la deja en BC
-	ld a,016h		;8f82
+	ld a,016h		;8f82   ; las raciones (0x16), a 0xC3BA
 	call 043e1h		;8f84   ; busca_objeto: busca A en los 25 objetos de 0xC530 (fichas de 4): C = el sitio, Z si esta, acarreo si no
 	ld bc,(0c3bah)		;8f87
 	call nc,recorta		;8f8b   ; recorta: si la cantidad de (HL + 1) pasa de BC, la deja en BC
 	ret			;8f8e
 marca_cogido:		; marca el arma (0xC520) o el objeto (0xC5A0) como cogido
-	ld c,a			;8f8f
-	cp 005h		;8f90
+	ld c,a			;8f8f   ; C = el objeto
+	cp 005h		;8f90   ; las armas 1-4 se marcan
 	jr c,L_8F9D		;8f92
-	cp 008h		;8f94
+	cp 008h		;8f94   ; las 5-7 no (su municion vuelve a salir)
 	ret c			;8f96
-	cp 01eh		;8f97
+	cp 01eh		;8f97   ; ni el 0x1E ni el 0x23
 	ret z			;8f99
 	cp 023h		;8f9a
 	ret z			;8f9c
 L_8F9D:
-	cp 009h		;8f9d
+	cp 009h		;8f9d   ; las armas (1-8): 0xC520
 	ld hl,0c520h		;8f9f
 	jr c,L_8FA9		;8fa2
-	sub 008h		;8fa4
+	sub 008h		;8fa4   ; los objetos: 0xC5A0 + objeto - 9
 	ld hl,0c5a0h		;8fa6
 L_8FA9:
 	dec a			;8fa9
 	call 041e0h		;8faa   ; hl_mas_a: HL = HL + A
-	ld (hl),001h		;8fad
+	ld (hl),001h		;8fad   ; marcado: no vuelve a salir
 	ret			;8faf
 borra_la_partida:		; 0xC120-0xEC8F a cero y 0xC008 = 0
 	xor a			;8fb0
-	ld hl,0c120h		;8fb1
+	ld hl,0c120h		;8fb1   ; 0xC120-0xEC8F...
 	ld bc,02b6fh		;8fb4
 	ld d,h			;8fb7
 	ld e,l			;8fb8
 	inc e			;8fb9
-	ld (hl),a			;8fba
+	ld (hl),a			;8fba   ; ...a cero
 	ldir		;8fbb
 	ld (0c008h),a		;8fbd   ; guarda la pausa (1) o F5 (2)
 	ret			;8fc0
@@ -2261,44 +2261,44 @@ marcador:		; LIFE, CLASS, la llamada, el arma y el objeto
 	call 04751h		;8fca   ; marcador_arma: pinta en el marcador el arma elegida (0xC134) y su municion
 	jp 04843h		;8fcd   ; marcador_objeto: pinta en el marcador el objeto elegido (0xC135)
 marcador_llamada:		; CALL parpadeando con 0xC15F = 1 (sonido 0x22) o la cuenta atras 0xC13D
-	ld c,000h		;8fd0
+	ld c,000h		;8fd0   ; C = 0: el rotulo CALL en blanco
 	ld a,(0c15fh)		;8fd2   ; lee la llamada del transceptor (0 pendiente, 1 llamando, 2 ninguna)
-	dec a			;8fd5
+	dec a			;8fd5   ; con la llamada sonando (0xC15F = 1)...
 	jr nz,L_8FF2		;8fd6
 	ld a,(0c151h)		;8fd8   ; lee el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
-	sub 002h		;8fdb
+	sub 002h		;8fdb   ; ...salvo en las ventanas de armas y equipo...
 	jr z,L_8FF2		;8fdd
 	dec a			;8fdf
 	jr z,L_8FF2		;8fe0
 	ld a,(0c003h)		;8fe2   ; lee la cuenta de cuadros
-	bit 3,a		;8fe5
+	bit 3,a		;8fe5   ; ...cada 8 cuadros (8 si y 8 no)...
 	jr nz,L_8FF2		;8fe7
 	and 007h		;8fe9
-	ld a,022h		;8feb
+	ld a,022h		;8feb   ; ...el sonido 0x22 cada 8...
 	call z,0427ch		;8fed   ; sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
-	ld c,0ffh		;8ff0
+	ld c,0ffh		;8ff0   ; ...y CALL de verdad
 L_8FF2:
 	ld a,(0c13ch)		;8ff2   ; lee la cuenta atras en marcha
-	and a			;8ff5
+	and a			;8ff5   ; sin cuenta atras: CALL (p02:92CF) en (0x78, 0xC1)
 	jr nz,L_8FFE		;8ff6
 	ld hl,092cfh		;8ff8
 	jp 05112h		;8ffb
 L_8FFE:
-	ld a,(0c922h)		;8ffe
+	ld a,(0c922h)		;8ffe   ; en el final, sin digitos
 	cp 004h		;9001
 	ret nc			;9003
-	ld c,001h		;9004
-	ld de,070c1h		;9006
-	ld a,(0c13eh)		;9009
+	ld c,001h		;9004   ; con la cuenta atras, sus 4 digitos grandes...
+	ld de,070c1h		;9006   ; ...en (0xC1, 0x70)
+	ld a,(0c13eh)		;9009   ; los dos digitos altos (0xC13E)
 	rra			;900c
 	rra			;900d
 	rra			;900e
 	rra			;900f
 	call 06b16h		;9010   ; digito_de_frecuencia: el digito A (dos caracteres de 0x6B34) en (D, E)
-	ld a,(0c13eh)		;9013
+	ld a,(0c13eh)		;9013   ; el de las unidades del byte alto
 	call 06b16h		;9016   ; digito_de_frecuencia: el digito A (dos caracteres de 0x6B34) en (D, E)
 	ld a,(0c13dh)		;9019   ; lee la cuenta atras (BCD, 16 bits)
-	rra			;901c
+	rra			;901c   ; los dos bajos (0xC13D)
 	rra			;901d
 	rra			;901e
 	rra			;901f
@@ -2306,196 +2306,196 @@ L_8FFE:
 	ld a,(0c13dh)		;9023   ; lee la cuenta atras (BCD, 16 bits)
 	jp 06b16h		;9026   ; digito_de_frecuencia: el digito A (dos caracteres de 0x6B34) en (D, E)
 dano_4:		; dano 4
-	ld b,004h		;9029
+	ld b,004h		;9029   ; dano 4
 dano_a_snake:		; resta B a la vida 0xC131; al llegar a cero, Snake muere (estado 3, modo 9, sonido 0x44)
 	ld hl,0c131h		;902b   ; apunta a la vida (LIFE)
-	ld a,(hl)			;902e
+	ld a,(hl)			;902e   ; sin vida, muere
 	and a			;902f
 	jr z,snake_muere		;9030
 L_9032:
-	dec (hl)			;9032
-	jr z,snake_muere		;9033
+	dec (hl)			;9032   ; uno menos por punto de dano...
+	jr z,snake_muere		;9033   ; ...hasta cero: muere
 	djnz L_9032		;9035
 	jp barra_de_vida		;9037   ; barra_de_vida: LIFE y la barra 0xC131 sobre el maximo 0xC137
 snake_muere:		; estado 3, pose 6, modo 9, 0xC19D = 0x80 y el sonido 0x44
 	call barra_de_vida		;903a   ; barra_de_vida: LIFE y la barra 0xC131 sobre el maximo 0xC137
-	ld a,003h		;903d
+	ld a,003h		;903d   ; el estado 3 de Snake
 	ld (0c180h),a		;903f   ; guarda el estado de Snake
-	ld a,006h		;9042
+	ld a,006h		;9042   ; el modo de pose 6
 	ld (0c18bh),a		;9044   ; guarda el modo de la pose de Snake
-	ld a,009h		;9047
+	ld a,009h		;9047   ; el modo 9 de la partida
 	ld (0c151h),a		;9049   ; guarda el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
-	ld a,080h		;904c
+	ld a,080h		;904c   ; 0x80 cuadros
 	ld (0c19dh),a		;904e
-	xor a			;9051
+	xor a			;9051   ; 0xC199 a cero
 	ld (0c199h),a		;9052   ; guarda la cuenta de herido (Snake parpadea)
-	ld hl,0ea10h		;9055
+	ld hl,0ea10h		;9055   ; los sprites de los proyectiles fuera
 	ld de,0ea11h		;9058
 	ld bc,00017h		;905b
 	ld (hl),0e0h		;905e
 	ldir		;9060
-	ld a,044h		;9062
+	ld a,044h		;9062   ; el sonido 0x44
 	jp 0427ch		;9064   ; sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
 barra_de_vida:		; LIFE y la barra 0xC131 sobre el maximo 0xC137
-	ld hl,092afh		;9067
+	ld hl,092afh		;9067   ; LIFE (p02:92AF)
 	call 0510ch		;906a   ; rotulo: escribe el rotulo de HL ([X][Y], caracteres, 0xFE otra posicion, 0xFF acaba)
-	ld hl,031c1h		;906d
+	ld hl,031c1h		;906d   ; el marco de la barra en (0x31, 0xC1), 0x32 x 8, color 14
 	ld de,03208h		;9070
 	ld c,00eh		;9073
 	call 04f63h		;9075   ; recuadro: un recuadro de D x E desde (H, L) en el color C
 	ld a,(0c131h)		;9078   ; lee la vida (LIFE)
-	and a			;907b
+	and a			;907b   ; sin vida o con 1, sin barra
 	jr z,L_908F		;907c
 	dec a			;907e
 	jr z,L_908F		;907f
-	inc a			;9081
-	ld hl,032c2h		;9082
+	inc a			;9081   ; la vida...
+	ld hl,032c2h		;9082   ; ...desde (0x32, 0xC2), 6 de alto...
 	ld c,006h		;9085
 	ld b,a			;9087
 	ld d,000h		;9088
-	ld a,088h		;908a
+	ld a,088h		;908a   ; ...en el color 8 (0x88)
 	call 04f91h		;908c   ; rellena: HMMV: llena B x C desde (H, L) de la pagina D con el byte A
 L_908F:
 	ld a,(0c131h)		;908f   ; lee la vida (LIFE)
-	cp 030h		;9092
+	cp 030h		;9092   ; con el maximo de 0x30 (o 0x2F)...
 	ret z			;9094
 	cp 02fh		;9095
 	ret z			;9097
-	ld e,a			;9098
+	ld e,a			;9098   ; ...el resto de la barra...
 	ld c,032h		;9099
 	add a,c			;909b
 	ld h,a			;909c
 	ld l,0c2h		;909d
-	ld a,030h		;909f
+	ld a,030h		;909f   ; ...0x30 - vida...
 	sub e			;90a1
 	ld b,a			;90a2
 	ld c,006h		;90a3
-	xor a			;90a5
+	xor a			;90a5   ; ...a negro
 	ld d,a			;90a6
 	jp 04f91h		;90a7   ; rellena: HMMV: llena B x C desde (H, L) de la pagina D con el byte A
 estrellas:		; CLASS y las estrellas de 0xC132
-	ld hl,092b6h		;90aa
+	ld hl,092b6h		;90aa   ; CLASS (p02:92B6)
 	call 0510ch		;90ad   ; rotulo: escribe el rotulo de HL ([X][Y], caracteres, 0xFE otra posicion, 0xFF acaba)
-	ld de,034c9h		;90b0
+	ld de,034c9h		;90b0   ; las estrellas en (0x34, 0xC9)
 	ld a,(0c132h)		;90b3   ; lee la CLASS (0-3 estrellas)
-	inc a			;90b6
-	ld c,03bh		;90b7
+	inc a			;90b6   ; CLASS + 1...
+	ld c,03bh		;90b7   ; ...estrellas (0x3B)
 	call caracter_b_veces		;90b9   ; caracter_b_veces: el caracter C B veces desde (D, E)
 	ld a,(0c132h)		;90bc   ; lee la CLASS (0-3 estrellas)
-	sub 003h		;90bf
+	sub 003h		;90bf   ; el resto hasta 3...
 	ret z			;90c1
 	neg		;90c2
-	ld c,000h		;90c4
+	ld c,000h		;90c4   ; ...en blanco
 caracter_b_veces:		; el caracter C B veces desde (D, E)
-	ld b,a			;90c6
+	ld b,a			;90c6   ; B veces
 L_90C7:
-	ld a,c			;90c7
+	ld a,c			;90c7   ; el caracter C
 	call 05135h		;90c8   ; caracter: copia el caracter A de la pagina 1 a (D, E); con A = 0 o C = 0, el blanco
-	ld a,d			;90cb
+	ld a,d			;90cb   ; 8 puntos a la derecha
 	add a,008h		;90cc
 	ld d,a			;90ce
 	djnz L_90C7		;90cf
 	ret			;90d1
 numero_bcd:		; el numero BCD de HL hacia atras, B bytes, sin ceros a la izquierda
-	ld c,000h		;90d2
+	ld c,000h		;90d2   ; C = 0: los ceros de la izquierda en blanco
 L_90D4:
-	dec b			;90d4
+	dec b			;90d4   ; el ultimo byte...
 	jr nz,L_90D9		;90d5
-	ld c,0ffh		;90d7
+	ld c,0ffh		;90d7   ; ...pinta su cero
 L_90D9:
 	inc b			;90d9
-	ld a,(hl)			;90da
+	ld a,(hl)			;90da   ; el nibble alto...
 	rra			;90db
 	rra			;90dc
 	rra			;90dd
 	rra			;90de
 	call digito		;90df   ; digito: el digito A (o blanco si es un cero a la izquierda)
 L_90E2:
-	ld a,(hl)			;90e2
+	ld a,(hl)			;90e2   ; ...y el bajo
 	call digito		;90e3   ; digito: el digito A (o blanco si es un cero a la izquierda)
-	dec hl			;90e6
+	dec hl			;90e6   ; el byte anterior (hacia atras)
 	djnz L_90D4		;90e7
 	ret			;90e9
 numero_bcd_2:		; el numero BCD de 2 bytes de HL
-	ld c,000h		;90ea
+	ld c,000h		;90ea   ; 2 bytes
 	ld b,002h		;90ec
 	jr L_90E2		;90ee
 digito:		; el digito A (o blanco si es un cero a la izquierda)
-	and 00fh		;90f0
+	and 00fh		;90f0   ; el digito
 	jr z,L_90F6		;90f2
-	ld c,0ffh		;90f4
+	ld c,0ffh		;90f4   ; el primer digito no cero: desde aqui todos
 L_90F6:
-	add a,030h		;90f6
+	add a,030h		;90f6   ; '0' + digito (o 0, el blanco)
 	and c			;90f8
 	call 05135h		;90f9   ; caracter: copia el caracter A de la pagina 1 a (D, E); con A = 0 o C = 0, el blanco
-	ld a,d			;90fc
+	ld a,d			;90fc   ; 8 puntos a la derecha
 	add a,008h		;90fd
 	ld d,a			;90ff
 	ret			;9100
 maximos:		; los maximos de municion y de raciones por CLASS (0x918A-0x91BA) en 0xC380
-	ld de,0c381h		;9101
+	ld de,0c381h		;9101   ; 0xC380-0xC3CF a 0xFF
 	ld hl,0c380h		;9104
 	ld bc,0004fh		;9107
 	ld (hl),0ffh		;910a
 	ldir		;910c
 	ld a,(0c132h)		;910e   ; lee la CLASS (0-3 estrellas)
-	and a			;9111
+	and a			;9111   ; CLASS 0: 0x918A y 3 raciones
 	ld hl,0918ah		;9112
 	ld c,003h		;9115
 	jr z,L_912E		;9117
-	dec a			;9119
+	dec a			;9119   ; CLASS 1: 0x919A y 6
 	ld hl,0919ah		;911a
 	ld c,006h		;911d
 	jr z,L_912E		;911f
-	dec a			;9121
+	dec a			;9121   ; CLASS 2: 0x91AA y 9
 	ld hl,091aah		;9122
 	ld c,009h		;9125
 	jr z,L_912E		;9127
-	ld hl,091bah		;9129
+	ld hl,091bah		;9129   ; CLASS 3: 0x91BA y 0x12
 	ld c,012h		;912c
 L_912E:
 	ld a,c			;912e
-	ld de,0c380h		;912f
+	ld de,0c380h		;912f   ; los 8 maximos (BCD) a 0xC380
 	ld bc,00010h		;9132
 	ldir		;9135
-	ld l,a			;9137
+	ld l,a			;9137   ; el de las raciones a 0xC3BA
 	ld h,000h		;9138
 	ld (0c3bah),hl		;913a
-	ld a,(0c141h)		;913d
+	ld a,(0c141h)		;913d   ; con la clave de la municion (0xC141 bit 0)...
 	rra			;9140
 	jr nc,L_914E		;9141
-	ld hl,091cah		;9143
+	ld hl,091cah		;9143   ; ...todos a 999 (0x91CA)
 	ld de,0c380h		;9146
 	ld bc,00010h		;9149
 	ldir		;914c
 L_914E:
-	rra			;914e
+	rra			;914e   ; con la de las raciones (bit 1), 999
 	jr nc,L_9157		;914f
 	ld hl,00999h		;9151
 	ld (0c3bah),hl		;9154
 L_9157:
-	ld a,016h		;9157
+	ld a,016h		;9157   ; si lleva raciones...
 	call 043e1h		;9159   ; busca_objeto: busca A en los 25 objetos de 0xC530 (fichas de 4): C = el sitio, Z si esta, acarreo si no
 	jr nc,L_9165		;915c
-	ld bc,(0c3bah)		;915e
+	ld bc,(0c3bah)		;915e   ; ...recorta su cantidad
 	call recorta		;9162   ; recorta: si la cantidad de (HL + 1) pasa de BC, la deja en BC
 L_9165:
-	ld b,008h		;9165
+	ld b,008h		;9165   ; las 8 armas
 	ld c,001h		;9167
-	ld ix,0c380h		;9169
+	ld ix,0c380h		;9169   ; los maximos
 L_916D:
-	ld a,c			;916d
+	ld a,c			;916d   ; si lleva el arma...
 	push bc			;916e
 	push ix		;916f
 	call 043e8h		;9171   ; busca_arma: busca A en las 7 armas de 0xC500 (fichas de 4): C = el sitio, Z si esta, acarreo si no
 	jr nc,L_917F		;9174
-	ld c,(ix+000h)		;9176
+	ld c,(ix+000h)		;9176   ; ...recorta su municion
 	ld b,(ix+001h)		;9179
 	call recorta		;917c   ; recorta: si la cantidad de (HL + 1) pasa de BC, la deja en BC
 L_917F:
 	pop ix		;917f
 	pop bc			;9181
-	inc c			;9182
+	inc c			;9182   ; el arma siguiente
 	inc ix		;9183
 	inc ix		;9185
 	djnz L_916D		;9187
@@ -2519,83 +2519,83 @@ DATA_bloques_918a:
 
 
 recorta:		; si la cantidad de (HL + 1) pasa de BC, la deja en BC
-	inc hl			;91da
+	inc hl			;91da   ; DE = la cantidad (+1, +2)
 	ld e,(hl)			;91db
 	inc hl			;91dc
 	ld d,(hl)			;91dd
 	ex de,hl			;91de
-	and a			;91df
+	and a			;91df   ; si no pasa del maximo, nada
 	sbc hl,bc		;91e0
 	ret z			;91e2
 	ret c			;91e3
-	ex de,hl			;91e4
+	ex de,hl			;91e4   ; si pasa, la deja en el maximo
 	ld (hl),b			;91e5
 	dec hl			;91e6
 	ld (hl),c			;91e7
 	ret			;91e8
 cuenta_de_llamada:		; baja 0xC160 y pasa 0xC15F de 0 a 1 (llamando) y de 1 a 2
 	ld hl,0c160h		;91e9   ; apunta a la cuenta hasta la llamada
-	ld a,(hl)			;91ec
+	ld a,(hl)			;91ec   ; sin cuenta, nada
 	and a			;91ed
 	ret z			;91ee
 	ld a,(0c15fh)		;91ef   ; lee la llamada del transceptor (0 pendiente, 1 llamando, 2 ninguna)
-	cp 002h		;91f2
+	cp 002h		;91f2   ; sin llamada (2), nada
 	ret z			;91f4
-	dec a			;91f5
+	dec a			;91f5   ; sonando (1): la cuenta del sonido
 	jr z,L_9201		;91f6
-	dec (hl)			;91f8
+	dec (hl)			;91f8   ; pendiente (0): espera la cuenta...
 	ret nz			;91f9
-	ld (hl),058h		;91fa
+	ld (hl),058h		;91fa   ; ...0x58 cuadros sonando
 	ld a,001h		;91fc
 	ld (0c15fh),a		;91fe   ; guarda la llamada del transceptor (0 pendiente, 1 llamando, 2 ninguna)
 L_9201:
-	dec (hl)			;9201
+	dec (hl)			;9201   ; al acabar de sonar...
 	ret nz			;9202
-	ld a,002h		;9203
+	ld a,002h		;9203   ; ...sin llamada
 	ld (0c15fh),a		;9205   ; guarda la llamada del transceptor (0 pendiente, 1 llamando, 2 ninguna)
 	ret			;9208
 cuenta_atras:		; con 0xC13C baja la cuenta 0xC13D (BCD); a cero, Snake muere
 	ld a,(0c13ch)		;9209   ; lee la cuenta atras en marcha
-	and a			;920c
+	and a			;920c   ; sin cuenta atras, nada
 	ret z			;920d
 	ld hl,0c13dh		;920e   ; apunta a la cuenta atras (BCD, 16 bits)
-	ld a,(hl)			;9211
+	ld a,(hl)			;9211   ; baja 1 (BCD)
 	sub 001h		;9212
 	daa			;9214
 	ld (hl),a			;9215
-	jr nc,L_921F		;9216
-	inc hl			;9218
+	jr nc,L_921F		;9216   ; sin acarreo, el byte alto no cambia
+	inc hl			;9218   ; el byte alto baja 1
 	ld a,(hl)			;9219
 	sub 001h		;921a
 	daa			;921c
 	ld (hl),a			;921d
 	dec hl			;921e
 L_921F:
-	ld a,(hl)			;921f
+	ld a,(hl)			;921f   ; a cero...
 	inc hl			;9220
 	or (hl)			;9221
 	ret nz			;9222
 	call marcador_llamada		;9223   ; marcador_llamada: CALL parpadeando con 0xC15F = 1 (sonido 0x22) o la cuenta atras 0xC13D
-	xor a			;9226
+	xor a			;9226   ; ...la vida a cero: muere
 	ld (0c131h),a		;9227   ; guarda la vida (LIFE)
 	jp snake_muere		;922a   ; snake_muere: estado 3, pose 6, modo 9, 0xC19D = 0x80 y el sonido 0x44
 aprieta_armas:		; quita los huecos de la lista de armas 0xC500
 	ld de,0c500h		;922d   ; apunta a las armas que se llevan (fichas de 4: [arma][municion BCD])
-	ld b,006h		;9230
+	ld b,006h		;9230   ; 7 huecos
 	jr L_9239		;9232
 aprieta_objetos:		; quita los huecos de la lista de objetos 0xC530
 	ld de,0c530h		;9234   ; apunta a los objetos que se llevan (fichas de 4)
-	ld b,018h		;9237
+	ld b,018h		;9237   ; 25 huecos
 L_9239:
-	ld a,(de)			;9239
+	ld a,(de)			;9239   ; busca un hueco vacio
 	and a			;923a
 	jr z,L_9245		;923b
-	ld a,004h		;923d
+	ld a,004h		;923d   ; la ficha siguiente
 	call 041e5h		;923f   ; de_mas_a: DE = DE + A
 	djnz L_9239		;9242
 	ret			;9244
 L_9245:
-	push de			;9245
+	push de			;9245   ; detras, la primera ficha llena...
 	pop hl			;9246
 	ld a,004h		;9247
 	call 041e0h		;9249   ; hl_mas_a: HL = HL + A
@@ -2605,17 +2605,17 @@ L_9245:
 	djnz L_9245		;9250
 	ret			;9252
 L_9253:
-	push bc			;9253
+	push bc			;9253   ; ...sube al hueco vacio
 	ld b,004h		;9254
 L_9256:
-	ld a,(hl)			;9256
+	ld a,(hl)			;9256   ; los 4 bytes
 	ld (de),a			;9257
 	ld (hl),000h		;9258
 	inc hl			;925a
 	inc de			;925b
 	djnz L_9256		;925c
 	pop bc			;925e
-	djnz L_9239		;925f
+	djnz L_9239		;925f   ; sigue apretando
 	ret			;9261
 
 ; ----------------------------------------------------------------------
@@ -2677,111 +2677,111 @@ DATA_rotulo_call:
 
 nueva_sala:		; la sala nueva: por la puerta 0xC4FC, por el lado (sala_vecina) o el ascensor
 	ld a,(0c130h)		;92db   ; lee la sala
-	cp 0cch		;92de
+	cp 0cch		;92de   ; en la sala 0xCC (la caida)...
 	jp z,cae_en_cc		;92e0   ; cae_en_cc: baja 0xC15B y al acabar sale a la sala 5, 6 o 0x0A
-	ld a,(0c4fch)		;92e3
+	ld a,(0c4fch)		;92e3   ; por una puerta (0xC4FC)
 	and a			;92e6
 	jp nz,por_la_puerta		;92e7   ; por_la_puerta: la sala de destino de la puerta 0xC4FC (byte 0x0F); trampillas 0x91, 0x5B y 0x81
 	ld a,(0c133h)		;92ea   ; lee el lado por el que se sale (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
-	and a			;92ed
+	and a			;92ed   ; sin lado, nada
 	ret z			;92ee
 	call 042e6h		;92ef   ; sala_vecina: A = la sala vecina por el lado 0xC133 (tabla p05:8E0E); 0xFF si la sala no tiene vecinas
-	cp 0f0h		;92f2
+	cp 0f0h		;92f2   ; la vecina es un ascensor
 	jp nc,al_ascensor		;92f4   ; al_ascensor: entra en el ascensor: 0xC136 = la sala de antes, Y de entrada y modo 6
 	ld hl,0c130h		;92f7   ; apunta a la sala
-	ld c,(hl)			;92fa
+	ld c,(hl)			;92fa   ; C = la sala de antes
 	ld (0c130h),a		;92fb   ; guarda la sala
-	ld a,c			;92fe
+	ld a,c			;92fe   ; desde la sala 0x67...
 	cp 067h		;92ff
 	jr nz,L_9317		;9301
 	ld a,(0c135h)		;9303   ; lee el objeto elegido (p06:B8F6: 3 LIGHT, 4 GOGGL, 6 CIGAL, 0x0E-0x15 CARD1-8, 0x16 RATIO, 0x19 BOX...)
-	cp 00bh		;9306
+	cp 00bh		;9306   ; ...sin COMPAS (objeto 0x0B)...
 	jr z,L_9317		;9308
 	ld a,(0c185h)		;930a   ; lee la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
-	cp 002h		;930d
+	cp 002h		;930d   ; ...y sin ir hacia abajo...
 	jr z,L_9317		;930f
-	ld a,067h		;9311
+	ld a,067h		;9311   ; ...se vuelve a la 0x67
 	ld (0c130h),a		;9313   ; guarda la sala
 	ld c,a			;9316
 L_9317:
-	ld a,c			;9317
+	ld a,c			;9317   ; 0xC136 = la sala de antes
 	ld (0c136h),a		;9318   ; guarda la parada del ascensor
 L_931B:
-	xor a			;931b
+	xor a			;931b   ; el modo 0
 	ld (0c151h),a		;931c   ; guarda el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
 	ret			;931f
 al_ascensor:		; entra en el ascensor: 0xC136 = la sala de antes, Y de entrada y modo 6
 	call 042e6h		;9320   ; sala_vecina: A = la sala vecina por el lado 0xC133 (tabla p05:8E0E); 0xFF si la sala no tiene vecinas
 	ld hl,0c130h		;9323   ; apunta a la sala
-	ld c,(hl)			;9326
+	ld c,(hl)			;9326   ; C = la sala de antes
 	ld (0c130h),a		;9327   ; guarda la sala
 	ld a,c			;932a
 	ld (0c136h),a		;932b   ; guarda la parada del ascensor
 	call 0432dh		;932e   ; datos_del_ascensor: 0xC197 y 0xC198 = los dos primeros bytes del ascensor (sala - 0xF0) en p05:8DA8
 	ld a,(0c133h)		;9331   ; lee el lado por el que se sale (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
-	dec a			;9334
+	dec a			;9334   ; entrando por arriba: la cabina en 0xD0...
 	ld a,0d0h		;9335
 	jr z,L_933B		;9337
-	ld a,018h		;9339
+	ld a,018h		;9339   ; ...por abajo, en 0x18
 L_933B:
 	ld (0c193h),a		;933b
-	ld l,000h		;933e
+	ld l,000h		;933e   ; Snake 4 puntos por encima de la cabina
 	sub 004h		;9340
 	ld h,a			;9342
 	ld (0c181h),hl		;9343   ; guarda la Y de Snake (16 bits)
 	call sprites_del_ascensor		;9346   ; sprites_del_ascensor: los sprites del ascensor (0x95B7) en 0xEA00 y colores 15
-	xor a			;9349
+	xor a			;9349   ; el paso 0 del ascensor
 	ld (0c196h),a		;934a
-	ld a,006h		;934d
+	ld a,006h		;934d   ; el modo 6
 	ld (0c151h),a		;934f   ; guarda el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
 	ret			;9352
 por_la_puerta:		; la sala de destino de la puerta 0xC4FC (byte 0x0F); trampillas 0x91, 0x5B y 0x81
-	ld a,(0c4fch)		;9353
-	cp 091h		;9356
+	ld a,(0c4fch)		;9353   ; la puerta
+	cp 091h		;9356   ; 0x91: la sala 0x75 (la trampilla de la sala 0x75)
 	ld c,075h		;9358
 	jp z,cae_por_la_trampilla		;935a   ; cae_por_la_trampilla: con PARAC (objeto 0x0C) a la sala 0xCC; si no, dano 0xFF
-	cp 05bh		;935d
+	cp 05bh		;935d   ; 0x5B: la 0x2D
 	ld c,02dh		;935f
 	jp z,cae_por_la_trampilla		;9361   ; cae_por_la_trampilla: con PARAC (objeto 0x0C) a la sala 0xCC; si no, dano 0xFF
-	cp 081h		;9364
+	cp 081h		;9364   ; 0x81: la 0x2E
 	ld c,02eh		;9366
 	jp z,cae_por_la_trampilla		;9368   ; cae_por_la_trampilla: con PARAC (objeto 0x0C) a la sala 0xCC; si no, dano 0xFF
 	ld hl,0c3d0h		;936b   ; apunta a las puertas de la sala
-	ld de,00010h		;936e
+	ld de,00010h		;936e   ; busca la puerta en las de la sala
 L_9371:
 	cp (hl)			;9371
 	jr z,L_9377		;9372
 	add hl,de			;9374
 	jr L_9371		;9375
 L_9377:
-	ld a,00fh		;9377
+	ld a,00fh		;9377   ; +0x0F: la sala de destino
 	call 041e0h		;9379   ; hl_mas_a: HL = HL + A
 	ld a,(hl)			;937c
 	ld c,a			;937d
 	ld a,(0c130h)		;937e   ; lee la sala
 	ld (0c136h),a		;9381   ; guarda la parada del ascensor
-	ld a,c			;9384
+	ld a,c			;9384   ; la sala nueva
 	ld (0c130h),a		;9385   ; guarda la sala
-	cp 0f0h		;9388
+	cp 0f0h		;9388   ; un ascensor...
 	jr c,L_938E		;938a
 	jr L_93A2		;938c
 L_938E:
 	ld a,(0c130h)		;938e   ; lee la sala
-	and 0f0h		;9391
+	and 0f0h		;9391   ; las salas 0xE0-0xEF...
 	cp 0e0h		;9393
 	jp z,L_9418		;9395
 	ld a,(0c136h)		;9398   ; lee la parada del ascensor
-	cp 0f0h		;939b
+	cp 0f0h		;939b   ; (de un ascensor o no, lo mismo)
 	jr nc,L_93BC		;939d
 	jp L_93BC		;939f
 L_93A2:
 	call 04315h		;93a2   ; parada_del_ascensor: BC = los dos bytes que siguen a la parada 0xC136 en la lista del ascensor
-	ld e,000h		;93a5
+	ld e,000h		;93a5   ; la Y de la parada (C)...
 	ld d,c			;93a7
 	ld (0c181h),de		;93a8   ; guarda la Y de Snake (16 bits)
-	ld d,0d8h		;93ac
+	ld d,0d8h		;93ac   ; ...X = 0xD8
 	ld (0c183h),de		;93ae   ; guarda la X de Snake (16 bits)
-	ld e,b			;93b2
+	ld e,b			;93b2   ; 0xC193 = la parada, 0xC194 = 0x70
 	ld d,070h		;93b3
 	ld (0c193h),de		;93b5
 	call sprites_del_ascensor		;93b9   ; sprites_del_ascensor: los sprites del ascensor (0x95B7) en 0xEA00 y colores 15
@@ -2789,91 +2789,91 @@ L_93BC:
 	jp L_931B		;93bc
 cae_por_la_trampilla:		; con PARAC (objeto 0x0C) a la sala 0xCC; si no, dano 0xFF
 	ld a,(0c135h)		;93bf   ; lee el objeto elegido (p06:B8F6: 3 LIGHT, 4 GOGGL, 6 CIGAL, 0x0E-0x15 CARD1-8, 0x16 RATIO, 0x19 BOX...)
-	cp 00ch		;93c2
+	cp 00ch		;93c2   ; con PARAC (objeto 0x0C)...
 	jr nz,L_93DA		;93c4
-	ld a,0cch		;93c6
+	ld a,0cch		;93c6   ; ...a la sala 0xCC
 	ld (0c130h),a		;93c8   ; guarda la sala
-	ld a,c			;93cb
+	ld a,c			;93cb   ; 0xC136 = la sala de la trampilla
 	ld (0c136h),a		;93cc   ; guarda la parada del ascensor
-	ld a,002h		;93cf
+	ld a,002h		;93cf   ; 2 cuadros de caida
 	ld (0c15bh),a		;93d1
 	call 058c9h		;93d4   ; quita_c602: la bandera 0xC602 y 0xC603-0xC607 a cero y, si se juega, la musica de la sala
 	jp L_931B		;93d7
 L_93DA:
 	call sale_de_cc		;93da   ; sale_de_cc: la sala 5, 6 o 0x0A segun 0xC162
-	xor a			;93dd
+	xor a			;93dd   ; sin parada
 	ld (0c136h),a		;93de   ; guarda la parada del ascensor
-	ld a,0ffh		;93e1
+	ld a,0ffh		;93e1   ; 0xC4FC = 0xFF: cayo sin paracaidas
 	ld (0c4fch),a		;93e3
-	ld b,0ffh		;93e6
+	ld b,0ffh		;93e6   ; dano 0xFF: muere
 	jp dano_a_snake		;93e8   ; dano_a_snake: resta B a la vida 0xC131; al llegar a cero, Snake muere (estado 3, modo 9, sonido 0x44)
 cae_en_cc:		; baja 0xC15B y al acabar sale a la sala 5, 6 o 0x0A
 	ld hl,0c15bh		;93eb
-	dec (hl)			;93ee
+	dec (hl)			;93ee   ; al acabar la caida, sale
 	jr z,sale_de_cc		;93ef
-	ld a,0cch		;93f1
+	ld a,0cch		;93f1   ; sigue en la 0xCC
 	ld (0c130h),a		;93f3   ; guarda la sala
 	ld (0c136h),a		;93f6   ; guarda la parada del ascensor
 	jp L_931B		;93f9
 sale_de_cc:		; la sala 5, 6 o 0x0A segun 0xC162
 	ld a,(0c162h)		;93fc
-	dec a			;93ff
+	dec a			;93ff   ; por la trampilla 1 (0x2D): a la sala 5
 	ld c,005h		;9400
 	jr z,L_940B		;9402
-	dec a			;9404
+	dec a			;9404   ; por la 2 (0x2E): a la 6
 	ld c,006h		;9405
 	jr z,L_940B		;9407
-	ld c,00ah		;9409
+	ld c,00ah		;9409   ; por la 0x75: a la 0x0A
 L_940B:
 	ld a,c			;940b
 	ld (0c130h),a		;940c   ; guarda la sala
-	ld a,0cch		;940f
+	ld a,0cch		;940f   ; la parada 0xCC
 	ld (0c136h),a		;9411   ; guarda la parada del ascensor
-	xor a			;9414
+	xor a			;9414   ; 0xC162 a cero
 	ld (0c162h),a		;9415
 L_9418:
 	jp L_931B		;9418
 entra_snake:		; pone a Snake en la sala nueva segun por donde entro
 	ld a,(0c4fch)		;941b
-	cp 0ffh		;941e
+	cp 0ffh		;941e   ; cayo sin paracaidas
 	jp z,L_9546		;9420
-	cp 091h		;9423
+	cp 091h		;9423   ; por las trampillas
 	jp z,L_9506		;9425
 	cp 05bh		;9428
 	jp z,L_9506		;942a
 	cp 081h		;942d
 	jp z,L_9506		;942f
-	cp 06bh		;9432
+	cp 06bh		;9432   ; por la puerta 0x6B
 	jp z,L_9578		;9434
-	and a			;9437
+	and a			;9437   ; por un lado o un ascensor
 	jr nz,L_944A		;9438
 	ld a,(0c136h)		;943a   ; lee la parada del ascensor
-	cp 0cch		;943d
+	cp 0cch		;943d   ; desde la caida
 	jp z,L_951A		;943f
 	ld a,(0c130h)		;9442   ; lee la sala
-	cp 0f0h		;9445
+	cp 0f0h		;9445   ; en los ascensores, nada
 	ret nc			;9447
 	jr entra_por_el_lado		;9448
 L_944A:
 	ld a,(0c130h)		;944a   ; lee la sala
-	cp 0f0h		;944d
+	cp 0f0h		;944d   ; a un ascensor
 	jr nc,$+45		;944f
 	ld a,(0c136h)		;9451   ; lee la parada del ascensor
-	cp 0f0h		;9454
+	cp 0f0h		;9454   ; desde un ascensor
 	jr nc,$+55		;9456
 	jp L_9493		;9458
 entra_por_el_lado:		; la Y o la X de entrada por el lado 0xC133 (0x9474)
-	ld de,09474h		;945b
+	ld de,09474h		;945b   ; 0x9474: por el lado, la Y o la X de entrada
 	ld a,(0c133h)		;945e   ; lee el lado por el que se sale (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
-	dec a			;9461
+	dec a			;9461   ; el lado contrario...
 	ld c,a			;9462
 	call 042b4h		;9463   ; palabra_a: DE = la palabra A de la tabla DE
-	ex de,hl			;9466
+	ex de,hl			;9466   ; HL = la coordenada
 	ld a,c			;9467
-	cp 002h		;9468
+	cp 002h		;9468   ; arriba y abajo: la Y
 	jr nc,L_9470		;946a
 	ld (0c181h),hl		;946c   ; guarda la Y de Snake (16 bits)
-	ret			;946f
+	ret			;946f   ; izquierda y derecha: la X
 L_9470:
 	ld (0c183h),hl		;9470   ; guarda la X de Snake (16 bits)
 	ret			;9473
@@ -2891,9 +2891,9 @@ DATA_palabras_9474:
 
 
 estado_2_derecha:		; estado 2 mirando a la izquierda
-	ld a,002h		;947c
+	ld a,002h		;947c   ; estado 2
 	ld (0c180h),a		;947e   ; guarda el estado de Snake
-	inc a			;9481
+	inc a			;9481   ; mirando a la izquierda (3)
 	ld (0c185h),a		;9482   ; guarda la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
 teclas_a_cero:		; 0xC191 y 0xC192 a cero
 	xor a			;9485
@@ -2906,38 +2906,38 @@ entra_por_la_puerta:		; delante de la puerta 0xC4FC por su tipo (0x94CD): Y, X y
 L_9493:
 	ld a,(0c4fch)		;9493
 	ld hl,0c3d0h		;9496   ; apunta a las puertas de la sala
-	ld de,00010h		;9499
+	ld de,00010h		;9499   ; busca la puerta
 L_949C:
 	cp (hl)			;949c
 	jr z,L_94A2		;949d
 	add hl,de			;949f
 	jr L_949C		;94a0
 L_94A2:
-	inc hl			;94a2
+	inc hl			;94a2   ; +3: el tipo
 	inc hl			;94a3
 	inc hl			;94a4
 	ld a,(hl)			;94a5
-	inc hl			;94a6
+	inc hl			;94a6   ; +5: la Y
 	inc hl			;94a7
 	ex de,hl			;94a8
-	ld hl,094cdh		;94a9
+	ld hl,094cdh		;94a9   ; 0x94CD: 3 bytes por tipo: [dy][dx][direccion]
 	dec a			;94ac
 	ld c,a			;94ad
 	add a,a			;94ae
 	add a,c			;94af
 	call 041e0h		;94b0   ; hl_mas_a: HL = HL + A
-	ld a,(de)			;94b3
+	ld a,(de)			;94b3   ; la Y de entrada
 	add a,(hl)			;94b4
 	ld b,a			;94b5
 	ld c,000h		;94b6
 	inc de			;94b8
 	inc hl			;94b9
-	ld a,(de)			;94ba
+	ld a,(de)			;94ba   ; la X
 	add a,(hl)			;94bb
 	ld d,a			;94bc
 	ld e,000h		;94bd
 	inc hl			;94bf
-	ld a,(hl)			;94c0
+	ld a,(hl)			;94c0   ; la direccion
 	ld (0c181h),bc		;94c1   ; guarda la Y de Snake (16 bits)
 	ld (0c183h),de		;94c5   ; guarda la X de Snake (16 bits)
 	ld (0c185h),a		;94c9   ; guarda la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
@@ -2974,24 +2974,24 @@ DATA_fichas_94cd:
 
 
 L_9506:
-	ld a,003h		;9506
+	ld a,003h		;9506   ; el modo de pose 3...
 	ld (0c18bh),a		;9508   ; guarda el modo de la pose de Snake
-	inc a			;950b
+	inc a			;950b   ; ...y el estado 4 (cayendo)
 	ld (0c180h),a		;950c   ; guarda el estado de Snake
 	call teclas_a_cero		;950f   ; teclas_a_cero: 0xC191 y 0xC192 a cero
-	ld hl,08000h		;9512
+	ld hl,08000h		;9512   ; X = 0x80
 	ld (0c183h),hl		;9515   ; guarda la X de Snake (16 bits)
 	jr L_9529		;9518
 L_951A:
 	ld a,(0c130h)		;951a   ; lee la sala
-	cp 00ah		;951d
+	cp 00ah		;951d   ; desde la caida a las salas 0x0A, 5 o 6...
 	jr z,L_9530		;951f
 	cp 005h		;9521
 	jr z,L_9530		;9523
 	cp 006h		;9525
 	jr z,L_9530		;9527
 L_9529:
-	ld hl,03000h		;9529
+	ld hl,03000h		;9529   ; si no, Y = 0x30
 	ld (0c181h),hl		;952c   ; guarda la Y de Snake (16 bits)
 	ret			;952f
 L_9530:
@@ -3004,7 +3004,7 @@ L_9530:
 	inc a			;9542
 	ld (0c185h),a		;9543   ; guarda la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
 L_9546:
-	ld l,000h		;9546
+	ld l,000h		;9546   ; la sala 0x0A: (0x80, 0xA0)
 	ld a,(0c130h)		;9548   ; lee la sala
 	cp 00ah		;954b
 	jr z,L_9557		;954d
@@ -3019,40 +3019,40 @@ L_9557:
 	ld (0c183h),hl		;955e   ; guarda la X de Snake (16 bits)
 	ret			;9561
 L_9562:
-	ld h,038h		;9562
+	ld h,038h		;9562   ; la 5: (0x38, 0x68)
 	ld (0c181h),hl		;9564   ; guarda la Y de Snake (16 bits)
 	ld h,068h		;9567
 	ld (0c183h),hl		;9569   ; guarda la X de Snake (16 bits)
 	ret			;956c
 L_956D:
-	ld h,0a8h		;956d
+	ld h,0a8h		;956d   ; la 6: (0xA8, 0x80)
 	ld (0c181h),hl		;956f   ; guarda la Y de Snake (16 bits)
 	ld h,080h		;9572
 	ld (0c183h),hl		;9574   ; guarda la X de Snake (16 bits)
 	ret			;9577
 L_9578:
 	ld a,(0c130h)		;9578   ; lee la sala
-	cp 077h		;957b
+	cp 077h		;957b   ; en la sala 0x77, delante de la puerta
 	jp z,entra_por_la_puerta		;957d   ; entra_por_la_puerta: delante de la puerta 0xC4FC por su tipo (0x94CD): Y, X y direccion
-	ld a,006h		;9580
+	ld a,006h		;9580   ; en las demas: estado 6...
 	ld (0c180h),a		;9582   ; guarda el estado de Snake
-	rrca			;9585
+	rrca			;9585   ; ...mirando a la izquierda (3)...
 	ld (0c185h),a		;9586   ; guarda la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
 	call teclas_a_cero		;9589   ; teclas_a_cero: 0xC191 y 0xC192 a cero
-	ld hl,09e00h		;958c
+	ld hl,09e00h		;958c   ; ...en (0x9E, 0xD8)
 	ld (0c181h),hl		;958f   ; guarda la Y de Snake (16 bits)
 	ld h,0d8h		;9592
 	ld (0c183h),hl		;9594   ; guarda la X de Snake (16 bits)
 	ret			;9597
 sprites_del_ascensor:		; los sprites del ascensor (0x95B7) en 0xEA00 y colores 15
 	ld de,0ea00h		;9598   ; apunta a la copia de los atributos de los sprites
-	ld hl,095b7h		;959b
+	ld hl,095b7h		;959b   ; 8 sprites de 8 bytes de 0x95B7 (los dos primeros, una y otra vez)
 	ld b,008h		;959e
 L_95A0:
 	push hl			;95a0
 	ld c,008h		;95a1
 L_95A3:
-	ld a,(hl)			;95a3
+	ld a,(hl)			;95a3   ; a 0xEA00
 	ld (de),a			;95a4
 	inc hl			;95a5
 	inc de			;95a6
@@ -3060,8 +3060,8 @@ L_95A3:
 	jr nz,L_95A3		;95a8
 	pop hl			;95aa
 	djnz L_95A0		;95ab
-	ld de,0e800h		;95ad
-	ld a,00fh		;95b0
+	ld de,0e800h		;95ad   ; los colores...
+	ld a,00fh		;95b0   ; ...15
 L_95B2:
 	ld (de),a			;95b2
 	inc de			;95b3
@@ -3098,25 +3098,25 @@ DATA_tabla_95C5:
 
 
 L_95CF:
-	dec (ix+013h)		;95cf
+	dec (ix+013h)		;95cf   ; paso 0: espera (ix+0x13)
 	ret nz			;95d2
-	ld hl,0c169h		;95d3
+	ld hl,0c169h		;95d3   ; la primera vez...
 	ld a,(hl)			;95d6
 	or a			;95d7
 	jr nz,L_95E1		;95d8
 	ld (hl),001h		;95da
-	ld a,08bh		;95dc
+	ld a,08bh		;95dc   ; ...el texto 0x8B
 	call 05cd9h		;95de   ; ventana_de_texto_2: abre la ventana del texto A en el modo 2 (0xCEE0)
 L_95E1:
-	ld (ix+013h),010h		;95e1
+	ld (ix+013h),010h		;95e1   ; 0x10 cuadros
 	jr paso_siguiente_9600		;95e5
 L_95E7:
-	dec (ix+013h)		;95e7
+	dec (ix+013h)		;95e7   ; paso 1: espera
 	ret nz			;95ea
 	ld (ix+013h),008h		;95eb
 	ld a,(0c184h)		;95ef   ; lee la X de Snake
 	cp (ix+005h)		;95f2   ; compara con la X del actor
-	ld de,00200h		;95f5
+	ld de,00200h		;95f5   ; hacia Snake a 2 puntos por cuadro
 	jr nc,L_95FD		;95f8
 	ld de,0fe00h		;95fa
 L_95FD:
@@ -3125,28 +3125,28 @@ paso_siguiente_9600:		; sube el paso del actor (ix+1)
 	inc (ix+001h)		;9600   ; sube el paso del actor
 	ret			;9603
 L_9604:
-	ld b,007h		;9604
+	ld b,007h		;9604   ; paso 2: anda
 	call 05b6ah		;9606   ; alterna_cuadro: si (ix+0x0C) AND B es 0, cambia el bit 0 del cuadro
 	dec (ix+013h)		;9609
 	ret nz			;960c
-	ld (ix+013h),005h		;960d
+	ld (ix+013h),005h		;960d   ; 5 cuadros
 	ld (ix+00bh),01ah		;9611   ; el cuadro del actor = 0x1A
-	ld de,00000h		;9615
+	ld de,00000h		;9615   ; se para
 	call 05b5dh		;9618   ; velocidad_x: la velocidad X del actor (ix+9, ix+0x0A) = DE
 	call paso_siguiente_9600		;961b   ; paso_siguiente_9600: sube el paso del actor (ix+1)
 	ld a,(ix+003h)		;961e   ; lee la Y del actor
-	sub 010h		;9621
+	sub 010h		;9621   ; crea el tipo 0x3F 0x10 por encima
 	ld e,a			;9623
 	ld d,(ix+005h)		;9624   ; lee la X del actor
 	ld c,03fh		;9627
 	jp 0569ah		;9629   ; crea_actor: crea un actor del tipo C en Y = E, X = D en la primera ficha libre de 0xD000; HL = la ficha, A = 0 si no cabe
 L_962C:
-	dec (ix+013h)		;962c
+	dec (ix+013h)		;962c   ; paso 3: espera
 	ret nz			;962f
 	ld (ix+013h),008h		;9630
 	ld (ix+00bh),018h		;9634   ; el cuadro del actor = 0x18
 	ld a,(ix+005h)		;9638   ; lee la X del actor
-	cp 080h		;963b
+	cp 080h		;963b   ; hacia el centro a 2 puntos
 	ld de,0fe00h		;963d
 	jr nc,L_9645		;9640
 	ld de,00200h		;9642
@@ -3154,42 +3154,42 @@ L_9645:
 	call 05b5dh		;9645   ; velocidad_x: la velocidad X del actor (ix+9, ix+0x0A) = DE
 	jr paso_siguiente_9600		;9648
 L_964A:
-	ld b,007h		;964a
+	ld b,007h		;964a   ; paso 4: anda...
 	call 05b6ah		;964c   ; alterna_cuadro: si (ix+0x0C) AND B es 0, cambia el bit 0 del cuadro
 	dec (ix+013h)		;964f
 	ret nz			;9652
 	ld (ix+013h),008h		;9653
-	ld de,00000h		;9657
+	ld de,00000h		;9657   ; ...y se para, al paso 1
 	call 05b5dh		;965a   ; velocidad_x: la velocidad X del actor (ix+9, ix+0x0A) = DE
 	ld (ix+001h),001h		;965d   ; el paso del actor = 0x01
 	ret			;9661
 crea_tipo_63:		; la creacion del tipo 63
-	ld a,006h		;9662
+	ld a,006h		;9662   ; el sonido 6
 	call 0427ch		;9664   ; sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
 	ld a,(ix+003h)		;9667   ; lee la Y del actor
-	ld (ix+015h),a		;966a
+	ld (ix+015h),a		;966a   ; el centro de la vuelta: su Y...
 	ld a,(ix+005h)		;966d   ; lee la X del actor
-	ld (ix+016h),a		;9670
-	cp 080h		;9673
+	ld (ix+016h),a		;9670   ; ...y su X
+	cp 080h		;9673   ; a la derecha de la sala, sentido 0; a la izquierda, 2
 	ld a,000h		;9675
 	jr nc,L_967B		;9677
 	ld a,002h		;9679
 L_967B:
 	ld (ix+01bh),a		;967b
-	ld a,r		;967e
+	ld a,r		;967e   ; el radio, al azar
 	and 001h		;9680
 	ld (ix+01ch),a		;9682
 	ld (ix+00bh),077h		;9685   ; el cuadro del actor = 0x77
-	ld (ix+017h),040h		;9689
-	ld (ix+019h),0feh		;968d
-	ld (ix+018h),040h		;9691
-	ld (ix+01ah),0fch		;9695
+	ld (ix+017h),040h		;9689   ; el angulo Y empieza en 0x40...
+	ld (ix+019h),0feh		;968d   ; ...bajando 2 por cuadro
+	ld (ix+018h),040h		;9691   ; el angulo X en 0x40...
+	ld (ix+01ah),0fch		;9695   ; ...bajando 4
 	ret			;9699
 cuadro_tipo_63:		; lo de cada cuadro del tipo 63
 	ld a,(ix+00ch)		;969a   ; lee la cuenta de cuadros del actor
-	and 001h		;969d
+	and 001h		;969d   ; cada 2 cuadros...
 	jr nz,L_96B4		;969f
-	inc (ix+014h)		;96a1
+	inc (ix+014h)		;96a1   ; ...el cuadro siguiente (0x77-0x79)
 	ld a,(ix+014h)		;96a4
 	cp 003h		;96a7
 	jr c,L_96AF		;96a9
@@ -3199,30 +3199,30 @@ L_96AF:
 	add a,077h		;96af
 	ld (ix+00bh),a		;96b1   ; guarda el cuadro del actor
 L_96B4:
-	ld a,(ix+017h)		;96b4
+	ld a,(ix+017h)		;96b4   ; el angulo Y avanza
 	add a,(ix+019h)		;96b7
 	ld (ix+017h),a		;96ba
-	cp 040h		;96bd
+	cp 040h		;96bd   ; al salir de 0-0x3F, rebota
 	call nc,rebota_y		;96bf   ; rebota_y: cambia de signo (ix+0x19); si queda en 0xFE, quita al actor
 	call 05be2h		;96c2   ; pareja_a: C y B = los bytes A y 63 - A (A de 0 a 63) de la tabla p06:A6B9
-	srl b		;96c5
-	ld a,(ix+01ch)		;96c7
+	srl b		;96c5   ; la mitad del seno...
+	ld a,(ix+01ch)		;96c7   ; ...o la cuarta parte con el otro radio
 	or a			;96ca
 	jr z,L_96CF		;96cb
 	srl b		;96cd
 L_96CF:
-	ld a,(ix+015h)		;96cf
+	ld a,(ix+015h)		;96cf   ; la Y = el centro + el seno
 	add a,b			;96d2
 	ld (ix+003h),a		;96d3   ; guarda la Y del actor
-	ld a,(ix+018h)		;96d6
+	ld a,(ix+018h)		;96d6   ; el angulo X avanza
 	add a,(ix+01ah)		;96d9
 	ld (ix+018h),a		;96dc
-	cp 040h		;96df
+	cp 040h		;96df   ; al salir de 0-0x3F, rebota
 	call nc,rebota_x		;96e1   ; rebota_x: cambia de signo (ix+0x1A) y sube (ix+0x1B)
 	call 05be2h		;96e4   ; pareja_a: C y B = los bytes A y 63 - A (A de 0 a 63) de la tabla p06:A6B9
-	srl b		;96e7
+	srl b		;96e7   ; la cuarta parte
 	srl b		;96e9
-	ld a,(ix+01bh)		;96eb
+	ld a,(ix+01bh)		;96eb   ; en los cuartos 2 y 3 hacia el otro lado
 	cp 002h		;96ee
 	jr c,L_96FB		;96f0
 	cp 004h		;96f2
@@ -3233,30 +3233,30 @@ L_96CF:
 L_96FB:
 	ld a,b			;96fb
 L_96FC:
-	add a,(ix+016h)		;96fc
+	add a,(ix+016h)		;96fc   ; la X = el centro +- el seno
 	ld (ix+005h),a		;96ff   ; guarda la X del actor
 	ret			;9702
 rebota_y:		; cambia de signo (ix+0x19); si queda en 0xFE, quita al actor
-	ld a,(ix+019h)		;9703
+	ld a,(ix+019h)		;9703   ; da la vuelta al angulo Y
 	neg		;9706
 	ld (ix+019h),a		;9708
-	inc a			;970b
+	inc a			;970b   ; si vuelve a 0xFE (la vuelta entera), se quita
 	inc a			;970c
 	ret nz			;970d
 L_970E:
 	jp 07371h		;970e
 rebota_x:		; cambia de signo (ix+0x1A) y sube (ix+0x1B)
-	ld a,(ix+01ah)		;9711
+	ld a,(ix+01ah)		;9711   ; da la vuelta al angulo X...
 	neg		;9714
 	ld (ix+01ah),a		;9716
-	inc (ix+01bh)		;9719
+	inc (ix+01bh)		;9719   ; ...y el cuarto siguiente
 	ret			;971c
 crea_tipo_41:		; la creacion del tipo 41
-	ld a,(0c5b4h)		;971d
+	ld a,(0c5b4h)		;971d   ; con 0xC5B4 no aparece
 	or a			;9720
 	jr nz,L_970E		;9721
 	ld (ix+00bh),018h		;9723   ; el cuadro del actor = 0x18
-	ld (ix+013h),003h		;9727
+	ld (ix+013h),003h		;9727   ; 3 cuadros
 	inc (ix+006h)		;972b   ; sube si el actor se mueve (p01:7336)
 	jp 0b9e6h		;972e   ; musica_3e: la musica 0x3E (salvo en el modo 8)
 ve_a_snake:		; el actor mira hacia (ix+0x11) desde su sitio: si ve a Snake, alarma
@@ -3381,16 +3381,16 @@ L_97CE:
 L_97E0:
 	ld c,001h		;97e0
 L_97E2:
-	ld b,a			;97e2
-	ld hl,(0ec01h)		;97e3
+	ld b,a			;97e2   ; B = cuantas fichas hasta Snake
+	ld hl,(0ec01h)		;97e3   ; desde la ficha del actor
 	call 05c09h		;97e6   ; ficha_en_el_punto: HL = 0xE000 + (L / 8) x 32 + H / 8: la ficha de la sala montada en ese punto
 L_97E9:
-	ld (0ec03h),hl		;97e9
+	ld (0ec03h),hl		;97e9   ; la ficha que se mira
 	ld a,(0c157h)		;97ec   ; lee el juego de fichas cargado
-	or a			;97ef
+	or a			;97ef   ; con el juego de fichas 0, unas fichas no tapan:
 	ld a,(hl)			;97f0
 	jr nz,L_981E		;97f1
-	ld e,068h		;97f3
+	ld e,068h		;97f3   ; la 0x68-0x6C...
 	cp e			;97f5
 	jr z,L_9828		;97f6
 	inc e			;97f8
@@ -3405,11 +3405,11 @@ L_97E9:
 	inc e			;9804
 	cp e			;9805
 	jr z,L_9828		;9806
-	inc e			;9808
+	inc e			;9808   ; ...la 0x6E...
 	inc e			;9809
 	cp e			;980a
 	jr z,L_9828		;980b
-	ld e,08bh		;980d
+	ld e,08bh		;980d   ; ...y la 0x8B-0x8E
 	cp e			;980f
 	jr z,L_9828		;9810
 	inc e			;9812
@@ -3422,103 +3422,103 @@ L_97E9:
 	cp e			;981b
 	jr z,L_9828		;981c
 L_981E:
-	ld e,a			;981e
+	ld e,a			;981e   ; las demas: su byte de choque
 	ld d,000h		;981f
 	ld hl,0c700h		;9821
 	add hl,de			;9824
 	ld a,(hl)			;9825
-	or a			;9826
+	or a			;9826   ; pared: no ve a Snake
 	ret nz			;9827
 L_9828:
-	ld hl,(0ec03h)		;9828
-	ld e,c			;982b
+	ld hl,(0ec03h)		;9828   ; la ficha siguiente hacia Snake
+	ld e,c			;982b   ; C = el paso (+-1 o +-32)
 	rl c		;982c
 	ld c,e			;982e
-	ld d,0ffh		;982f
+	ld d,0ffh		;982f   ; D = 0xFF si es negativo
 	jr c,L_9835		;9831
 	ld d,000h		;9833
 L_9835:
-	add hl,de			;9835
-	djnz L_97E9		;9836
+	add hl,de			;9835   ; + el paso
+	djnz L_97E9		;9836   ; hasta Snake
 	ld a,(ix+000h)		;9838   ; lee el tipo del actor
-	cp 006h		;983b
+	cp 006h		;983b   ; la camara (tipo 6):
 	jr nz,alarma_de_actor		;983d
-	ld a,001h		;983f
+	ld a,001h		;983f   ; (ix+0x41) = 1 y 0xC668 = 1
 	ld (ix+041h),a		;9841
 	ld (0c668h),a		;9844
-	ld a,028h		;9847
+	ld a,028h		;9847   ; refuerzos cada 0x28 cuadros
 	ld (0c605h),a		;9849   ; guarda la cuenta de los refuerzos
 alarma:		; pon_c602 y 0xC60F = la sala, 0xC669 = 0x10
 	call 07d2ah		;984c   ; pon_c602: 0xC602 = 1, 0xC604 = la sala, 0xC606 y la musica 0x32 (0x2F si la pone un actor del tipo 6 o 0x23)
 L_984F:
 	ld a,(0c130h)		;984f   ; lee la sala
-	ld (0c60fh),a		;9852
-	ld a,010h		;9855
+	ld (0c60fh),a		;9852   ; la sala de la alarma
+	ld a,010h		;9855   ; 0x10 cuadros
 	ld (0c669h),a		;9857
 	ret			;985a
 alarma_de_actor:		; la alarma desde el actor: 0xC614 por la sala (0x98DE), 0xC60C y los refuerzos
 	ld a,(0c602h)		;985b   ; lee la bandera 0xC602 (refuerzos y musica)
-	or a			;985e
+	or a			;985e   ; con la alarma ya puesta, nada
 	ret nz			;985f
 	ld a,(0c130h)		;9860   ; lee la sala
-	ld b,a			;9863
-	cp 080h		;9864
+	ld b,a			;9863   ; B = la sala
+	cp 080h		;9864   ; las salas 0x80+: sin aviso
 	ld a,000h		;9866
 	jr nc,L_9883		;9868
-	ld a,b			;986a
+	ld a,b			;986a   ; la sala / 8...
 	srl a		;986b
 	srl a		;986d
 	srl a		;986f
-	ld hl,098deh		;9871
+	ld hl,098deh		;9871   ; ...un byte de 0x98DE
 	call 041e0h		;9874   ; hl_mas_a: HL = HL + A
 	ld c,(hl)			;9877
-	ld a,b			;9878
+	ld a,b			;9878   ; el bit de la sala (sala mod 8)
 	and 007h		;9879
 	inc a			;987b
 	ld b,a			;987c
 	xor a			;987d
 L_987E:
-	rl c		;987e
+	rl c		;987e   ; saca el bit
 	djnz L_987E		;9880
 	rla			;9882
 L_9883:
-	ld (0c614h),a		;9883
+	ld (0c614h),a		;9883   ; 0xC614 = el bit: la sala tiene aviso
 	ld a,(0c184h)		;9886   ; lee la X de Snake
-	ld b,a			;9889
+	ld b,a			;9889   ; B = la X de Snake
 	ld a,(ix+005h)		;988a   ; lee la X del actor
-	ld c,008h		;988d
+	ld c,008h		;988d   ; el aviso a la izquierda o a la derecha del actor
 	cp b			;988f
 	jr c,L_9894		;9890
 	ld c,0f8h		;9892
 L_9894:
-	add a,008h		;9894
+	add a,008h		;9894   ; X de 8 en 8...
 	and 0f8h		;9896
 	ld d,a			;9898
 	ld a,(ix+003h)		;9899   ; lee la Y del actor
-	sub 018h		;989c
+	sub 018h		;989c   ; ...Y - 0x18 de 8 en 8
 	and 0f8h		;989e
 	ld e,a			;98a0
-	cp 0bfh		;98a1
+	cp 0bfh		;98a1   ; por encima de 0xBF, a cero
 	jr c,L_98A7		;98a3
 	ld e,000h		;98a5
 L_98A7:
-	ld hl,0c60ch		;98a7
+	ld hl,0c60ch		;98a7   ; 0xC60C = donde va el aviso
 	ld (hl),e			;98aa
 	inc hl			;98ab
 	ld (hl),d			;98ac
-	ex de,hl			;98ad
+	ex de,hl			;98ad   ; p03:AC4D: guarda el fondo
 	call 0ac4dh		;98ae   ; guarda_fondo_16: copia 16 x 16 de HL a (0x60, 0x80) de la pagina 1
-	ld a,(0c614h)		;98b1
+	ld a,(0c614h)		;98b1   ; con aviso...
 	or a			;98b4
-	ld hl,00080h		;98b5
+	ld hl,00080h		;98b5   ; ...el dibujo de (0x80, 0) y sin refuerzos...
 	ld b,000h		;98b8
 	jr z,L_98C0		;98ba
-	ld h,010h		;98bc
+	ld h,010h		;98bc   ; ...si no, el de (0x80, 0x10) y refuerzos cada 0x1E cuadros
 	ld b,01eh		;98be
 L_98C0:
 	ld a,b			;98c0
 	ld (0c605h),a		;98c1   ; guarda la cuenta de los refuerzos
-	ld a,e			;98c4
+	ld a,e			;98c4   ; por encima de 0xBF, a cero
 	cp 0bfh		;98c5
 	jr c,L_98CF		;98c7
 	ld e,000h		;98c9
@@ -3528,7 +3528,7 @@ L_98CF:
 	call 0ac5bh		;98cf   ; pon_dibujo_16: copia 16 x 16 de HL a DE con TIMP
 	call alarma		;98d2   ; alarma: pon_c602 y 0xC60F = la sala, 0xC669 = 0x10
 	ld a,(ix+000h)		;98d5   ; lee el tipo del actor
-	cp 006h		;98d8
+	cp 006h		;98d8   ; la camara no se mueve
 	ret z			;98da
 	jp 058e9h		;98db   ; reaparece: crea en IX el actor de p06:A445 de la sala (salas < 0xBC)
 
@@ -3544,13 +3544,13 @@ DATA_tabla_98de:
 
 
 en_columna:		; acarreo si Snake esta en la columna de 0xEC02
-	ld hl,00810h		;98ee
+	ld hl,00810h		;98ee   ; 8 a cada lado, 0x10 de ancho
 	ld de,(0ec01h)		;98f1
 	ld a,(0c184h)		;98f5   ; lee la X de Snake
-	sub h			;98f8
-	cp d			;98f9
+	sub h			;98f8   ; la X de Snake - 8...
+	cp d			;98f9   ; ...por debajo de la X del actor...
 	ret nc			;98fa
-	add a,l			;98fb
+	add a,l			;98fb   ; ...y + 0x10 por encima
 	ld e,a			;98fc
 	ld a,d			;98fd
 	cp e			;98fe
@@ -3560,7 +3560,7 @@ en_fila:		; acarreo si Snake esta en la fila de 0xEC01
 	cp 006h		;9903
 	ld hl,00408h		;9905
 	jr z,L_990D		;9908
-	ld hl,0060ch		;990a
+	ld hl,0060ch		;990a   ; ...los demas: 6 y 0x0C
 L_990D:
 	ld de,(0ec01h)		;990d
 	ld a,(0c182h)		;9911   ; lee la Y de Snake
@@ -3649,25 +3649,25 @@ L_999D:
 	jp 05b55h		;999d   ; suma_velocidad_x: la velocidad X del actor (ix+9, ix+0x0A) += DE
 rueda_en_el_borde:		; el tipo 15 al llegar a 0x38/0xC8 da la vuelta con el sonido 0x1D
 	ld a,(ix+005h)		;99a0   ; lee la X del actor
-	ld h,0c8h		;99a3
+	ld h,0c8h		;99a3   ; la X maxima 0xC8...
 	ld c,h			;99a5
 	dec h			;99a6
-	cp c			;99a7
+	cp c			;99a7   ; al llegar, hacia la izquierda (2) a medio punto
 	ld de,0ff80h		;99a8
 	ld b,002h		;99ab
 	jr nc,L_99BA		;99ad
-	ld h,038h		;99af
+	ld h,038h		;99af   ; la minima 0x38...
 	ld c,h			;99b1
 	inc h			;99b2
 	cp c			;99b3
 	ret nc			;99b4
-	ld b,003h		;99b5
+	ld b,003h		;99b5   ; ...hacia la derecha (3)
 	ld de,00080h		;99b7
 L_99BA:
 	ld (ix+005h),h		;99ba   ; guarda la X del actor
 	ld (ix+011h),b		;99bd   ; guarda la direccion del actor
 	call 05b5dh		;99c0   ; velocidad_x: la velocidad X del actor (ix+9, ix+0x0A) = DE
-	ld a,01dh		;99c3
+	ld a,01dh		;99c3   ; el sonido 0x1D
 	jp 0427ch		;99c5   ; sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
 crea_tipo_15:		; la creacion del tipo 15
 	ld a,(0c184h)		;99c8   ; lee la X de Snake
@@ -3784,40 +3784,40 @@ texto_23_una_vez:		; tras (ix+0x14) cuadros, el texto 0x23 una vez (0xC63A)
 	ld a,023h		;9a83
 	jp 05cd9h		;9a85   ; ventana_de_texto_2: abre la ventana del texto A en el modo 2 (0xCEE0)
 L_9A88:
-	ld a,(ix+016h)		;9a88
+	ld a,(ix+016h)		;9a88   ; la primera vez...
 	or a			;9a8b
 	jr nz,L_9A96		;9a8c
 	inc (ix+016h)		;9a8e
-	ld a,07fh		;9a91
+	ld a,07fh		;9a91   ; ...el texto 0x7F
 	jp 05cd9h		;9a93   ; ventana_de_texto_2: abre la ventana del texto A en el modo 2 (0xCEE0)
 L_9A96:
-	cp 002h		;9a96
+	cp 002h		;9a96   ; la segunda...
 	ret nc			;9a98
-	ld a,001h		;9a99
+	ld a,001h		;9a99   ; ...0xC62C y 0xC62D = 1 (la puerta de clase 12)
 	ld (0c62ch),a		;9a9b
-	ld (0c62dh),a		;9a9e
+	ld (0c62dh),a		;9a9e   ; (una sola vez)
 	inc (ix+016h)		;9aa1
 	ret			;9aa4
 crea_tipo_48:		; la creacion del tipo 48
 	ld a,(0c130h)		;9aa5   ; lee la sala
-	ld c,a			;9aa8
-	ld b,001h		;9aa9
+	ld c,a			;9aa8   ; C = la sala
+	ld b,001h		;9aa9   ; en la sala 0x8C, 0xC633 = 1 (se duermen)
 	cp 08ch		;9aab
 	jr z,L_9AB0		;9aad
 	dec b			;9aaf
 L_9AB0:
 	ld a,b			;9ab0
 	ld (0c633h),a		;9ab1
-	ld a,c			;9ab4
+	ld a,c			;9ab4   ; en la sala 0x27...
 	cp 027h		;9ab5
 	push af			;9ab7
-	call z,0a190h		;9ab8
+	call z,0a190h		;9ab8   ; ...p03:A190: su arreglo
 	pop af			;9abb
-	cp 045h		;9abc
+	cp 045h		;9abc   ; en la sala 0x45...
 	jr nz,L_9ACE		;9abe
-	ld b,001h		;9ac0
+	ld b,001h		;9ac0   ; ...(ix+0x5E) = 1...
 	ld a,(0c136h)		;9ac2   ; lee la parada del ascensor
-	cp 049h		;9ac5
+	cp 049h		;9ac5   ; ...salvo viniendo de la 0x49
 	jr nz,L_9ACB		;9ac7
 	ld b,000h		;9ac9
 L_9ACB:
@@ -4180,22 +4180,22 @@ habla_tipo_49:		; el texto de la sala (0x9D59; casos 0xA7, 0xC1 y el tipo 0x34),
 	jr z,habla_y_sube		;9d34
 	cp 0c1h		;9d36
 	jr z,habla_en_c1		;9d38
-	ld hl,09d59h		;9d3a
+	ld hl,09d59h		;9d3a   ; las 19 parejas [sala][texto] de 0x9D59
 	ld b,013h		;9d3d
 L_9D3F:
-	cp (hl)			;9d3f
+	cp (hl)			;9d3f   ; busca la sala
 	jr z,L_9D47		;9d40
-	inc hl			;9d42
+	inc hl			;9d42   ; la pareja siguiente
 	inc hl			;9d43
 	djnz L_9D3F		;9d44
 	ret			;9d46
 L_9D47:
-	inc hl			;9d47
+	inc hl			;9d47   ; B = el texto
 	ld b,(hl)			;9d48
 	call marca_sala_del_tipo_49		;9d49   ; marca_sala_del_tipo_49: pone a 1 la bandera de la sala (ix+0x15, 0x16) en 0xC640
-	ld a,b			;9d4c
+	ld a,b			;9d4c   ; marca la sala y el texto
 	call 05ce1h		;9d4d   ; ventana_de_texto: abre la ventana del texto A en el modo 0: 0xCEF0 = A, guarda 0xC151 en 0xCEF1 y pone 0xC151 = 10
-	push ix		;9d50
+	push ix		;9d50   ; una estrella cada 5
 	call 064c8h		;9d52   ; sube_c132_cada_5: sube 0xC13A y, cada 5, sube 0xC132
 	pop ix		;9d55
 	jr paso_actor		;9d57

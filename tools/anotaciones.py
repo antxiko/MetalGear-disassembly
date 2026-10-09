@@ -885,6 +885,38 @@ CAMPOS = {
 }
 
 
+# Los proyectiles: 6 fichas de 0x40 desde 0xC200 (p02:80D2). Campos leidos en
+# los disparos (p02:8364-88EF) y en p02:81BB-823F.
+FICHAS_IX_PROYECTIL = (0xC200,)
+IX_PROYECTIL_POR_DEFECTO = {
+    2: ((0x80E9, 0x8147), (0x815C, 0x8168), (0x81BB, 0x8240), (0x8364, 0x88EF), (0x8C66, 0x8D4B)),
+}
+CAMPOS_PROYECTIL = {
+    0x00: "el arma del proyectil",
+    0x01: "el paso del proyectil",
+    0x02: "la cuenta del proyectil",
+    0x03: "la Y del proyectil (fraccion)",
+    0x04: "la Y del proyectil",
+    0x05: "la X del proyectil (fraccion)",
+    0x06: "la X del proyectil",
+    0x07: "la velocidad Y del proyectil",
+    0x08: "la velocidad Y del proyectil (alta)",
+    0x09: "la velocidad X del proyectil",
+    0x0A: "la velocidad X del proyectil (alta)",
+    0x0B: "el cuadro del proyectil",
+    0x0C: "la direccion del proyectil",
+    0x0D: "la Y del suelo bajo el proyectil (fraccion)",
+    0x0E: "la Y del suelo bajo el proyectil",
+    0x0F: "si el proyectil hiere (bit 0)",
+    0x20: "cuantos sprites tiene el proyectil",
+}
+
+# (cargas de IX, tramos por banco, campos): la primera que vale manda.
+FICHAS = (
+    (FICHAS_IX, IX_FICHA_POR_DEFECTO, CAMPOS),
+    (FICHAS_IX_PROYECTIL, IX_PROYECTIL_POR_DEFECTO, CAMPOS_PROYECTIL),
+)
+
 # --- los manejadores por tipo de actor ---
 # Dos despachadores con el tipo - 1 en A (p00:575B y p01:7221 hacen `dec a`
 # sobre (ix+0)): la creacion (p00:575F, tabla 0x5762) y cada cuadro

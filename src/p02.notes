@@ -60,6 +60,735 @@ F 0x9EF6 w6
 D 0x9F0E 0x9F19 bytes_9f0e  los bytes (1, 1, 1, 1, 3 y ceros) a los que apunta el indice de 0x9EF6 (p02:9ECE lee E y D)
 D 0x9F86 0x9F8E parejas_9f86  4 parejas que p02:9F30 lee en 0x9F86 + 2 x (ix+0x1B) y suma a (ix+3)
 F 0x9F86 2
+C 0x8000 guarda 0xC616 en 0xC639
+C 0x8006 0xC15F-0xC160 en 0xC163
+C 0x8009 0xC632 en 0xC16A
+C 0x800F los atributos de los sprites desde 0xEA0E fuera
+C 0x801C los 6 sprites de la mira (0x8037) en 0xEA10
+C 0x8027 64 lineas de color 14 en 0xE840
+C 0x8052 en las salas con el bit de p12:A204 = 1 no se oye
+C 0x8058 ni en las 55 salas de 0x806C
+C 0x805D busca la sala
+C 0x8065 con la bandera ya puesta, nada
+C 0x8067 la cuenta de 0x5A cuadros
+C 0x80A6 sin arma, nada
+C 0x80AB en la sala 0xCC no se dispara
+C 0x80AE ni en los ascensores (0xE0+)
+C 0x80B4 ni en los modos de pose 2, 4 y 7
+C 0x80C0 del arma 1-7 al indice
+C 0x80D5 fichas de 0x40
+C 0x80D8 6 proyectiles
+C 0x80DA arma 0: libre
+C 0x80DF la ficha siguiente
+C 0x80E2 ninguna libre: sin acarreo
+C 0x80E4 IX = la ficha libre
+C 0x80E7 acarreo
+C 0x80EC del arma 1-7 al indice
+C 0x80ED 0x8140: cuantos sprites tiene cada arma
+C 0x80F4 IY = la ficha + 0x20
+C 0x80FD +0x20: cuantos sprites
+C 0x8102 los 6 huecos de sprite de los proyectiles (0xEA10)
+C 0x8105 desde el sprite 4
+C 0x8109 0xE0: libre
+C 0x810E +0x21 + 5 x n: el hueco
+C 0x8111 ocupado (0xE1)
+C 0x8113 todos colocados: listo
+C 0x8117 el siguiente sprite de la ficha
+C 0x8121 el hueco siguiente
+C 0x8128 no caben: se devuelven
+C 0x812E sin acarreo
+C 0x8130 el arma en la ficha
+C 0x8136 el paso y la cuenta a cero
+C 0x813E acarreo: hecho
+C 0x814A 6 proyectiles
+C 0x814E arma 0: libre
+C 0x8154 la ficha siguiente
+C 0x815F 0xFF: quitarlo
+C 0x8163 del arma 1-7 al indice
+C 0x8179 6 proyectiles
+C 0x817D libre: el siguiente
+C 0x8181 +0x20: cuantos sprites
+C 0x8187 +0x21: el hueco del primero
+C 0x818A un sprite
+C 0x818B el hueco...
+C 0x818F ...4 bytes en la copia de atributos
+C 0x8196 y, x, patron
+C 0x819D los colores: 0xE800 + 16 x hueco
+C 0x81A7 el color...
+C 0x81A9 ...en sus 16 lineas
+C 0x81AF el sprite siguiente
+C 0x81B2 la ficha siguiente
+C 0x81C7 + la velocidad Y
+C 0x81DA + la velocidad X
+C 0x81F1 + la velocidad Y
+C 0x8204 la caja grande, hacia su direccion
+C 0x8211 Y >= 0xB8: fuera
+C 0x8219 X >= 0xF8: fuera
+C 0x821C X < 9: fuera
+C 0x8226 +0x20: cuantos sprites
+C 0x822E el hueco de cada sprite...
+C 0x8236 ...fuera de la pantalla
+C 0x8238 el sprite siguiente (5 bytes)
+C 0x8240 la cuenta de pasos de la ventana
+C 0x8244 al acabar, acarreo
+C 0x8246 borra el marco de antes (color 0)
+C 0x824B la X baja el paso X...
+C 0x8255 ...y el ancho crece el doble
+C 0x825C la Y baja el paso Y...
+C 0x8266 ...y el alto crece el doble
+C 0x826D el interior...
+C 0x8272 ...2 menos de ancho y de alto...
+C 0x827A ...a negro
+C 0x827F el marco nuevo en su color (0xC52F)
+C 0x828E sin acarreo
+C 0x829B la caja: (4 x B + C) x 4 en 0x82CB
+C 0x82A8 2 puntos por caja
+C 0x82AD la Y + el desplazamiento
+C 0x82B0 la X + el desplazamiento
+C 0x82B6 la ficha de la sala en ese punto
+C 0x82BB su byte de choque en 0xC700
+C 0x82C3 bit 0: pared
+C 0x82C5 pared: acarreo
+C 0x82C7 el otro punto
+C 0x82FE la X - 4
+C 0x8304 y la Y
+C 0x8308 H = la ficha del punto, L = la siguiente
+C 0x8316 dos filas de fichas
+C 0x831A las fichas 0x6B y 0x6E: nada
+C 0x8321 su byte de choque
+C 0x8328 sin pared: nada
+C 0x832B la fila de abajo (2 filas de 32)
+C 0x8331 en una pared: se quita
+C 0x833A Snake por debajo: abajo (2)
+C 0x833E por encima: arriba (1)
+C 0x8341 B = |dy|
+C 0x8348 Snake a la derecha: 4
+C 0x834C a la izquierda: 3
+C 0x834F |dx| < |dy|: manda la vertical
+C 0x8353 si no, la horizontal
+C 0x8359 C = la otra
+C 0x835D B = la contraria de la principal
+C 0x835F 1 <-> 2, 3 <-> 4
+C 0x8367 la tecla 0x10 nueva
+C 0x836A la HAND GUN en la lista
+C 0x836F la municion
+C 0x8376 sin balas: el sonido 0x15
+C 0x837E ningun hueco libre
+C 0x8382 sin sprites libres
+C 0x8386 gasta una (C = 0: solo pinta)
+C 0x839E el suelo: la Y de Snake
+C 0x83A1 la bala sale 0x0E por encima
+C 0x83B6 la velocidad por la direccion (0x83E6)
+C 0x83D1 con SILENCER (0xC51C)...
+C 0x83D5 ...el sonido 0x0E; sin el, el 0x0C...
+C 0x83DF ...y sin SILENCER se oye (disparo_oido)
+C 0x83FD sin pared por arriba, sigue
+C 0x840B el sonido 0x15 (sin balas)
+C 0x8416 0xC19E: la cuenta de cadencia
+C 0x841C sin la tecla 0x10, la cuenta y el abanico a cero
+C 0x8420 cada 2 cuadros
+C 0x8427 0xC19F: la posicion del abanico (1-8)
+C 0x8430 la SMG en la lista
+C 0x8439 sin balas: el sonido 0x15
+C 0x8441 ningun hueco libre
+C 0x8445 sin sprites libres
+C 0x8449 gasta una
+C 0x8464 la bala sale 0x0E por encima
+C 0x8479 16 bytes por direccion...
+C 0x847E ...en 0x84B8
+C 0x8484 4 por posicion del abanico
+C 0x84A3 con SILENCER, el sonido 0x0E; sin el, el 0x0D y se oye
+C 0x853B la tecla 0x10 nueva
+C 0x853E la GRENADE en la lista
+C 0x854A sin granadas, nada
+C 0x854E ningun hueco libre
+C 0x8552 sin sprites libres
+C 0x8556 gasta una
+C 0x856E sale 0x10 por encima
+C 0x8586 la velocidad por la direccion (0x85A9)
+C 0x85A1 el sonido 0x12
+C 0x85B1 el paso
+C 0x85C4 la altura de la parabola (0x85E3) por la cuenta...
+C 0x85CD ...sobre la Y del suelo
+C 0x85FC el sonido 0x1A
+C 0x8601 al paso 1: la explosion
+C 0x8620 cuenta 0x0A-0x0F: cuadro 3
+C 0x8626 5-9: el 4; 0-4: el 5
+C 0x8635 la tecla 0x10 nueva
+C 0x8638 el ROCKET en la lista
+C 0x8644 sin cohetes, nada
+C 0x8648 solo uno a la vez (el primer hueco)
+C 0x8651 sin sprites libres
+C 0x8655 gasta uno
+C 0x866C sale 0x10 por encima
+C 0x8681 la velocidad por la direccion (0x86AA)
+C 0x869C el sonido 0x13
+C 0x86A1 los patrones del cohete de p10:63A0
+C 0x86B2 el paso
+C 0x86C7 sin pared, sigue
+C 0x86CC el suelo tambien choca: explota
+C 0x86D4 el sonido 0x1A
+C 0x86EF la tecla 0x10 nueva
+C 0x86F2 la P.BOMB en la lista
+C 0x86FE sin bombas, nada
+C 0x8702 solo una a la vez
+C 0x870B sin sprites libres
+C 0x870F gasta una (C = 1)
+C 0x8714 0x30 cuadros hasta explotar
+C 0x871F 4 bytes por direccion en 0x8753...
+C 0x8728 ...el desplazamiento Y...
+C 0x8731 ...sobre la Y de Snake
+C 0x8738 el desplazamiento X...
+C 0x8740 ...sobre la X de Snake
+C 0x874B el sonido 0x17
+C 0x8763 el paso
+C 0x876F espera la cuenta
+C 0x8773 al explotar hiere
+C 0x8779 el sonido 0x1C
+C 0x8797 cuenta 0x0A-0x0F: cuadro 7
+C 0x87A0 5-9: el 8; 0-4: el 9
+C 0x87AF la tecla 0x10 nueva
+C 0x87B2 la L.MINE en la lista
+C 0x87BE sin minas, nada
+C 0x87C2 ningun hueco libre
+C 0x87C6 sin sprites libres
+C 0x87CA gasta una (C = 1)
+C 0x87D6 en la Y de Snake...
+C 0x87E0 ...y en su X
+C 0x87EB el sonido 0x17
+C 0x87F3 el paso (0: quieta; lo pasa a 1 quien la pisa)
+C 0x87FF el sonido 0x1C
+C 0x881A la tecla 0x10 nueva
+C 0x881D el MISSILE en la lista
+C 0x8829 sin misiles, nada
+C 0x882D solo uno a la vez
+C 0x8836 sin sprites libres
+C 0x883A gasta uno (C = 1)
+C 0x8851 sale 0x10 por encima
+C 0x8860 el sonido 0x14
+C 0x886B la velocidad por la direccion (0x888F)
+C 0x8886 los patrones del misil de p10:63A8
+C 0x8897 el paso
+C 0x88A6 la tecla nueva: arriba (1)...
+C 0x88AB ...abajo (2)...
+C 0x88AF ...izquierda (3)...
+C 0x88B3 ...o derecha (4)
+C 0x88B7 cambia el rumbo
+C 0x88C4 sin pared, sigue
+C 0x88C9 el suelo tambien choca: explota
+C 0x88CE los patrones por la direccion
+C 0x88D7 el sonido 0x1A
+C 0x88F2 Snake muerto (modo 9): nada
+C 0x8907 si murio en este cuadro, nada mas
+C 0x8910 con 0xC5B9, sin la captura
+C 0x8918 en la sala 8...
+C 0x891E ...con la X de Snake entre 0xC0 y 0xCF...
+C 0x8924 ...el modo 11 (la captura)
+C 0x8929 el paso 0
+C 0x892E 0xC15E a cero
+C 0x8939 E = la Y de Snake
+C 0x893D D = la X
+C 0x893E 16 actores
+C 0x8945 muriendo: nada
+C 0x8949 hueco vacio: nada
+C 0x894D la ficha siguiente
+C 0x895A las marcas de golpe y contacto a cero
+C 0x8962 los rayos (0x23) tienen lo suyo
+C 0x896B si no choca con Snake, nada
+C 0x896C la trampa (0x10) tiene lo suyo
+C 0x8971 el tipo 0x36 tiene lo suyo
+C 0x8979 la tecla 0x20 nueva...
+C 0x8980 ...y Snake con el modo de pose 1: el golpe
+C 0x8988 golpeado: nada mas
+C 0x898C p05:89D3: la caja de contacto de cada tipo
+C 0x8993 0xFF: sin contacto
+C 0x8999 la caja copiada en 0xC928 (HL)
+C 0x899D Snake fuera de la caja: nada
+C 0x89A1 el tipo 2: lo suyo
+C 0x89A9 durante la sacudida no hiere
+C 0x89B2 el tipo 7 (la mina)...
+C 0x89BD el tipo 0x1F (escorpion): veneno (0xC139)...
+C 0x89C6 ...y el sonido 0x10
+C 0x89CE los tipos 0x31-0x34 y 0x37 no hieren
+C 0x89DB herido hace poco: nada
+C 0x89E0 0x20 cuadros herido
+C 0x89E5 0xEC00 = 0x8A14
+C 0x89EF el dano del tipo contra Snake (la tabla de 0xEC00)
+C 0x89F5 los tipos 0x2B, 0x2F y 0x3A-0x3E...
+C 0x8A08 ...con ARMOR (objeto 1)...
+C 0x8A0C ...hacen la mitad
+C 0x8A20 los 12 tipos que se pueden golpear (0x8A11)
+C 0x8A25 busca el tipo
+C 0x8A2F por la direccion de Snake, el alcance del golpe
+C 0x8A47 fuera del alcance: nada
+C 0x8A4B si ya esta en la sacudida, nada
+C 0x8A56 el sonido 8
+C 0x8A6A la Y + dy...
+C 0x8A6C ...menos la Y de Snake...
+C 0x8A71 ...menor que el alto
+C 0x8A77 la X + dx menos la X de Snake...
+C 0x8A7E ...menor que el ancho: acarreo
+C 0x8A84 apagado: nada
+C 0x8A85 bit 0 de (ix+0x16): horizontal
+C 0x8A8B vertical: la X de Snake a menos de 4...
+C 0x8A96 ...y la Y dentro del largo (ix+0x15)
+C 0x8AAA horizontal: la Y de Snake a menos de 4...
+C 0x8AB5 ...y la X dentro del largo
+C 0x8AC9 la alarma con la cuenta 0x5A
+C 0x8ACE p15:BF6E: borra los rayos...
+C 0x8AD6 ...y los quita todos
+C 0x8ADD los 16 actores
+C 0x8AE2 hueco vacio: nada
+C 0x8AE3 p01:7371: lo quita
+C 0x8AE6 la ficha siguiente
+C 0x8AEE Snake encima del tipo 2: 0xC15E = 1
+C 0x8AFC con el bit 2 de (ix+0x0E), la zona grande
+C 0x8AFE el recuadro: media anchura...
+C 0x8B03 ...desde (ix+0x13, ix+0x14)
+C 0x8B0D Snake fuera: nada
+C 0x8B19 dentro: dano 0xFF (muere)
+C 0x8B21 a menos de 0x28 en Y...
+C 0x8B2C ...y en X...
+C 0x8B38 ...el bit 7 de (ix+0x1E)
+C 0x8B3C la X de Snake a menos de 8
+C 0x8B47 en la sala 0x6F...
+C 0x8B4E ...el cuadro, hasta 7
+C 0x8B59 el 0x0C y el 0: no toca
+C 0x8B5E el alto por la cuenta (0x8B7E)...
+C 0x8B6C ...por 8
+C 0x8B74 la Y de Snake dentro del alto
+C 0x8B7B hiere como un actor
+C 0x8B8D solo en las salas 0x2D y 0x2E
+C 0x8B94 encima del tipo 2 (0xC15E) no cae
+C 0x8B9C las dos fichas bajo Snake son la 1 (el hueco)
+C 0x8BA3 la sala 0x2D: la puerta 0x5B, 0xC162 = 1
+C 0x8BAB la 0x2E: la puerta 0x81, 0xC162 = 2
+C 0x8BB5 el paso 0
+C 0x8BB9 el modo 1: cambio de sala
+C 0x8BC1 las salas 0x10, 0x25 y 0x6E: las fichas 0x60 y 0x61
+C 0x8BD0 la 0x28: las 0x45 y 0x46
+C 0x8BD7 la 0x74: las 0x40 y 0x41
+C 0x8BDD solo con 0xC616
+C 0x8BE7 alguna de las dos fichas bajo Snake...
+C 0x8BF7 herido hace poco: nada
+C 0x8BF9 el sonido 0x18
+C 0x8BFE 8 cuadros herido
+C 0x8C08 las 9 salas de 0x8C2A
+C 0x8C0D busca la sala
+C 0x8C17 con la MASK (objeto 5), nada
+C 0x8C1A 0x10 cuadros
+C 0x8C1F herido hace poco: nada
+C 0x8C21 la cuenta
+C 0x8C25 dano 2
+C 0x8C33 el arma de los disparos
+C 0x8C38 las armas 1, 2, 4 y 7: las cajas de p05:8951...
+C 0x8C47 ...las 3, 5 y 6: las de p05:8992
+C 0x8C50 B = 6 proyectiles
+C 0x8C59 hueco libre: nada
+C 0x8C5D la ficha siguiente
+C 0x8C6A sin herir: nada
+C 0x8C6F 16 actores
+C 0x8C72 hueco vacio: nada
+C 0x8C79 la ficha siguiente
+C 0x8C82 bit 1 de (iy+0x0E): los proyectiles le dan
+C 0x8C87 la caja del tipo para esta arma
+C 0x8C91 0xFF: no le toca
+C 0x8C95 las marcas del arma a cero
+C 0x8C9D la Y del actor + dy menos la Y del proyectil...
+C 0x8CA9 ...menor que el alto
+C 0x8CAC la X + dx menos la X del proyectil...
+C 0x8CB8 ...menor que el ancho
+C 0x8CC0 el ROCKET, la L.MINE y el MISSILE...
+C 0x8CCC ...en su paso 0 pasan al 1 (explotan)
+C 0x8CD6 el arma queda marcada en el actor
+C 0x8CDF el dano de esta arma contra el tipo
+C 0x8CE5 0xFF: no le hace nada
+C 0x8CE7 Metal Gear (0x11) con la P.BOMB:
+C 0x8CF8 solo explotando (paso 1)
+C 0x8CFB 1 si la bomba esta a la izquierda, 2 a la derecha
+C 0x8D06 los 16 ultimos golpes en 0xC1BF-0xC1CE...
+C 0x8D11 ...el nuevo primero
+C 0x8D12 comparados con el orden de 0x8D3B
+C 0x8D1F en orden: borra 0xD08D y 0xD10D...
+C 0x8D26 ...y dano 2
+C 0x8D28 el aguante baja el dano...
+C 0x8D2E ...sin pasar de cero
+C 0x8D35 las balas (armas 1 y 2) se quitan al dar
+C 0x8D4B los 3 objetos de la sala (fichas de 0x10)
+C 0x8D51 E = la Y de Snake
+C 0x8D55 D = la X
+C 0x8D56 B = 3, C = el numero de objeto
+C 0x8D5D vacio: nada
+C 0x8D64 si se abrio una ventana de texto (modo 10)...
+C 0x8D68 ...no mira mas
+C 0x8D70 la ficha siguiente
+C 0x8D7C 0xEC00 = el numero de objeto
+C 0x8D81 bit 0 del byte 1: el dibujo es de 16 de ancho
+C 0x8D83 32 de ancho: la caja de 0x14...
+C 0x8D88 16: la de 0x0C
+C 0x8D8C la Y + 0x10 menos la de Snake...
+C 0x8D94 ...a menos de 0x10
+C 0x8D98 la X + la mitad menos la de Snake...
+C 0x8D9F ...dentro de la caja
+C 0x8DA2 +4 en 0xEC02
+C 0x8DAA +0: el objeto, en 0xEC01
+C 0x8DAE 0x23: la municion
+C 0x8DB3 menos de 8: un arma
+C 0x8DB7 el 8: el SILENCER
+C 0x8DBC del 9 en adelante, un objeto (objeto - 8)
+C 0x8DC1 el 0x1A: lo suyo
+C 0x8DC9 si ya lo lleva, suma
+C 0x8DD9 25 huecos
+C 0x8DDC el primer hueco vacio
+C 0x8DE8 el objeto nuevo
+C 0x8DEA el 8 (ANTEN)...
+C 0x8DEE ...pone 0xC160 = 0x10 y 0xC15F = 0: una llamada
+C 0x8E00 el SILENCER: 0xC51C = 8
+C 0x8E0B el arma
+C 0x8E11 si no la lleva, la anade
+C 0x8E1B si es la elegida...
+C 0x8E23 ...pinta su municion nueva
+C 0x8E31 7 huecos
+C 0x8E34 el primer hueco vacio
+C 0x8E40 el arma nueva
+C 0x8E43 si es la primera arma...
+C 0x8E48 ...(salvo la GRENADE)...
+C 0x8E4C ...queda elegida
+C 0x8E55 los sprites de los proyectiles fuera
+C 0x8E63 los proyectiles a cero
+C 0x8E7A 0xC13B a cero (ya no capturado)...
+C 0x8E7B ...y 0xC5B9 = 1
+C 0x8E81 en el primer hueco vacio...
+C 0x8E8E ...el objeto 0x17 con cantidad 1
+C 0x8E94 0xC5B6 = 1
+C 0x8E9F la HAND GUN: +0x20
+C 0x8EAA la SMG: +0x20
+C 0x8EB5 la GRENADE: +6
+C 0x8EC0 el ROCKET: +2
+C 0x8ECE sin arma elegida, nada mas
+C 0x8ED4 si no, pinta su municion
+C 0x8EDC el fondo guardado del objeto 0, 1 o 2...
+C 0x8EDD ...en (0xB0, 0xA0), (0xC0, 0xA0) o (0xD0, 0xA0) de la pagina 1
+C 0x8EE9 32 x 16 o 16 x 16
+C 0x8EF4 en el sitio del objeto
+C 0x8EFA de la pagina 1 a la 0, TIMP
+C 0x8EFF el objeto...
+C 0x8F02 ...fuera de la sala
+C 0x8F06 el sonido 0x24
+C 0x8F0B con +4 (0xEC02) no hay texto
+C 0x8F11 p05:8AC5: el texto al coger cada objeto
+C 0x8F19 solo el 0x3E
+C 0x8F20 lo que suma el objeto
+C 0x8F27 la cantidad (BCD)...
+C 0x8F2A ...con acarreo al byte alto
+C 0x8F2E la HAND GUN, a su maximo (0xC380)
+C 0x8F3A la SMG
+C 0x8F46 la GRENADE
+C 0x8F52 el ROCKET
+C 0x8F5E la P.BOMB
+C 0x8F6A la L.MINE
+C 0x8F76 el MISSILE
+C 0x8F82 las raciones (0x16), a 0xC3BA
+C 0x8F8F C = el objeto
+C 0x8F90 las armas 1-4 se marcan
+C 0x8F94 las 5-7 no (su municion vuelve a salir)
+C 0x8F97 ni el 0x1E ni el 0x23
+C 0x8F9D las armas (1-8): 0xC520
+C 0x8FA4 los objetos: 0xC5A0 + objeto - 9
+C 0x8FAD marcado: no vuelve a salir
+C 0x8FB1 0xC120-0xEC8F...
+C 0x8FBA ...a cero
+C 0x8FD0 C = 0: el rotulo CALL en blanco
+C 0x8FD5 con la llamada sonando (0xC15F = 1)...
+C 0x8FDB ...salvo en las ventanas de armas y equipo...
+C 0x8FE5 ...cada 8 cuadros (8 si y 8 no)...
+C 0x8FEB ...el sonido 0x22 cada 8...
+C 0x8FF0 ...y CALL de verdad
+C 0x8FF5 sin cuenta atras: CALL (p02:92CF) en (0x78, 0xC1)
+C 0x8FFE en el final, sin digitos
+C 0x9004 con la cuenta atras, sus 4 digitos grandes...
+C 0x9006 ...en (0xC1, 0x70)
+C 0x9009 los dos digitos altos (0xC13E)
+C 0x9013 el de las unidades del byte alto
+C 0x901C los dos bajos (0xC13D)
+C 0x9029 dano 4
+C 0x902E sin vida, muere
+C 0x9032 uno menos por punto de dano...
+C 0x9033 ...hasta cero: muere
+C 0x903D el estado 3 de Snake
+C 0x9042 el modo de pose 6
+C 0x9047 el modo 9 de la partida
+C 0x904C 0x80 cuadros
+C 0x9051 0xC199 a cero
+C 0x9055 los sprites de los proyectiles fuera
+C 0x9062 el sonido 0x44
+C 0x9067 LIFE (p02:92AF)
+C 0x906D el marco de la barra en (0x31, 0xC1), 0x32 x 8, color 14
+C 0x907B sin vida o con 1, sin barra
+C 0x9081 la vida...
+C 0x9082 ...desde (0x32, 0xC2), 6 de alto...
+C 0x908A ...en el color 8 (0x88)
+C 0x9092 con el maximo de 0x30 (o 0x2F)...
+C 0x9098 ...el resto de la barra...
+C 0x909F ...0x30 - vida...
+C 0x90A5 ...a negro
+C 0x90AA CLASS (p02:92B6)
+C 0x90B0 las estrellas en (0x34, 0xC9)
+C 0x90B6 CLASS + 1...
+C 0x90B7 ...estrellas (0x3B)
+C 0x90BF el resto hasta 3...
+C 0x90C4 ...en blanco
+C 0x90C6 B veces
+C 0x90C7 el caracter C
+C 0x90CB 8 puntos a la derecha
+C 0x90D2 C = 0: los ceros de la izquierda en blanco
+C 0x90D4 el ultimo byte...
+C 0x90D7 ...pinta su cero
+C 0x90DA el nibble alto...
+C 0x90E2 ...y el bajo
+C 0x90E6 el byte anterior (hacia atras)
+C 0x90EA 2 bytes
+C 0x90F0 el digito
+C 0x90F4 el primer digito no cero: desde aqui todos
+C 0x90F6 '0' + digito (o 0, el blanco)
+C 0x90FC 8 puntos a la derecha
+C 0x9101 0xC380-0xC3CF a 0xFF
+C 0x9111 CLASS 0: 0x918A y 3 raciones
+C 0x9119 CLASS 1: 0x919A y 6
+C 0x9121 CLASS 2: 0x91AA y 9
+C 0x9129 CLASS 3: 0x91BA y 0x12
+C 0x912F los 8 maximos (BCD) a 0xC380
+C 0x9137 el de las raciones a 0xC3BA
+C 0x913D con la clave de la municion (0xC141 bit 0)...
+C 0x9143 ...todos a 999 (0x91CA)
+C 0x914E con la de las raciones (bit 1), 999
+C 0x9157 si lleva raciones...
+C 0x915E ...recorta su cantidad
+C 0x9165 las 8 armas
+C 0x9169 los maximos
+C 0x916D si lleva el arma...
+C 0x9176 ...recorta su municion
+C 0x9182 el arma siguiente
+C 0x91DA DE = la cantidad (+1, +2)
+C 0x91DF si no pasa del maximo, nada
+C 0x91E4 si pasa, la deja en el maximo
+C 0x91EC sin cuenta, nada
+C 0x91F2 sin llamada (2), nada
+C 0x91F5 sonando (1): la cuenta del sonido
+C 0x91F8 pendiente (0): espera la cuenta...
+C 0x91FA ...0x58 cuadros sonando
+C 0x9201 al acabar de sonar...
+C 0x9203 ...sin llamada
+C 0x920C sin cuenta atras, nada
+C 0x9211 baja 1 (BCD)
+C 0x9216 sin acarreo, el byte alto no cambia
+C 0x9218 el byte alto baja 1
+C 0x921F a cero...
+C 0x9226 ...la vida a cero: muere
+C 0x9230 7 huecos
+C 0x9237 25 huecos
+C 0x9239 busca un hueco vacio
+C 0x923D la ficha siguiente
+C 0x9245 detras, la primera ficha llena...
+C 0x9253 ...sube al hueco vacio
+C 0x9256 los 4 bytes
+C 0x925F sigue apretando
+C 0x92DE en la sala 0xCC (la caida)...
+C 0x92E3 por una puerta (0xC4FC)
+C 0x92ED sin lado, nada
+C 0x92F2 la vecina es un ascensor
+C 0x92FA C = la sala de antes
+C 0x92FE desde la sala 0x67...
+C 0x9306 ...sin COMPAS (objeto 0x0B)...
+C 0x930D ...y sin ir hacia abajo...
+C 0x9311 ...se vuelve a la 0x67
+C 0x9317 0xC136 = la sala de antes
+C 0x931B el modo 0
+C 0x9326 C = la sala de antes
+C 0x9334 entrando por arriba: la cabina en 0xD0...
+C 0x9339 ...por abajo, en 0x18
+C 0x933E Snake 4 puntos por encima de la cabina
+C 0x9349 el paso 0 del ascensor
+C 0x934D el modo 6
+C 0x9353 la puerta
+C 0x9356 0x91: la sala 0x75 (la trampilla de la sala 0x75)
+C 0x935D 0x5B: la 0x2D
+C 0x9364 0x81: la 0x2E
+C 0x936E busca la puerta en las de la sala
+C 0x9377 +0x0F: la sala de destino
+C 0x9384 la sala nueva
+C 0x9388 un ascensor...
+C 0x9391 las salas 0xE0-0xEF...
+C 0x939B (de un ascensor o no, lo mismo)
+C 0x93A5 la Y de la parada (C)...
+C 0x93AC ...X = 0xD8
+C 0x93B2 0xC193 = la parada, 0xC194 = 0x70
+C 0x93C2 con PARAC (objeto 0x0C)...
+C 0x93C6 ...a la sala 0xCC
+C 0x93CB 0xC136 = la sala de la trampilla
+C 0x93CF 2 cuadros de caida
+C 0x93DD sin parada
+C 0x93E1 0xC4FC = 0xFF: cayo sin paracaidas
+C 0x93E6 dano 0xFF: muere
+C 0x93EE al acabar la caida, sale
+C 0x93F1 sigue en la 0xCC
+C 0x93FF por la trampilla 1 (0x2D): a la sala 5
+C 0x9404 por la 2 (0x2E): a la 6
+C 0x9409 por la 0x75: a la 0x0A
+C 0x940F la parada 0xCC
+C 0x9414 0xC162 a cero
+C 0x941E cayo sin paracaidas
+C 0x9423 por las trampillas
+C 0x9432 por la puerta 0x6B
+C 0x9437 por un lado o un ascensor
+C 0x943D desde la caida
+C 0x9445 en los ascensores, nada
+C 0x944D a un ascensor
+C 0x9454 desde un ascensor
+C 0x945B 0x9474: por el lado, la Y o la X de entrada
+C 0x9461 el lado contrario...
+C 0x9466 HL = la coordenada
+C 0x9468 arriba y abajo: la Y
+C 0x946F izquierda y derecha: la X
+C 0x947C estado 2
+C 0x9481 mirando a la izquierda (3)
+C 0x9499 busca la puerta
+C 0x94A2 +3: el tipo
+C 0x94A6 +5: la Y
+C 0x94A9 0x94CD: 3 bytes por tipo: [dy][dx][direccion]
+C 0x94B3 la Y de entrada
+C 0x94BA la X
+C 0x94C0 la direccion
+C 0x9506 el modo de pose 3...
+C 0x950B ...y el estado 4 (cayendo)
+C 0x9512 X = 0x80
+C 0x951D desde la caida a las salas 0x0A, 5 o 6...
+C 0x9529 si no, Y = 0x30
+C 0x9530 quieto, mirando arriba
+C 0x9546 la sala 0x0A: (0x80, 0xA0)
+C 0x9562 la 5: (0x38, 0x68)
+C 0x956D la 6: (0xA8, 0x80)
+C 0x957B en la sala 0x77, delante de la puerta
+C 0x9580 en las demas: estado 6...
+C 0x9585 ...mirando a la izquierda (3)...
+C 0x958C ...en (0x9E, 0xD8)
+C 0x959B 8 sprites de 8 bytes de 0x95B7 (los dos primeros, una y otra vez)
+C 0x95A3 a 0xEA00
+C 0x95AD los colores...
+C 0x95B0 ...15
+C 0x95CF paso 0: espera (ix+0x13)
+C 0x95D3 la primera vez...
+C 0x95DC ...el texto 0x8B
+C 0x95E1 0x10 cuadros
+C 0x95E7 paso 1: espera
+C 0x95F5 hacia Snake a 2 puntos por cuadro
+C 0x9604 paso 2: anda
+C 0x960D 5 cuadros
+C 0x9615 se para
+C 0x9621 crea el tipo 0x3F 0x10 por encima
+C 0x962C paso 3: espera
+C 0x963B hacia el centro a 2 puntos
+C 0x964A paso 4: anda...
+C 0x9657 ...y se para, al paso 1
+C 0x9662 el sonido 6
+C 0x966A el centro de la vuelta: su Y...
+C 0x9670 ...y su X
+C 0x9673 a la derecha de la sala, sentido 0; a la izquierda, 2
+C 0x967E el radio, al azar
+C 0x9689 el angulo Y empieza en 0x40...
+C 0x968D ...bajando 2 por cuadro
+C 0x9691 el angulo X en 0x40...
+C 0x9695 ...bajando 4
+C 0x969D cada 2 cuadros...
+C 0x96A1 ...el cuadro siguiente (0x77-0x79)
+C 0x96B4 el angulo Y avanza
+C 0x96BD al salir de 0-0x3F, rebota
+C 0x96C5 la mitad del seno...
+C 0x96C7 ...o la cuarta parte con el otro radio
+C 0x96CF la Y = el centro + el seno
+C 0x96D6 el angulo X avanza
+C 0x96DF al salir de 0-0x3F, rebota
+C 0x96E7 la cuarta parte
+C 0x96EB en los cuartos 2 y 3 hacia el otro lado
+C 0x96FC la X = el centro +- el seno
+C 0x9703 da la vuelta al angulo Y
+C 0x970B si vuelve a 0xFE (la vuelta entera), se quita
+C 0x9711 da la vuelta al angulo X...
+C 0x9719 ...y el cuarto siguiente
+C 0x971D con 0xC5B4 no aparece
+C 0x9727 3 cuadros
+C 0x97E2 B = cuantas fichas hasta Snake
+C 0x97E3 desde la ficha del actor
+C 0x97E9 la ficha que se mira
+C 0x97EF con el juego de fichas 0, unas fichas no tapan:
+C 0x97F3 la 0x68-0x6C...
+C 0x9808 ...la 0x6E...
+C 0x980D ...y la 0x8B-0x8E
+C 0x981E las demas: su byte de choque
+C 0x9826 pared: no ve a Snake
+C 0x9828 la ficha siguiente hacia Snake
+C 0x982B C = el paso (+-1 o +-32)
+C 0x982F D = 0xFF si es negativo
+C 0x9835 + el paso
+C 0x9836 hasta Snake
+C 0x983B la camara (tipo 6):
+C 0x983F (ix+0x41) = 1 y 0xC668 = 1
+C 0x9847 refuerzos cada 0x28 cuadros
+C 0x9852 la sala de la alarma
+C 0x9855 0x10 cuadros
+C 0x985E con la alarma ya puesta, nada
+C 0x9863 B = la sala
+C 0x9864 las salas 0x80+: sin aviso
+C 0x986A la sala / 8...
+C 0x9871 ...un byte de 0x98DE
+C 0x9878 el bit de la sala (sala mod 8)
+C 0x987E saca el bit
+C 0x9883 0xC614 = el bit: la sala tiene aviso
+C 0x9889 B = la X de Snake
+C 0x988D el aviso a la izquierda o a la derecha del actor
+C 0x9894 X de 8 en 8...
+C 0x989C ...Y - 0x18 de 8 en 8
+C 0x98A1 por encima de 0xBF, a cero
+C 0x98A7 0xC60C = donde va el aviso
+C 0x98AD p03:AC4D: guarda el fondo
+C 0x98B1 con aviso...
+C 0x98B5 ...el dibujo de (0x80, 0) y sin refuerzos...
+C 0x98BC ...si no, el de (0x80, 0x10) y refuerzos cada 0x1E cuadros
+C 0x98C4 por encima de 0xBF, a cero
+C 0x98CF p03:AC5B: el dibujo
+C 0x98D2 la alarma
+C 0x98D8 la camara no se mueve
+C 0x98DB los demas, a reaparecer
+C 0x98EE 8 a cada lado, 0x10 de ancho
+C 0x98F8 la X de Snake - 8...
+C 0x98F9 ...por debajo de la X del actor...
+C 0x98FB ...y + 0x10 por encima
+C 0x9900 la camara: 4 y 8...
+C 0x990A ...los demas: 6 y 0x0C
+C 0x99A3 la X maxima 0xC8...
+C 0x99A7 al llegar, hacia la izquierda (2) a medio punto
+C 0x99AF la minima 0x38...
+C 0x99B5 ...hacia la derecha (3)
+C 0x99BA la deja en el borde
+C 0x99C3 el sonido 0x1D
+C 0x9AA8 C = la sala
+C 0x9AA9 en la sala 0x8C, 0xC633 = 1 (se duermen)
+C 0x9AB4 en la sala 0x27...
+C 0x9AB8 ...p03:A190: su arreglo
+C 0x9ABC en la sala 0x45...
+C 0x9AC0 ...(ix+0x5E) = 1...
+C 0x9AC5 ...salvo viniendo de la 0x49
+C 0x9A88 la primera vez...
+C 0x9A91 ...el texto 0x7F
+C 0x9A96 la segunda...
+C 0x9A99 ...0xC62C y 0xC62D = 1 (la puerta de clase 12)
+C 0x9A9E (una sola vez)
+C 0x9D3A las 19 parejas [sala][texto] de 0x9D59
+C 0x9D3F busca la sala
+C 0x9D42 la pareja siguiente
+C 0x9D47 B = el texto
+C 0x9D4C marca la sala y el texto
+C 0x9D50 una estrella cada 5
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0x80C4 0x80D2 tabla_80C4  7 destinos del despachador p00:41EA (call en p02:80C1, el indice en A): 8364, 8416, 8538, 8632, 86EC, 87AC, 8817; lo leen p02:80C1 (14 bytes)
@@ -279,7 +1008,8 @@ C 0x80D2 apunta a los proyectiles (0x180 bytes)
 C 0x80E9 lee el arma elegida (p06:B865: 1 HAND GUN, 2 SMG, 3 GRENADE, 4 ROCKET, 5 P.BOMB, 6 L.MINE, 7 MISSILE, 8 SILENCER)
 C 0x80F0 hl_mas_a: HL = HL + A
 C 0x812B quita_proyectil: el arma del proyectil a cero y sus sprites escondidos
-C 0x8130 lee el arma elegida (p06:B865: 1 HAND GUN, 2 SMG, 3 GRENADE, 4 ROCKET, 5 P.BOMB, 6 L.MINE, 7 MISSILE, 8 SILENCER)
+C 0x8133 guarda el arma del proyectil
+C 0x813A la cuenta del proyectil = 0x00
 C 0x8147 apunta a los proyectiles (0x180 bytes)
 C 0x8150 un_proyectil: el proyectil HL por su arma (tabla 0x8168); 0xFF lo quita
 C 0x8160 quita_proyectil: el arma del proyectil a cero y sus sprites escondidos
@@ -289,10 +1019,33 @@ C 0x8183 hl_mas_a: HL = HL + A
 C 0x818C apunta a la copia de los atributos de los sprites
 C 0x8192 de_mas_a: DE = DE + A
 C 0x81A1 cuatro_a: HL = 4 x A
+C 0x81BB lee la Y del proyectil (fraccion)
+C 0x81BE lee la Y del proyectil
+C 0x81C1 lee la velocidad Y del proyectil
+C 0x81C4 lee la velocidad Y del proyectil (alta)
+C 0x81C8 guarda la Y del proyectil (fraccion)
+C 0x81CB guarda la Y del proyectil
+C 0x81CE lee la X del proyectil (fraccion)
+C 0x81D1 lee la X del proyectil
+C 0x81D4 lee la velocidad X del proyectil
+C 0x81D7 lee la velocidad X del proyectil (alta)
+C 0x81DB guarda la X del proyectil (fraccion)
+C 0x81DE guarda la X del proyectil
 C 0x81E2 mueve_proyectil_x: la X del proyectil (ix+5, 6) mas la velocidad (ix+9, 0x0A)
+C 0x81E5 lee la Y del suelo bajo el proyectil (fraccion)
+C 0x81E8 lee la Y del suelo bajo el proyectil
+C 0x81EB lee la velocidad Y del proyectil
+C 0x81EE lee la velocidad Y del proyectil (alta)
+C 0x81F2 guarda la Y del suelo bajo el proyectil (fraccion)
+C 0x81F5 guarda la Y del suelo bajo el proyectil
+C 0x81F9 lee la Y del proyectil
+C 0x81FE lee la Y del suelo bajo el proyectil
+C 0x8201 lee la direccion del proyectil
+C 0x8206 lee la X del proyectil
 C 0x8209 choca: acarreo si alguno de los 2 puntos de la caja B (0x82CB) hacia C, desde Y = L, X = H, pisa una ficha con choque (0xC700 bit 0)
-C 0x8211 quita_proyectil: el arma del proyectil a cero y sus sprites escondidos
-C 0x8219 quita_proyectil: el arma del proyectil a cero y sus sprites escondidos
+C 0x820C lee la Y del proyectil
+C 0x8214 lee la X del proyectil
+C 0x8222 el arma del proyectil = 0x00
 C 0x8228 de_mas_a: DE = DE + A
 C 0x822F apunta a la copia de los atributos de los sprites
 C 0x8233 hl_mas_2a: HL = HL + 2 x A
@@ -322,13 +1075,27 @@ C 0x837B hueco_de_proyectil: IX = el primer proyectil libre de 0xC200 y acarreo;
 C 0x837F sprites_del_proyectil: reserva en 0xEA10 los sprites del arma (0x8140); acarreo si caben
 C 0x8383 lee la casilla de trabajo 0xEC00 y el byte siguiente (16 bits)
 C 0x8388 gasta_municion: resta 1 (BCD) a la cantidad de HL y la pinta; con C = 1 o mas, al acabarse quita el arma o el objeto
+C 0x838B la cuenta del proyectil = 0x10
+C 0x838F si el proyectil hiere (bit 0) = 0x01
 C 0x8393 lee la Y de Snake
+C 0x8396 la Y del proyectil (fraccion) = 0x00
+C 0x839A la Y del suelo bajo el proyectil (fraccion) = 0x00
+C 0x83A3 guarda la Y del proyectil
 C 0x83A6 lee la X de Snake
+C 0x83A9 la X del proyectil (fraccion) = 0x00
+C 0x83AD guarda la X del proyectil
 C 0x83B0 lee la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
+C 0x83B3 guarda la direccion del proyectil
 C 0x83B9 hl_mas_2a_menos_2: HL = HL + 2 x (A - 1)
+C 0x83BC la velocidad Y del proyectil = 0x00
+C 0x83C1 guarda la velocidad Y del proyectil (alta)
+C 0x83C5 la velocidad X del proyectil = 0x00
+C 0x83CA guarda la velocidad X del proyectil (alta)
+C 0x83CD el cuadro del proyectil = 0x00
 C 0x83DC sonido: pide el sonido A al controlador del banco 4 (0x67FD) con los bancos 4 y 5
 C 0x83E0 disparo_oido: si la sala no esta en 0x806C ni 0xC158 = 1 ni ya 0xC602: pon_c602 con la cuenta 0x5A
 C 0x83E3 atributos_del_proyectil: el cuadro (ix+0x0B) de p10:63B0 a los sprites de IX sumando (ix+4) y (ix+6); 0x80 = escondido
+C 0x83EE baja la cuenta del proyectil
 C 0x83F1 quita_proyectil: el arma del proyectil a cero y sus sprites escondidos
 C 0x83F4 mueve_proyectil: la Y (ix+3, 4) y la X (ix+5, 6) del proyectil mas sus velocidades
 C 0x83F7 mueve_suelo: la Y del suelo (ix+0x0D, 0x0E) mas la velocidad Y (ix+7, 8)
@@ -345,11 +1112,25 @@ C 0x843E hueco_de_proyectil: IX = el primer proyectil libre de 0xC200 y acarreo;
 C 0x8442 sprites_del_proyectil: reserva en 0xEA10 los sprites del arma (0x8140); acarreo si caben
 C 0x8446 lee la casilla de trabajo 0xEC00 y el byte siguiente (16 bits)
 C 0x844B gasta_municion: resta 1 (BCD) a la cantidad de HL y la pinta; con C = 1 o mas, al acabarse quita el arma o el objeto
+C 0x844E la cuenta del proyectil = 0x10
+C 0x8452 si el proyectil hiere (bit 0) = 0x01
 C 0x8456 lee la Y de Snake
+C 0x8459 la Y del proyectil (fraccion) = 0x00
+C 0x845D la Y del suelo bajo el proyectil (fraccion) = 0x00
+C 0x8461 guarda la Y del suelo bajo el proyectil
+C 0x8466 guarda la Y del proyectil
 C 0x8469 lee la X de Snake
+C 0x846C la X del proyectil (fraccion) = 0x00
+C 0x8470 guarda la X del proyectil
 C 0x8473 lee la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
+C 0x8476 guarda la direccion del proyectil
 C 0x8481 hl_mas_2a: HL = HL + 2 x A
 C 0x8489 hl_mas_2a: HL = HL + 2 x A
+C 0x848D guarda la velocidad Y del proyectil
+C 0x8492 guarda la velocidad Y del proyectil (alta)
+C 0x8497 guarda la velocidad X del proyectil
+C 0x849C guarda la velocidad X del proyectil (alta)
+C 0x849F el cuadro del proyectil = 0x00
 C 0x84AE sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
 C 0x84B2 disparo_oido: si la sala no esta en 0x806C ni 0xC158 = 1 ni ya 0xC602: pon_c602 con la cuenta 0x5A
 C 0x84B5 atributos_del_proyectil: el cuadro (ix+0x0B) de p10:63B0 a los sprites de IX sumando (ix+4) y (ix+6); 0x80 = escondido
@@ -360,21 +1141,47 @@ C 0x854B hueco_de_proyectil: IX = el primer proyectil libre de 0xC200 y acarreo;
 C 0x854F sprites_del_proyectil: reserva en 0xEA10 los sprites del arma (0x8140); acarreo si caben
 C 0x8553 lee la casilla de trabajo 0xEC00 y el byte siguiente (16 bits)
 C 0x8558 gasta_municion: resta 1 (BCD) a la cantidad de HL y la pinta; con C = 1 o mas, al acabarse quita el arma o el objeto
+C 0x855B la cuenta del proyectil = 0x18
+C 0x855F si el proyectil hiere (bit 0) = 0x00
 C 0x8563 lee la Y de Snake
+C 0x8566 la Y del proyectil (fraccion) = 0x00
+C 0x856A la Y del suelo bajo el proyectil (fraccion) = 0x00
+C 0x8570 guarda la Y del proyectil
+C 0x8573 guarda la Y del suelo bajo el proyectil
 C 0x8576 lee la X de Snake
+C 0x8579 la X del proyectil (fraccion) = 0x00
+C 0x857D guarda la X del proyectil
 C 0x8580 lee la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
+C 0x8583 guarda la direccion del proyectil
 C 0x8589 hl_mas_2a_menos_2: HL = HL + 2 x (A - 1)
+C 0x858C la velocidad Y del proyectil = 0x00
+C 0x8591 guarda la velocidad Y del proyectil (alta)
+C 0x8595 la velocidad X del proyectil = 0x00
+C 0x859A guarda la velocidad X del proyectil (alta)
+C 0x859D el cuadro del proyectil = 0x01
 C 0x85A3 sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
 C 0x85A6 atributos_del_proyectil: el cuadro (ix+0x0B) de p10:63B0 a los sprites de IX sumando (ix+4) y (ix+6); 0x80 = escondido
 C 0x85B4 despacha: salta a la palabra A de la tabla que va pegada detras del `call`
+C 0x85BB baja la cuenta del proyectil
 C 0x85BE grenade_explota: sonido 0x1A, la explosion (cuadros 3-5) y disparo_oido
 C 0x85C1 mueve_proyectil_suelo: la X y la Y del suelo del proyectil
 C 0x85CA hl_mas_a: HL = HL + A
+C 0x85D0 lee la Y del suelo bajo el proyectil (fraccion)
+C 0x85D3 lee la Y del suelo bajo el proyectil
+C 0x85D7 guarda la Y del proyectil (fraccion)
+C 0x85DA guarda la Y del proyectil
 C 0x85DD proyectil_fuera: si el proyectil sale (Y >= 0xB8, X >= 0xF8 o < 9) lo quita
 C 0x85E0 atributos_del_proyectil: el cuadro (ix+0x0B) de p10:63B0 a los sprites de IX sumando (ix+4) y (ix+6); 0x80 = escondido
 C 0x85FE sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
+C 0x8604 la cuenta del proyectil = 0x0F
+C 0x8608 el cuadro del proyectil = 0x03
+C 0x860C si el proyectil hiere (bit 0) = 0x01
 C 0x8610 disparo_oido: si la sala no esta en 0x806C ni 0xC158 = 1 ni ya 0xC602: pon_c602 con la cuenta 0x5A
+C 0x8613 si el proyectil hiere (bit 0) = 0x00
+C 0x8617 baja la cuenta del proyectil
 C 0x861A quita_proyectil: el arma del proyectil a cero y sus sprites escondidos
+C 0x861D lee la cuenta del proyectil
+C 0x862C guarda el cuadro del proyectil
 C 0x862F atributos_del_proyectil: el cuadro (ix+0x0B) de p10:63B0 a los sprites de IX sumando (ix+4) y (ix+6); 0x80 = escondido
 C 0x8632 lee las teclas nuevas (1 arriba, 2 abajo, 4 izq., 8 der., 0x10, 0x20)
 C 0x863A busca_arma: busca A en las 7 armas de 0xC500 (fichas de 4): C = el sitio, Z si esta, acarreo si no
@@ -384,10 +1191,23 @@ C 0x864A apunta a los proyectiles (0x180 bytes)
 C 0x864E sprites_del_proyectil: reserva en 0xEA10 los sprites del arma (0x8140); acarreo si caben
 C 0x8652 lee la casilla de trabajo 0xEC00 y el byte siguiente (16 bits)
 C 0x8657 gasta_municion: resta 1 (BCD) a la cantidad de HL y la pinta; con C = 1 o mas, al acabarse quita el arma o el objeto
+C 0x865A si el proyectil hiere (bit 0) = 0x01
 C 0x865E lee la Y de Snake
+C 0x8661 la Y del proyectil (fraccion) = 0x00
+C 0x8665 la Y del suelo bajo el proyectil (fraccion) = 0x00
+C 0x8669 guarda la Y del suelo bajo el proyectil
+C 0x866E guarda la Y del proyectil
 C 0x8671 lee la X de Snake
+C 0x8674 la X del proyectil (fraccion) = 0x00
+C 0x8678 guarda la X del proyectil
 C 0x867B lee la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
+C 0x867E guarda la direccion del proyectil
 C 0x8684 hl_mas_2a_menos_2: HL = HL + 2 x (A - 1)
+C 0x8687 la velocidad Y del proyectil = 0x00
+C 0x868C guarda la velocidad Y del proyectil (alta)
+C 0x8690 la velocidad X del proyectil = 0x00
+C 0x8695 guarda la velocidad X del proyectil (alta)
+C 0x8698 el cuadro del proyectil = 0x02
 C 0x869E sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
 C 0x86A4 patrones_del_cohete: carga los patrones del proyectil por la direccion (ix+0x0C) en 0xF880
 C 0x86A7 atributos_del_proyectil: el cuadro (ix+0x0B) de p10:63B0 a los sprites de IX sumando (ix+4) y (ix+6); 0x80 = escondido
@@ -399,7 +1219,11 @@ C 0x86C9 choca_suelo: acarreo si el suelo del proyectil (ix+0x0E, ix+6) choca co
 C 0x86CE proyectil_fuera: si el proyectil sale (Y >= 0xB8, X >= 0xF8 o < 9) lo quita
 C 0x86D1 atributos_del_proyectil: el cuadro (ix+0x0B) de p10:63B0 a los sprites de IX sumando (ix+4) y (ix+6); 0x80 = escondido
 C 0x86D6 sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
+C 0x86D9 la cuenta del proyectil = 0x0F
+C 0x86DD el cuadro del proyectil = 0x07
+C 0x86E1 si el proyectil hiere (bit 0) = 0x00
 C 0x86E5 disparo_oido: si la sala no esta en 0x806C ni 0xC158 = 1 ni ya 0xC602: pon_c602 con la cuenta 0x5A
+C 0x86E8 sube el paso del proyectil
 C 0x86EC lee las teclas nuevas (1 arriba, 2 abajo, 4 izq., 8 der., 0x10, 0x20)
 C 0x86F4 busca_arma: busca A en las 7 armas de 0xC500 (fichas de 4): C = el sitio, Z si esta, acarreo si no
 C 0x86F8 guarda la casilla de trabajo 0xEC00 y el byte siguiente (16 bits)
@@ -408,16 +1232,28 @@ C 0x8704 apunta a los proyectiles (0x180 bytes)
 C 0x8708 sprites_del_proyectil: reserva en 0xEA10 los sprites del arma (0x8140); acarreo si caben
 C 0x870C lee la casilla de trabajo 0xEC00 y el byte siguiente (16 bits)
 C 0x8711 gasta_municion: resta 1 (BCD) a la cantidad de HL y la pinta; con C = 1 o mas, al acabarse quita el arma o el objeto
+C 0x8718 si el proyectil hiere (bit 0) = 0x00
 C 0x871C lee la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
 C 0x8725 de_mas_a: DE = DE + A
 C 0x872E lee la Y de Snake (16 bits)
+C 0x8732 guarda la Y del proyectil (fraccion)
+C 0x8735 guarda la Y del proyectil
 C 0x873D lee la X de Snake (16 bits)
+C 0x8741 guarda la X del proyectil (fraccion)
+C 0x8744 guarda la X del proyectil
+C 0x8747 el cuadro del proyectil = 0x06
 C 0x874D sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
 C 0x8750 atributos_del_proyectil: el cuadro (ix+0x0B) de p10:63B0 a los sprites de IX sumando (ix+4) y (ix+6); 0x80 = escondido
 C 0x8766 despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 C 0x877B sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
+C 0x877E la cuenta del proyectil = 0x0F
+C 0x8782 el cuadro del proyectil = 0x07
 C 0x8786 disparo_oido: si la sala no esta en 0x806C ni 0xC158 = 1 ni ya 0xC602: pon_c602 con la cuenta 0x5A
+C 0x8789 sube el paso del proyectil
+C 0x878D si el proyectil hiere (bit 0) = 0x00
+C 0x8791 baja la cuenta del proyectil
 C 0x8794 quita_proyectil: el arma del proyectil a cero y sus sprites escondidos
+C 0x87A6 guarda el cuadro del proyectil
 C 0x87A9 atributos_del_proyectil: el cuadro (ix+0x0B) de p10:63B0 a los sprites de IX sumando (ix+4) y (ix+6); 0x80 = escondido
 C 0x87AC lee las teclas nuevas (1 arriba, 2 abajo, 4 izq., 8 der., 0x10, 0x20)
 C 0x87B4 busca_arma: busca A en las 7 armas de 0xC500 (fichas de 4): C = el sitio, Z si esta, acarreo si no
@@ -426,12 +1262,20 @@ C 0x87BF hueco_de_proyectil: IX = el primer proyectil libre de 0xC200 y acarreo;
 C 0x87C3 sprites_del_proyectil: reserva en 0xEA10 los sprites del arma (0x8140); acarreo si caben
 C 0x87C7 lee la casilla de trabajo 0xEC00 y el byte siguiente (16 bits)
 C 0x87CC gasta_municion: resta 1 (BCD) a la cantidad de HL y la pinta; con C = 1 o mas, al acabarse quita el arma o el objeto
+C 0x87CF si el proyectil hiere (bit 0) = 0x01
 C 0x87D3 lee la Y de Snake
+C 0x87D9 la Y del proyectil (fraccion) = 0x00
 C 0x87DD lee la X de Snake
+C 0x87E3 la X del proyectil (fraccion) = 0x00
+C 0x87E7 el cuadro del proyectil = 0x0A
 C 0x87ED sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
 C 0x87F0 atributos_del_proyectil: el cuadro (ix+0x0B) de p10:63B0 a los sprites de IX sumando (ix+4) y (ix+6); 0x80 = escondido
 C 0x87F6 despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 C 0x8801 sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
+C 0x8804 sube el paso del proyectil
+C 0x8807 si el proyectil hiere (bit 0) = 0x00
+C 0x880B la cuenta del proyectil = 0x0F
+C 0x880F el cuadro del proyectil = 0x03
 C 0x8813 disparo_oido: si la sala no esta en 0x806C ni 0xC158 = 1 ni ya 0xC602: pon_c602 con la cuenta 0x5A
 C 0x8817 lee las teclas nuevas (1 arriba, 2 abajo, 4 izq., 8 der., 0x10, 0x20)
 C 0x881F busca_arma: busca A en las 7 armas de 0xC500 (fichas de 4): C = el sitio, Z si esta, acarreo si no
@@ -441,11 +1285,24 @@ C 0x882F apunta a los proyectiles (0x180 bytes)
 C 0x8833 sprites_del_proyectil: reserva en 0xEA10 los sprites del arma (0x8140); acarreo si caben
 C 0x8837 lee la casilla de trabajo 0xEC00 y el byte siguiente (16 bits)
 C 0x883C gasta_municion: resta 1 (BCD) a la cantidad de HL y la pinta; con C = 1 o mas, al acabarse quita el arma o el objeto
+C 0x883F si el proyectil hiere (bit 0) = 0x01
 C 0x8843 lee la Y de Snake
+C 0x8846 la Y del proyectil (fraccion) = 0x00
+C 0x884A la Y del suelo bajo el proyectil (fraccion) = 0x00
+C 0x884E guarda la Y del suelo bajo el proyectil
+C 0x8853 guarda la Y del proyectil
 C 0x8856 lee la X de Snake
+C 0x8859 la X del proyectil (fraccion) = 0x00
+C 0x885D guarda la X del proyectil
 C 0x8862 sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
 C 0x8865 lee la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
+C 0x8868 guarda la direccion del proyectil
 C 0x886E hl_mas_2a_menos_2: HL = HL + 2 x (A - 1)
+C 0x8871 la velocidad Y del proyectil = 0x00
+C 0x8876 guarda la velocidad Y del proyectil (alta)
+C 0x887A la velocidad X del proyectil = 0x00
+C 0x887F guarda la velocidad X del proyectil (alta)
+C 0x8882 el cuadro del proyectil = 0x0B
 C 0x8889 patrones_del_cohete: carga los patrones del proyectil por la direccion (ix+0x0C) en 0xF880
 C 0x888C atributos_del_proyectil: el cuadro (ix+0x0B) de p10:63B0 a los sprites de IX sumando (ix+4) y (ix+6); 0x80 = escondido
 C 0x889A despacha: salta a la palabra A de la tabla que va pegada detras del `call`
@@ -459,7 +1316,11 @@ C 0x88CB proyectil_fuera: si el proyectil sale (Y >= 0xB8, X >= 0xF8 o < 9) lo q
 C 0x88D1 patrones_del_cohete: carga los patrones del proyectil por la direccion (ix+0x0C) en 0xF880
 C 0x88D4 atributos_del_proyectil: el cuadro (ix+0x0B) de p10:63B0 a los sprites de IX sumando (ix+4) y (ix+6); 0x80 = escondido
 C 0x88D9 sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
+C 0x88DC si el proyectil hiere (bit 0) = 0x00
+C 0x88E0 la cuenta del proyectil = 0x0F
+C 0x88E4 el cuadro del proyectil = 0x07
 C 0x88E8 disparo_oido: si la sala no esta en 0x806C ni 0xC158 = 1 ni ya 0xC602: pon_c602 con la cuenta 0x5A
+C 0x88EB sube el paso del proyectil
 C 0x88EF lee el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
 C 0x88F5 proyectiles_contra_actores: con el arma 0xC142: su tabla de dano y de cajas (p05:8951 o 8992) y cada proyectil contra los actores
 C 0x88F8 snake_contra_actores: cada actor vivo contra Snake (golpe, contacto y dano)
@@ -558,12 +1419,23 @@ C 0x8C22 guarda la cuenta de herido (Snake parpadea)
 C 0x8C27 dano_a_snake: resta B a la vida 0xC131; al llegar a cero, Snake muere (estado 3, modo 9, sonido 0x44)
 C 0x8C4D tabla_de_dano: apunta 0xEC00 a la tabla de dano del arma A (p05:87B7)
 C 0x8C51 apunta a los proyectiles (0x180 bytes)
+C 0x8C56 lee el arma del proyectil
 C 0x8C5A proyectil_contra_actores: el proyectil IX (si (ix+0x0F) bit 0) contra los 16 actores
+C 0x8C66 lee si el proyectil hiere (bit 0)
 C 0x8C6B apunta a los 16 actores (fichas de 0x80)
 C 0x8C76 proyectil_contra_actor: el proyectil IX contra el actor IY: caja, marca y dano; Metal Gear solo con el orden de 0x8D3B
 C 0x8C8D byte_del_banco_5: A = el byte A - 1 de la tabla HL, con los bancos 4-5-6
 C 0x8C92 caja_de_choque: copia la caja A (p05:8A55 + 4 x (A - 1)) a 0xC928; HL = 0xC928
+C 0x8CA2 le resta la Y del proyectil
+C 0x8CB1 le resta la X del proyectil
+C 0x8CBA lee el paso del proyectil
+C 0x8CBD lee el arma del proyectil
+C 0x8CD0 sube el paso del proyectil
+C 0x8CD3 lee el arma del proyectil
 C 0x8CE0 dano: A = el byte A de la tabla de dano de 0xEC00
+C 0x8CF5 lee el paso del proyectil
+C 0x8CFE compara con la X del proyectil
+C 0x8D32 lee el arma del proyectil
 C 0x8D37 quita_proyectil: el arma del proyectil a cero y sus sprites escondidos
 C 0x8D4E lee la Y de Snake
 C 0x8D52 lee la X de Snake
