@@ -104,9 +104,12 @@ def copia(sx, sy, w, h, dx, dy):
 
 # ---------------------------------------------------------------- objetos
 
-def objetos_de_sala(r):
+def objetos_de_sala(r, mensaje_75=False):
     """p06:BBF4-BC07: [(objeto, y, x)] de la sala r (solo las 0x7A-0xDA
-    tienen lista: p06:B9EF; 0 = ninguna)."""
+    tienen lista: p06:B9EF; 0 = ninguna). El objeto 4 solo sale con 0xC661
+    puesto (p06:BC0C-BC14), y si no, la lista se CORTA ahi (ret z); 0xC661
+    lo pone p00:5F35 cuando el mensaje 0xCEF0 es el 0x75. Por defecto, el
+    estado del principio de la partida (sin el mensaje)."""
     if not 0x7A <= r < 0xDA:         # p06:BBE9-BBF1
         return []
     k = leer(4, 0xB9EF + r - 0x7A)
@@ -115,6 +118,8 @@ def objetos_de_sala(r):
     d = palabra(4, 0xBA50 + 2 * (k - 1))
     out = []
     while leer(4, d) != 0xFF:
+        if leer(4, d) == 4 and not mensaje_75:
+            break
         out.append((leer(4, d), leer(4, d + 1), leer(4, d + 2)))
         d += 3
     return out

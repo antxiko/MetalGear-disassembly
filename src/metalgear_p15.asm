@@ -2252,15 +2252,19 @@ DATA_puerta_B0E2_resto:
 	defb 039h,039h,041h,041h,041h,041h	; b0f6
 
 ; ----------------------------------------------------------------------
-; DATOS puerta_B0FC: datos de dibujo de una puerta que p01:7814 carga en DE
-;   para p01:784E; lo leen p01:7814 (6 bytes)
+; DATOS puerta_B0FC: dibujo de una puerta de los tipos 7-19 que p01:7814 carga
+;   en DE para p01:784E: 1 filas x 4 columnas de numeros de ficha
+;   ([filas][columnas] y las fichas; L_44AF las pinta en la X/Y de la puerta);
+;   lo leen p01:7814 (6 bytes)
 ;   0xb0fc..0xb102  (6 bytes)
 DATA_puerta_B0FC:
 	defb 001h,004h,019h,019h,019h,019h	; b0fc
 
 ; ----------------------------------------------------------------------
-; DATOS puerta_B102: datos de dibujo de una puerta que p01:7819 carga en DE
-;   para p01:784E; lo leen p01:7819 (41 bytes)
+; DATOS puerta_B102: dibujo de una puerta de los tipos 7-19 que p01:7819 carga
+;   en DE para p01:784E: 13 filas x 3 columnas de numeros de ficha
+;   ([filas][columnas] y las fichas; L_44AF las pinta en la X/Y de la puerta);
+;   lo leen p01:7819 (41 bytes)
 ;   0xb102..0xb12b  (41 bytes)
 DATA_puerta_B102:
 	defb 00dh,003h,018h,03dh,041h,018h,03dh,041h,018h,03dh,041h,018h,03dh,041h,018h,03dh	; b102  ...=A.=A.=A.=A.=
@@ -2268,8 +2272,10 @@ DATA_puerta_B102:
 	defb 018h,03dh,041h,018h,03dh,041h,018h,03dh,041h	; b122  .=A.=A.=A
 
 ; ----------------------------------------------------------------------
-; DATOS puerta_B12B: datos de dibujo de una puerta que p01:781E carga en DE
-;   para p01:784E; lo leen p01:781E (67 bytes)
+; DATOS puerta_B12B: dibujo de una puerta de los tipos 7-19 que p01:781E carga
+;   en DE para p01:784E: 13 filas x 5 columnas de numeros de ficha
+;   ([filas][columnas] y las fichas; L_44AF las pinta en la X/Y de la puerta);
+;   lo leen p01:781E (67 bytes)
 ;   0xb12b..0xb16e  (67 bytes)
 DATA_puerta_B12B:
 	defb 00dh,005h,03ah,017h,018h,03dh,041h,03ah,017h,018h,03dh,041h,03ah,017h,018h,03dh	; b12b  ..:..=A:..=A:..=
@@ -2279,8 +2285,10 @@ DATA_puerta_B12B:
 	defb 018h,03dh,041h	; b16b
 
 ; ----------------------------------------------------------------------
-; DATOS puerta_B16E: datos de dibujo de una puerta que p01:7823 carga en DE
-;   para p01:784E; lo leen p01:7823 (62 bytes)
+; DATOS puerta_B16E: dibujo de una puerta de los tipos 7-19 que p01:7823 carga
+;   en DE para p01:784E: 12 filas x 5 columnas de numeros de ficha
+;   ([filas][columnas] y las fichas; L_44AF las pinta en la X/Y de la puerta);
+;   lo leen p01:7823 (62 bytes)
 ;   0xb16e..0xb1ac  (62 bytes)
 DATA_puerta_B16E:
 	defb 00ch,005h,03ah,017h,018h,03dh,041h,03ah,017h,018h,03dh,041h,03ah,017h,018h,03dh	; b16e  ..:..=A:..=A:..=
@@ -2289,15 +2297,19 @@ DATA_puerta_B16E:
 	defb 017h,018h,03dh,041h,03ah,017h,018h,03dh,041h,03ah,017h,018h,03dh,041h	; b19e  ..=A:..=A:..=A
 
 ; ----------------------------------------------------------------------
-; DATOS puerta_B1AC: datos de dibujo de una puerta que p01:7828 carga en DE
-;   para p01:784E; lo leen p01:7828 (6 bytes)
+; DATOS puerta_B1AC: dibujo de una puerta de los tipos 7-19 que p01:7828 carga
+;   en DE para p01:784E: 1 filas x 4 columnas de numeros de ficha
+;   ([filas][columnas] y las fichas; L_44AF las pinta en la X/Y de la puerta);
+;   lo leen p01:7828 (6 bytes)
 ;   0xb1ac..0xb1b2  (6 bytes)
 DATA_puerta_B1AC:
 	defb 001h,004h,017h,017h,017h,017h	; b1ac
 
 ; ----------------------------------------------------------------------
-; DATOS puerta_B1B2: datos de dibujo de una puerta que p01:7832 carga en DE
-;   para p01:784E; lo leen p01:7832 (41 bytes)
+; DATOS puerta_B1B2: dibujo de una puerta de los tipos 7-19 que p01:7832 carga
+;   en DE para p01:784E: 13 filas x 3 columnas de numeros de ficha
+;   ([filas][columnas] y las fichas; L_44AF las pinta en la X/Y de la puerta);
+;   lo leen p01:7832 (41 bytes)
 ;   0xb1b2..0xb1db  (41 bytes)
 DATA_puerta_B1B2:
 	defb 00dh,003h,014h,033h,035h,014h,033h,035h,014h,033h,035h,014h,033h,035h,014h,033h	; b1b2  ...35.35.35.35.3
@@ -2305,16 +2317,20 @@ DATA_puerta_B1B2:
 	defb 014h,033h,035h,014h,033h,035h,014h,033h,035h	; b1d2  .35.35.35
 
 ; ----------------------------------------------------------------------
-; DATOS puerta_B1DB: datos de dibujo de una puerta que p01:7837 carga en DE
-;   para p01:784E; lo leen p01:7837 (26 bytes)
+; DATOS puerta_B1DB: dibujo de una puerta de los tipos 7-19 que p01:7837 carga
+;   en DE para p01:784E: 12 filas x 2 columnas de numeros de ficha
+;   ([filas][columnas] y las fichas; L_44AF las pinta en la X/Y de la puerta);
+;   lo leen p01:7837 (26 bytes)
 ;   0xb1db..0xb1f5  (26 bytes)
 DATA_puerta_B1DB:
 	defb 00ch,002h,032h,013h,032h,013h,032h,013h,032h,013h,032h,013h,032h,013h,032h,013h	; b1db  ..2.2.2.2.2.2.2.
 	defb 032h,013h,032h,013h,032h,013h,032h,013h,032h,013h	; b1eb  2.2.2.2.2.
 
 ; ----------------------------------------------------------------------
-; DATOS puerta_B1F5: datos de dibujo de una puerta que p01:783C carga en DE
-;   para p01:784E; lo leen p01:783C (82 bytes)
+; DATOS puerta_B1F5: dibujo de una puerta de los tipos 7-19 que p01:783C carga
+;   en DE para p01:784E: 10 filas x 8 columnas de numeros de ficha
+;   ([filas][columnas] y las fichas; L_44AF las pinta en la X/Y de la puerta);
+;   lo leen p01:783C (82 bytes)
 ;   0xb1f5..0xb247  (82 bytes)
 DATA_puerta_B1F5:
 	defb 00ah,008h,021h,021h,021h,021h,021h,021h,021h,021h,01ch,049h,049h,049h,049h,049h	; b1f5  ..!!!!!!!!.IIIII
@@ -2325,16 +2341,20 @@ DATA_puerta_B1F5:
 	defb 061h,061h	; b245
 
 ; ----------------------------------------------------------------------
-; DATOS puerta_B247: datos de dibujo de una puerta que p01:7841 carga en DE
-;   para p01:784E; lo leen p01:7841 (26 bytes)
+; DATOS puerta_B247: dibujo de una puerta de los tipos 7-19 que p01:7841 carga
+;   en DE para p01:784E: 12 filas x 2 columnas de numeros de ficha
+;   ([filas][columnas] y las fichas; L_44AF las pinta en la X/Y de la puerta);
+;   lo leen p01:7841 (26 bytes)
 ;   0xb247..0xb261  (26 bytes)
 DATA_puerta_B247:
 	defb 00ch,002h,03ah,017h,03ah,017h,03ah,017h,03ah,017h,03ah,017h,03ah,017h,03ah,017h	; b247  ..:.:.:.:.:.:.:.
 	defb 03ah,017h,03ah,017h,03ah,017h,03ah,017h,03ah,017h	; b257  :.:.:.:.:.
 
 ; ----------------------------------------------------------------------
-; DATOS puerta_B261: datos de dibujo de una puerta que p01:7846 carga en DE
-;   para p01:784E; lo leen p01:7846 (62 bytes)
+; DATOS puerta_B261: dibujo de una puerta de los tipos 7-19 que p01:7846 carga
+;   en DE para p01:784E: 12 filas x 5 columnas de numeros de ficha
+;   ([filas][columnas] y las fichas; L_44AF las pinta en la X/Y de la puerta);
+;   lo leen p01:7846 (62 bytes)
 ;   0xb261..0xb29f  (62 bytes)
 DATA_puerta_B261:
 	defb 00ch,005h,026h,017h,018h,03dh,041h,027h,017h,018h,03dh,041h,028h,017h,018h,03dh	; b261  ..&..=A'..=A(..=
@@ -2343,8 +2363,10 @@ DATA_puerta_B261:
 	defb 017h,018h,023h,039h,03ah,017h,018h,024h,037h,03ah,017h,018h,025h,039h	; b291  ..#9:..$7:..%9
 
 ; ----------------------------------------------------------------------
-; DATOS puerta_B29F: datos de dibujo de una puerta que p01:784B carga en DE
-;   para p01:784E; lo leen p01:784B (32 bytes)
+; DATOS puerta_B29F: dibujo de una puerta de los tipos 7-19 que p01:784B carga
+;   en DE para p01:784E: 5 filas x 6 columnas de numeros de ficha
+;   ([filas][columnas] y las fichas; L_44AF las pinta en la X/Y de la puerta);
+;   lo leen p01:784B (32 bytes)
 ;   0xb29f..0xb2bf  (32 bytes)
 DATA_puerta_B29F:
 	defb 005h,006h,032h,039h,039h,039h,039h,033h,039h,039h,037h,039h,032h,039h,039h,036h	; b29f  ..29999399792996
@@ -2361,80 +2383,59 @@ DATA_fichas_del_interruptor:
 	defb 07fh,05fh,06bh,07fh,041h,07fh,07fh,05fh,06bh,07fh,041h,07fh,07bh,057h,07fh,07fh,041h,07fh,07fh,07fh,07fh,000h,000h,000h	; b307  ._k.A.._k.A.{W..A.......
 
 ; ----------------------------------------------------------------------
-; DATOS bloque_B31F: un bloque de 1 x 4 numeros de ficha ([ancho][alto] y las
-;   fichas) que p00:44BA pinta con L_4104; lo carga p15:BEF7; lo leen p15:BEF7
-;   (6 bytes)
+; DATOS bloque_B31F: un bloque de 1 filas x 4 columnas de numeros de ficha
+;   ([filas][columnas] y las fichas) que p00:44BA pinta con L_4104; lo carga
+;   p15:BEF7; lo leen p15:BEF7 (6 bytes)
 ;   0xb31f..0xb325  (6 bytes)
 DATA_bloque_B31F:
-	defb 001h	; b31f
-	defb 004h	; b320
-	defb 0a0h	; b321
-	defb 0a0h	; b322
-	defb 0d1h	; b323
-	defb 0d0h	; b324
+	defb 001h,004h,0a0h,0a0h	; b31f
+	defb 0d1h,0d0h	; b323
 
 ; ----------------------------------------------------------------------
-; DATOS bloque_B325: un bloque de 3 x 8 numeros de ficha ([ancho][alto] y las
-;   fichas) que p00:44BA pinta con L_4104; lo carga p15:BF01; lo leen p15:BF01
-;   (26 bytes)
+; DATOS bloque_B325: un bloque de 3 filas x 8 columnas de numeros de ficha
+;   ([filas][columnas] y las fichas) que p00:44BA pinta con L_4104; lo carga
+;   p15:BF01; lo leen p15:BF01 (26 bytes)
 ;   0xb325..0xb33f  (26 bytes)
 DATA_bloque_B325:
-	defb 003h,008h,000h	; b325
-	defb 000h,0a2h,0a3h	; b328
-	defb 0d3h,0d2h,000h	; b32b
-	defb 000h,000h,000h	; b32e
-	defb 0a4h,0a5h,0d5h	; b331
-	defb 0d4h,000h,000h	; b334
-	defb 0a6h,0a7h,0a8h	; b337
-	defb 0a9h,0d9h,0d8h	; b33a
+	defb 003h,008h,000h,000h,0a2h,0a3h,0d3h,0d2h	; b325  ........
+	defb 000h,000h,000h,000h,0a4h,0a5h,0d5h,0d4h	; b32d  ........
+	defb 000h,000h,0a6h,0a7h,0a8h,0a9h,0d9h,0d8h	; b335  ........
 	defb 0d7h,0d6h	; b33d
 
 ; ----------------------------------------------------------------------
-; DATOS bloque_B33F: un bloque de 5 x 8 numeros de ficha ([ancho][alto] y las
-;   fichas) que p00:44BA pinta con L_4104; lo carga p15:BF1C; lo leen p15:BF1C
-;   (42 bytes)
+; DATOS bloque_B33F: un bloque de 5 filas x 8 columnas de numeros de ficha
+;   ([filas][columnas] y las fichas) que p00:44BA pinta con L_4104; lo carga
+;   p15:BF1C; lo leen p15:BF1C (42 bytes)
 ;   0xb33f..0xb369  (42 bytes)
 DATA_bloque_B33F:
-	defb 005h,008h,000h,0a2h,017h	; b33f
-	defb 018h,003h,004h,0d2h,000h	; b344
-	defb 000h,019h,01ah,01bh,01ch	; b349
-	defb 01dh,01eh,000h,000h,01fh	; b34e
-	defb 020h,021h,022h,023h,024h	; b353
-	defb 000h,000h,025h,026h,027h	; b358
-	defb 028h,029h,02ah,000h,0a6h	; b35d
-	defb 0abh,0ach,0adh,0ddh,0dch	; b362
+	defb 005h,008h,000h,0a2h,017h,018h,003h,004h	; b33f  ........
+	defb 0d2h,000h,000h,019h,01ah,01bh,01ch,01dh	; b347  ........
+	defb 01eh,000h,000h,01fh,020h,021h,022h,023h	; b34f  .... !"#
+	defb 024h,000h,000h,025h,026h,027h,028h,029h	; b357  $..%&'()
+	defb 02ah,000h,0a6h,0abh,0ach,0adh,0ddh,0dch	; b35f  *.......
 	defb 0dbh,0d6h	; b367
 
 ; ----------------------------------------------------------------------
-; DATOS bloque_B369: un bloque de 9 x 18 numeros de ficha ([ancho][alto] y las
-;   fichas) que p00:44BA pinta con L_4104; lo carga p01:692A; lo leen p01:692A
-;   (164 bytes)
+; DATOS bloque_B369: un bloque de 9 filas x 18 columnas de numeros de ficha
+;   ([filas][columnas] y las fichas) que p00:44BA pinta con L_4104; lo carga
+;   p01:692A; lo leen p01:692A (164 bytes)
 ;   0xb369..0xb40d  (164 bytes)
 DATA_bloque_B369:
-	defb 009h,012h,048h,044h,044h,044h,044h,044h,044h	; b369  ..HDDDDDD
-	defb 044h,04ch,046h,046h,046h,046h,046h,046h,04fh	; b372  DLFFFFFFO
-	defb 044h,04eh,05bh,052h,041h,041h,041h,041h,041h	; b37b  DN[RAAAAA
-	defb 041h,055h,040h,040h,040h,040h,040h,040h,057h	; b384  AU@@@@@@W
-	defb 056h,062h,05bh,052h,041h,041h,041h,041h,041h	; b38d  Vb[RAAAAA
-	defb 041h,055h,040h,040h,040h,040h,040h,040h,057h	; b396  AU@@@@@@W
-	defb 056h,062h,05bh,056h,051h,051h,051h,051h,051h	; b39f  Vb[VQQQQQ
-	defb 051h,050h,045h,045h,045h,045h,045h,045h,04dh	; b3a8  QPEEEEEEM
-	defb 056h,062h,05bh,040h,040h,040h,040h,056h,064h	; b3b1  Vb[@@@@Vd
-	defb 053h,049h,05dh,056h,047h,047h,047h,047h,047h	; b3ba  SI]VGGGGG
-	defb 047h,062h,05bh,040h,040h,040h,040h,056h,05ah	; b3c3  Gb[@@@@VZ
-	defb 054h,054h,061h,056h,058h,04ah,058h,04ah,058h	; b3cc  TTaVXJXJX
-	defb 04ah,062h,05bh,051h,051h,051h,051h,056h,05eh	; b3d5  Jb[QQQQV^
-	defb 054h,054h,065h,056h,058h,04ah,058h,04ah,058h	; b3de  TTeVXJXJX
-	defb 04ah,062h,05bh,056h,047h,047h,047h,056h,059h	; b3e7  Jb[VGGGVY
-	defb 05fh,066h,060h,056h,056h,056h,056h,056h,056h	; b3f0  _f`VVVVVV
-	defb 056h,062h,04bh,04bh,04bh,04bh,04bh,04bh,04bh	; b3f9  VbKKKKKKK
-	defb 05ch,063h,04bh,04bh,04bh,04bh,04bh,04bh,04bh	; b402  \cKKKKKKK
+	defb 009h,012h,048h,044h,044h,044h,044h,044h,044h,044h,04ch,046h,046h,046h,046h,046h,046h,04fh	; b369  ..HDDDDDDDLFFFFFFO
+	defb 044h,04eh,05bh,052h,041h,041h,041h,041h,041h,041h,055h,040h,040h,040h,040h,040h,040h,057h	; b37b  DN[RAAAAAAU@@@@@@W
+	defb 056h,062h,05bh,052h,041h,041h,041h,041h,041h,041h,055h,040h,040h,040h,040h,040h,040h,057h	; b38d  Vb[RAAAAAAU@@@@@@W
+	defb 056h,062h,05bh,056h,051h,051h,051h,051h,051h,051h,050h,045h,045h,045h,045h,045h,045h,04dh	; b39f  Vb[VQQQQQQPEEEEEEM
+	defb 056h,062h,05bh,040h,040h,040h,040h,056h,064h,053h,049h,05dh,056h,047h,047h,047h,047h,047h	; b3b1  Vb[@@@@VdSI]VGGGGG
+	defb 047h,062h,05bh,040h,040h,040h,040h,056h,05ah,054h,054h,061h,056h,058h,04ah,058h,04ah,058h	; b3c3  Gb[@@@@VZTTaVXJXJX
+	defb 04ah,062h,05bh,051h,051h,051h,051h,056h,05eh,054h,054h,065h,056h,058h,04ah,058h,04ah,058h	; b3d5  Jb[QQQQV^TTeVXJXJX
+	defb 04ah,062h,05bh,056h,047h,047h,047h,056h,059h,05fh,066h,060h,056h,056h,056h,056h,056h,056h	; b3e7  Jb[VGGGVY_f`VVVVVV
+	defb 056h,062h,04bh,04bh,04bh,04bh,04bh,04bh,04bh,05ch,063h,04bh,04bh,04bh,04bh,04bh,04bh,04bh	; b3f9  VbKKKKKKK\cKKKKKKK
 	defb 04bh,04bh	; b40b
 
 ; ----------------------------------------------------------------------
-; DATOS bloque_B40D: un bloque de 4 x 4 numeros de ficha ([ancho][alto] y las
-;   fichas) que p00:44BA pinta con L_4104; lo carga p01:6933; lo leen p01:6933
-;   (18 bytes)
+; DATOS bloque_B40D: un bloque de 4 filas x 4 columnas de numeros de ficha
+;   ([filas][columnas] y las fichas) que p00:44BA pinta con L_4104; lo carga
+;   p01:6933; lo leen p01:6933 (18 bytes)
 ;   0xb40d..0xb41f  (18 bytes)
 DATA_bloque_B40D:
 	defb 004h,004h,010h,011h	; b40d
@@ -2444,9 +2445,9 @@ DATA_bloque_B40D:
 	defb 01eh,01fh	; b41d
 
 ; ----------------------------------------------------------------------
-; DATOS bloque_B41F: un bloque de 2 x 2 numeros de ficha ([ancho][alto] y las
-;   fichas) que p00:44BA pinta con L_4104; sigue al anterior, su lector no
-;   esta a la vista; lo leen p00:449E (6 bytes)
+; DATOS bloque_B41F: un bloque de 2 filas x 2 columnas de numeros de ficha
+;   ([filas][columnas] y las fichas) que p00:44BA pinta con L_4104; lo carga
+;   p00:5E28; lo leen p00:5E28 (6 bytes)
 ;   0xb41f..0xb425  (6 bytes)
 DATA_bloque_B41F:
 	defb 002h,002h	; b41f
@@ -2454,9 +2455,9 @@ DATA_bloque_B41F:
 	defb 019h,01ah	; b423
 
 ; ----------------------------------------------------------------------
-; DATOS bloque_B425: un bloque de 2 x 2 numeros de ficha ([ancho][alto] y las
-;   fichas) que p00:44BA pinta con L_4104; sigue al anterior, su lector no
-;   esta a la vista; lo leen p00:449E (6 bytes)
+; DATOS bloque_B425: un bloque de 2 filas x 2 columnas de numeros de ficha
+;   ([filas][columnas] y las fichas) que p00:44BA pinta con L_4104; lo carga
+;   p00:5E1C; lo leen p00:5E1C (6 bytes)
 ;   0xb425..0xb42b  (6 bytes)
 DATA_bloque_B425:
 	defb 002h,002h	; b425
@@ -2464,9 +2465,9 @@ DATA_bloque_B425:
 	defb 019h,01ah	; b429
 
 ; ----------------------------------------------------------------------
-; DATOS bloque_B42B: un bloque de 2 x 2 numeros de ficha ([ancho][alto] y las
-;   fichas) que p00:44BA pinta con L_4104; sigue al anterior, su lector no
-;   esta a la vista; lo leen p00:449E (6 bytes)
+; DATOS bloque_B42B: un bloque de 2 filas x 2 columnas de numeros de ficha
+;   ([filas][columnas] y las fichas) que p00:44BA pinta con L_4104; lo carga
+;   p00:5E23; lo leen p00:5E23 (6 bytes)
 ;   0xb42b..0xb431  (6 bytes)
 DATA_bloque_B42B:
 	defb 002h,002h	; b42b
@@ -2474,83 +2475,85 @@ DATA_bloque_B42B:
 	defb 032h,01ah	; b42f
 
 ; ----------------------------------------------------------------------
-; DATOS bloque_B431: un bloque de 11 x 16 numeros de ficha ([ancho][alto] y
-;   las fichas) que p00:44BA pinta con L_4104; sigue al anterior, su lector no
-;   esta a la vista; lo leen p00:449E (178 bytes)
+; DATOS bloque_B431: un bloque de 11 filas x 16 columnas de numeros de ficha
+;   ([filas][columnas] y las fichas) que p00:44BA pinta con L_4104: el Hind D
+;   (p03:B862 lo pinta en X=0x40, Y=0 si el primer actor es del tipo 0x26); lo
+;   carga p03:B86B; lo leen p03:B86B (178 bytes)
 ;   0xb431..0xb4e3  (178 bytes)
 DATA_bloque_B431:
-	defb 00bh,010h,013h,01bh,00ch,00dh,00eh,00fh,010h,011h,051h	; b431  ..........Q
-	defb 050h,04fh,04eh,04dh,04ch,04bh,053h,003h,003h,012h,013h	; b43c  PONMLKS....
-	defb 014h,015h,016h,017h,057h,056h,055h,054h,053h,052h,003h	; b447  ....WVUTSR.
-	defb 003h,007h,003h,003h,003h,012h,018h,019h,01ah,05ah,059h	; b452  .........ZY
-	defb 058h,052h,003h,003h,003h,003h,009h,003h,003h,003h,003h	; b45d  XR.........
-	defb 01bh,01ch,01dh,05dh,05ch,05bh,003h,003h,003h,003h,003h	; b468  ...]\[.....
-	defb 0a0h,0a1h,0d1h,0d0h,003h,01eh,01fh,020h,060h,05fh,05eh	; b473  ....... `_^
-	defb 003h,0a0h,0a1h,0d1h,0d0h,0a2h,0a3h,0d3h,0d2h,003h,021h	; b47e  ..........!
-	defb 022h,023h,063h,062h,061h,003h,0a2h,0a3h,0d3h,0d2h,0a4h	; b489  "#cba......
-	defb 0a5h,0d5h,0d4h,007h,024h,025h,026h,066h,065h,064h,003h	; b494  ....$%&fed.
-	defb 0a4h,0a5h,0d5h,0d4h,0a6h,0a7h,0d7h,0d6h,009h,027h,028h	; b49f  .........'(
-	defb 029h,069h,068h,067h,003h,0a6h,0a7h,0d7h,0d6h,009h,009h	; b4aa  )ihg.......
-	defb 009h,009h,009h,02ah,02bh,02ch,06ch,06bh,06ah,003h,0a0h	; b4b5  ...*+,lkj..
-	defb 0a1h,0d1h,0d0h,003h,003h,003h,003h,003h,003h,02dh,02eh	; b4c0  .........-.
-	defb 06eh,06dh,003h,003h,0a2h,0a3h,0d3h,0d2h,003h,003h,003h	; b4cb  nm.........
-	defb 003h,003h,003h,003h,02fh,06fh,003h,003h,003h,0a4h,0a5h	; b4d6  ..../o.....
+	defb 00bh,010h,013h,01bh,00ch,00dh,00eh,00fh,010h,011h,051h,050h,04fh,04eh,04dh,04ch	; b431  ..........QPONML
+	defb 04bh,053h,003h,003h,012h,013h,014h,015h,016h,017h,057h,056h,055h,054h,053h,052h	; b441  KS........WVUTSR
+	defb 003h,003h,007h,003h,003h,003h,012h,018h,019h,01ah,05ah,059h,058h,052h,003h,003h	; b451  ..........ZYXR..
+	defb 003h,003h,009h,003h,003h,003h,003h,01bh,01ch,01dh,05dh,05ch,05bh,003h,003h,003h	; b461  ..........]\[...
+	defb 003h,003h,0a0h,0a1h,0d1h,0d0h,003h,01eh,01fh,020h,060h,05fh,05eh,003h,0a0h,0a1h	; b471  ......... `_^...
+	defb 0d1h,0d0h,0a2h,0a3h,0d3h,0d2h,003h,021h,022h,023h,063h,062h,061h,003h,0a2h,0a3h	; b481  .......!"#cba...
+	defb 0d3h,0d2h,0a4h,0a5h,0d5h,0d4h,007h,024h,025h,026h,066h,065h,064h,003h,0a4h,0a5h	; b491  .......$%&fed...
+	defb 0d5h,0d4h,0a6h,0a7h,0d7h,0d6h,009h,027h,028h,029h,069h,068h,067h,003h,0a6h,0a7h	; b4a1  .......'()ihg...
+	defb 0d7h,0d6h,009h,009h,009h,009h,009h,02ah,02bh,02ch,06ch,06bh,06ah,003h,0a0h,0a1h	; b4b1  .......*+,lkj...
+	defb 0d1h,0d0h,003h,003h,003h,003h,003h,003h,02dh,02eh,06eh,06dh,003h,003h,0a2h,0a3h	; b4c1  ........-.nm....
+	defb 0d3h,0d2h,003h,003h,003h,003h,003h,003h,003h,02fh,06fh,003h,003h,003h,0a4h,0a5h	; b4d1  ........./o.....
 	defb 0d5h,0d4h	; b4e1
 
 ; ----------------------------------------------------------------------
-; DATOS bloque_B4E3: un bloque de 11 x 16 numeros de ficha ([ancho][alto] y
-;   las fichas) que p00:44BA pinta con L_4104; sigue al anterior, su lector no
-;   esta a la vista; lo leen p00:449E (178 bytes)
+; DATOS bloque_B4E3: un bloque de 11 filas x 16 columnas de numeros de ficha
+;   ([filas][columnas] y las fichas) que p00:44BA pinta con L_4104: el suelo
+;   de la sala del Hind D sin el Hind (p03:B8C6, desde p01:7695); lo carga
+;   p03:B8C9; lo leen p03:B8C9 (178 bytes)
 ;   0xb4e3..0xb595  (178 bytes)
 DATA_bloque_B4E3:
-	defb 00bh,010h,003h,003h,003h,003h,003h,003h,003h,003h,003h	; b4e3  ...........
-	defb 003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h	; b4ee  ...........
-	defb 003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h	; b4f9  ...........
-	defb 003h,007h,003h,003h,003h,003h,003h,003h,003h,003h,003h	; b504  ...........
-	defb 003h,003h,003h,003h,003h,003h,009h,003h,003h,003h,003h	; b50f  ...........
-	defb 003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h	; b51a  ...........
-	defb 0a0h,0a1h,0d1h,0d0h,003h,003h,003h,003h,003h,003h,003h	; b525  ...........
-	defb 003h,0a0h,0a1h,0d1h,0d0h,0a2h,0a3h,0d3h,0d2h,003h,003h	; b530  ...........
-	defb 003h,003h,003h,003h,003h,003h,0a2h,0a3h,0d3h,0d2h,0a4h	; b53b  ...........
-	defb 0a5h,0d5h,0d4h,007h,003h,003h,003h,003h,003h,003h,003h	; b546  ...........
-	defb 0a4h,0a5h,0d5h,0d4h,0a6h,0a7h,0d7h,0d6h,009h,003h,003h	; b551  ...........
-	defb 003h,003h,003h,003h,003h,0a6h,0a7h,0d7h,0d6h,009h,009h	; b55c  ...........
-	defb 009h,009h,009h,003h,003h,003h,003h,003h,003h,003h,0a0h	; b567  ...........
-	defb 0a1h,0d1h,0d0h,003h,003h,003h,003h,003h,003h,003h,003h	; b572  ...........
-	defb 003h,003h,003h,003h,0a2h,0a3h,0d3h,0d2h,003h,003h,003h	; b57d  ...........
-	defb 003h,003h,003h,003h,003h,003h,003h,003h,003h,0a4h,0a5h	; b588  ...........
+	defb 00bh,010h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h	; b4e3  ................
+	defb 003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h	; b4f3  ................
+	defb 003h,003h,007h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h	; b503  ................
+	defb 003h,003h,009h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h	; b513  ................
+	defb 003h,003h,0a0h,0a1h,0d1h,0d0h,003h,003h,003h,003h,003h,003h,003h,003h,0a0h,0a1h	; b523  ................
+	defb 0d1h,0d0h,0a2h,0a3h,0d3h,0d2h,003h,003h,003h,003h,003h,003h,003h,003h,0a2h,0a3h	; b533  ................
+	defb 0d3h,0d2h,0a4h,0a5h,0d5h,0d4h,007h,003h,003h,003h,003h,003h,003h,003h,0a4h,0a5h	; b543  ................
+	defb 0d5h,0d4h,0a6h,0a7h,0d7h,0d6h,009h,003h,003h,003h,003h,003h,003h,003h,0a6h,0a7h	; b553  ................
+	defb 0d7h,0d6h,009h,009h,009h,009h,009h,003h,003h,003h,003h,003h,003h,003h,0a0h,0a1h	; b563  ................
+	defb 0d1h,0d0h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,0a2h,0a3h	; b573  ................
+	defb 0d3h,0d2h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,003h,0a4h,0a5h	; b583  ................
 	defb 0d5h,0d4h	; b593
 
 ; ----------------------------------------------------------------------
-; DATOS bloque_B595: un bloque de 12 x 8 numeros de ficha ([ancho][alto] y las
-;   fichas) que p00:44BA pinta con L_4104; lo carga p00:44A7; lo leen p00:44A7
-;   (98 bytes)
+; DATOS bloque_B595: un bloque de 12 filas x 8 columnas de numeros de ficha
+;   ([filas][columnas] y las fichas) que p00:44BA pinta con L_4104: Metal Gear
+;   (p12:BC26 lo pinta en X=0x60, Y=0x20 si el primer actor es del tipo 0x11);
+;   lo carga p00:44A7; lo leen p00:44A7 (98 bytes)
 ;   0xb595..0xb5f7  (98 bytes)
 DATA_bloque_B595:
-	defb 00ch,008h,049h,0a1h,0a2h,049h,049h,049h,049h,049h,04ah,0a3h	; b595  ..I..IIIIIJ.
-	defb 0a4h,0a5h,0a6h,0a7h,04ah,04bh,049h,0a8h,0a9h,0aah,0abh,0ach	; b5a1  ....JKI.....
-	defb 0adh,049h,0aeh,0afh,0b0h,0b1h,0b2h,0b3h,0b4h,04ah,0b5h,0b6h	; b5ad  .I.......J..
-	defb 0b7h,0b8h,0b9h,0bah,0bbh,061h,060h,061h,0bch,0bdh,0beh,0bfh	; b5b9  .....a`a....
-	defb 0c0h,0c1h,060h,0c2h,0c3h,0c4h,0c5h,0c6h,0c7h,0c8h,0c9h,0cah	; b5c5  ..`.........
-	defb 0cbh,0cch,0cdh,0ceh,0cfh,0d0h,0d1h,0d2h,0d3h,0d4h,0d5h,0d6h	; b5d1  ............
-	defb 0d7h,0d8h,060h,0d9h,0dah,0dbh,0dch,0ddh,060h,060h,060h,0deh	; b5dd  ..`.....```.
-	defb 0dfh,0e0h,0e1h,0e2h,060h,060h,060h,0e3h,0e4h,0e5h,0e6h,0e7h	; b5e9  ....```.....
+	defb 00ch,008h,049h,0a1h,0a2h,049h,049h,049h	; b595  ..I..III
+	defb 049h,049h,04ah,0a3h,0a4h,0a5h,0a6h,0a7h	; b59d  IIJ.....
+	defb 04ah,04bh,049h,0a8h,0a9h,0aah,0abh,0ach	; b5a5  JKI.....
+	defb 0adh,049h,0aeh,0afh,0b0h,0b1h,0b2h,0b3h	; b5ad  .I......
+	defb 0b4h,04ah,0b5h,0b6h,0b7h,0b8h,0b9h,0bah	; b5b5  .J......
+	defb 0bbh,061h,060h,061h,0bch,0bdh,0beh,0bfh	; b5bd  .a`a....
+	defb 0c0h,0c1h,060h,0c2h,0c3h,0c4h,0c5h,0c6h	; b5c5  ..`.....
+	defb 0c7h,0c8h,0c9h,0cah,0cbh,0cch,0cdh,0ceh	; b5cd  ........
+	defb 0cfh,0d0h,0d1h,0d2h,0d3h,0d4h,0d5h,0d6h	; b5d5  ........
+	defb 0d7h,0d8h,060h,0d9h,0dah,0dbh,0dch,0ddh	; b5dd  ..`.....
+	defb 060h,060h,060h,0deh,0dfh,0e0h,0e1h,0e2h	; b5e5  ```.....
+	defb 060h,060h,060h,0e3h,0e4h,0e5h,0e6h,0e7h	; b5ed  ```.....
 	defb 0e8h,060h	; b5f5
 
 ; ----------------------------------------------------------------------
-; DATOS bloque_B5F7: un bloque de 12 x 8 numeros de ficha ([ancho][alto] y las
-;   fichas) que p00:44BA pinta con L_4104; lo carga p00:44AC; lo leen p00:44AC
-;   (98 bytes)
+; DATOS bloque_B5F7: un bloque de 12 filas x 8 columnas de numeros de ficha
+;   ([filas][columnas] y las fichas) que p00:44BA pinta con L_4104: el suelo
+;   de la sala de Metal Gear sin Metal Gear (p12:BC36, desde p01:767E); lo
+;   carga p00:44AC; lo leen p00:44AC (98 bytes)
 ;   0xb5f7..0xb659  (98 bytes)
 DATA_bloque_B5F7:
-	defb 00ch,008h,049h,049h,049h,047h,047h,049h,049h,049h,04ah,04bh	; b5f7  ..IIIGGIIIJK
-	defb 04ah,04bh,04ah,04bh,04ah,04bh,049h,046h,049h,049h,043h,049h	; b603  JKJKJKIFIICI
-	defb 047h,049h,04bh,04ah,04bh,04ah,04bh,04ah,04bh,04ah,061h,061h	; b60f  GIKJKJKJKJaa
-	defb 061h,061h,061h,061h,061h,061h,060h,060h,060h,060h,060h,060h	; b61b  aaaaaa``````
-	defb 060h,060h,060h,060h,060h,060h,060h,060h,060h,060h,060h,060h	; b627  ````````````
-	defb 060h,060h,060h,060h,060h,060h,060h,060h,060h,060h,060h,060h	; b633  ````````````
-	defb 060h,060h,060h,060h,060h,060h,060h,060h,060h,060h,060h,060h	; b63f  ````````````
-	defb 060h,060h,060h,060h,060h,060h,060h,060h,060h,060h,060h,060h	; b64b  ````````````
+	defb 00ch,008h,049h,049h,049h,047h,047h,049h	; b5f7  ..IIIGGI
+	defb 049h,049h,04ah,04bh,04ah,04bh,04ah,04bh	; b5ff  IIJKJKJK
+	defb 04ah,04bh,049h,046h,049h,049h,043h,049h	; b607  JKIFIICI
+	defb 047h,049h,04bh,04ah,04bh,04ah,04bh,04ah	; b60f  GIKJKJKJ
+	defb 04bh,04ah,061h,061h,061h,061h,061h,061h	; b617  KJaaaaaa
+	defb 061h,061h,060h,060h,060h,060h,060h,060h	; b61f  aa``````
+	defb 060h,060h,060h,060h,060h,060h,060h,060h	; b627  ````````
+	defb 060h,060h,060h,060h,060h,060h,060h,060h	; b62f  ````````
+	defb 060h,060h,060h,060h,060h,060h,060h,060h	; b637  ````````
+	defb 060h,060h,060h,060h,060h,060h,060h,060h	; b63f  ````````
+	defb 060h,060h,060h,060h,060h,060h,060h,060h	; b647  ````````
+	defb 060h,060h,060h,060h,060h,060h,060h,060h	; b64f  ````````
 	defb 060h,060h	; b657
 
 ; ----------------------------------------------------------------------

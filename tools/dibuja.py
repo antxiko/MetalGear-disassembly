@@ -26,14 +26,17 @@ RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(RAIZ, "tools"))
 import salas as S  # noqa: E402
 import pagina1 as P1  # noqa: E402
+import dibujos as D  # noqa: E402
 
 ANCHO, ALTO = 256, 192
 
 
-def pinta_sala(r, img=None, x0=0, y0=0, puertas=True, objetos=True):
-    """La sala r sobre img en (x0, y0), con sus puertas cerradas y sus
-    objetos sin coger copiados de la pagina 1 (tools/pagina1.py), como los
-    deja el juego al entrar. Devuelve (img, fichas que faltan)."""
+def pinta_sala(r, img=None, x0=0, y0=0, puertas=True, objetos=True, jefes=True):
+    """La sala r sobre img en (x0, y0), con sus puertas cerradas, sus
+    objetos sin coger copiados de la pagina 1 (tools/pagina1.py) y el jefe
+    que se pinta con fichas (tools/dibujos.py), en el orden de la entrada a
+    la sala: puertas p01:6E73, objetos p01:6E7C, jefe p01:6EAD/6EB3.
+    Devuelve (img, fichas que faltan)."""
     if img is None:
         img = Image.new("RGB", (ANCHO, ALTO))
     px = img.load()
@@ -46,8 +49,15 @@ def pinta_sala(r, img=None, x0=0, y0=0, puertas=True, objetos=True):
     encima = {}
     if puertas:
         encima.update(P1.pixeles_de_puertas(r))
+        px7, f7 = D.pixeles_de_puertas_dibujadas(r)
+        encima.update(px7)
+        faltan = faltan | f7
     if objetos:
         encima.update(P1.pixeles_de_objetos(r))
+    if jefes:
+        pj, fj = D.pixeles_de_jefe(r)
+        encima.update(pj)
+        faltan = faltan | fj
     for (x, y), c in encima.items():
         if 0 <= x < ANCHO and 0 <= y < ALTO:
             px[x0 + x, y0 + y] = pal[c]

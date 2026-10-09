@@ -986,22 +986,36 @@ def banco15():
                     "sus 4 primeros bytes son los ultimos cerrojos de 0xB046" % (lec, d), lec)
             continue
         declara(T, d, z, "puerta_%04X" % d,
-                "datos de dibujo de una puerta que %s carga en DE para "
-                "p01:784E" % lec, lec)
-    # los bloques de fichas: [ancho][alto] y ancho x alto numeros de ficha
+                "dibujo de una puerta de los tipos 7-19 que %s carga en DE para "
+                "p01:784E: %d filas x %d columnas de numeros de ficha ([filas]"
+                "[columnas] y las fichas; L_44AF las pinta en la X/Y de la "
+                "puerta)" % (lec, leer(T, d), leer(T, d + 1)), lec)
+    # los bloques de fichas: [filas][columnas] y filas x columnas numeros de
+    # ficha (L_44AF: el bucle de dentro, djnz, avanza la X; el de fuera la Y)
     conocidos = {0xB31F: "p15:BEF7", 0xB325: "p15:BF01", 0xB33F: "p15:BF1C",
                  0xB369: "p01:692A", 0xB40D: "p01:6933", 0xB595: "p00:44A7",
-                 0xB5F7: "p00:44AC"}
+                 0xB5F7: "p00:44AC", 0xB41F: "p00:5E28", 0xB425: "p00:5E1C",
+                 0xB42B: "p00:5E23", 0xB431: "p03:B86B", 0xB4E3: "p03:B8C9"}
+    que = {0xB431: "el Hind D (p03:B862 lo pinta en X=0x40, Y=0 si el primer "
+                   "actor es del tipo 0x26)",
+           0xB4E3: "el suelo de la sala del Hind D sin el Hind (p03:B8C6, desde "
+                   "p01:7695)",
+           0xB595: "Metal Gear (p12:BC26 lo pinta en X=0x60, Y=0x20 si el primer "
+                   "actor es del tipo 0x11)",
+           0xB5F7: "el suelo de la sala de Metal Gear sin Metal Gear (p12:BC36, "
+                   "desde p01:767E)"}
     a = 0xB31F
     while a < 0xB659:
-        w, h = leer(T, a), leer(T, a + 1)
-        z = a + 2 + w * h
+        f, c = leer(T, a), leer(T, a + 1)
+        z = a + 2 + f * c
         lec = conocidos.get(a, "p00:449E")
         declara(T, a, z, "bloque_%04X" % a,
-                "un bloque de %d x %d numeros de ficha ([ancho][alto] y las "
-                "fichas) que p00:44BA pinta con L_4104; %s" % (
-                    w, h, "lo carga " + lec if a in conocidos else
-                    "sigue al anterior, su lector no esta a la vista"), lec, F=w)
+                "un bloque de %d filas x %d columnas de numeros de ficha "
+                "([filas][columnas] y las fichas) que p00:44BA pinta con "
+                "L_4104%s; %s" % (
+                    f, c, ": " + que[a] if a in que else "",
+                    "lo carga " + lec if a in conocidos else
+                    "sigue al anterior, su lector no esta a la vista"), lec, F=c)
         a = z
     if a != 0xB659:
         AVISOS.append("los bloques de fichas acaban en %04X, no en B659" % a)

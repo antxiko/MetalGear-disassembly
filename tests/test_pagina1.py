@@ -42,7 +42,7 @@ class Pagina1(unittest.TestCase):
         import pagina1 as P1
         n = 0
         for r in range(0x7A, 0xDA):
-            for (o, y, x) in P1.objetos_de_sala(r):
+            for (o, y, x) in P1.objetos_de_sala(r, mensaje_75=True):
                 n += 1
                 self.assertTrue(1 <= o <= 35, "sala %d objeto %d" % (r, o))
                 sx, sy, w, h = P1.dibujo_de_objeto(o)
@@ -51,6 +51,10 @@ class Pagina1(unittest.TestCase):
                 if 9 <= o <= 33:
                     self.assertTrue(P1.nombre_de_objeto(o))
         self.assertEqual(n, 60)        # 59 ternas en 47 listas; una lista sirve a dos salas
+        # sin el mensaje 0x75 (0xC661 = 0) el arma 4 no sale: solo esta en la 185
+        sin = [(r, o) for r in range(0x7A, 0xDA) for (o, _y, _x) in P1.objetos_de_sala(r)]
+        self.assertEqual(len(sin), 59)
+        self.assertNotIn((185, 4), sin)
 
     def test_la_pagina_1_tiene_las_fichas_de_puerta(self):
         """Los cinco bloques de puertas (44 fichas) y las 132 de objetos."""
