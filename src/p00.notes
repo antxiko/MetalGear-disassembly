@@ -29,6 +29,1160 @@ D 0x5F74 0x5F92 marcos_de_texto  5 fichas de 6 bytes, una por tipo de ventana: [
 F 0x5F74 6
 D 0x5F92 0x5FA6 recuadros_de_texto  5 fichas de 4 bytes [e][d][c][b], una por tipo de ventana, que p00:5F3E lee en 0x5F92 + 4 x tipo y pasa a L_4FCD (el recuadro que se borra)
 F 0x5F92 4
+C 0x41AC sin interrupciones mientras se tocan los bancos
+C 0x41B0 el banco 4 (el controlador de sonido) a 0x6000...
+C 0x41B5 ...y el 5 a 0x8000, sin tocar sus copias de 0xF0F1/0xF0F2
+C 0x41CB si el juego del cuadro anterior aun no acabo, este cuadro no lo llama
+C 0x41D0 marca que el juego del cuadro esta en marcha
+C 0x41D1 con interrupciones: el juego del cuadro puede durar mas de un cuadro
+C 0x41D5 el juego del cuadro acabo
+C 0x41DD (vuelve a la BIOS por H.TIMI)
+C 0x41E2 sin acarreo, H no cambia
+C 0x41E3 acarreo de L a H
+C 0x41E7 sin acarreo, D no cambia
+C 0x41E8 acarreo de E a D
+C 0x41EA HL = la direccion de vuelta: la tabla va justo detras del call
+C 0x41EE DE = la palabra A de la tabla
+C 0x41F2 salta alli (no vuelve detras del call, que es la tabla)
+C 0x41F4 la pila debajo de las copias de los bancos (0xF0F1-0xF0F6)
+C 0x41FA el slot primario de la pagina 1 (bits 2-3 de A8h)...
+C 0x41FE BC = el slot primario
+C 0x4201 EXPTBL: si el slot esta expandido (bit 7)
+C 0x4209 C = [expandido][slot primario]
+C 0x420A SLTTBL (EXPTBL + 4): el subslot de la pagina 1 (bits 2-3)
+C 0x4211 A = el slot del cartucho para ENASLT
+C 0x4212 H = 0x80: la pagina 2 (0x8000-0xBFFF) tambien al cartucho
+C 0x421D 0x30EF bytes: 0xC000-0xF0EF
+C 0x4220 L = 0: el primer byte a cero y ldir lo arrastra
+C 0x4229 0xF0F4, 0xF0F5 y 0xF0F6 (el banco de zona) a cero
+C 0x4232 p01:7C5C: PSG, SCREEN 5, VDP y sprites
+C 0x4236 H.TIMI (0xFD9F) = jp interrupcion
+C 0x4241 CLIKSW a cero: sin clic de teclas
+C 0x4246 de aqui en adelante todo pasa en la interrupcion
+C 0x4248 sin interrupciones: la de 0x41AC tambien toca los bancos
+C 0x4249 A se guarda: las llamadas lo usan como parametro
+C 0x424A el trio 1-2-3
+C 0x4250 el trio 4-5-6
+C 0x4259 la copia del banco de 0x6000 en 0xF0F1
+C 0x425A el siguiente banco, a 0x8000
+C 0x425F y su copia en 0xF0F2
+C 0x4260 el siguiente, a 0xA000
+C 0x4265 y su copia en 0xF0F3
+C 0x426C el trio 7-8-9
+C 0x4272 el trio 10-11-12
+C 0x4278 el trio 13-14-15
+C 0x4280 bit 6: se esta jugando (en la demo, sin sonido)
+C 0x4283 en la demo no suena nada
+C 0x4288 guarda los bancos de 0x6000 y 0x8000 (sus copias)
+C 0x428D el banco 4 a 0x6000 y el 5 a 0x8000, con sus copias
+C 0x429C A = el sonido pedido
+C 0x42A0 devuelve los bancos de antes, copias y registros
+C 0x42B4 HL = 2 x A
+C 0x42B8 + la tabla
+C 0x42B9 DE = la palabra
+C 0x42BE HL = 4 x A
+C 0x42C4 los colores de las fichas de 3 planos
+C 0x42CC BC = C
+C 0x42D4 C = el indice (su bit 0 dice que nibble)
+C 0x42D5 un byte por cada dos indices
+C 0x42DA par: el nibble alto
+C 0x42DF el nibble alto baja al bajo
+C 0x42E3 A = el nibble
+C 0x42E9 C = 0xFF: sin vecina
+C 0x42EE las salas 0x00-0x7D tienen vecinas
+C 0x42F2 0x7E-0xCF no (se llega por puertas)
+C 0x42F6 0xD0-0xE3: restan 0x52
+C 0x42FA 0xE4-0xF0 no
+C 0x42FE 0xF1 y siguientes: restan 0x5F (0x0D + 0x52)
+C 0x4302 p05:8E0E: 4 vecinas por sala (arriba, abajo, izquierda, derecha)
+C 0x4308 HL = la ficha de la sala
+C 0x430C el lado, de 1-4 a 0-3
+C 0x4310 C = la sala de ese lado
+C 0x4311 A = la vecina (o 0xFF)
+C 0x431B HL = la lista de paradas: [parada][byte][byte]...
+C 0x431F busca la parada de la que viene Snake
+C 0x4322 siguiente terna
+C 0x4327 C y B = los dos bytes de la parada
+C 0x4333 el numero de ascensor (sala - 0xF0)
+C 0x4335 p05:8DA8: un puntero por ascensor
+C 0x433B HL = los datos del ascensor
+C 0x4340 el segundo byte
+C 0x434A p15:B046: 160 bytes, uno por puerta
+C 0x4350 160 puertas
+C 0x4352 los bits 7-6 de la puerta
+C 0x4355 10: empieza en 0 (abierta)
+C 0x4359 si no, 1 (cerrada)
+C 0x435C siguiente puerta
+C 0x4368 p12:A204: un byte por sala
+C 0x436E A = el byte de la sala
+C 0x436F solo los 3 bits bajos
+C 0x4379 p12:A2FF: un nibble por sala
+C 0x4387 del arma 1-8 al indice 0-7
+C 0x4388 p05:87B7: una tabla de dano por arma
+C 0x4392 el byte de antes de la tabla
+C 0x4393 A = el byte de DE
+C 0x439F A = el byte A de la tabla
+C 0x43A6 del 1 al indice 0
+C 0x43AC p05:8AE8: lo que suma cada objeto al cogerlo
+C 0x43BA p05:8A55: cajas de 4 bytes [dy][alto][dx][ancho]
+C 0x43BD HL = la caja
+C 0x43C2 los 4 bytes de la caja
+C 0x43C7 HL = 0xC928, la caja copiada
+C 0x43CA p06:B8B0: los sitios de la marca en la ventana de armas
+C 0x43CF p06:B9BB: los sitios de la marca en la ventana de equipo
+C 0x43DB 0xC155 = donde va la marca del hueco elegido
+C 0x43E4 25 objetos
+C 0x43EB 7 armas
+C 0x43ED C = el hueco, desde 0
+C 0x43EF fichas de 4 bytes
+C 0x43F2 esta: Z (y HL apunta a su ficha)
+C 0x43F4 siguiente ficha
+C 0x43F8 no esta: acarreo
+C 0x43FE ninguna puerta todavia
+C 0x4405 las salas 0xE1-0xEF no tienen puertas
+C 0x440C 0xF0 y siguientes: el indice resta 0x0F
+C 0x4411 p15:A7C0: la lista de puertas de cada sala
+C 0x441A 0xFF acaba la lista
+C 0x441F una puerta mas
+C 0x4422 +0: el numero de puerta
+C 0x4428 +1: su estado en 0xC450 (0 abierta)
+C 0x4434 +2: su byte de p15:B046 (la clase con que se abre)
+C 0x443E +3: el tipo de puerta (1-20)
+C 0x4441 el tipo 6 (ascensor) va siempre abierto
+C 0x444C +4 a cero
+C 0x444F +5: la Y de la puerta
+C 0x4453 +6: la X
+C 0x4457 por el tipo, dos cajas de p15:A720 (8 bytes cada tipo)
+C 0x4466 vuelve a la Y
+C 0x4469 +7: la Y de la caja donde se abre
+C 0x446E +8: su alto
+C 0x4476 +9: la X de la caja
+C 0x447B +0A: su ancho
+C 0x4482 +0B: la Y de la caja del paso
+C 0x4487 +0C: su alto
+C 0x448D +0D: la X del paso
+C 0x4492 +0E: su ancho
+C 0x4497 +0F: la sala de destino
+C 0x449B siguiente puerta (fichas de 0x10)
+C 0x44A1 C = filas y B = columnas, del propio dibujo
+C 0x44A7 p15:B595: Metal Gear
+C 0x44AC p15:B5F7: el suelo sin Metal Gear
+C 0x44B2 C = filas, B = columnas
+C 0x44B6 las fichas, de la primera mitad de la pagina 1
+C 0x44BD HL' = la ficha de la sala montada en (D, E)
+C 0x44C4 una fila
+C 0x44C9 la ficha del dibujo...
+C 0x44CB ...tambien en la sala montada (0xE000)
+C 0x44CE siguiente ficha del dibujo
+C 0x44D2 8 puntos a la derecha
+C 0x44DA la fila siguiente de la sala montada (32 fichas)
+C 0x44E1 8 lineas mas abajo
+C 0x44E6 siguiente fila
+C 0x44F3 con el modo 8 (el telescopio) la musica no cambia
+C 0x44F6 C = 0: sin la bandera 0xC602
+C 0x44FB los nibbles 4 y 8+ de p12:A2FF dejan la bandera a cero
+C 0x4506 las 17 salas de 0x45DE tambien
+C 0x450B busca la sala en la lista
+C 0x4511 las salas 0x40-0x44...
+C 0x4519 ...y las 0xF0 en adelante tambien
+C 0x451D con 0xC5B6 puesto, C = 1
+C 0x4521 sin 0xC5B6, la bandera no se toca
+C 0x4528 la cuenta de 0x1E cuadros
+C 0x452D el sonido 0x22 en el canal de efectos...
+C 0x4532 ...se cambia por el 0x28
+C 0x453D p12:A204: el nibble alto elige la musica de la sala
+C 0x4543 con la cuenta atras (0xC13C), la musica 0x3B
+C 0x454E sin la bandera 0xC602...
+C 0x4554 con ella, si ya suenan la 0x2F o la 0x32, se quedan
+C 0x455C el nibble alto de p12:A204[sala]:
+C 0x4561 0x00: la musica 0x2C
+C 0x4566 0x10: la 0x35
+C 0x456B 0x20: la 0x38
+C 0x4570 0x30: la 0x3B
+C 0x4574 otro: la 0x32
+C 0x457A con la bandera 0xC602, la 0x32
+C 0x4581 si ya suena, no se vuelve a pedir
+C 0x4586 con la cuenta atras, la 0x3B siempre
+C 0x4592 y se pide (0xC0F4: la que sigue al fundido)
+C 0x4595 C = 2 en 0xC15F por defecto
+C 0x4597 con 0xC662, las llamadas 0x79 y 0x26 no avisan
+C 0x45AB la llamada 0x48 solo avisa con CLASS 3 y sin 0xC657
+C 0x45BF con el nibble 5+ de p12:A2FF, solo con 0xC5A7
+C 0x45C9 el bit 3 de p12:A204[sala]: hay llamada al entrar
+C 0x45D0 0xC160 = 0x20: la cuenta hasta la llamada
+C 0x45D5 C = 0: llamada pendiente
+C 0x45D8 0xC15F = 0 (llamada pendiente) o 2 (ninguna)
+C 0x45F2 C = el alto del dibujo
+C 0x45F5 B = el ancho
+C 0x45FD HL = la ficha de la sala montada en (D, E)
+C 0x4600 una fila
+C 0x4602 copia las fichas de la sala montada a 0xE600
+C 0x4609 la fila siguiente (32 fichas)
+C 0x460F siguiente fila
+C 0x4613 la cantidad (BCD, 2 bytes) baja 1
+C 0x4619 sin acarreo, el byte alto no cambia
+C 0x461B acarreo al byte alto
+C 0x461C C = 0: solo pinta lo que queda
+C 0x4621 C = 1: un arma
+C 0x4624 si aun quedan, pinta lo que queda
+C 0x462B si no, la ficha del arma fuera...
+C 0x4630 ...y ningun arma elegida
+C 0x4637 C >= 2: un objeto; Z si se acabo
+C 0x463B A = el objeto
+C 0x463D C = su hueco en la lista
+C 0x4641 si quedan, pinta la cantidad
+C 0x4644 si no, el objeto fuera
+C 0x464A el sitio del hueco en la ventana de equipo (p06:B9BB)
+C 0x4653 4 lineas mas arriba...
+C 0x4657 ...y 8 puntos a la derecha
+C 0x465B borra 0x48 x 0x10 en la pagina 0
+C 0x4663 ningun objeto elegido
+C 0x466B la ficha de 4 bytes a cero
+C 0x4679 2 x tipo
+C 0x467D p05:975A: un puntero a los colores de cada tipo
+C 0x4681 DE = los colores del tipo
+C 0x4684 HL = la ficha del actor...
+C 0x4687 ...+0x25: el color del primer sprite
+C 0x468F un color por sprite
+C 0x4692 5 bytes por sprite
+C 0x4697 siguiente sprite
+C 0x469F p06:B805: el rotulo de la ventana de armas
+C 0x46A5 con 0xC13B (capturado) la ventana va vacia
+C 0x46AC el primer hueco en (0x28, 0x18)
+C 0x46B2 0x18 puntos entre hueco y hueco
+C 0x46BA 8 huecos
+C 0x46BC un hueco
+C 0x46C0 vacio: al siguiente
+C 0x46C5 DE = la municion (BCD)
+C 0x46C9 guardada en 0xEC01
+C 0x46D0 p06:B855: el sitio del dibujo de cada arma en la pagina 1
+C 0x46D6 [X | bit 0 = 16 de ancho][Y]
+C 0x46DB bit 0: el dibujo es de 16 de ancho
+C 0x46DD 32 x 16 normalmente...
+C 0x46E2 ...16 x 16 y 8 puntos mas a la derecha
+C 0x46E7 H = la X y L = la Y del dibujo en la pagina 1
+C 0x46EB de la pagina 1 a la 0
+C 0x46F0 p06:B865: el nombre de cada arma
+C 0x46FA el nombre, 0x20 puntos a la derecha del dibujo
+C 0x4708 el arma 8 (SILENCER) no lleva municion
+C 0x470C la municion, 0x50 puntos a la derecha y 8 lineas mas abajo
+C 0x4713 HL = 0xEC02: el byte alto de la municion (se pinta hacia atras)
+C 0x471A p02:90EA: el numero BCD de 2 bytes
+C 0x4720 el hueco siguiente, 0x18 lineas mas abajo
+C 0x472A siguiente ficha de 0xC500
+C 0x4731 tras 3 huecos, la segunda columna en (0x28, 0x88)
+C 0x473F tras 6, la tercera en (0xA8, 0x60)
+C 0x474A siguiente hueco
+C 0x4754 el marco del arma en el marcador: (0xC1, 0x9F), 0x3A x 0x12, color 14
+C 0x4766 sin arma, el hueco queda vacio
+C 0x476B p06:B855: el sitio del dibujo del arma en la pagina 1
+C 0x4772 en el marcador, en (0xC2, 0xA0)
+C 0x4775 bit 0: el dibujo es de 16 de ancho
+C 0x477C 16 x 16 y 8 puntos mas a la derecha
+C 0x4781 H = la X y L = la Y del dibujo en la pagina 1
+C 0x4785 de la pagina 1 a la 0
+C 0x4793 HL = el byte alto de la municion del arma
+C 0x4795 en (0xC0, 0xC8)
+C 0x479B 0x38 x 0x10 desde (0xC2, 0xA0) a negro
+C 0x47A9 p06:B81F: el rotulo de la ventana de equipo
+C 0x47AF con 0xC13B (capturado) la ventana va vacia
+C 0x47B5 el primer hueco en (0x28, 0x18)
+C 0x47BE 25 huecos
+C 0x47C0 un hueco
+C 0x47C4 vacio: al siguiente
+C 0x47CA DE = la cantidad (BCD)
+C 0x47D4 p06:B8C0: el sitio del dibujo de cada objeto en la pagina 1
+C 0x47DB todos de 16 x 16
+C 0x47DE (sin el bit del ancho)
+C 0x47E0 H = la X y L = la Y del dibujo
+C 0x47E6 de la pagina 1 a la 0
+C 0x47EB p06:B8F6: el nombre de cada objeto
+C 0x47F5 el nombre, 0x10 puntos a la derecha del dibujo
+C 0x4803 solo el objeto 0x16 (RATIO) lleva cantidad
+C 0x4807 la cantidad, 0x28 puntos a la derecha y 8 lineas mas abajo
+C 0x4815 p02:90EA: el numero BCD de 2 bytes
+C 0x481B el hueco siguiente, 0x10 lineas mas abajo
+C 0x4823 siguiente ficha de 0xC530
+C 0x482A tras 8 huecos, la segunda columna en (0x68, 0x28)...
+C 0x4832 ...y tras 17, la tercera en (0xB8, 0x28)
+C 0x483C siguiente hueco
+C 0x4846 el marco del objeto en el marcador: (0xC1, 0xDE), 0x1B x 0x12, color 14
+C 0x4857 sin objeto, el hueco queda vacio
+C 0x485B p06:B8C0: el sitio del dibujo del objeto en la pagina 1
+C 0x4862 16 x 16
+C 0x4869 en el marcador, en (0xC2, 0xE0)
+C 0x486C de la pagina 1 a la 0
+C 0x4874 C = 0
+C 0x4879 solo las CARD1-8 (0x0E-0x15)...
+C 0x4882 ...llevan su numero ('1'-'8', lo que sumaron al cogerlas)
+C 0x4884 en (0xC8, 0xF0)
+C 0x488C 0x18 x 0x10 desde (0xC2, 0xE0) a negro
+C 0x4892 de la pagina 0, a negro
+C 0x489B p06:B9BB: el sitio de cada hueco de la ventana de equipo
+C 0x48A7 la cantidad, 4 lineas mas abajo...
+C 0x48AB ...y 0x30 puntos a la derecha
+C 0x48B0 borra 0x18 x 8
+C 0x48B8 HL = el byte alto de la cantidad
+C 0x48BA p02:90EA: el numero BCD de 2 bytes
+C 0x48C0 p15:B6C6: las llamadas de radio de cada sala
+C 0x48C7 0: la sala no tiene llamadas
+C 0x48C9 C = cuantas
+C 0x48D0 una llamada: el nibble alto del primer byte...
+C 0x48D7 ...elige los decimales de la frecuencia (1-7)
+C 0x48E1 +0: la frecuencia (BCD)
+C 0x48E3 los bits 2-3 del primer byte
+C 0x48EA +2: las banderas de la llamada
+C 0x48EB bit 1: es la frecuencia que se pone sola
+C 0x48F4 B = el primer byte (bit 0: es la ultima)
+C 0x48F6 +3: el segundo byte (el texto)
+C 0x48F8 una llamada mas
+C 0x48F9 bit 0: no hay mas
+C 0x48FD siguiente llamada de la lista
+C 0x48FE las fichas de 0xC880 son de 0x20 bytes (0x1D + los 3 de arriba)
+C 0x4913 sin interrupciones mientras se toca el mapper
+C 0x4932 A no cambia
+C 0x493B p07:6000: el juego de fichas de cada sala, un nibble por sala
+C 0x4944 si ya esta cargado, nada que hacer
+C 0x4948 E = el juego de antes
+C 0x4949 el juego nuevo
+C 0x4952 el juego 6 no lleva las cajas
+C 0x495E p07:607E: los descriptores de cada juego (hasta 3 de 5 bytes)
+C 0x4964 IX = los descriptores
+C 0x4969 bit 7 del primer byte: no hay mas
+C 0x4972 siguiente descriptor
+C 0x4982 0xC700: un byte por ficha, su bit de choque
+C 0x4986 p07:60DB: los bits de choque de cada juego (32 bytes = 256 fichas)
+C 0x498C HL = los bits del juego
+C 0x4990 32 bytes
+C 0x4992 8 fichas por byte
+C 0x4996 del bit 7 al bit 0...
+C 0x4998 ...uno por ficha en 0xC700 (1 = choca)
+C 0x499C siguiente ficha
+C 0x49A0 siguiente byte
+C 0x49A8 bit 6: las mismas fichas de antes en espejo
+C 0x49AE +1: cuantas fichas
+C 0x49B5 +2: la primera ficha del juego (donde van en la VRAM)
+C 0x49BB +3, +4: donde estan en el cartucho
+C 0x49C5 HL = los datos, DE = la VRAM
+C 0x49CB en espejo: la misma cuenta y los mismos datos
+C 0x49CF +1: la primera ficha
+C 0x49DF C = la ficha
+C 0x49E0 la fila (A / 32)...
+C 0x49E5 ...por 0x400 (8 lineas de 0x80 bytes)
+C 0x49E8 la columna (A mod 32)...
+C 0x49EB ...por 4 (8 puntos de 4 bits)
+C 0x49EF + 0x8000: la pagina 1
+C 0x49F7 p07:61C9: 4 x 4 fichas en (192, 160) de la pagina 1
+C 0x4A05 p07:63C9: 4 x 4 fichas en (192, 192)
+C 0x4A0E p07:65C9: 1 x 4 fichas en (224, 160)
+C 0x4A1C p07:6649: 1 x 4 fichas en (232, 160)
+C 0x4A25 p07:66C9: 4 x 1 fichas en (224, 192)
+C 0x4A33 una fila de B fichas
+C 0x4A3A la fila siguiente, 8 lineas mas abajo
+C 0x4A40 C filas
+C 0x4A4A p10:6185: el juego de sprites de cada sala
+C 0x4A51 p10:6280: las ternas de cada juego
+C 0x4A57 0xFF acaba la lista
+C 0x4A61 siguiente terna
+C 0x4A69 [patron]...
+C 0x4A6D ...por 8 bytes
+C 0x4A6F [origen] de 16 bits
+C 0x4A73 + 0xF800: la tabla de patrones
+C 0x4A77 DE = el origen
+C 0x4A87 p09:A559: la lista de fichas del pozo
+C 0x4A8A en (0x40, 0xA0) de la pagina 1
+C 0x4A95 p05:8B0B: la paleta comun de la partida
+C 0x4AAD p05:8B1E
+C 0x4AB8 p10:6185: el juego de sprites de la sala...
+C 0x4AC5 ...elige su paleta en p05:8CB4
+C 0x4ACB p05:8B40: la paleta de cada sala, un nibble por sala
+C 0x4AD5 la sala 0xFB: la suya siempre
+C 0x4AD9 las salas 0xDC, 0xDD y 0x7B-0x7D son oscuras:
+C 0x4AEC con LIGHT (objeto 3), la paleta normal...
+C 0x4AF0 ...si no, la oscura (0x0B)
+C 0x4AF7 con GOGGL (objeto 4), la paleta 0x0A
+C 0x4AFF el nibble de la sala
+C 0x4B06 p05:8BBE: las paletas
+C 0x4B0C HL = la paleta A
+C 0x4B39 los colores de las fichas de objetos
+C 0x4B3F p06:A75D: 132 fichas de objetos en (0, 0x60) de la pagina 1
+C 0x4B4A p06:B3BD: 4 fichas en (0, 0x88)
+C 0x4B55 los colores normales
+C 0x4B5B p06:B41D: 31 fichas en (8, 0x90)
+C 0x4B66 p06:B65D: 7 fichas en espejo en (0, 0x98)
+C 0x4B71 los 4 colores de la camara
+C 0x4B79 p06:B705: 8 fichas de 2 planos en (0x20, 0x80)
+C 0x4B84 p06:B785: 8 fichas de 2 planos en (0x20, 0x88)
+C 0x4B92 los colores del retrato
+C 0x4B98 p09:ABA1: 16 fichas del retrato en (0x80, 0x80)
+C 0x4BA3 p09:AD21: 3 fichas en (0x80, 0x88)
+C 0x4BB4 p06:B833
+C 0x4BC2 p15:B2BF: 4 fichas del interruptor
+C 0x4BC5 en la ficha 0x12 de la pagina 1 (0x9048)
+C 0x4BD5 p09:9509: 8 fichas de las cajas...
+C 0x4BD8 ...en la ficha 0x80 de la pagina 1 (0x9400)...
+C 0x4BE2 ...y en espejo en la 0x90 (0x9840)
+C 0x4BF2 sin arma, nada
+C 0x4BF6 el ROCKET y el MISSILE cargan los suyos al dispararlos
+C 0x4BFF p10:6392: los patrones de cada arma
+C 0x4C05 en el patron 0x10 (0xF880)
+C 0x4C0C la explosion: nada con las armas 1 y 2
+C 0x4C10 la GRENADE (3)...
+C 0x4C18 ...y la L.MINE (6): la explosion pequena
+C 0x4C1B el ROCKET, la P.BOMB y el MISSILE: p10:77D3 en el patron 0x18
+C 0x4C23 p10:773E en el patron 0x20
+C 0x4C31 la direccion del proyectil (1-4)...
+C 0x4C35 ...elige sus patrones en la tabla DE
+C 0x4C38 en el patron 0x10
+C 0x4C43 p06:A6F9: patrones con su destino
+C 0x4C4E p09:B719: 13 caracteres de 1 bit en el color 1...
+C 0x4C51 ...desde (0, 0x10) de la pagina 1
+C 0x4C5A p09:B781: 13 en el color 2 desde (0, 0xE0)
+C 0x4C66 p09:B7E9: 26 en el color 3 desde (0, 0xB0)
+C 0x4C72 el montaje p09:B6D8 desde (0x40, 0x40)
+C 0x4C78 una fila
+C 0x4C79 0xFF acaba
+C 0x4C7F 0xFE: fila nueva...
+C 0x4C83 ...con el desplazamiento X que sigue...
+C 0x4C87 ...y 8 lineas mas abajo
+C 0x4C8D otro: la ficha C de la pagina 1 en (D, E)
+C 0x4C9A 8 metafichas por fila
+C 0x4CA3 0xEC04 = la lista de metafichas
+C 0x4CA6 p13:61F6: el juego de metafichas de la sala, un nibble por sala
+C 0x4CAD p13:6274: los 6 juegos de metafichas
+C 0x4CB3 0xEC02 = el juego
+C 0x4CB7 la metaficha siguiente de la lista
+C 0x4CC6 16 bytes por metaficha (4 x 4 fichas)
+C 0x4CCD 4 filas...
+C 0x4CCF ...de 4 fichas
+C 0x4CD7 la fila siguiente de la sala montada (32 - 4)
+C 0x4CDF arriba otra vez, 4 fichas a la derecha
+C 0x4CE9 siguiente metaficha
+C 0x4CF6 la sala montada: 32 x 24 fichas desde 0xE000
+C 0x4CFC p13:6000: la lista de metafichas de cada sala
+C 0x4D03 6 filas de metafichas
+C 0x4D11 la fila siguiente: 4 filas de fichas (0x80) mas abajo
+C 0x4D1A 8 metafichas por fila en la lista
+C 0x4D28 desde (0, 0)
+C 0x4D2B las 0x300 fichas
+C 0x4D2F la ficha de la sala montada...
+C 0x4D31 ...a la pagina 0
+C 0x4D38 siguiente ficha
+C 0x4D44 A = los bloques
+C 0x4D45 el puerto de datos del VDP (lectura)
+C 0x4D4A 256 bytes (o C) por vuelta
+C 0x4D51 HL = el origen, DE = la VRAM
+C 0x4D52 C = 0: justo B bloques de 256
+C 0x4D55 B = el resto (primera vuelta)
+C 0x4D57 un bloque mas para el resto
+C 0x4D61 el puerto de datos del VDP (escritura)
+C 0x4D66 256 bytes (o C) por vuelta
+C 0x4D71 D = el resto
+C 0x4D76 un bloque mas
+C 0x4D7C A en la VRAM, BC veces
+C 0x4D8F el byte
+C 0x4D94 el puerto de registros del VDP
+C 0x4D99 R#14: los bits 14-15 de la direccion
+C 0x4DA1 0x80 + 14
+C 0x4DA5 los 8 bits bajos
+C 0x4DA8 los bits 8-13 y 0x40: escritura
+C 0x4DB3 el puerto de registros del VDP
+C 0x4DB8 R#14: los bits 14-15 de la direccion
+C 0x4DC0 0x80 + 14
+C 0x4DC4 los 8 bits bajos
+C 0x4DC7 los bits 8-13 sin 0x40: lectura
+C 0x4DD0 HL = la direccion VRAM que sigue en la lista
+C 0x4DD4 DE = los datos detras
+C 0x4DD8 el puerto de datos del VDP
+C 0x4DDC 0 acaba
+C 0x4DE1 sin el bit 7
+C 0x4DE3 n < 0x80: repite el byte siguiente n veces
+C 0x4DE6 0x80: un destino nuevo
+C 0x4DE9 n > 0x80: copia los n - 0x80 bytes siguientes
+C 0x4DF0 el byte a repetir
+C 0x4DF2 n veces
+C 0x4E01 la copia de R#1 de la BIOS (RG1SAV)
+C 0x4E04 bit 6: la pantalla encendida
+C 0x4E07 R#1
+C 0x4E11 sin el bit 6
+C 0x4E1D A = 0: color 0
+C 0x4E1E desde (0, 0)
+C 0x4E20 256 x 256: la pagina entera
+C 0x4E25 R#23 = 0: sin desplazamiento vertical
+C 0x4E2C la tabla de atributos de los sprites (pagina 1, la primera)
+C 0x4E2F Y = 0xE0: fuera de la pantalla
+C 0x4E31 32 sprites x 4 bytes
+C 0x4E37 y la segunda tabla
+C 0x4E48 0x80 bytes
+C 0x4E50 la copia de R#8 de la BIOS (RG8SAV)
+C 0x4E53 bit 1 (SPD): sprites apagados
+C 0x4E56 R#8
+C 0x4E5E sin el bit SPD
+C 0x4E68 B = el color
+C 0x4E69 el puerto de registros del VDP
+C 0x4E6F R#16 = el color...
+C 0x4E71 0x80 + 16
+C 0x4E75 el puerto de la paleta
+C 0x4E76 [0 R R R 0 B B B]
+C 0x4E78 espera
+C 0x4E7A [0 0 0 0 0 G G G]
+C 0x4E7C otra vez el de registros
+C 0x4E80 la copia en la VRAM, 2 bytes por color
+C 0x4E87 el puerto de datos
+C 0x4E88 la misma pareja en la copia
+C 0x4E93 16 colores
+C 0x4E95 desde el 0
+C 0x4E97 D = [RB], E = [G]
+C 0x4EA0 el color siguiente
+C 0x4EC4 [color]
+C 0x4EC6 0xFF acaba
+C 0x4EC9 [RB][G]
+C 0x4ED2 S#2
+C 0x4ED7 bit 0 (CE): el VDP aun hace un comando
+C 0x4EDE los puertos de lectura y escritura del VDP
+C 0x4EE1 los de estado y registros (+1)
+C 0x4EE5 R#15 = A: el registro de estado que se lee
+C 0x4EE7 0x80 + 15
+C 0x4EEC A = el estado
+C 0x4EEF R#15 = 0 otra vez (lo que espera la BIOS)
+C 0x4F00 el puerto de registros del VDP
+C 0x4F05 R#17 = 36 (0x24): escritura seguida desde R#36
+C 0x4F0E el puerto de registros indirectos
+C 0x4F10 R#36-37: DX = H
+C 0x4F15 R#38-39: DY = L (pagina 0)
+C 0x4F19 H = B, L = C
+C 0x4F1A R#40-41: NX = B - 1 (el lado largo)
+C 0x4F20 R#42-43: NY = 0
+C 0x4F25 R#44: el color C
+C 0x4F27 R#45 = 0: el lado largo en X
+C 0x4F29 R#46 = 0x70: LINE
+C 0x4F33 el puerto de registros del VDP
+C 0x4F38 R#17 = 36 (0x24): escritura seguida desde R#36
+C 0x4F41 el puerto de registros indirectos
+C 0x4F43 R#36-37: DX = H
+C 0x4F48 R#38-39: DY = L (pagina 0)
+C 0x4F4C H = B, L = C
+C 0x4F4D R#40-41: NX = B - 1 (el lado largo)
+C 0x4F53 R#42-43: NY = 0
+C 0x4F58 R#44: el color C
+C 0x4F5A R#45 = 1 (MAJ): el lado largo en Y
+C 0x4F5D R#46 = 0x70: LINE
+C 0x4F63 el lado izquierdo, E de alto
+C 0x4F67 el de arriba, D de ancho
+C 0x4F6C el de abajo: L + E - 1
+C 0x4F75 el derecho: H + D - 1
+C 0x4F91 A' = el byte de relleno
+C 0x4F96 el puerto de registros del VDP
+C 0x4F9B R#17 = 36 (0x24): escritura seguida desde R#36
+C 0x4FA4 el puerto de registros indirectos
+C 0x4FA6 R#36-37: DX = H
+C 0x4FAB R#38-39: DY = L y la pagina D
+C 0x4FAF H = B, L = C
+C 0x4FB0 R#40-41: NX = B (0 = 256)
+C 0x4FB9 R#42-43: NY = C (0 = 256)
+C 0x4FC1 R#44: el byte (dos puntos)
+C 0x4FC4 R#45 = 0
+C 0x4FC7 R#46 = 0xC0: HMMV
+C 0x4FCD A' = las paginas
+C 0x4FD2 el puerto de registros del VDP
+C 0x4FD7 R#17 = 32 (0x20): escritura seguida desde R#32
+C 0x4FE0 el puerto de registros indirectos
+C 0x4FE2 R#32-33: SX = H
+C 0x4FE7 R#34: SY = L
+C 0x4FEB R#35: la pagina de origen (bits 0-1 de A)
+C 0x4FEF R#36-37: DX = D
+C 0x4FF4 R#38: DY = E
+C 0x4FF6 R#39: la pagina de destino (bits 2-3 de A)
+C 0x4FFD H = B, L = C
+C 0x4FFE R#40-41: NX = B
+C 0x5003 R#42-43: NY = C
+C 0x5007 R#44-45 = 0
+C 0x500B R#46 = 0xD0: HMMM
+C 0x5011 A' = [pagina origen][pagina destino][operacion]
+C 0x5016 el puerto de registros del VDP
+C 0x501B R#17 = 32 (0x20): escritura seguida desde R#32
+C 0x5024 el puerto de registros indirectos
+C 0x5026 R#32-33: SX = H
+C 0x502B R#34: SY = L
+C 0x502E los bits 7-6 de A bajan a 1-0...
+C 0x5031 ...R#35: la pagina de origen
+C 0x5035 R#36-37: DX = D
+C 0x503A R#38: DY = E
+C 0x503E los bits 5-4 de A...
+C 0x5040 ...R#39: la pagina de destino
+C 0x5044 H = B, L = C
+C 0x5045 R#40-41: NX = B
+C 0x504A R#42-43: NY = C
+C 0x504E R#44-45 = 0
+C 0x5052 los bits 3-0 de A: la operacion logica (8 = TIMP, 0 = IMP)
+C 0x5057 R#46 = 0x90 + operacion: LMMM
+C 0x5063 B caracteres
+C 0x5069 los 8 bytes del caracter a 4 bits en 0xEC40
+C 0x506E D = E (la Y), E = D (la X)...
+C 0x5071 ...la direccion = Y x 0x80 + X / 2
+C 0x5075 + 0x8000: la pagina 1
+C 0x5079 los 32 bytes del caracter ya pasado
+C 0x5080 el caracter siguiente (8 bytes de 1 bit)
+C 0x5088 8 lineas
+C 0x508B 4 bytes: 8 puntos de 4 bits
+C 0x5092 la linea siguiente (128 bytes por linea en SCREEN 5)
+C 0x50A0 8 puntos a la derecha
+C 0x50A3 al final de la linea (0x80 bytes)...
+C 0x50A7 ...8 lineas mas abajo (0x400) y a la izquierda
+C 0x50B3 hacia atras: el ultimo byte de la linea primero
+C 0x50B6 8 lineas
+C 0x50B8 4 bytes por linea
+C 0x50BB los dos puntos del byte cambian de sitio
+C 0x50C0 hacia la izquierda en 0xEC40...
+C 0x50C4 ...y la linea siguiente empieza 8 mas alla
+C 0x50CE la ficha volteada
+C 0x50D5 8 puntos a la derecha
+C 0x50D8 al final de la linea (0x80 bytes)...
+C 0x50DC ...8 lineas mas abajo y a la izquierda
+C 0x50E6 8 lineas
+C 0x50E8 a 0xEC40
+C 0x50EE D = la linea de 1 bit
+C 0x50F0 4 bytes de 2 puntos
+C 0x50F2 punto puesto: el color C
+C 0x50F7 punto quitado: 0
+C 0x50F8 mete el nibble en (HL)
+C 0x50FA el segundo punto del byte
+C 0x5102 el byte siguiente
+C 0x5107 la linea siguiente
+C 0x510C C = 0xFF: el caracter de verdad
+C 0x5110 C = 0: el blanco en su lugar
+C 0x5112 [X][Y]
+C 0x5118 0xFF acaba
+C 0x511B 0xFE: otra posicion
+C 0x5124 8 puntos a la derecha...
+C 0x5126 ...4 con los caracteres 0x97 y 0x98
+C 0x5138 el caracter 0 es el blanco
+C 0x5139 HL = (0, 0): la ficha en blanco de la pagina 1
+C 0x513E C = 0: el blanco
+C 0x5142 el caracter c es la ficha c + 0x10...
+C 0x5147 ...0x30 lineas mas abajo
+C 0x514B 8 x 8
+C 0x514E de la pagina 1 a la 0
+C 0x515D 8 x 8
+C 0x5160 de la pagina 1 a la 0
+C 0x516C la segunda mitad de la pagina 1 si 0xC168 bit 0
+C 0x517B 8 x 8
+C 0x517E de la pagina 1 a la 0, TIMP: el color 0 no se copia
+C 0x5190 8 x 8
+C 0x5193 de la pagina 1 a la 1
+C 0x51A2 8 x 8
+C 0x51A5 de la pagina 1 a la 1
+C 0x51AF la columna (A mod 32)...
+C 0x51B1 ...por 8 puntos
+C 0x51B6 la fila (A / 32)...
+C 0x51B8 ...por 8 lineas
+C 0x51BF 0x80 lineas mas abajo
+C 0x51C5 la columna (A mod 32) por 8...
+C 0x51CA ...desde la X 0x38
+C 0x51CE la fila por 8...
+C 0x51D3 ...desde la Y 0x98
+C 0x51D9 8 puntos a la derecha
+C 0x51DC sin dar la vuelta, listo
+C 0x51DD si da la vuelta, 8 lineas mas abajo
+C 0x51E3 la ficha siguiente
+C 0x51E7 0xFF acaba
+C 0x51EA 0xFE: la fila siguiente...
+C 0x51ED ...8 lineas mas abajo
+C 0x51F3 otra: la ficha del bloque en (D, E)
+C 0x51FF HL' = 0xE708, donde va la ficha a 4 bits
+C 0x520A la ficha a 4 bits...
+C 0x520D ...a la VRAM DE
+C 0x5214 B fichas
+C 0x5217 8 filas
+C 0x5221 4 bytes de 2 puntos
+C 0x5223 DE = los dos planos de la fila
+C 0x5227 el indice del punto (bit de cada plano)...
+C 0x522E ...con los colores de 0xE700 (indice 0-3)
+C 0x5233 el primer punto, al nibble alto
+C 0x5239 el indice del segundo punto
+C 0x5245 los dos puntos en un byte
+C 0x5246 a 0xE708 y siguientes
+C 0x524D HL' = 0xE708, donde va la ficha a 4 bits
+C 0x5258 la ficha a 4 bits...
+C 0x525B ...a la VRAM DE
+C 0x5262 B fichas
+C 0x5266 HL' = 0xE708, donde va la ficha a 4 bits
+C 0x5271 la ficha a 4 bits...
+C 0x5274 ...volteada a la VRAM DE
+C 0x527B B fichas
+C 0x527E 8 filas
+C 0x5288 4 bytes de 2 puntos
+C 0x528A E, D y C = los tres planos de la fila
+C 0x5290 el indice del punto (bit de cada plano)...
+C 0x529A ...con los colores de 0xE700 (indice 0-7)
+C 0x529F el primer punto, al nibble alto
+C 0x52A5 el indice del segundo punto
+C 0x52B4 los dos puntos en un byte
+C 0x52B5 a 0xE708 y siguientes
+C 0x52BE 0xCEE3 a cero
+C 0x52C5 del texto 1-n al indice
+C 0x52C6 p12:A37D: los punteros de los 159 textos
+C 0x52D0 el primer byte del texto: el tipo de ventana
+C 0x52E0 un caracter
+C 0x52E2 0xFF: acaba el texto (A = 0)
+C 0x52E5 0xFE: se copia (el cambio de linea)
+C 0x52E8 0xFD: acaba el trozo (A = 1, sigue otro)
+C 0x52EB 0xA1 en adelante: un trozo compartido
+C 0x52F0 los demas se copian
+C 0x52FD el trozo n - 0xA1...
+C 0x5302 ...de p12:B8A7
+C 0x530A se copia hasta su 0xFF
+C 0x5314 y sigue el texto
+C 0x531B p10:606A: el juego de sprites de cada pose
+C 0x5324 A = el juego de la pose
+C 0x5325 p10:609F: los atributos de cada juego
+C 0x532E en las salas 0xF0+ (ascensores) los de Snake van mas abajo...
+C 0x5335 ...salvo en la 0xFB
+C 0x533C HL = los atributos, DE = la copia en RAM
+C 0x533D B = cuantos sprites
+C 0x5341 [y][x][patron][color] por sprite
+C 0x5342 y = 0x80: sprite escondido
+C 0x5344 0xE0: fuera de la pantalla
+C 0x534B la y del sprite + la Y de Snake
+C 0x5352 la x del sprite + la X de Snake
+C 0x5356 el patron, tal cual
+C 0x5358 el color se salta (lo pone colores_de_snake)
+C 0x535A siguiente sprite
+C 0x5361 p10:606A: el juego de sprites de cada pose
+C 0x536B p10:609F: los atributos de cada juego
+C 0x5374 en las salas 0xF0+ (ascensores), los colores mas abajo
+C 0x537F con 0xC199 (herido), un cuadro si y otro no...
+C 0x538C ...los colores de p10:6174 (el parpadeo)
+C 0x538F C = cuantos sprites
+C 0x5390 al primer color ([y][x][patron][color])
+C 0x5394 el color del sprite...
+C 0x5395 ...en sus 16 lineas (modo 2 de sprites)
+C 0x539B el color del sprite siguiente
+C 0x53A0 siguiente sprite
+C 0x53AB los patrones de Snake, desde el 0
+C 0x53B1 p10:6000: los patrones de cada pose
+C 0x53BD HL = los datos comprimidos
+C 0x53BE el puerto de datos del VDP
+C 0x53C2 n = 0: acaba
+C 0x53C7 n < 0x80: repite el byte siguiente n veces
+C 0x53CA n > 0x80: copia los n - 0x80 bytes siguientes
+C 0x53D0 el byte a repetir
+C 0x53D4 n veces
+C 0x53DD el cuadro del proyectil...
+C 0x53E0 ...en p10:63B0
+C 0x53E6 HL = la ficha del proyectil...
+C 0x53E9 ...+0x22: la y de su primer sprite
+C 0x53EE B = cuantos sprites
+C 0x53F2 [y][x][patron][color]; y = 0x80: escondido
+C 0x53F7 Y = 0xE1: fuera de la pantalla
+C 0x53FE la y + la Y del proyectil
+C 0x5405 la x + la X del proyectil
+C 0x540B el patron
+C 0x540F el color
+C 0x5411 5 bytes por sprite en la ficha
+C 0x5414 siguiente sprite
+C 0x541D con la bandera 0xC602 el actor se quita
+C 0x5423 la sala 0x18: la lista p12:A132
+C 0x542A la 0x19: p12:A15D
+C 0x5430 las demas (la 0x48): p12:A181
+C 0x5436 los rayos ocupan los primeros huecos de actor
+C 0x5439 [cuantos] en 0xC609
+C 0x543F un rayo
+C 0x5442 +0: el tipo 0x23
+C 0x5445 +1: el primer byte de la ficha (bit 0: encendido)
+C 0x544C +2 a cero
+C 0x544F +3: la Y
+C 0x5454 +4 a cero
+C 0x5457 +5: la X
+C 0x545A 0xEC01 = Y, 0xEC02 = X
+C 0x5460 +6 a cero
+C 0x5462 +0x0D: aguante 1
+C 0x546A +0x0E: el primer byte otra vez
+C 0x5470 +0x10 a cero
+C 0x5475 +0x13 y +0x14: donde se guarda el fondo en la pagina 1
+C 0x547D 0xEC03 = ese sitio
+C 0x5483 +0x15: el largo
+C 0x5488 +0x16: bit 0, el rayo es horizontal
+C 0x548A 2 de grueso
+C 0x548C del sitio del rayo...
+C 0x548F ...al sitio de la copia
+C 0x5493 vertical: 2 de ancho y B de alto
+C 0x5496 horizontal: B de ancho y 2 de alto
+C 0x5499 guarda el fondo del rayo en la pagina 1 (de la 0 a la 1)
+C 0x54A1 7 bytes por rayo en la lista
+C 0x54A6 el hueco de actor siguiente
+C 0x54AB siguiente rayo
+C 0x54B2 solo en la sala 0x48...
+C 0x54B8 ...y con GOGGL (objeto 4)
+C 0x54BB cada 0xC0 cuadros (0xC60A)...
+C 0x54C3 ...cambia el grupo de rayos encendidos (0xC60B, 0-4)
+C 0x54CD borra los rayos (p15:BF6E)
+C 0x54D9 p12:A1C8: que rayos se encienden en cada grupo
+C 0x54E2 +1 del primer actor
+C 0x54E9 el byte nuevo de cada rayo...
+C 0x54ED ...tambien en su +0x0E
+C 0x54F3 el actor siguiente (0x80 en total)
+C 0x5500 los pinta otra vez (p15:BF22)
+C 0x5509 sin sprites, nada
+C 0x5511 los tipos 0xF0 y mas no tienen cuadros
+C 0x5518 p05:9890: los atributos de cada cuadro
+C 0x551E HL = la ficha del actor...
+C 0x5521 ...+0x20: cuantos sprites
+C 0x5524 +0x22: la y del primer sprite
+C 0x5526 la y relativa del sprite...
+C 0x5529 ...o 0x91-0xA5: un grupo de posiciones
+C 0x5531 la y + la Y del actor
+C 0x5537 la x + la X del actor
+C 0x553E el patron
+C 0x5542 5 bytes por sprite en la ficha
+C 0x5544 siguiente sprite
+C 0x5549 el grupo n - 0x91...
+C 0x554A ...de 0x556F
+C 0x5552 [y][x] de cada sprite del grupo
+C 0x5559 en la ficha del actor
+C 0x5564 y el patron, de la lista del cuadro
+C 0x556A siguiente sprite
+C 0x559C los 16 actores
+C 0x55A1 hueco vacio: nada
+C 0x55A7 la ficha siguiente
+C 0x55AE +0x20: cuantos sprites
+C 0x55B4 +0x21: el hueco del primer sprite
+C 0x55B5 B = el hueco de 0xEA28 que usa el sprite
+C 0x55BC 4 bytes por hueco
+C 0x55C3 la y, la x y el patron del sprite a la copia de atributos
+C 0x55C9 el color
+C 0x55CB color 0: el sprite se esconde...
+C 0x55D0 ...con Y = 0xE1
+C 0x55D6 los colores del hueco n: (0x7450 + 8 x n) x 2 = 0xE8A0 + 16 x n
+C 0x55E4 el color...
+C 0x55E5 ...en las 16 lineas del sprite
+C 0x55EC el sprite siguiente de la ficha
+C 0x55F6 0xC632 = la bandera 0xC602 al entrar
+C 0x55F9 0xC616, 0xC668, 0xC669-0xC66A y 0xC63B-0xC63C a cero
+C 0x560F en la sala 0x53, 0xC626 = 2
+C 0x561B en la sala 0x96, 0xC638 = 4
+C 0x5624 cuantos actores del tipo 0x1B quedaban, en 0xC62E
+C 0x562C los 16 actores a cero (0x800 bytes)
+C 0x563F 0xC62F = 1 mientras se crean
+C 0x5647 las salas 0xDE y siguientes no tienen actores
+C 0x564C p05:9560: la lista de actores de cada sala
+C 0x5653 [cuantos] en el nibble bajo
+C 0x565C un actor
+C 0x5660 [tipo]...
+C 0x5662 ...[Y]...
+C 0x5664 ...[X]
+C 0x566C siguiente actor
+C 0x566E 0xC62F = 0: ya estan
+C 0x567B 0x58 bytes: los atributos de los actores
+C 0x567E Y = 0xE0: fuera de la pantalla
+C 0x5683 HL + 1: un puntero a la lista
+C 0x5688 [cuantos]
+C 0x568A [tipo][Y][X]
+C 0x5697 siguiente actor
+C 0x569E 0xEC02 = Y, 0xEC03 = X
+C 0x56A5 los 16 huecos
+C 0x56AB tipo 0: hueco libre
+C 0x56B0 la ficha nueva...
+C 0x56B3 ...en HL, con IX como estaba
+C 0x56B9 el hueco siguiente
+C 0x56BC A = 0: no cabe
+C 0x56CA p05:971B: cuantos sprites tiene cada tipo
+C 0x56D4 C = los sprites que faltan por colocar
+C 0x56D8 sin sprites: directo a la ficha
+C 0x56DB D = el hueco de sprite, E = el sprite del actor
+C 0x56E1 22 huecos de sprite para los actores
+C 0x56E3 0xE0: libre
+C 0x56E8 lo marca ocupado (0xE1)
+C 0x56EC el sprite siguiente del actor
+C 0x56F0 el hueco siguiente
+C 0x56F7 no caben todos: los ya cogidos se devuelven...
+C 0x56FD ...uno por uno desde (ix+0x21)
+C 0x5703 el hueco que tenia...
+C 0x570C ...otra vez libre
+C 0x570F 5 bytes por sprite
+C 0x5715 sin acarreo y sin crear el actor
+C 0x571C +0: el tipo
+C 0x571F +1 (el paso) a cero
+C 0x5725 +2 a cero, +3 la Y
+C 0x5729 +4 a cero, +5 la X
+C 0x572D +6 a cero
+C 0x5731 (ix+0x7A), los golpes recibidos, a cero
+C 0x5745 p05:975A: los colores de cada tipo
+C 0x574E p05:984F: el aguante de cada tipo
+C 0x575B la creacion del tipo (tabla 0x5762)
+C 0x57E6 p12:BC12: Metal Gear
+C 0x57F0 sin sprites, nada
+C 0x57F4 DE = los colores del tipo
+C 0x57FA +0x20: cuantos sprites
+C 0x57FD +0x25: el color del primer sprite
+C 0x5801 un color por sprite
+C 0x5804 5 bytes por sprite
+C 0x580C HL = la ficha del actor
+C 0x580F +0x21 + 5 x E: el hueco del sprite E
+C 0x5818 = D
+C 0x581E sin la bandera, no hay refuerzos
+C 0x5824 sin cuenta, tampoco
+C 0x5826 todavia no
+C 0x582B la cuenta siguiente: 0x14 + 0-15 cuadros al azar
+C 0x5838 las salas 0xBC y siguientes no tienen refuerzos
+C 0x5841 p06:A445: 3 bytes por sala: [tipo][sitio][sitio]
+C 0x5846 tipo 0: la sala no tiene refuerzos
+C 0x584B de los tipos 0x0B y 0x16, hasta 3 a la vez...
+C 0x5855 ...de los demas, hasta 4
+C 0x585B ya hay bastantes
+C 0x5860 uno de los dos sitios, por la paridad del cuadro
+C 0x5867 [Y en el nibble alto][X en el bajo], de 16 en 16
+C 0x587A con 0xC5B6 la bandera se queda
+C 0x5880 sin la bandera, nada
+C 0x5884 en los ascensores (0xF0+) la bandera se quita
+C 0x588B mientras corre la cuenta de los refuerzos...
+C 0x5890 ...y la de 0xC606 no se acabe, sigue
+C 0x5893 si no, la cuenta a cero y apunta la sala en 0xC604
+C 0x58A3 si Snake ya no esta en esa sala, se quita
+C 0x58A7 en la sala 0xD8 los refuerzos son del tipo 0x0B
+C 0x58AE las salas 0xBC y siguientes la quitan
+C 0x58B8 p06:A445: el tipo de los refuerzos de la sala
+C 0x58C3 con 16 de ese tipo (todos los huecos) se quita
+C 0x58C7 si queda alguno, sigue
+C 0x58CC la bandera a cero...
+C 0x58CE ...y 0xC603-0xC607 tambien (copia el cero en cadena)
+C 0x58DE si se juega, la musica de la sala otra vez
+C 0x58EC las salas 0xBC y siguientes no tienen refuerzos
+C 0x58F5 p06:A445: el tipo de los refuerzos de la sala
+C 0x5900 el paso 0
+C 0x5904 p03:B3F8: quieto
+C 0x5907 se mueve
+C 0x5913 la Y y la X pares
+C 0x591B p02:8334: mirando hacia Snake
+C 0x5921 p03:A923: el cuadro de esa direccion
+C 0x5928 HL = A...
+C 0x592C ...x 3
+C 0x5932 el punto siguiente del camino de DE
+C 0x5935 la marcha 8: 1,5 puntos por cuadro (0x5A5E)
+C 0x5939 la marcha 4: 1,25
+C 0x593D la marcha 0: 1
+C 0x5942 B = 0
+C 0x5947 en las salas 0x1A, 0x55 y 0x8A...
+C 0x5953 ...0xC633 = 1: los guardias se duermen
+C 0x5958 la espera hasta dormirse: 5 o 0x40 al azar
+C 0x5968 p02:9D98: el cuadro por la direccion
+C 0x596B se mueve
+C 0x596E el numero de camino: cuantos actores hay de los tipos 4, 6, 0x30, 5 y 0x1E
+C 0x5997 B = el camino (1-n)
+C 0x5998 D = el lado por el que entro Snake, E = la parada
+C 0x59A3 los arreglos de las salas 1, 0x0D, 0x0F, 0x11, 0x12, 0x13, 0x16 y 0x23 (p03:A10C-A17B)
+C 0x59C8 el cuadro 0
+C 0x59CC empieza por el punto 0
+C 0x59D9 p06:A2DF: los caminos de cada sala
+C 0x59E1 HL = los caminos de la sala
+C 0x59E2 el camino B - 1
+C 0x59EA (ix+0x17, 0x18) = el camino
+C 0x59F0 [cuantos puntos] en (ix+0x13)
+C 0x59F5 [Y] del punto en (ix+0x15)
+C 0x59FA [X] en (ix+0x16)
+C 0x59FE el sentido: hacia delante (+1) en (ix+0x19)
+C 0x5A05 Y - la Y del punto
+C 0x5A0D en la misma fila: sin velocidad Y
+C 0x5A0F mas abajo: sube (2)
+C 0x5A13 mas arriba: baja (1) y B = 1
+C 0x5A19 X - la X del punto
+C 0x5A1E en la misma columna: sin velocidad X
+C 0x5A20 a la derecha: hacia la izquierda (D = 2, C = 2)
+C 0x5A26 a la izquierda: hacia la derecha (D = 1, C = 3)
+C 0x5A29 la direccion del cuadro: 0 abajo, 1 arriba, 2 izquierda, 3 derecha
+C 0x5A2E la velocidad X: 0x5A5C + 2 x D + la marcha
+C 0x5A41 la velocidad Y: 0x5A5C + 2 x E + la marcha
+C 0x5A45 DE = la velocidad X
+C 0x5A56 HL = la velocidad Y
+C 0x5A6D el actor queda justo en el punto
+C 0x5A80 C = cuantos puntos
+C 0x5A83 el punto siguiente en el sentido (ix+0x19)
+C 0x5A89 hacia atras desde el 0: el ultimo
+C 0x5A8B hacia delante, tras el ultimo: el 0
+C 0x5A96 el camino...
+C 0x5A9C ...tras [cuantos], 2 bytes por punto
+C 0x5AA5 la Y del punto nuevo
+C 0x5AAA la X
+C 0x5AB0 los tipos 4, 5, 0x12 y 0x1E: a veces se paran
+C 0x5ABB el tipo 6: se para un rato al azar
+C 0x5AC7 el tipo 0x13 no se para en el punto 1
+C 0x5ACC la mitad de las veces sigue
+C 0x5AD0 si se para, sale tambien de quien llamo
+C 0x5AD8 (ix+0x40) = 1: mirando
+C 0x5ADC mira a un lado al azar
+C 0x5AE9 el punto 1...
+C 0x5AEE ...sale tambien de quien llamo
+C 0x5AF4 la espera: R / 2 (al menos 1)
+C 0x5B04 el numero del centinela entre los del tipo 0x30...
+C 0x5B13 ...elige su camino en p06:A2DF
+C 0x5B21 DE = el camino
+C 0x5B26 [cuantos] direcciones
+C 0x5B29 (ix+0x5B, 0x5C) = la direccion siguiente de la lista
+C 0x5B2F la direccion...
+C 0x5B33 ...el cuadro: 8 + direccion
+C 0x5B38 (ix+0x5D): cuanto tarda en girar, al azar
+C 0x5B6D solo en los cuadros con (ix+0x0C) AND B a cero
+C 0x5B7C solo en los cuadros con (ix+0x0C) AND B a cero
+C 0x5B80 B = 3 x direccion
+C 0x5B8A el paso de la animacion baja de 4 a 1 y vuelve a 4
+C 0x5B91 el desplazamiento del paso (0x5B9E)...
+C 0x5B98 ...+ 3 x direccion + C
+C 0x5BAF B = 16 huecos, C = 0
+C 0x5BB8 el tipo de este hueco
+C 0x5BBB uno mas
+C 0x5BBC el hueco siguiente
+C 0x5BBF A = cuantos
+C 0x5BC1 A = C = 0: transparentes
+C 0x5BC6 +0x20: cuantos sprites
+C 0x5BCB sin sprites, nada
+C 0x5BCE B = cuantos / 2 (dos colores por vuelta)
+C 0x5BD0 +0x25: el color del primer sprite
+C 0x5BD8 A al sprite par...
+C 0x5BDA ...C al impar
+C 0x5BE5 el angulo 0-63
+C 0x5BEA 63 - angulo
+C 0x5BEE p06:A6B9: 64 valores
+C 0x5BF3 C = tabla[angulo]
+C 0x5BF7 B = tabla[63 - angulo]
+C 0x5C02 L = 0 - L
+C 0x5C06 H = 0 - H - acarreo
+C 0x5C09 la Y / 8 (la fila)...
+C 0x5C0E ...por 32, junto con...
+C 0x5C16 ...la X / 8 (la columna)
+C 0x5C17 los dos bits altos de la fila...
+C 0x5C19 ...+ 0xE0: la sala montada
+C 0x5C2D C = el modulo de la velocidad
+C 0x5C2E + 8 x 0xC152
+C 0x5C3B el angulo hacia Snake (0-63)
+C 0x5C41 63 - angulo
+C 0x5C46 p06:A6B9: 64 valores
+C 0x5C4E C = tabla[angulo]
+C 0x5C52 y tabla[63 - angulo]
+C 0x5C59 la velocidad Y, a escala del modulo
+C 0x5C5D Snake por encima: negativa
+C 0x5C68 la velocidad X, a escala del modulo
+C 0x5C6F Snake a la izquierda: negativa
+C 0x5C76 HL = la velocidad Y, DE = la X
+C 0x5C86 0xEC81: el signo de la Y
+C 0x5C8B la Y de Snake - la Y
+C 0x5C91 por encima: positiva y el signo a 1
+C 0x5C95 0xEC82: el signo de la X
+C 0x5C97 los 3 bits altos de |dy|, por 8
+C 0x5C9C la X de Snake - la X
+C 0x5CA2 a la izquierda: positiva y el signo a 1
+C 0x5CA5 los 3 bits altos de |dx|
+C 0x5CAA el indice: 8 x |dy| + |dx| (de 32 en 32 puntos)
+C 0x5CAB p06:A679: el angulo de cada pareja
+C 0x5CBE H = el modulo
+C 0x5CC2 HL x 8...
+C 0x5CC9 ...y se queda con los 16 bits altos: / 32
+C 0x5CCD 8 bits
+C 0x5CD1 DE = E
+C 0x5CD2 desplaza y suma
+C 0x5CE6 el modo de la ventana
+C 0x5CEA 0xCEF1-0xCF0F a cero
+C 0x5CF7 guarda el modo de la partida en 0xCEF1
+C 0x5CFD el modo 10: la ventana de texto
+C 0x5D06 desde el transceptor (modo 4)...
+C 0x5D0D ...F4 corta el texto
+C 0x5D14 p01:6BB1: sale del transceptor
+C 0x5D2C el tipo de ventana (0-4)
+C 0x5D2E C = 2 x tipo
+C 0x5D30 A = 4 x tipo
+C 0x5D33 0x5F4C + 8 x tipo: los 8 bytes de la ventana...
+C 0x5D39 ...a 0xC528
+C 0x5D43 A = 6 x tipo
+C 0x5D44 0x5F74 + 6 x tipo: el marco
+C 0x5D4D 0xCEF6 = [X][Y] del texto, 0xCEF8 = [ancho][alto]
+C 0x5D55 0xCF00 = donde va el cursor
+C 0x5D60 el texto 2, desde el transceptor o el estado 8 de Snake...
+C 0x5D64 ...no guardan el fondo
+C 0x5D75 el recuadro de la ventana...
+C 0x5D76 ...se guarda en (0, 0xA0) de la pagina 1
+C 0x5D79 de la pagina 0 a la 1
+C 0x5D83 p02:8240: el recuadro crece; acarreo al acabar
+C 0x5D8A salta el tipo de ventana
+C 0x5D8E al paso 4: el primer trozo
+C 0x5D93 0xCEFA = 1: hay texto
+C 0x5D99 en los modos 1 y 2 no se corta con teclas
+C 0x5DA2 la tecla 0x20 nueva...
+C 0x5DAA ...o RETURN cortan el texto
+C 0x5DB5 el texto 0x2D va mas despacio:
+C 0x5DB7 una letra cada 4 cuadros...
+C 0x5DBB ...o cada 8
+C 0x5DC2 HL = por donde va, DE = donde escribe
+C 0x5DC9 0xFF: acaba el trozo
+C 0x5DCE 0xFE: linea nueva
+C 0x5DD2 la X maxima: X + ancho - 8
+C 0x5DDC si se pasa, linea nueva
+C 0x5DE1 la letra en el color de verdad
+C 0x5DE8 8 puntos a la derecha (4 con 0x97 y 0x98)
+C 0x5DF5 el blanco no suena
+C 0x5DF8 con 0xC922 = 0x0A (el final) tampoco
+C 0x5DFD el sonido 0x23 por letra
+C 0x5E02 la X siguiente
+C 0x5E05 guarda por donde va
+C 0x5E10 los textos 0x0A y 0x9B mueven la boca del retrato:
+C 0x5E17 cada 4 cuadros, uno de los tres dibujos
+C 0x5E1C p15:B425
+C 0x5E23 p15:B42B
+C 0x5E28 p15:B41F: la boca cerrada
+C 0x5E2B solo en el transceptor (modo 4)...
+C 0x5E31 ...y no en el final
+C 0x5E37 de la segunda mitad de la pagina 1
+C 0x5E3C en (0xD0, 0x30)
+C 0x5E45 0x60 cuadros de espera al acabar el trozo
+C 0x5E4D salta el 0xFE
+C 0x5E4E la linea siguiente, 0x0C mas abajo...
+C 0x5E57 ...desde la X del principio
+C 0x5E5E 0xCEE3 = 1: cortado con la tecla
+C 0x5E6E en el modo 2 no se espera la tecla
+C 0x5E72 la tecla 0x20 nueva...
+C 0x5E79 ...o RETURN: sigue
+C 0x5E81 en el modo 1 tampoco
+C 0x5E87 ni con el texto 0x0A
+C 0x5E8E sin mas texto, espera
+C 0x5E93 los tipos de ventana con el nibble alto: el cursor parpadea
+C 0x5E9A la cuenta de 0xCEFB
+C 0x5E9F borra el recuadro del texto...
+C 0x5EA6 ...a negro
+C 0x5EAE cada 16 cuadros...
+C 0x5EB3 ...el cursor (0x3F) o el blanco
+C 0x5EB8 en 0xCF00
+C 0x5EC4 sin mas texto, al paso 5
+C 0x5ECB 0xCEFA = 1 si queda otro trozo
+C 0x5ECE detras del 0xFF o 0xFD
+C 0x5ED2 al paso 2: escribir
+C 0x5ED7 el trozo copiado acaba en 0xFF
+C 0x5EDD 0xCEFE = por donde va
+C 0x5EE0 0xCEFC = donde escribe: el principio
+C 0x5EEF el texto 2 y el transceptor no guardaron el fondo...
+C 0x5EFA ...ni el final (0xC922)
+C 0x5F00 devuelve el fondo de (0, 0xA0) de la pagina 1
+C 0x5F03 de la pagina 1 a la 0
+C 0x5F08 p03:A6FB: las trampas abiertas encima
+C 0x5F0D si no, el recuadro a negro
+C 0x5F13 el modo de antes de la ventana
+C 0x5F19 si se corto con la tecla, sin marcas
+C 0x5F24 el texto 0x75: 0xC661 (el arma 4 aparece)
+C 0x5F2B el texto 0x76: 0xC663 (la puerta de clase 13)
+C 0x5F32 el texto 0x8A: 0xC662
+C 0x5F3B el tipo de ventana
+C 0x5F3E 0x5F92 + 4 x tipo
+C 0x5F44 E = X, D = Y...
+C 0x5F48 ...C = ancho, B = alto
+C 0x5FA9 LIFE: 0x18...
+C 0x5FAE ...de 0x18
+C 0x5FB1 CLASS 0
+C 0x5FBE 0xC18E = 1: quieto
+C 0x5FC2 mirando abajo
+C 0x5FC6 la pose 3
+C 0x5FCA el modulo de la velocidad: 2 puntos por cuadro
+C 0x5FD5 en la demo, nada mas
+C 0x5FD6 jugando: la llegada (pose 4, estado 8, pose 0x25)
+C 0x5FE4 en (0xB8, 0xC0)
+C 0x5FEF a 1 punto por cuadro
+C 0x5FF5 0xC921 = 0x40: la cuenta del paso de la llegada
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0x5762 0x57E2 tabla_5762  64 destinos del despachador p00:41EA (call en p00:575F, el indice en A): A5F4, A5F4, 9D7F, 593D, 5939, 9EAF, AF52, 99E9, B9B1, A749, A749, B933, ACC3, AB08, 99C8, A6BC, 57E3, B248, A9D7, AFC4, B038, B091, BB10, B278, 9B14, BB51, B3D8, BCA9, B58B, 5935, B132, BD8D, B5C0, B6D4, 5419, A4A2, A4DD, B843, B8E5, BF79, 971D, 57E2, B693, A1F5, 7E01, 9A25, A9BF, 9AA5, 9C4F, 9C4F, 9C4F, 9C4F, 9E99, A04A, 9C4F, 9C4F, AE46, AE00, AE1A, B80E, B8D2, BB28, 9662, A0D6; lo leen p00:575F (128 bytes)
@@ -389,13 +1543,11 @@ C 0x4217 apunta a el estado del juego
 C 0x421A apunta a el paso del estado del juego
 C 0x4223 bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 C 0x4226 nada: solo ret
-C 0x4232 pantalla_al_empezar: PSG, SCREEN 5, las dos paginas a cero, R#1/5/6/11 (0x7CA2) y los sprites
 C 0x4253 apunta a la copia del banco de 0x6000
 C 0x4256 el mapper: pone en 0x6000 el banco de A
 C 0x425C el mapper: pone en 0x8000 el banco de A
 C 0x4262 el mapper: pone en 0xA000 el banco de A
 C 0x427D apunta a las banderas del juego (bit 6: se juega; en la demo no)
-C 0x4288 lee la copia del banco de 0x6000 y el byte siguiente (16 bits)
 C 0x428F el mapper: pone en 0x6000 el banco de A
 C 0x4292 guarda la copia del banco de 0x6000
 C 0x4296 guarda la copia del banco de 0x8000
@@ -483,28 +1635,28 @@ C 0x457E lee la musica que suena
 C 0x458F guarda la musica que suena
 C 0x459D lee las llamadas de radio de la sala (fichas de 0x1D)
 C 0x45A8 lee las llamadas de radio de la sala (fichas de 0x1D)
+C 0x45AF lee la CLASS (0-3 estrellas)
 C 0x45BC lee el nibble de p12:A2FF de la sala
+C 0x45D2 guarda la cuenta hasta la llamada
 C 0x45DB bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 C 0x45EF bancos_13_14_15: pone los bancos 13, 14 y 15 (y sus copias en 0xF0F1-0xF0F3)
 C 0x45F7 bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 C 0x45FA apunta a el dibujo copiado del banco 15
-C 0x45FD ficha_en_el_punto: HL = 0xE000 + (L / 8) x 32 + H / 8: la ficha de la sala montada en ese punto
 C 0x460B hl_mas_a: HL = HL + A
 C 0x461E pinta_municion: el numero BCD de 2 bytes de HL en (0xC0, 0xC8)
 C 0x4628 pinta_municion: el numero BCD de 2 bytes de HL en (0xC0, 0xC8)
 C 0x462D cuatro_ceros: pone a cero 4 bytes desde HL
 C 0x4631 guarda el arma elegida (p06:B865: 1 HAND GUN, 2 SMG, 3 GRENADE, 4 ROCKET, 5 P.BOMB, 6 L.MINE, 7 MISSILE, 8 SILENCER)
 C 0x4634 marcador_arma: pinta en el marcador el arma elegida (0xC134) y su municion
-C 0x463D busca_objeto: busca A en los 25 objetos de 0xC530 (fichas de 4): C = el sitio, Z si esta, acarreo si no
-C 0x4641 pinta_cantidad: la cantidad del objeto C en la ventana de equipo
-C 0x4644 cuatro_ceros: pone a cero 4 bytes desde HL
 C 0x4647 bancos_4_5_6: pone los bancos 4, 5 y 6 (y sus copias en 0xF0F1-0xF0F3)
 C 0x464F palabra_a: DE = la palabra A de la tabla DE
 C 0x4660 rellena: HMMV: llena B x C desde (H, L) de la pagina D con el byte A
 C 0x4664 guarda el objeto elegido (p06:B8F6: 3 LIGHT, 4 GOGGL, 6 CIGAL, 0x0E-0x15 CARD1-8, 0x16 RATIO, 0x19 BOX...)
 C 0x4667 marcador_objeto: pinta en el marcador el objeto elegido (0xC135)
+C 0x4673 lee el tipo del actor
 C 0x4676 bancos_4_5_6: pone los bancos 4, 5 y 6 (y sus copias en 0xF0F1-0xF0F3)
 C 0x4689 hl_mas_a: HL = HL + A
+C 0x468C lee cuantos sprites tiene el actor
 C 0x4699 bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 C 0x469C bancos_4_5_6: pone los bancos 4, 5 y 6 (y sus copias en 0xF0F1-0xF0F3)
 C 0x46A2 rotulo: escribe el rotulo de HL ([X][Y], caracteres, 0xFE otra posicion, 0xFF acaba)
@@ -595,7 +1747,6 @@ C 0x49A4 bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 C 0x49B2 guarda la casilla de trabajo 0xEC00
 C 0x49B8 sitio_de_ficha: HL = 0x8000 + la direccion VRAM de la ficha A (8 x 8 en SCREEN 5)
 C 0x49C6 fichas_3_planos: B fichas de 3 planos (24 bytes) de HL a la VRAM DE con los colores de 0xE700
-C 0x49CB lee la casilla de trabajo 0xEC00
 C 0x49D2 sitio_de_ficha: HL = 0x8000 + la direccion VRAM de la ficha A (8 x 8 en SCREEN 5)
 C 0x49DA fichas_3_planos_espejo: como fichas_3_planos, pero cada ficha volteada de lado
 C 0x49E2 cuatro_a: HL = 4 x A
@@ -668,7 +1819,6 @@ C 0x4C02 palabra_a: DE = la palabra A de la tabla DE
 C 0x4C08 patrones: descomprime DE a la VRAM HL (n < 0x80 repite, n > 0x80 copia, 0x80 otro destino, 0 acaba)
 C 0x4C29 patrones: descomprime DE a la VRAM HL (n < 0x80 repite, n > 0x80 copia, 0x80 otro destino, 0 acaba)
 C 0x4C2E bancos_10_11_12: pone los bancos 10, 11 y 12 (y sus copias en 0xF0F1-0xF0F3)
-C 0x4C35 palabra_a: DE = la palabra A de la tabla DE
 C 0x4C3B patrones: descomprime DE a la VRAM HL (n < 0x80 repite, n > 0x80 copia, 0x80 otro destino, 0 acaba)
 C 0x4C40 bancos_4_5_6: pone los bancos 4, 5 y 6 (y sus copias en 0xF0F1-0xF0F3)
 C 0x4C46 patrones_con_destino: lee la direccion VRAM de DE y descomprime detras
@@ -688,7 +1838,6 @@ C 0x4CD9 de_mas_a: DE = DE + A
 C 0x4CE6 guarda la casilla de trabajo 0xEC00 y el byte siguiente (16 bits)
 C 0x4CF0 bancos_13_14_15: pone los bancos 13, 14 y 15 (y sus copias en 0xF0F1-0xF0F3)
 C 0x4CF3 borra_la_pagina_0: llena la pagina 0 de color 0 y pone R#23 a cero
-C 0x4CF6 apunta a la sala montada (32 x 24 fichas)
 C 0x4CF9 guarda la casilla de trabajo 0xEC00 y el byte siguiente (16 bits)
 C 0x4CFF palabra_de_la_sala: DE = la palabra de la tabla DE que toca a la sala (0xC130)
 C 0x4D06 lee la casilla de trabajo 0xEC00 y el byte siguiente (16 bits)
@@ -698,7 +1847,6 @@ C 0x4D16 guarda la casilla de trabajo 0xEC00 y el byte siguiente (16 bits)
 C 0x4D1C hl_mas_a: HL = HL + A
 C 0x4D22 bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 C 0x4D25 apunta a la sala montada (32 x 24 fichas)
-C 0x4D31 ficha_a_pagina_0: copia la ficha A de la pagina 1 a (D, E) de la pagina 0
 C 0x4D34 siguiente_sitio: D = D + 8; si da la vuelta, E = E + 8
 C 0x4D3E vram_para_leer: pone la direccion de lectura de la VRAM en HL (R#14 y el puerto 1)
 C 0x4D41 cuenta_de_bloques: B y A = los bloques de 256 de BC para otir/inir
@@ -714,7 +1862,7 @@ C 0x4E22 rellena: HMMV: llena B x C desde (H, L) de la pagina D con el byte A
 C 0x4E34 llena_vram: llena BC bytes de la VRAM HL con A
 C 0x4E3F llena_vram: llena BC bytes de la VRAM HL con A
 C 0x4E45 apunta a la copia de los atributos de los sprites
-C 0x4E7D apunta a la copia de la paleta
+C 0x4E7D apunta a la copia de la paleta en la VRAM (0xF680, 2 bytes por color)
 C 0x4E84 vram_para_escribir: pone la direccion de escritura de la VRAM en HL (R#14 y el puerto 1)
 C 0x4E9C color: el color A de la paleta = DE ([RB][G]), y su copia en 0xF680
 C 0x4ECD color: el color A de la paleta = DE ([RB][G]), y su copia en 0xF680
@@ -801,16 +1949,13 @@ C 0x5416 bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 C 0x5419 lee la bandera 0xC602 (refuerzos y musica)
 C 0x5420 lee la sala
 C 0x5433 bancos_10_11_12: pone los bancos 10, 11 y 12 (y sus copias en 0xF0F1-0xF0F3)
-C 0x5436 apunta a los 16 actores (fichas de 0x80)
 C 0x5447 guarda la casilla de trabajo 0xEC00
 C 0x5464 hl_mas_a: HL = HL + A
-C 0x546A lee la casilla de trabajo 0xEC00
 C 0x549B copia_vram: HMMM: copia B x C de (H, L) a (D, E); A = paginas (bits 0-1 origen, 2-3 destino)
 C 0x54A3 de_mas_a: DE = DE + A
 C 0x54A8 hl_mas_a: HL = HL + A
 C 0x54AF lee la sala
 C 0x54B5 lee el objeto elegido (p06:B8F6: 3 LIGHT, 4 GOGGL, 6 CIGAL, 0x0E-0x15 CARD1-8, 0x16 RATIO, 0x19 BOX...)
-C 0x54CD zona_banco_15: pone el banco 15 en 0xA000 y lo apunta en 0xF0F3 y 0xF0F6
 C 0x54D0 borra_rayos: tapa los rayos copiando de la pagina 1
 C 0x54D3 bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 C 0x54D6 bancos_10_11_12: pone los bancos 10, 11 y 12 (y sus copias en 0xF0F1-0xF0F3)
@@ -820,10 +1965,17 @@ C 0x54F5 hl_mas_a: HL = HL + A
 C 0x54FA bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 C 0x54FD zona_banco_15: pone el banco 15 en 0xA000 y lo apunta en 0xF0F3 y 0xF0F6
 C 0x5503 bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
+C 0x5506 lee cuantos sprites tiene el actor
 C 0x550B bancos_4_5_6: pone los bancos 4, 5 y 6 (y sus copias en 0xF0F1-0xF0F3)
+C 0x550E lee el tipo del actor
+C 0x5515 lee el cuadro del actor
 C 0x551B palabra_a: DE = la palabra A de la tabla DE
+C 0x5532 le suma la Y del actor
+C 0x5538 le suma la X del actor
 C 0x5546 bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 C 0x554D palabra_a: DE = la palabra A de la tabla DE
+C 0x5555 le suma la Y del actor
+C 0x555E le suma la X del actor
 C 0x556C bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 C 0x5599 apunta a los 16 actores (fichas de 0x80)
 C 0x55A2 sprites_de_un_actor: los sprites del actor HL a 0xEA28 + 4 x n y sus colores a 0xE8A0 + 16 x n
@@ -833,21 +1985,18 @@ C 0x55F3 lee la bandera 0xC602 (refuerzos y musica)
 C 0x560C lee la sala
 C 0x5618 lee la sala
 C 0x5626 cuenta_tipo: A = cuantos actores del tipo A hay
-C 0x562C apunta a los 16 actores (fichas de 0x80)
 C 0x5639 esconde_sprites_de_actores: llena de 0xE0 los atributos de los actores (0xEA28-0xEA7F)
 C 0x563C bancos_4_5_6: pone los bancos 4, 5 y 6 (y sus copias en 0xF0F1-0xF0F3)
 C 0x5644 lee la sala
 C 0x5649 bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 C 0x564F palabra_a: DE = la palabra A de la tabla DE
 C 0x5658 bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
-C 0x565C bancos_4_5_6: pone los bancos 4, 5 y 6 (y sus copias en 0xF0F1-0xF0F3)
 C 0x5667 crea_actor: crea un actor del tipo C en Y = E, X = D en la primera ficha libre de 0xD000; HL = la ficha, A = 0 si no cabe
 C 0x5672 bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 C 0x5675 apunta a los atributos de los sprites de los actores
 C 0x5692 crea_actor: crea un actor del tipo C en Y = E, X = D en la primera ficha libre de 0xD000; HL = la ficha, A = 0 si no cabe
 C 0x569B guarda la casilla de trabajo 0xEC00
 C 0x56A2 apunta a los 16 actores (fichas de 0x80)
-C 0x56B0 inicia_actor: rellena la ficha HL: sprites (p05:971B), huecos en 0xEA28, colores, aguante (p05:984F) y la creacion de su tipo
 C 0x56C4 bancos_4_5_6: pone los bancos 4, 5 y 6 (y sus copias en 0xF0F1-0xF0F3)
 C 0x56C7 lee la casilla de trabajo 0xEC00
 C 0x56CD hl_mas_a: HL = HL + A
@@ -864,9 +2013,9 @@ C 0x5751 de_mas_a: DE = DE + A
 C 0x5758 bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 C 0x575F despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 C 0x57E3 zona_banco_12: pone el banco 12 en 0xA000 y lo apunta en 0xF0F3 y 0xF0F6
-C 0x57E6 crea_metal_gear: con 0xC623 nada; si no, (ix+0x1B) = 0xC623 y el dibujo de Metal Gear
 C 0x57E9 bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
-C 0x57F4 palabra_a: DE = la palabra A de la tabla DE
+C 0x57EC lee cuantos sprites tiene el actor
+C 0x57F1 lee el tipo del actor
 C 0x5815 hl_mas_a: HL = HL + A
 C 0x581B lee la bandera 0xC602 (refuerzos y musica)
 C 0x5820 apunta a la cuenta de los refuerzos
@@ -878,13 +2027,11 @@ C 0x583E bancos_4_5_6: pone los bancos 4, 5 y 6 (y sus copias en 0xF0F1-0xF0F3)
 C 0x5847 bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 C 0x5857 cuenta_tipo: A = cuantos actores del tipo A hay
 C 0x585C bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
-C 0x5860 lee la cuenta de cuadros
 C 0x5871 bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 C 0x5874 crea_actor: crea un actor del tipo C en Y = E, X = D en la primera ficha libre de 0xD000; HL = la ficha, A = 0 si no cabe
 C 0x587C lee la bandera 0xC602 (refuerzos y musica)
 C 0x5881 lee la sala
 C 0x5888 apunta a la cuenta de los refuerzos
-C 0x5893 guarda la cuenta de los refuerzos
 C 0x5896 lee la sala
 C 0x589D lee la sala
 C 0x58B2 tres_a: HL = 3 x A
@@ -898,47 +2045,87 @@ C 0x58E9 lee la sala
 C 0x58EF tres_a: HL = 3 x A
 C 0x58F2 bancos_4_5_6: pone los bancos 4, 5 y 6 (y sus copias en 0xF0F1-0xF0F3)
 C 0x58FA bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
-C 0x5904 parado: las dos velocidades a cero
+C 0x58FD guarda el tipo del actor
+C 0x590B la cuenta de espera del actor = 0x01
+C 0x590F con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x03
+C 0x5917 pone a cero el bit 0 de la X del actor
+C 0x591E guarda la direccion del actor
 C 0x5924 colores_del_actor: copia los colores del tipo (ix+0) (p05:975A) a la ficha, uno cada 5 bytes desde (ix+0x25)
 C 0x592F bancos_4_5_6: pone los bancos 4, 5 y 6 (y sus copias en 0xF0F1-0xF0F3)
+C 0x593F guarda la marcha del actor (0, 4 u 8)
 C 0x5944 lee la sala
 C 0x5965 elige_camino: elige un camino de la sala para IX (por los actores que hay) y lo carga
-C 0x5968 cuadro_de_direccion: cuadro = 2 x (ix+0x11) + el bit 0 del cuadro
 C 0x5970 cuenta_tipo: A = cuantos actores del tipo A hay
 C 0x5977 cuenta_tipo: A = cuantos actores del tipo A hay
 C 0x5980 cuenta_tipo: A = cuantos actores del tipo A hay
 C 0x5989 cuenta_tipo: A = cuantos actores del tipo A hay
 C 0x5992 cuenta_tipo: A = cuantos actores del tipo A hay
-C 0x5998 lee el lado por el que se sale (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
 C 0x599C lee la parada del ascensor
 C 0x59A0 lee la sala
 C 0x59D0 bancos_4_5_6: pone los bancos 4, 5 y 6 (y sus copias en 0xF0F1-0xF0F3)
 C 0x59D3 lee la sala
 C 0x59E4 hl_mas_2a: HL = HL + 2 x A
+C 0x5A02 lee la Y del actor
+C 0x5A16 lee la X del actor
+C 0x5A2B guarda la direccion del actor
+C 0x5A35 le suma la marcha del actor (0, 4 u 8)
 C 0x5A3B hl_mas_a: HL = HL + A
+C 0x5A4A le suma la marcha del actor (0, 4 u 8)
 C 0x5A50 hl_mas_a: HL = HL + A
 C 0x5A58 bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 C 0x5A5B velocidades: la velocidad X del actor = DE y la Y = HL
 C 0x5A6A bancos_4_5_6: pone los bancos 4, 5 y 6 (y sus copias en 0xF0F1-0xF0F3)
+C 0x5A74 guarda la Y del actor
+C 0x5A7A guarda la X del actor
 C 0x5AA1 de_mas_a: DE = DE + A
 C 0x5AAD hacia_el_punto: direccion (ix+0x11) y velocidades hacia el punto (ix+0x15, ix+0x16) con la marcha (ix+0x43)
+C 0x5AC4 lee el tipo del actor
 C 0x5AC9 sigue_si_punto_1: si (ix+0x14) no es 1 vuelve; si es 1, sale tambien de quien llamo
+C 0x5AD1 baja si el actor se mueve (p01:7336)
+C 0x5AD4 la cuenta de espera del actor = 0x10
+C 0x5AE0 le suma la direccion del actor
+C 0x5AE3 guarda el cuadro del actor
 C 0x5AE6 bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
+C 0x5AF0 si el actor se mueve (p01:7336) = 0x00
+C 0x5AFB guarda la cuenta de espera del actor
 C 0x5AFE bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 C 0x5B01 bancos_4_5_6: pone los bancos 4, 5 y 6 (y sus copias en 0xF0F1-0xF0F3)
 C 0x5B06 cuenta_tipo: A = cuantos actores del tipo A hay
+C 0x5B09 guarda el numero del actor entre los de su tipo
 C 0x5B0D lee la sala
 C 0x5B1E hl_mas_2a: HL = HL + 2 x A
+C 0x5B30 guarda la direccion del actor
+C 0x5B35 guarda el cuadro del actor
 C 0x5B3D bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 C 0x5B40 bancos_4_5_6: pone los bancos 4, 5 y 6 (y sus copias en 0xF0F1-0xF0F3)
 C 0x5B45 lee la Y de Snake
 C 0x5B49 lee la X de Snake
+C 0x5B4E guarda la velocidad Y del actor
+C 0x5B51 guarda la velocidad Y del actor (alta)
+C 0x5B55 lee la velocidad X del actor
+C 0x5B58 lee la velocidad X del actor (alta)
+C 0x5B5D guarda la velocidad X del actor
+C 0x5B60 guarda la velocidad X del actor (alta)
 C 0x5B64 velocidad_x: la velocidad X del actor (ix+9, ix+0x0A) = DE
+C 0x5B6A lee la cuenta de cuadros del actor
+C 0x5B71 XOR con el cuadro del actor
+C 0x5B74 guarda el cuadro del actor
+C 0x5B78 lee la cuenta de cuadros del actor
+C 0x5B7D lee la direccion del actor
+C 0x5B84 baja el paso de la animacion del actor (1-4)
+C 0x5B87 lee el paso de la animacion del actor (1-4)
+C 0x5B8E guarda el paso de la animacion del actor (1-4)
 C 0x5B94 hl_mas_a: HL = HL + A
+C 0x5B9A guarda el cuadro del actor
+C 0x5BA2 sube el paso del actor
+C 0x5BA6 el paso del actor = 0x00
+C 0x5BAB guarda el paso del actor
 C 0x5BB2 apunta a los 16 actores (fichas de 0x80)
 C 0x5BE2 bancos_4_5_6: pone los bancos 4, 5 y 6 (y sus copias en 0xF0F1-0xF0F3)
 C 0x5BF8 bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 C 0x5BFC hl_negado: HL = -HL
+C 0x5C27 lee la Y del actor
+C 0x5C2A lee la X del actor
 C 0x5C38 angulo_a_snake: 0xEC86 = el angulo de (E, D) a Snake (p06:A679) y los signos en 0xEC81/0xEC82
 C 0x5C49 bancos_4_5_6: pone los bancos 4, 5 y 6 (y sus copias en 0xF0F1-0xF0F3)
 C 0x5C56 bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
@@ -949,14 +2136,12 @@ C 0x5C73 de_negado: DE = -DE
 C 0x5C7A lee la Y de Snake
 C 0x5C7D guarda la casilla de trabajo 0xEC00
 C 0x5C80 lee la X de Snake
-C 0x5C8B lee la casilla de trabajo 0xEC00
 C 0x5CAE hl_mas_a: HL = HL + A
 C 0x5CB1 bancos_4_5_6: pone los bancos 4, 5 y 6 (y sus copias en 0xF0F1-0xF0F3)
 C 0x5CB8 bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 C 0x5CBF multiplica: HL = H x E
 C 0x5CE3 guarda el texto de la ventana
 C 0x5CED apunta a el paso de la ventana de texto
-C 0x5CF7 lee el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
 C 0x5CFF guarda el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
 C 0x5D0A lee las teclas de funcion nuevas (F1 1, F2 2, F3 4, F4 8, F5 0x10)
 C 0x5D11 ventana_vuelve: devuelve el modo 0xCEF1 a 0xC151 y marca 0xC661/0xC663/0xC662 con los textos 0x75/0x76/0x8A
@@ -974,25 +2159,17 @@ C 0x5D7E apunta a el paso de la ventana de texto
 C 0x5D87 lee por donde va el texto y el byte siguiente (16 bits)
 C 0x5D8B guarda por donde va el texto y el byte siguiente (16 bits)
 C 0x5D90 guarda el paso de la ventana de texto
-C 0x5DA2 lee las teclas nuevas (1 arriba, 2 abajo, 4 izq., 8 der., 0x10, 0x20)
-C 0x5DAA lee las teclas de funcion nuevas (F1 1, F2 2, F3 4, F4 8, F5 0x10)
 C 0x5DB2 lee el texto de la ventana
 C 0x5DBD lee la cuenta de cuadros
 C 0x5DE3 caracter: copia el caracter A de la pagina 1 a (D, E); con A = 0 o C = 0, el blanco
 C 0x5DFF sonido: pide el sonido A al controlador del banco 4 (0x67FD) con los bancos 4 y 5
 C 0x5E0D lee el texto de la ventana
-C 0x5E17 lee la cuenta de cuadros
 C 0x5E42 retrato_b41f: pone el retrato p15:B41F en la ventana (modo 4)
 C 0x5E4A ventana_paso_siguiente: sube el paso de la ventana de texto 0xCEF2
 C 0x5E63 retrato_b41f: pone el retrato p15:B41F en la ventana (modo 4)
 C 0x5E66 ventana_paso_siguiente: sube el paso de la ventana de texto 0xCEF2
-C 0x5E72 lee las teclas nuevas (1 arriba, 2 abajo, 4 izq., 8 der., 0x10, 0x20)
-C 0x5E79 lee las teclas de funcion nuevas (F1 1, F2 2, F3 4, F4 8, F5 0x10)
-C 0x5E87 lee el texto de la ventana
-C 0x5E93 lee el tipo de ventana de texto
 C 0x5EA8 rellena: HMMV: llena B x C desde (H, L) de la pagina D con el byte A
 C 0x5EAB ventana_paso_siguiente: sube el paso de la ventana de texto 0xCEF2
-C 0x5EAE lee la cuenta de cuadros
 C 0x5EBE caracter: copia el caracter A de la pagina 1 a (D, E); con A = 0 o C = 0, el blanco
 C 0x5EC5 ventana_paso_siguiente: sube el paso de la ventana de texto 0xCEF2
 C 0x5EC8 trozo_de_texto: copia el texto de 0xCEF3 a 0xCF10 con los trozos >= 0xA1 (p12:B8A7) puestos; A = 0 con 0xFF, 1 con 0xFD
@@ -1008,6 +2185,8 @@ C 0x5F21 lee el texto de la ventana
 C 0x5F38 lee el tipo de ventana de texto
 C 0x5F41 hl_mas_2a: HL = HL + 2 x A
 C 0x5FA6 paleta_de_snake: manda al VDP los colores 7 y 10 (0x4AA3)
+C 0x5FAB guarda la vida (LIFE)
+C 0x5FB2 guarda la CLASS (0-3 estrellas)
 C 0x5FB8 guarda el modo de la pose de Snake
 C 0x5FBB guarda el estado de Snake
 C 0x5FC3 guarda la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)

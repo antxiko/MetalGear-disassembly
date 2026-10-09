@@ -262,6 +262,7 @@ L 0x9F25 camara_vigila mira hacia (ix+0x1B) desde su sitio (0x9F86); si ve a Sna
 L 0x9F6E camara_avisa parpadea (colores 2/0x4D y 4/0x4B) hasta acabar (ix+0x12)
 L 0x9F8E cuadro_tipo_53 lo de cada cuadro del tipo 53
 L 0x9F9D bajo_la_camara si Snake pasa por debajo: paso 1 y crea el tipo 0x36; A = 0xFF
+C 0x8003 lee la llamada del transceptor (0 pendiente, 1 llamando, 2 ninguna) y el byte siguiente (16 bits)
 C 0x804F lee los 3 bits bajos de p12:A204 de la sala
 C 0x8055 lee la sala
 C 0x8062 lee la bandera 0xC602 (refuerzos y musica)
@@ -301,9 +302,13 @@ C 0x82B8 ficha_en_el_punto: HL = 0xE000 + (L / 8) x 32 + H / 8: la ficha de la s
 C 0x82FB lee la X de Snake
 C 0x8301 lee la Y de Snake
 C 0x8305 ficha_en_el_punto: HL = 0xE000 + (L / 8) x 32 + H / 8: la ficha de la sala montada en ese punto
+C 0x830D lee la Y del actor
+C 0x8310 lee la X del actor
 C 0x8313 ficha_en_el_punto: HL = 0xE000 + (L / 8) x 32 + H / 8: la ficha de la sala montada en ese punto
 C 0x8334 lee la Y de Snake
+C 0x8337 le resta la Y del actor
 C 0x8342 lee la X de Snake
+C 0x8345 le resta la X del actor
 C 0x8356 hacia_snake_dir: A = la direccion de IX hacia Snake por el eje mayor (1-4), B = la del otro eje
 C 0x835A contraria: A = la direccion contraria (1 y 2, 3 y 4)
 C 0x8364 lee las teclas nuevas (1 arriba, 2 abajo, 4 izq., 8 der., 0x10, 0x20)
@@ -470,42 +475,83 @@ C 0x8936 lee la Y de Snake
 C 0x893A lee la X de Snake
 C 0x8942 lee el tipo del actor
 C 0x894A snake_contra_actor: el actor IX contra Snake: golpe con la tecla 0x20, caja por tipo (p05:89D3) y dano
+C 0x8957 lee las marcas del actor (bits 0-4 el arma que le dio, 6 golpe, 7 contacto)
+C 0x895C guarda las marcas del actor (bits 0-4 el arma que le dio, 6 golpe, 7 contacto)
+C 0x895F lee el tipo del actor
 C 0x8964 contra_tipo_35: el tipo 35 (largo ix+0x15, de lado si ix+0x16 bit 0) toca a Snake: pon_c602 y quita a todos
+C 0x8967 mira el bit 0 de con que choca el actor (bit 0 Snake, bit 1 proyectiles)
 C 0x896E contra_tipo_16: el tipo 16: dentro de su recuadro (ix+0x13, 0x14, 0x15) dano 0xFF
 C 0x8973 contra_tipo_54: el tipo 54: en su columna (X +- 8) y su alto por (ix+0x0C) (0x8B7E), dano
 C 0x8976 lee las teclas nuevas (1 arriba, 2 abajo, 4 izq., 8 der., 0x10, 0x20)
 C 0x897D lee el modo de la pose de Snake
 C 0x8981 golpea_actor: si el tipo esta en 0x8A11 y en el alcance del golpe (0x8A5B): bit 6 de (ix+0x1E) y el sonido 8
+C 0x8984 mira el bit 6 de las marcas del actor (bits 0-4 el arma que le dio, 6 golpe, 7 contacto)
+C 0x8989 lee el tipo del actor
 C 0x898F byte_del_banco_5: A = el byte A - 1 de la tabla HL, con los bancos 4-5-6
 C 0x8996 caja_de_choque: copia la caja A (p05:8A55 + 4 x (A - 1)) a 0xC928; HL = 0xC928
 C 0x899A cerca_de_snake: acarreo si (ix+3, ix+5) mas el desplazamiento de HL esta a menos de [alto][ancho] de (E, D)
+C 0x899E lee el tipo del actor
 C 0x89A3 contra_tipo_2: 0xC15E = 1 y el bit 7 de (ix+0x1E)
+C 0x89A6 lee la cuenta del golpe del actor
+C 0x89AB pone a uno el bit 7 de las marcas del actor (bits 0-4 el arma que le dio, 6 golpe, 7 contacto)
+C 0x89AF lee el tipo del actor
+C 0x89B6 el aguante del actor = 0x00
+C 0x89BA lee el tipo del actor
 C 0x89C8 sonido: pide el sonido A al controlador del banco 4 (0x67FD) con los bancos 4 y 5
+C 0x89CB lee el tipo del actor
+C 0x89D8 lee la cuenta de herido (Snake parpadea)
 C 0x89DD sonido_10: el sonido 0x10
+C 0x89E2 guarda la cuenta de herido (Snake parpadea)
 C 0x89E8 guarda la casilla de trabajo 0xEC00 y el byte siguiente (16 bits)
+C 0x89EB lee el tipo del actor
 C 0x89F0 dano: A = el byte A de la tabla de dano de 0xEC00
 C 0x8A05 lee el objeto elegido (p06:B8F6: 3 LIGHT, 4 GOGGL, 6 CIGAL, 0x0E-0x15 CARD1-8, 0x16 RATIO, 0x19 BOX...)
 C 0x8A0E dano_a_snake: resta B a la vida 0xC131; al llegar a cero, Snake muere (estado 3, modo 9, sonido 0x44)
+C 0x8A1D lee el tipo del actor
 C 0x8A2C lee la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
 C 0x8A44 cerca_de_snake: acarreo si (ix+3, ix+5) mas el desplazamiento de HL esta a menos de [alto][ancho] de (E, D)
+C 0x8A48 lee la cuenta del golpe del actor
+C 0x8A4E la cuenta del golpe del actor = 0x00
+C 0x8A52 pone a uno el bit 6 de las marcas del actor (bits 0-4 el arma que le dio, 6 golpe, 7 contacto)
 C 0x8A58 sonido: pide el sonido A al controlador del banco 4 (0x67FD) con los bancos 4 y 5
+C 0x8A67 lee la Y del actor
+C 0x8A74 lee la X del actor
+C 0x8A80 mira el bit 0 de el paso del actor
+C 0x8A8C le resta la X del actor
+C 0x8A9E le suma la Y del actor
+C 0x8AAB le resta la Y del actor
+C 0x8ABB le suma la X del actor
+C 0x8AC5 pone a uno el bit 7 de las marcas del actor (bits 0-4 el arma que le dio, 6 golpe, 7 contacto)
 C 0x8ACB pon_c602_con_cuenta: 0xC605 = A y pon_c602
 C 0x8AD0 llama_bf6e: p15:BF6E
 C 0x8AD3 quita_a_todos: quita a los 16 actores
 C 0x8AD9 apunta a los 16 actores (fichas de 0x80)
 C 0x8ADF lee el tipo del actor
+C 0x8AF3 pone a uno el bit 7 de las marcas del actor (bits 0-4 el arma que le dio, 6 golpe, 7 contacto)
+C 0x8AF8 mira el bit 2 de con que choca el actor (bit 0 Snake, bit 1 proyectiles)
 C 0x8B1B dano_a_snake: resta B a la vida 0xC131; al llegar a cero, Snake muere (estado 3, modo 9, sonido 0x44)
+C 0x8B1E lee la Y del actor
+C 0x8B29 lee la X del actor
+C 0x8B34 pone a uno el bit 7 de las marcas del actor (bits 0-4 el arma que le dio, 6 golpe, 7 contacto)
+C 0x8B39 lee la X del actor
 C 0x8B44 lee la sala
+C 0x8B4B lee la cuenta de cuadros del actor
+C 0x8B56 lee la cuenta de cuadros del actor
 C 0x8B68 hl_mas_a: HL = HL + A
+C 0x8B71 le suma la Y del actor
 C 0x8B8A lee la sala
 C 0x8B99 fichas_de_snake: H y L = las dos fichas de la sala bajo Snake
 C 0x8BA0 lee la sala
 C 0x8BBA guarda el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
 C 0x8BBE lee la sala
 C 0x8BE3 fichas_de_snake: H y L = las dos fichas de la sala bajo Snake
+C 0x8BF4 lee la cuenta de herido (Snake parpadea)
 C 0x8BFB sonido: pide el sonido A al controlador del banco 4 (0x67FD) con los bancos 4 y 5
+C 0x8C00 guarda la cuenta de herido (Snake parpadea)
 C 0x8C05 lee la sala
 C 0x8C14 lee el objeto elegido (p06:B8F6: 3 LIGHT, 4 GOGGL, 6 CIGAL, 0x0E-0x15 CARD1-8, 0x16 RATIO, 0x19 BOX...)
+C 0x8C1C lee la cuenta de herido (Snake parpadea)
+C 0x8C22 guarda la cuenta de herido (Snake parpadea)
 C 0x8C27 dano_a_snake: resta B a la vida 0xC131; al llegar a cero, Snake muere (estado 3, modo 9, sonido 0x44)
 C 0x8C4D tabla_de_dano: apunta 0xEC00 a la tabla de dano del arma A (p05:87B7)
 C 0x8C51 apunta a los proyectiles (0x180 bytes)
@@ -530,6 +576,8 @@ C 0x8DCB suma_objeto: suma a (HL + 1) lo de p05:8AE8 del objeto y recorta a los 
 C 0x8DCE borra_objeto: tapa el objeto (copia de la pagina 1), sonido 0x24 y el texto de p05:8AC5 si es 0x3E
 C 0x8DD6 apunta a los objetos que se llevan (fichas de 4)
 C 0x8DE2 hl_mas_a: HL = HL + A
+C 0x8DF0 guarda la cuenta hasta la llamada
+C 0x8DF4 guarda la llamada del transceptor (0 pendiente, 1 llamando, 2 ninguna)
 C 0x8DF7 suma_objeto: suma a (HL + 1) lo de p05:8AE8 del objeto y recorta a los maximos
 C 0x8DFA borra_objeto: tapa el objeto (copia de la pagina 1), sonido 0x24 y el texto de p05:8AC5 si es 0x3E
 C 0x8DFD marca_cogido: marca el arma (0xC520) o el objeto (0xC5A0) como cogido
@@ -548,6 +596,7 @@ C 0x8E52 patrones_del_arma: carga los patrones del arma elegida (p10:6392) y los
 C 0x8E60 apunta a los proyectiles (0x180 bytes)
 C 0x8E6E suma_objeto: suma a (HL + 1) lo de p05:8AE8 del objeto y recorta a los maximos
 C 0x8E71 marcador_arma: pinta en el marcador el arma elegida (0xC134) y su municion
+C 0x8E77 guarda la bandera de capturado (sin armas ni objetos)
 C 0x8E7E apunta a los objetos que se llevan (fichas de 4)
 C 0x8E89 hl_mas_a: HL = HL + A
 C 0x8E97 marcador_arma: pinta en el marcador el arma elegida (0xC134) y su municion
@@ -592,34 +641,52 @@ C 0x8FC4 estrellas: CLASS y las estrellas de 0xC132
 C 0x8FC7 marcador_llamada: CALL parpadeando con 0xC15F = 1 (sonido 0x22) o la cuenta atras 0xC13D
 C 0x8FCA marcador_arma: pinta en el marcador el arma elegida (0xC134) y su municion
 C 0x8FCD marcador_objeto: pinta en el marcador el objeto elegido (0xC135)
+C 0x8FD2 lee la llamada del transceptor (0 pendiente, 1 llamando, 2 ninguna)
 C 0x8FD8 lee el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
 C 0x8FE2 lee la cuenta de cuadros
 C 0x8FED sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
+C 0x8FF2 lee la cuenta atras en marcha
 C 0x9010 digito_de_frecuencia: el digito A (dos caracteres de 0x6B34) en (D, E)
 C 0x9016 digito_de_frecuencia: el digito A (dos caracteres de 0x6B34) en (D, E)
+C 0x9019 lee la cuenta atras (BCD, 16 bits)
 C 0x9020 digito_de_frecuencia: el digito A (dos caracteres de 0x6B34) en (D, E)
+C 0x9023 lee la cuenta atras (BCD, 16 bits)
 C 0x9026 digito_de_frecuencia: el digito A (dos caracteres de 0x6B34) en (D, E)
+C 0x902B apunta a la vida (LIFE)
 C 0x9037 barra_de_vida: LIFE y la barra 0xC131 sobre el maximo 0xC137
 C 0x903A barra_de_vida: LIFE y la barra 0xC131 sobre el maximo 0xC137
 C 0x903F guarda el estado de Snake
 C 0x9044 guarda el modo de la pose de Snake
 C 0x9049 guarda el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
+C 0x9052 guarda la cuenta de herido (Snake parpadea)
 C 0x9064 sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
 C 0x906A rotulo: escribe el rotulo de HL ([X][Y], caracteres, 0xFE otra posicion, 0xFF acaba)
 C 0x9075 recuadro: un recuadro de D x E desde (H, L) en el color C
+C 0x9078 lee la vida (LIFE)
 C 0x908C rellena: HMMV: llena B x C desde (H, L) de la pagina D con el byte A
+C 0x908F lee la vida (LIFE)
 C 0x90A7 rellena: HMMV: llena B x C desde (H, L) de la pagina D con el byte A
 C 0x90AD rotulo: escribe el rotulo de HL ([X][Y], caracteres, 0xFE otra posicion, 0xFF acaba)
+C 0x90B3 lee la CLASS (0-3 estrellas)
 C 0x90B9 caracter_b_veces: el caracter C B veces desde (D, E)
+C 0x90BC lee la CLASS (0-3 estrellas)
 C 0x90C8 caracter: copia el caracter A de la pagina 1 a (D, E); con A = 0 o C = 0, el blanco
 C 0x90DF digito: el digito A (o blanco si es un cero a la izquierda)
 C 0x90E3 digito: el digito A (o blanco si es un cero a la izquierda)
 C 0x90F9 caracter: copia el caracter A de la pagina 1 a (D, E); con A = 0 o C = 0, el blanco
+C 0x910E lee la CLASS (0-3 estrellas)
 C 0x9159 busca_objeto: busca A en los 25 objetos de 0xC530 (fichas de 4): C = el sitio, Z si esta, acarreo si no
 C 0x9162 recorta: si la cantidad de (HL + 1) pasa de BC, la deja en BC
 C 0x9171 busca_arma: busca A en las 7 armas de 0xC500 (fichas de 4): C = el sitio, Z si esta, acarreo si no
 C 0x917C recorta: si la cantidad de (HL + 1) pasa de BC, la deja en BC
+C 0x91E9 apunta a la cuenta hasta la llamada
+C 0x91EF lee la llamada del transceptor (0 pendiente, 1 llamando, 2 ninguna)
+C 0x91FE guarda la llamada del transceptor (0 pendiente, 1 llamando, 2 ninguna)
+C 0x9205 guarda la llamada del transceptor (0 pendiente, 1 llamando, 2 ninguna)
+C 0x9209 lee la cuenta atras en marcha
+C 0x920E apunta a la cuenta atras (BCD, 16 bits)
 C 0x9223 marcador_llamada: CALL parpadeando con 0xC15F = 1 (sonido 0x22) o la cuenta atras 0xC13D
+C 0x9227 guarda la vida (LIFE)
 C 0x922A snake_muere: estado 3, pose 6, modo 9, 0xC19D = 0x80 y el sonido 0x44
 C 0x922D apunta a las armas que se llevan (fichas de 4: [arma][municion BCD])
 C 0x9234 apunta a los objetos que se llevan (fichas de 4)
@@ -714,29 +781,51 @@ C 0x9589 teclas_a_cero: 0xC191 y 0xC192 a cero
 C 0x958F guarda la Y de Snake (16 bits)
 C 0x9594 guarda la X de Snake (16 bits)
 C 0x9598 apunta a la copia de los atributos de los sprites
+C 0x95BF lee el paso del actor
 C 0x95C2 despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 C 0x95DE ventana_de_texto_2: abre la ventana del texto A en el modo 2 (0xCEE0)
 C 0x95EF lee la X de Snake
+C 0x95F2 compara con la X del actor
 C 0x95FD velocidad_x: la velocidad X del actor (ix+9, ix+0x0A) = DE
+C 0x9600 sube el paso del actor
 C 0x9606 alterna_cuadro: si (ix+0x0C) AND B es 0, cambia el bit 0 del cuadro
+C 0x9611 el cuadro del actor = 0x1A
 C 0x9618 velocidad_x: la velocidad X del actor (ix+9, ix+0x0A) = DE
 C 0x961B paso_siguiente_9600: sube el paso del actor (ix+1)
+C 0x961E lee la Y del actor
+C 0x9624 lee la X del actor
 C 0x9629 crea_actor: crea un actor del tipo C en Y = E, X = D en la primera ficha libre de 0xD000; HL = la ficha, A = 0 si no cabe
+C 0x9634 el cuadro del actor = 0x18
+C 0x9638 lee la X del actor
 C 0x9645 velocidad_x: la velocidad X del actor (ix+9, ix+0x0A) = DE
 C 0x964C alterna_cuadro: si (ix+0x0C) AND B es 0, cambia el bit 0 del cuadro
 C 0x965A velocidad_x: la velocidad X del actor (ix+9, ix+0x0A) = DE
+C 0x965D el paso del actor = 0x01
 C 0x9664 sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
+C 0x9667 lee la Y del actor
+C 0x966D lee la X del actor
+C 0x9685 el cuadro del actor = 0x77
+C 0x969A lee la cuenta de cuadros del actor
+C 0x96B1 guarda el cuadro del actor
 C 0x96BF rebota_y: cambia de signo (ix+0x19); si queda en 0xFE, quita al actor
 C 0x96C2 pareja_a: C y B = los bytes A y 63 - A (A de 0 a 63) de la tabla p06:A6B9
+C 0x96D3 guarda la Y del actor
 C 0x96E1 rebota_x: cambia de signo (ix+0x1A) y sube (ix+0x1B)
 C 0x96E4 pareja_a: C y B = los bytes A y 63 - A (A de 0 a 63) de la tabla p06:A6B9
+C 0x96FF guarda la X del actor
+C 0x9723 el cuadro del actor = 0x18
+C 0x972B sube si el actor se mueve (p01:7336)
 C 0x972E musica_3e: la musica 0x3E (salvo en el modo 8)
+C 0x9731 lee la direccion del actor
+C 0x9734 lee la X del actor
+C 0x9737 lee la Y del actor
 C 0x973A guarda la casilla de trabajo 0xEC00
 C 0x9740 lee la bandera 0xC602 (refuerzos y musica)
 C 0x9745 lee la pose de Snake
 C 0x974F lee el modo de la pose de Snake
 C 0x9756 apunta a la velocidad Y de Snake
 C 0x975E apunta a la velocidad X de Snake
+C 0x9767 lee las marcas del actor (bits 0-4 el arma que le dio, 6 golpe, 7 contacto)
 C 0x976C alarma_de_actor: la alarma desde el actor: 0xC614 por la sala (0x98DE), 0xC60C y los refuerzos
 C 0x976F lee la casilla de trabajo 0xEC00
 C 0x9772 despacha: salta a la palabra A de la tabla que va pegada detras del `call`
@@ -752,6 +841,7 @@ C 0x97CE en_fila: acarreo si Snake esta en la fila de 0xEC01
 C 0x97D2 dx_a_snake: A = 0xEC02 - la X de Snake
 C 0x97E6 ficha_en_el_punto: HL = 0xE000 + (L / 8) x 32 + H / 8: la ficha de la sala montada en ese punto
 C 0x97EC lee el juego de fichas cargado
+C 0x9838 lee el tipo del actor
 C 0x9849 guarda la cuenta de los refuerzos
 C 0x984C pon_c602: 0xC602 = 1, 0xC604 = la sala, 0xC606 y la musica 0x32 (0x2F si la pone un actor del tipo 6 o 0x23)
 C 0x984F lee la sala
@@ -759,28 +849,47 @@ C 0x985B lee la bandera 0xC602 (refuerzos y musica)
 C 0x9860 lee la sala
 C 0x9874 hl_mas_a: HL = HL + A
 C 0x9886 lee la X de Snake
+C 0x988A lee la X del actor
+C 0x9899 lee la Y del actor
 C 0x98AE guarda_fondo_16: copia 16 x 16 de HL a (0x60, 0x80) de la pagina 1
 C 0x98C1 guarda la cuenta de los refuerzos
 C 0x98CF pon_dibujo_16: copia 16 x 16 de HL a DE con TIMP
 C 0x98D2 alarma: pon_c602 y 0xC60F = la sala, 0xC669 = 0x10
+C 0x98D5 lee el tipo del actor
 C 0x98DB reaparece: crea en IX el actor de p06:A445 de la sala (salas < 0xBC)
 C 0x98F5 lee la X de Snake
+C 0x9900 lee el tipo del actor
 C 0x9911 lee la Y de Snake
+C 0x991C lee el tipo del actor
+C 0x9922 lee las marcas del actor (bits 0-4 el arma que le dio, 6 golpe, 7 contacto)
 C 0x9929 lee el arma elegida (p06:B865: 1 HAND GUN, 2 SMG, 3 GRENADE, 4 ROCKET, 5 P.BOMB, 6 L.MINE, 7 MISSILE, 8 SILENCER)
 C 0x9936 apunta a los proyectiles (0x180 bytes)
 C 0x9950 alterna_cuadro: si (ix+0x0C) AND B es 0, cambia el bit 0 del cuadro
 C 0x9953 rueda_en_el_borde: el tipo 15 al llegar a 0x38/0xC8 da la vuelta con el sonido 0x1D
+C 0x9956 lee el paso del actor
+C 0x9963 lee la X del actor
 C 0x9968 paso_siguiente: sube el paso del actor (ix+1)
 C 0x996D paso_siguiente: sube el paso del actor (ix+1)
 C 0x9971 sitio_de_snake: E = la Y de Snake, D = la X
+C 0x9979 compara con la X del actor
+C 0x9988 guarda la direccion del actor
 C 0x998B velocidad_x: la velocidad X del actor (ix+9, ix+0x0A) = DE
 C 0x998E paso_siguiente: sube el paso del actor (ix+1)
+C 0x9991 lee la direccion del actor
 C 0x999D suma_velocidad_x: la velocidad X del actor (ix+9, ix+0x0A) += DE
+C 0x99A0 lee la X del actor
+C 0x99BA guarda la X del actor
+C 0x99BD guarda la direccion del actor
 C 0x99C0 velocidad_x: la velocidad X del actor (ix+9, ix+0x0A) = DE
 C 0x99C5 sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
 C 0x99C8 lee la X de Snake
 C 0x99D4 lee la X de Snake
 C 0x99DE velocidades: la velocidad X del actor = DE y la Y = HL
+C 0x99E1 sube si el actor se mueve (p01:7336)
+C 0x99E4 el cuadro del actor = 0x36
+C 0x99E9 con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x00
+C 0x99F2 el cuadro del actor = 0x38
+C 0x99F7 lee el paso del actor
 C 0x99FA despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 C 0x9A10 paso_siguiente: sube el paso del actor (ix+1)
 C 0x9A15 alterna_cuadro: si (ix+0x0C) AND B es 0, cambia el bit 0 del cuadro
@@ -789,11 +898,14 @@ C 0x9A1F crea_tipo_8: la creacion del tipo 8
 C 0x9A22 paso_cero: el paso del actor (ix+1) a cero
 C 0x9A28 lee la parada del ascensor
 C 0x9A2D borra_actor: el tipo y (ix+0x0E) a cero y sus sprites escondidos
+C 0x9A34 con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x00
 C 0x9A39 lee la bandera 0xC602 (refuerzos y musica)
 C 0x9A3D borra_actor: el tipo y (ix+0x0E) a cero y sus sprites escondidos
 C 0x9A40 texto_23_una_vez: tras (ix+0x14) cuadros, el texto 0x23 una vez (0xC63A)
+C 0x9A43 lee el paso del actor
 C 0x9A46 despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 C 0x9A4D sitio_de_snake: E = la Y de Snake, D = la X
+C 0x9A5B sube el paso del actor
 C 0x9A5E lee el objeto elegido (p06:B8F6: 3 LIGHT, 4 GOGGL, 6 CIGAL, 0x0E-0x15 CARD1-8, 0x16 RATIO, 0x19 BOX...)
 C 0x9A67 pon_c602_con_cuenta: 0xC605 = A y pon_c602
 C 0x9A6D lee la bandera 0xC602 (refuerzos y musica)
@@ -811,38 +923,76 @@ C 0x9AF0 lee la bandera 0xC602 (refuerzos y musica)
 C 0x9AF4 reaparece: crea en IX el actor de p06:A445 de la sala (salas < 0xBC)
 C 0x9B0E de_mas_a: DE = DE + A
 C 0x9B16 apunta a la cuenta de cuadros
+C 0x9B21 guarda la cuenta de espera del actor
+C 0x9B24 el cuadro del actor = 0x14
+C 0x9B28 con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x03
 C 0x9B2C parado: las dos velocidades a cero
+C 0x9B2F lee el paso del actor
 C 0x9B32 despacha: salta a la palabra A de la tabla que va pegada detras del `call`
+C 0x9B3B baja la cuenta de espera del actor
 C 0x9B3F azar_0_3: A = (R XOR (ix+0x0C)) AND 3
+C 0x9B4A guarda la cuenta de espera del actor
+C 0x9B4D el paso del actor = 0x01
+C 0x9B51 el cuadro del actor = 0x15
+C 0x9B5C XOR con la cuenta de cuadros del actor
+C 0x9B62 el paso del actor = 0x00
+C 0x9B66 el cuadro del actor = 0x14
+C 0x9B6B el paso del actor = 0x02
+C 0x9B6F si el actor se mueve (p01:7336) = 0x01
 C 0x9B73 hacia_snake_dir: A = la direccion de IX hacia Snake por el eje mayor (1-4), B = la del otro eje
 C 0x9B77 choca_hacia: choca hacia la direccion A, 8 puntos por delante del actor
+C 0x9B7E guarda la direccion del actor
 C 0x9B81 cuadro_de_a: cuadro = 2 x A + 0x1E (+1 con el bit 2 de (ix+0x0C) a cero)
 C 0x9B84 velocidad_de_dir: las velocidades (ix+8, ix+0x0A) por la direccion (ix+0x11) (0x9BDB)
 C 0x9B89 cuadro_de_dir: cuadro = 2 x direccion + 0x1E (+1 con el bit 2 de (ix+0x0C) a cero)
+C 0x9B8C lee la direccion del actor
 C 0x9B8F choca_hacia: choca hacia la direccion A, 8 puntos por delante del actor
+C 0x9B94 baja la cuenta de espera del actor
 C 0x9B9A sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
 C 0x9B9D hacia_snake_dir: A = la direccion de IX hacia Snake por el eje mayor (1-4), B = la del otro eje
 C 0x9BA1 choca_hacia: choca hacia la direccion A, 8 puntos por delante del actor
+C 0x9BA8 guarda la direccion del actor
 C 0x9BAB cuadro_de_a: cuadro = 2 x A + 0x1E (+1 con el bit 2 de (ix+0x0C) a cero)
 C 0x9BAE velocidad_de_dir: las velocidades (ix+8, ix+0x0A) por la direccion (ix+0x11) (0x9BDB)
 C 0x9BB1 azar_0_3: A = (R XOR (ix+0x0C)) AND 3
+C 0x9BB8 guarda la cuenta de espera del actor
+C 0x9BBC lee la direccion del actor
+C 0x9BC2 mira el bit 2 de la cuenta de cuadros del actor
+C 0x9BC9 guarda el cuadro del actor
+C 0x9BCD lee la direccion del actor
 C 0x9BD3 palabra_a: DE = la palabra A de la tabla DE
+C 0x9BD6 guarda la velocidad Y del actor (alta)
+C 0x9BD9 guarda la velocidad X del actor (alta)
 C 0x9BE9 palabra_a: DE = la palabra A de la tabla DE
+C 0x9BED le suma la Y del actor
+C 0x9BF2 le suma la X del actor
 C 0x9BF9 choca: acarreo si alguno de los 2 puntos de la caja B (0x82CB) hacia C, desde Y = L, X = H, pisa una ficha con choque (0xC700 bit 0)
+C 0x9C04 lee el paso del actor
 C 0x9C07 despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 C 0x9C14 alterna_cuadro: si (ix+0x0C) AND B es 0, cambia el bit 0 del cuadro
+C 0x9C17 mira el bit 7 de las marcas del actor (bits 0-4 el arma que le dio, 6 golpe, 7 contacto)
+C 0x9C1C el cuadro del actor = 0x40
 C 0x9C20 paso_siguiente: sube el paso del actor (ix+1)
 C 0x9C25 ventana_de_texto_2: abre la ventana del texto A en el modo 2 (0xCEE0)
 C 0x9C28 paso_siguiente: sube el paso del actor (ix+1)
 C 0x9C2B paso_siguiente: sube el paso del actor (ix+1)
+C 0x9C2E sube si el actor se mueve (p01:7336)
 C 0x9C34 velocidad_y: la velocidad Y del actor (ix+7, ix+8) = DE
 C 0x9C45 crea_actor: crea un actor del tipo C en Y = E, X = D en la primera ficha libre de 0xD000; HL = la ficha, A = 0 si no cabe
+C 0x9C4F el cuadro del actor = 0x3E
+C 0x9C53 lee el tipo del actor
 C 0x9C56 cuenta_tipo: A = cuantos actores del tipo A hay
+C 0x9C59 guarda el numero del actor entre los de su tipo
+C 0x9C5E guarda la cuenta de cuadros del actor
 C 0x9C69 lee la sala
+C 0x9C9E lee el paso del actor
 C 0x9CA1 despacha: salta a la palabra A de la tabla que va pegada detras del `call`
+C 0x9CAC lee el tipo del actor
 C 0x9CB1 cuadro_tipo_3: lo de cada cuadro del tipo 3
 C 0x9CB6 alterna_cuadro: si (ix+0x0C) AND B es 0, cambia el bit 0 del cuadro
 C 0x9CB9 lee la sala
+C 0x9CC5 mira el bit 7 de las marcas del actor (bits 0-4 el arma que le dio, 6 golpe, 7 contacto)
+C 0x9CCE el cuadro del actor = 0x40
 C 0x9CDE ventana_de_texto_2: abre la ventana del texto A en el modo 2 (0xCEE0)
 C 0x9CE3 marca_sala_del_tipo_49: pone a 1 la bandera de la sala (ix+0x15, 0x16) en 0xC640
 C 0x9CE6 paso_actor: sube el paso del actor (ix+1)
@@ -851,11 +1001,17 @@ C 0x9CF1 ventana_de_texto: abre la ventana del texto A en el modo 0: 0xCEF0 = A,
 C 0x9CFD marca_sala_del_tipo_49: pone a 1 la bandera de la sala (ix+0x15, 0x16) en 0xC640
 C 0x9D03 sube_c132_cada_5: sube 0xC13A y, cada 5, sube 0xC132
 C 0x9D09 ventana_de_texto: abre la ventana del texto A en el modo 0: 0xCEF0 = A, guarda 0xC151 en 0xCEF1 y pone 0xC151 = 10
+C 0x9D10 lee la Y del actor
 C 0x9D19 marca_sala_del_tipo_49: pone a 1 la bandera de la sala (ix+0x15, 0x16) en 0xC640
+C 0x9D26 lee el tipo del actor
 C 0x9D2D lee la sala
 C 0x9D49 marca_sala_del_tipo_49: pone a 1 la bandera de la sala (ix+0x15, 0x16) en 0xC640
 C 0x9D4D ventana_de_texto: abre la ventana del texto A en el modo 0: 0xCEF0 = A, guarda 0xC151 en 0xCEF1 y pone 0xC151 = 10
 C 0x9D52 sube_c132_cada_5: sube 0xC13A y, cada 5, sube 0xC132
+C 0x9D86 con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x00
+C 0x9D98 lee la direccion del actor
+C 0x9D9F lee el cuadro del actor
+C 0x9DA5 guarda el cuadro del actor
 C 0x9DB5 ve_a_snake: el actor mira hacia (ix+0x11) desde su sitio: si ve a Snake, alarma
 C 0x9DB8 lee la bandera 0xC602 (refuerzos y musica)
 C 0x9DBC reaparece: crea en IX el actor de p06:A445 de la sala (salas < 0xBC)
@@ -863,34 +1019,75 @@ C 0x9DC2 despacha: salta a la palabra A de la tabla que va pegada detras del `ca
 C 0x9DCF anda_el_camino: se duerme si toca, alterna el cuadro y mira si llego al punto
 C 0x9DD4 se_duerme: con 0xC633, al acabar (ix+0x44): se para, cuadro 2, texto 0x21 y el tipo 0x40 encima
 C 0x9DDA alterna_cuadro: si (ix+0x0C) AND B es 0, cambia el bit 0 del cuadro
+C 0x9DDD lee la X del actor
+C 0x9DE0 lee la Y del actor
+C 0x9DE9 lee la direccion del actor
 C 0x9DFD punto_alcanzado: pone el actor en el punto, pasa al siguiente del camino y, a veces, se para
+C 0x9E08 baja la cuenta de espera del actor
+C 0x9E0C lee la direccion del actor
+C 0x9E1C guarda la direccion del actor
+C 0x9E21 guarda el cuadro del actor
+C 0x9E24 la cuenta de espera del actor = 0x10
+C 0x9E2C baja la cuenta de espera del actor
+C 0x9E30 sube si el actor se mueve (p01:7336)
+C 0x9E36 guarda la direccion del actor
+C 0x9E49 si el actor se mueve (p01:7336) = 0x00
+C 0x9E57 el cuadro del actor = 0x02
 C 0x9E61 ventana_de_texto_2: abre la ventana del texto A en el modo 2 (0xCEE0)
+C 0x9E64 lee la X del actor
+C 0x9E67 lee la Y del actor
 C 0x9E6F crea_actor: crea un actor del tipo C en Y = E, X = D en la primera ficha libre de 0xD000; HL = la ficha, A = 0 si no cabe
 C 0x9E72 oye_disparo: acarreo si el actor esta marcado o hay un disparo sin SILENCER en marcha
 C 0x9E75 alarma_de_actor: la alarma desde el actor: 0xC614 por la sala (0x98DE), 0xC60C y los refuerzos
+C 0x9E8B sube si el actor se mueve (p01:7336)
 C 0x9E96 ventana_de_texto_2: abre la ventana del texto A en el modo 2 (0xCEE0)
 C 0x9E99 lee la sala
+C 0x9EA7 con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x00
 C 0x9EB1 cuenta_tipo: A = cuantos actores del tipo A hay
+C 0x9EB4 guarda el numero del actor entre los de su tipo
+C 0x9EB9 guarda la cuenta de espera del actor
 C 0x9EBC lee la sala
 C 0x9ECB hl_mas_2a: HL = HL + 2 x A
+C 0x9ED2 lee el numero del actor entre los de su tipo
 C 0x9ED6 hl_mas_a: HL = HL + A
+C 0x9EDF guarda el cuadro del actor
+C 0x9EE2 sube si el actor se mueve (p01:7336)
+C 0x9EE5 lee el numero del actor entre los de su tipo
 C 0x9EE8 carga_camino: carga el camino B de la sala (p06:A2DF) en IX y va al primer punto
+C 0x9F19 lee el paso del actor
 C 0x9F1C despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 C 0x9F25 lee la bandera 0xC602 (refuerzos y musica)
 C 0x9F33 hl_mas_2a: HL = HL + 2 x A
+C 0x9F36 lee la Y del actor
+C 0x9F3C lee la X del actor
 C 0x9F43 ve_a_snake_desde: mira hacia A desde HL: Snake en linea y sin pared por medio (no en la caja quieta)
+C 0x9F4C si el actor se mueve (p01:7336) = 0x00
+C 0x9F50 la cuenta de espera del actor = 0x20
 C 0x9F54 paso_siguiente: sube el paso del actor (ix+1)
+C 0x9F57 lee si el actor se mueve (p01:7336)
 C 0x9F5B llego_al_punto: si paso el punto (ix+0x15, 0x16) por su direccion, punto_alcanzado
+C 0x9F5E baja la cuenta de espera del actor
+C 0x9F62 si el actor se mueve (p01:7336) = 0x01
+C 0x9F68 guarda la cuenta de espera del actor
 C 0x9F6B hacia_el_punto: direccion (ix+0x11) y velocidades hacia el punto (ix+0x15, ix+0x16) con la marcha (ix+0x43)
+C 0x9F6E baja la cuenta de espera del actor
+C 0x9F74 lee la cuenta de espera del actor
+C 0x9F8E lee el paso del actor
 C 0x9F91 despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 C 0x9F9A llego_al_punto: si paso el punto (ix+0x15, 0x16) por su direccion, punto_alcanzado
 C 0x9F9D lee la Y de Snake
+C 0x9FA0 compara con la Y del actor
 C 0x9FA4 lee la X de Snake
+C 0x9FA9 lee la X del actor
+C 0x9FB2 lee el paso del actor
 C 0x9FB6 paso_siguiente: sube el paso del actor (ix+1)
 C 0x9FC0 velocidad_x: la velocidad X del actor (ix+9, ix+0x0A) = DE
+C 0x9FC3 lee la X del actor
+C 0x9FC6 lee la Y del actor
 C 0x9FCD crea_actor: crea un actor del tipo C en Y = E, X = D en la primera ficha libre de 0xD000; HL = la ficha, A = 0 si no cabe
 C 0x9FD5 llego_al_punto: si paso el punto (ix+0x15, 0x16) por su direccion, punto_alcanzado
 C 0x9FE2 bajo_la_camara: si Snake pasa por debajo: paso 1 y crea el tipo 0x36; A = 0xFF
 C 0x9FE7 lee la X de Snake
+C 0x9FEA le resta la X del actor
 C 0x9FFB camino_del_actor: carga el camino (ix+0x0F) de la sala
 # --- fin de las anotaciones de anota.py ---

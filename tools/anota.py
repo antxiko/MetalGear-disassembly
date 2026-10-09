@@ -101,19 +101,25 @@ def num(txt):
 def fichas_de(filas, b=None):
     """Para cada instruccion, si IX apunta ahi a una ficha de actor: desde un
     `ld ix,nn` con nn en FICHAS_IX hasta el siguiente `ld ix` con otra cosa,
-    un `ret` o un `jp` (un tramo sin carga de IX no cuenta, salvo en los
-    bancos de IX_FICHA_POR_DEFECTO)."""
-    defecto = b in IX_FICHA_POR_DEFECTO
-    fuera, bueno = {}, defecto
+    un `ret` o un `jp` (un tramo sin carga de IX no cuenta, salvo dentro de
+    los tramos de IX_FICHA_POR_DEFECTO)."""
+    tramos = IX_FICHA_POR_DEFECTO.get(b, ())
+
+    def defecto(a):
+        return any(i <= a < f for i, f in tramos)
+
+    # cargado: lo que dejo el ultimo `ld ix`/`pop ix` del tramo; sin el, manda
+    # el tramo de la tabla en el que cae cada instruccion
+    fuera, cargado = {}, None
     for k, (a, t) in enumerate(filas):
         m = re.match(r"ld ix,0([0-9a-f]{4})h$", t)
         if m:
-            bueno = int(m.group(1), 16) in FICHAS_IX
+            cargado = int(m.group(1), 16) in FICHAS_IX
         elif t.startswith(("ld ix", "pop ix")):
-            bueno = False
-        fuera[k] = bueno
+            cargado = False
+        fuera[k] = defecto(a) if cargado is None else cargado
         if t.startswith(("ret", "jp ")) and not re.match(r"ret [a-z]", t):
-            bueno = defecto
+            cargado = None
     return fuera
 
 

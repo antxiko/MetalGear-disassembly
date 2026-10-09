@@ -2659,7 +2659,7 @@ L_BCD9:
 	ld a,085h		;bcdf
 	ld (0c138h),a		;bce1   ; guarda la frecuencia del transceptor (BCD)
 	ld a,010h		;bce4
-	ld (0c131h),a		;bce6
+	ld (0c131h),a		;bce6   ; guarda la vida (LIFE)
 	call 0407dh		;bce9   ; transceptor_abre_y_vuelve: llama a transceptor_abre (p01:6912) y deja otra vez los bancos 1-2 y el de zona
 	ld a,010h		;bcec
 	ld (0c802h),a		;bcee
@@ -2859,7 +2859,7 @@ vuelve_al_punto:		; devuelve la partida guardada en 0xCA00
 	xor a			;be17
 	call copia_partida		;be18   ; copia_partida: A = 1: copia los bloques de RAM de 0xBE51 ([dir][largo]) a 0xCA00; A = 0: los devuelve
 	xor a			;be1b
-	ld (0c199h),a		;be1c
+	ld (0c199h),a		;be1c   ; guarda la cuenta de herido (Snake parpadea)
 	ret			;be1f
 L_BE20:
 	ld a,001h		;be20

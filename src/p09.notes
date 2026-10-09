@@ -113,6 +113,7 @@ C 0xAF20 guarda la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha
 C 0xAF25 guarda las teclas que hay
 C 0xAF2C guarda el modo de la pose de Snake
 C 0xAF31 guarda la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
+C 0xAF46 guarda la llamada del transceptor (0 pendiente, 1 llamando, 2 ninguna)
 C 0xAF4B sonido_si_hay_y_vuelve: llama a sonido_si_hay (p00:427C) y deja otra vez los bancos 1-2 y el de zona
 C 0xAF55 sonido_si_hay_y_vuelve: llama a sonido_si_hay (p00:427C) y deja otra vez los bancos 1-2 y el de zona
 C 0xAF58 transceptor_abre_y_vuelve: llama a transceptor_abre (p01:6912) y deja otra vez los bancos 1-2 y el de zona
@@ -201,6 +202,7 @@ C 0xB694 graficos_del_logotipo_konami_y_vuelve: llama a graficos_del_logotipo_ko
 C 0xB697 enciende_la_pantalla_y_vuelve: llama a enciende_la_pantalla (p00:4E01) y deja otra vez los bancos 1-2 y el de zona
 C 0xB69A apunta a la sala
 C 0xB6B6 apunta a la sala
+C 0xB6C4 guarda la CLASS (0-3 estrellas)
 C 0xB6D5 copia_vram_y_vuelve: llama a copia_vram (p00:4FCD) y deja otra vez los bancos 1-2 y el de zona
 C 0xBF49 lee la sala
 C 0xBF5C guarda el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)

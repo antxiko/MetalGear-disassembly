@@ -465,6 +465,7 @@ C 0xBCC6 teclas_del_juego_y_vuelve: llama a teclas_del_juego (p01:7CBC) y deja o
 C 0xBCD9 paleta_del_juego_y_vuelve: llama a paleta_del_juego (p00:4A92) y deja otra vez los bancos 1-2 y el de zona
 C 0xBCDC fichas_del_marcador_y_vuelve: llama a fichas_del_marcador (p00:4B33) y deja otra vez los bancos 1-2 y el de zona
 C 0xBCE1 guarda la frecuencia del transceptor (BCD)
+C 0xBCE6 guarda la vida (LIFE)
 C 0xBCE9 transceptor_abre_y_vuelve: llama a transceptor_abre (p01:6912) y deja otra vez los bancos 1-2 y el de zona
 C 0xBCF5 guarda la barra de senal del transceptor (0-12)
 C 0xBCF8 guarda el paso del modo
@@ -485,6 +486,7 @@ C 0xBD87 teclas_del_juego_y_vuelve: llama a teclas_del_juego (p01:7CBC) y deja o
 C 0xBE00 lee la sala
 C 0xBE04 lee la parada del ascensor
 C 0xBE18 copia_partida: A = 1: copia los bloques de RAM de 0xBE51 ([dir][largo]) a 0xCA00; A = 0: los devuelve
+C 0xBE1C guarda la cuenta de herido (Snake parpadea)
 C 0xBE22 apunta a la casilla de trabajo 0xEC00
 C 0xBEA2 lee_matriz: las 9 filas del teclado: las que hay en 0xE515 y las nuevas en 0xE50C
 C 0xBEA5 tecla_a_clave: la primera tecla nueva (fila x 8 + bit) al final de la clave 0xE500

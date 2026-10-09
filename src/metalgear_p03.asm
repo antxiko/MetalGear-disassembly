@@ -34,10 +34,10 @@ L_A001:
 	ld a,(ix+01ch)		;a001
 	or a			;a004
 	jr nz,L_A029		;a005
-	ld a,(ix+00fh)		;a007
+	ld a,(ix+00fh)		;a007   ; lee el numero del actor entre los de su tipo
 	ld hl,0a043h		;a00a
 	call 041dfh		;a00d   ; hl_mas_2a: HL = HL + 2 x A
-	ld a,(ix+005h)		;a010
+	ld a,(ix+005h)		;a010   ; lee la X del actor
 	cp (hl)			;a013
 	ld c,001h		;a014
 	jr z,L_A020		;a016
@@ -53,7 +53,7 @@ L_A023:
 	jp 05b5dh		;a026   ; velocidad_x: la velocidad X del actor (ix+9, ix+0x0A) = DE
 L_A029:
 	ld a,(0c184h)		;a029   ; lee la X de Snake
-	ld c,(ix+005h)		;a02c
+	ld c,(ix+005h)		;a02c   ; lee la X del actor
 	cp c			;a02f
 	jr z,L_A023		;a030
 	ld a,(ix+016h)		;a032
@@ -92,13 +92,13 @@ crea_tipo_54:		; la creacion del tipo 54
 	add hl,de			;a05d
 	call 05703h		;a05e
 L_A061:
-	ld (ix+00bh),061h		;a061
+	ld (ix+00bh),061h		;a061   ; el cuadro del actor = 0x61
 	ld (ix+058h),00bh		;a065
 	ld (ix+059h),001h		;a069
 	ld a,004h		;a06d
 	jp 0427ch		;a06f   ; sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
 cuadro_tipo_54:		; lo de cada cuadro del tipo 54
-	ld a,(ix+001h)		;a072
+	ld a,(ix+001h)		;a072   ; lee el paso del actor
 	call 041eah		;a075   ; despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 
 ; ----------------------------------------------------------------------
@@ -163,10 +163,10 @@ L_A0D5:
 	ret			;a0d5
 crea_tipo_64:		; la creacion del tipo 64
 	ld a,r		;a0d6
-	ld (ix+00ch),a		;a0d8
-	ld (ix+00eh),000h		;a0db
+	ld (ix+00ch),a		;a0d8   ; guarda la cuenta de cuadros del actor
+	ld (ix+00eh),000h		;a0db   ; con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x00
 	ld (ix+058h),0e0h		;a0df
-	ld (ix+00bh),03ah		;a0e3
+	ld (ix+00bh),03ah		;a0e3   ; el cuadro del actor = 0x3A
 	ret			;a0e7
 cuadro_tipo_64:		; lo de cada cuadro del tipo 64
 	ld a,(0c602h)		;a0e8   ; lee la bandera 0xC602 (refuerzos y musica)
@@ -194,18 +194,18 @@ L_A10C:
 	jr z,L_A115		;a111
 	ld c,018h		;a113
 L_A115:
-	ld a,(ix+003h)		;a115
+	ld a,(ix+003h)		;a115   ; lee la Y del actor
 	cp c			;a118
 	ret nz			;a119
 L_A11A:
 	ld (ix+045h),001h		;a11a
-	ld (ix+00eh),000h		;a11e
-	ld (ix+020h),000h		;a122
+	ld (ix+00eh),000h		;a11e   ; con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x00
+	ld (ix+020h),000h		;a122   ; cuantos sprites tiene el actor = 0x00
 	jp 05bc1h		;a126   ; colores_a_cero: escribe A y C alternos cada 5 bytes desde (ix+0x25)
 L_A129:
 	ld a,e			;a129
 	cp 089h		;a12a
-	ld a,(ix+005h)		;a12c
+	ld a,(ix+005h)		;a12c   ; lee la X del actor
 	ld c,088h		;a12f
 	ret nz			;a131
 	jr L_A159		;a132
@@ -213,21 +213,21 @@ L_A134:
 	ld a,d			;a134
 	ld c,010h		;a135
 	cp 004h		;a137
-	ld a,(ix+005h)		;a139
+	ld a,(ix+005h)		;a139   ; lee la X del actor
 	ret nz			;a13c
 	jr L_A159		;a13d
 L_A13F:
 	ld a,d			;a13f
 	ld c,030h		;a140
 	cp 001h		;a142
-	ld a,(ix+003h)		;a144
+	ld a,(ix+003h)		;a144   ; lee la Y del actor
 	jr nz,L_A159		;a147
 	jr L_A155		;a149
 L_A14B:
 	ld a,d			;a14b
 	ld c,013h		;a14c
 	cp 001h		;a14e
-	ld a,(ix+003h)		;a150
+	ld a,(ix+003h)		;a150   ; lee la Y del actor
 	jr nz,L_A159		;a153
 L_A155:
 	cp c			;a155
@@ -241,7 +241,7 @@ L_A15D:
 	ld a,08dh		;a15d
 	ld c,078h		;a15f
 	cp e			;a161
-	ld a,(ix+003h)		;a162
+	ld a,(ix+003h)		;a162   ; lee la Y del actor
 	jr z,L_A159		;a165
 	dec d			;a167
 	ret nz			;a168
@@ -251,34 +251,34 @@ L_A16D:
 	ld a,e			;a16d
 	ld c,020h		;a16e
 	cp 014h		;a170
-	ld a,(ix+005h)		;a172
+	ld a,(ix+005h)		;a172   ; lee la X del actor
 	jr z,L_A159		;a175
 	ld c,0f0h		;a177
 	jr L_A159		;a179
 L_A17B:
 	ld a,09ch		;a17b
 	cp e			;a17d
-	ld a,(ix+003h)		;a17e
+	ld a,(ix+003h)		;a17e   ; lee la Y del actor
 	ld c,028h		;a181
 	jr z,L_A159		;a183
 	ld a,021h		;a185
 	cp e			;a187
 	ld c,018h		;a188
-	ld a,(ix+005h)		;a18a
+	ld a,(ix+005h)		;a18a   ; lee la X del actor
 	ret nz			;a18d
 	jr L_A159		;a18e
 L_A190:
 	ld a,(0c136h)		;a190   ; lee la parada del ascensor
 	cp 0f2h		;a193
-	ld a,(ix+003h)		;a195
+	ld a,(ix+003h)		;a195   ; lee la Y del actor
 	ld c,048h		;a198
 	jr z,L_A159		;a19a
 	ld c,0b0h		;a19c
 	jr L_A159		;a19e
 L_A1A0:
-	ld (ix+001h),002h		;a1a0
-	ld (ix+006h),000h		;a1a4
-	ld (ix+00eh),000h		;a1a8
+	ld (ix+001h),002h		;a1a0   ; el paso del actor = 0x02
+	ld (ix+006h),000h		;a1a4   ; si el actor se mueve (p01:7336) = 0x00
+	ld (ix+00eh),000h		;a1a8   ; con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x00
 	call 05bc1h		;a1ac   ; colores_a_cero: escribe A y C alternos cada 5 bytes desde (ix+0x25)
 dibujo_de_camara:		; copia 16 x 16 de (0x20 + 16 x (ix+0x1B), 0x80) de la pagina 1 a la Y/X del actor con TIMP
 	ld a,(ix+01bh)		;a1af
@@ -289,10 +289,10 @@ dibujo_de_camara:		; copia 16 x 16 de (0x20 + 16 x (ix+0x1B), 0x80) de la pagina
 	add a,020h		;a1ba
 	ld h,a			;a1bc
 	ld l,080h		;a1bd
-	ld a,(ix+003h)		;a1bf
+	ld a,(ix+003h)		;a1bf   ; lee la Y del actor
 	sub 008h		;a1c2
 	ld e,a			;a1c4
-	ld a,(ix+005h)		;a1c5
+	ld a,(ix+005h)		;a1c5   ; lee la X del actor
 	sub 008h		;a1c8
 	ld d,a			;a1ca
 	ld bc,01010h		;a1cb
@@ -328,7 +328,7 @@ crea_tipo_44:		; la creacion del tipo 44
 	ld (0c616h),a		;a1fe
 	ret			;a201
 cuadro_tipo_44:		; lo de cada cuadro del tipo 44
-	ld a,(ix+00ch)		;a202
+	ld a,(ix+00ch)		;a202   ; lee la cuenta de cuadros del actor
 	and 003h		;a205
 	ret nz			;a207
 	ld a,(ix+013h)		;a208
@@ -371,7 +371,7 @@ L_A248:
 	ld (ix+014h),b		;a248
 	ret			;a24b
 cuadro_tipo_36:		; lo de cada cuadro del tipo 36
-	ld a,(ix+001h)		;a24c
+	ld a,(ix+001h)		;a24c   ; lee el paso del actor
 	call 041eah		;a24f   ; despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 
 ; ----------------------------------------------------------------------
@@ -390,7 +390,7 @@ DATA_tabla_A252:
 L_A25E:
 	dec (ix+073h)		;a25e
 	ret nz			;a261
-	inc (ix+001h)		;a262
+	inc (ix+001h)		;a262   ; sube el paso del actor
 	ld a,06ch		;a265
 	jp 05cddh		;a267   ; ventana_de_texto_1: abre la ventana del texto A en el modo 1 (0xCEE0)
 L_A26A:
@@ -428,21 +428,21 @@ L_A292:
 	call hacia_snake_de_lado		;a292   ; hacia_snake_de_lado: velocidad X de 2 hacia Snake y cuadro 0x2C/0x28
 	jp L_A323		;a295
 hacia_snake_de_lado:		; velocidad X de 2 hacia Snake y cuadro 0x2C/0x28
-	ld (ix+006h),001h		;a298
+	ld (ix+006h),001h		;a298   ; si el actor se mueve (p01:7336) = 0x01
 	ld a,(0c184h)		;a29c   ; lee la X de Snake
-	cp (ix+005h)		;a29f
+	cp (ix+005h)		;a29f   ; compara con la X del actor
 	ld b,02ch		;a2a2
 	ld de,00200h		;a2a4
 	jr nc,L_A2AE		;a2a7
 	ld b,028h		;a2a9
 	ld de,0fe00h		;a2ab
 L_A2AE:
-	ld (ix+00bh),b		;a2ae
+	ld (ix+00bh),b		;a2ae   ; guarda el cuadro del actor
 	jp 05b5dh		;a2b1   ; velocidad_x: la velocidad X del actor (ix+9, ix+0x0A) = DE
 L_A2B4:
 	ld b,003h		;a2b4
 	call 05b6ah		;a2b6   ; alterna_cuadro: si (ix+0x0C) AND B es 0, cambia el bit 0 del cuadro
-	ld a,(ix+005h)		;a2b9
+	ld a,(ix+005h)		;a2b9   ; lee la X del actor
 	ld b,080h		;a2bc
 	cp b			;a2be
 	jr nc,L_A2C5		;a2bf
@@ -450,11 +450,11 @@ L_A2B4:
 	cp b			;a2c3
 	ret nc			;a2c4
 L_A2C5:
-	ld (ix+005h),b		;a2c5
-	ld e,(ix+003h)		;a2c8
+	ld (ix+005h),b		;a2c5   ; guarda la X del actor
+	ld e,(ix+003h)		;a2c8   ; lee la Y del actor
 	ld (ix+017h),e		;a2cb
 	ld (ix+019h),b		;a2ce
-	ld (ix+00bh),02fh		;a2d1
+	ld (ix+00bh),02fh		;a2d1   ; el cuadro del actor = 0x2F
 	ld a,e			;a2d5
 	add a,00bh		;a2d6
 	ld c,b			;a2d8
@@ -565,7 +565,7 @@ L_A385:
 	jr z,L_A39B		;a397
 	ld c,030h		;a399
 L_A39B:
-	ld (ix+00bh),c		;a39b
+	ld (ix+00bh),c		;a39b   ; guarda el cuadro del actor
 	call 05bdfh		;a39e   ; pareja_del_angulo: C y B = los bytes (ix+0x14) y 63 - (ix+0x14) de la tabla p06:A6B9
 	ld a,b			;a3a1
 	srl a		;a3a2
@@ -712,8 +712,8 @@ L_A46E:
 	ld b,002h		;a46e
 	push ix		;a470
 L_A472:
-	ld e,(ix+007h)		;a472
-	ld d,(ix+008h)		;a475
+	ld e,(ix+007h)		;a472   ; lee la velocidad Y del actor
+	ld d,(ix+008h)		;a475   ; lee la velocidad Y del actor (alta)
 	ld l,(ix+016h)		;a478
 	ld h,(ix+017h)		;a47b
 	add hl,de			;a47e
@@ -748,9 +748,9 @@ tipo_36_empieza:		; los valores de partida del tipo 36 y velocidad X de -2
 	ld (ix+01ah),004h		;a4b9
 	ld (ix+014h),03fh		;a4bd
 	ld (ix+015h),002h		;a4c1
-	ld (ix+00bh),02ch		;a4c5
-	ld e,(ix+003h)		;a4c9
-	ld d,(ix+005h)		;a4cc
+	ld (ix+00bh),02ch		;a4c5   ; el cuadro del actor = 0x2C
+	ld e,(ix+003h)		;a4c9   ; lee la Y del actor
+	ld d,(ix+005h)		;a4cc   ; lee la X del actor
 	ld (ix+017h),e		;a4cf
 	ld (ix+019h),d		;a4d2
 	ld de,0fe00h		;a4d5
@@ -765,10 +765,10 @@ L_A4E1:
 	call 05bafh		;a4e6   ; cuenta_tipo: A = cuantos actores del tipo A hay
 	cp 005h		;a4e9
 	jp nc,07371h		;a4eb
-	ld (ix+00bh),010h		;a4ee
+	ld (ix+00bh),010h		;a4ee   ; el cuadro del actor = 0x10
 	ld a,r		;a4f2
-	ld (ix+00ch),a		;a4f4
-	inc (ix+006h)		;a4f7
+	ld (ix+00ch),a		;a4f4   ; guarda la cuenta de cuadros del actor
+	inc (ix+006h)		;a4f7   ; sube si el actor se mueve (p01:7336)
 	ld hl,00000h		;a4fa
 	ld d,h			;a4fd
 	ld e,l			;a4fe
@@ -789,7 +789,7 @@ cuadro_tipo_37:		; lo de cada cuadro del tipo 37
 	ret nz			;a51b
 	ld a,(ix+070h)		;a51c
 	or a			;a51f
-	ld a,(ix+005h)		;a520
+	ld a,(ix+005h)		;a520   ; lee la X del actor
 	jr nz,L_A52A		;a523
 	cp 080h		;a525
 	ret c			;a527
@@ -817,7 +817,7 @@ L_A538:
 L_A546:
 	jp 05bc3h		;a546
 cuadro_tipo_1:		; lo de cada cuadro del tipo 1
-	ld a,(ix+001h)		;a549
+	ld a,(ix+001h)		;a549   ; lee el paso del actor
 	dec a			;a54c
 	jp z,L_A5B0		;a54d
 	ld hl,0d000h		;a550   ; apunta a los 16 actores (fichas de 0x80)
@@ -935,21 +935,21 @@ DATA_velocidades_a5e4:
 
 
 crea_tipo_1:		; la creacion del tipo 1
-	inc (ix+006h)		;a5f4
-	ld (ix+00bh),035h		;a5f7
+	inc (ix+006h)		;a5f4   ; sube si el actor se mueve (p01:7336)
+	ld (ix+00bh),035h		;a5f7   ; el cuadro del actor = 0x35
 	ld (ix+015h),010h		;a5fb
-	ld (ix+00eh),001h		;a5ff
+	ld (ix+00eh),001h		;a5ff   ; con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x01
 	ret			;a603
 cuadro_tipo_16:		; lo de cada cuadro del tipo 16
-	ld b,(ix+001h)		;a604
+	ld b,(ix+001h)		;a604   ; lee el paso del actor
 	inc b			;a607
 	djnz L_A637		;a608
-	bit 7,(ix+01eh)		;a60a
+	bit 7,(ix+01eh)		;a60a   ; mira el bit 7 de las marcas del actor (bits 0-4 el arma que le dio, 6 golpe, 7 contacto)
 	ret z			;a60e
-	ld (ix+00eh),001h		;a60f
+	ld (ix+00eh),001h		;a60f   ; con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x01
 	ld (ix+019h),001h		;a613
-	ld h,(ix+005h)		;a617
-	ld l,(ix+003h)		;a61a
+	ld h,(ix+005h)		;a617   ; lee la X del actor
+	ld l,(ix+003h)		;a61a   ; lee la Y del actor
 	ld (ix+014h),h		;a61d
 	ld (ix+013h),l		;a620
 	ld (ix+018h),060h		;a623
@@ -1031,16 +1031,16 @@ crea_tipo_16:		; la creacion del tipo 16
 	ld de,0cc20h		;a6c7
 	ld b,00ch		;a6ca
 	call 04a81h		;a6cc
-	ld (ix+00eh),005h		;a6cf
+	ld (ix+00eh),005h		;a6cf   ; con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x05
 	ld a,(0c130h)		;a6d3   ; lee la sala
 	cp 0beh		;a6d6
 	ret nz			;a6d8
-	ld (ix+001h),002h		;a6d9
+	ld (ix+001h),002h		;a6d9   ; el paso del actor = 0x02
 	ld (ix+015h),03fh		;a6dd
-	ld a,(ix+005h)		;a6e1
+	ld a,(ix+005h)		;a6e1   ; lee la X del actor
 	sub 020h		;a6e4
 	ld (ix+014h),a		;a6e6
-	ld a,(ix+003h)		;a6e9
+	ld a,(ix+003h)		;a6e9   ; lee la Y del actor
 	sub 020h		;a6ec
 	ld (ix+013h),a		;a6ee
 	ld (ix+018h),040h		;a6f1
@@ -1094,7 +1094,7 @@ L_A73F:
 	ld a,001h		;a744
 	jp 04fcdh		;a746   ; copia_vram: HMMM: copia B x C de (H, L) a (D, E); A = paginas (bits 0-1 origen, 2-3 destino)
 crea_tipo_10:		; la creacion del tipo 10
-	ld (ix+001h),004h		;a749
+	ld (ix+001h),004h		;a749   ; el paso del actor = 0x04
 	ld a,(0c602h)		;a74d   ; lee la bandera 0xC602 (refuerzos y musica)
 	or a			;a750
 	jr nz,L_A772		;a751
@@ -1116,18 +1116,18 @@ L_A76E:
 	or a			;a76e
 	jp nz,07371h		;a76f
 L_A772:
-	ld (ix+00eh),003h		;a772
+	ld (ix+00eh),003h		;a772   ; con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x03
 	call 08334h		;a776   ; hacia_snake_dir: A = la direccion de IX hacia Snake por el eje mayor (1-4), B = la del otro eje
-	ld (ix+011h),a		;a779
+	ld (ix+011h),a		;a779   ; guarda la direccion del actor
 	call cuadro_por_a		;a77c   ; cuadro_por_a: cuadro = 2 x (A - 1), +1 con el bit 2 de (ix+0x0C)
 	call velocidad_a916_dir		;a77f   ; velocidad_a916_dir: las velocidades de la direccion (ix+0x11) de la tabla 0xA916
 	xor a			;a782
-	ld (ix+007h),a		;a783
-	ld (ix+009h),a		;a786
+	ld (ix+007h),a		;a783   ; guarda la velocidad Y del actor
+	ld (ix+009h),a		;a786   ; guarda la velocidad X del actor
 	ld (ix+01bh),a		;a789
-	ld (ix+012h),014h		;a78c
+	ld (ix+012h),014h		;a78c   ; la cuenta de espera del actor = 0x14
 	inc a			;a790
-	ld (ix+006h),a		;a791
+	ld (ix+006h),a		;a791   ; guarda si el actor se mueve (p01:7336)
 	ld (ix+013h),a		;a794
 tipo_22_por_sala:		; valores del tipo 22 segun la sala (0xD8, 0xBB, 0x9A, 0x58-0x5C)
 	ld a,(0c130h)		;a797   ; lee la sala
@@ -1152,7 +1152,7 @@ L_A7B7:
 	ret			;a7ba
 cuadro_tipo_10:		; lo de cada cuadro del tipo 10
 	call ficha_del_tipo_10		;a7bb   ; ficha_del_tipo_10: las fichas bajo el actor: (ix+0x1B) segun la ficha que pisa
-	ld a,(ix+001h)		;a7be
+	ld a,(ix+001h)		;a7be   ; lee el paso del actor
 	call 041eah		;a7c1   ; despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 
 ; ----------------------------------------------------------------------
@@ -1170,10 +1170,10 @@ DATA_tabla_A7C4:
 L_A7CE:
 	call cuadro_por_direccion		;a7ce   ; cuadro_por_direccion: cuadro = 2 x ((ix+0x11) - 1), +1 con el bit 2 de (ix+0x0C)
 	ld b,000h		;a7d1
-	ld c,(ix+011h)		;a7d3
+	ld c,(ix+011h)		;a7d3   ; lee la direccion del actor
 	call 08292h		;a7d6   ; choca_actor: choca con H = (ix+5), L = (ix+3)
 	jp c,L_A7E0		;a7d9
-	dec (ix+012h)		;a7dc
+	dec (ix+012h)		;a7dc   ; baja la cuenta de espera del actor
 	ret nz			;a7df
 L_A7E0:
 	call es_tipo_0b		;a7e0   ; es_tipo_0b: sin acarreo si el tipo no es 0x0B
@@ -1186,37 +1186,37 @@ L_A7E6:
 	call 08292h		;a7ed   ; choca_actor: choca con H = (ix+5), L = (ix+3)
 	exx			;a7f0
 	jp nc,L_A7FF		;a7f1
-	ld (ix+001h),002h		;a7f4
+	ld (ix+001h),002h		;a7f4   ; el paso del actor = 0x02
 	ld (ix+013h),a		;a7f8
 	ld a,b			;a7fb
 	jp L_A8BF		;a7fc
 L_A7FF:
-	ld (ix+011h),a		;a7ff
+	ld (ix+011h),a		;a7ff   ; guarda la direccion del actor
 	call cuadro_por_a		;a802   ; cuadro_por_a: cuadro = 2 x (A - 1), +1 con el bit 2 de (ix+0x0C)
 	call velocidad_a916_dir		;a805   ; velocidad_a916_dir: las velocidades de la direccion (ix+0x11) de la tabla 0xA916
 	ld a,r		;a808
-	xor (ix+00ch)		;a80a
+	xor (ix+00ch)		;a80a   ; XOR con la cuenta de cuadros del actor
 	and 007h		;a80d
 	add a,00fh		;a80f
 	ld b,a			;a811
 	and 003h		;a812
 	jp z,espera_por_tipo		;a814   ; espera_por_tipo: B = 0x14 (0x0A con el tipo 0x0B)
 L_A817:
-	ld (ix+012h),b		;a817
-	ld (ix+001h),001h		;a81a
-	ld (ix+006h),000h		;a81e
+	ld (ix+012h),b		;a817   ; guarda la cuenta de espera del actor
+	ld (ix+001h),001h		;a81a   ; el paso del actor = 0x01
+	ld (ix+006h),000h		;a81e   ; si el actor se mueve (p01:7336) = 0x00
 L_A822:
 	ld c,02fh		;a822
 crea_encima:		; crea el actor C 0x10 puntos por encima de IX
-	ld a,(ix+003h)		;a824
+	ld a,(ix+003h)		;a824   ; lee la Y del actor
 	sub 010h		;a827
 	ld e,a			;a829
-	ld d,(ix+005h)		;a82a
+	ld d,(ix+005h)		;a82a   ; lee la X del actor
 	jp 0569ah		;a82d   ; crea_actor: crea un actor del tipo C en Y = E, X = D en la primera ficha libre de 0xD000; HL = la ficha, A = 0 si no cabe
 L_A830:
 	call 08356h		;a830   ; lejos_de_snake_dir: las direcciones contrarias a las de hacia_snake_dir
-	ld (ix+011h),a		;a833
-	ld (ix+012h),01eh		;a836
+	ld (ix+011h),a		;a833   ; guarda la direccion del actor
+	ld (ix+012h),01eh		;a836   ; la cuenta de espera del actor = 0x1E
 	call cuadro_por_a		;a83a   ; cuadro_por_a: cuadro = 2 x (A - 1), +1 con el bit 2 de (ix+0x0C)
 	jp velocidad_a916_dir		;a83d   ; velocidad_a916_dir: las velocidades de la direccion (ix+0x11) de la tabla 0xA916
 L_A840:
@@ -1227,34 +1227,34 @@ L_A840:
 	call 08292h		;a847   ; choca_actor: choca con H = (ix+5), L = (ix+3)
 	jp nc,L_A7FF		;a84a
 	exx			;a84d
-	ld (ix+001h),003h		;a84e
+	ld (ix+001h),003h		;a84e   ; el paso del actor = 0x03
 	ld (ix+013h),a		;a852
 	ld a,b			;a855
 	jp L_A8BF		;a856
 L_A859:
 	call 08334h		;a859   ; hacia_snake_dir: A = la direccion de IX hacia Snake por el eje mayor (1-4), B = la del otro eje
 	call cuadro_a_mas_1b		;a85c   ; cuadro_a_mas_1b: cuadro = A + 7 + (ix+0x1B)
-	dec (ix+012h)		;a85f
+	dec (ix+012h)		;a85f   ; baja la cuenta de espera del actor
 	ret nz			;a862
 	call espera_por_tipo		;a863   ; espera_por_tipo: B = 0x14 (0x0A con el tipo 0x0B)
-	ld (ix+001h),000h		;a866
-	ld (ix+006h),001h		;a86a
-	ld a,(ix+000h)		;a86e
+	ld (ix+001h),000h		;a866   ; el paso del actor = 0x00
+	ld (ix+006h),001h		;a86a   ; si el actor se mueve (p01:7336) = 0x01
+	ld a,(ix+000h)		;a86e   ; lee el tipo del actor
 	cp 00bh		;a871
 	jp z,L_A822		;a873
 	ret			;a876
 espera_por_tipo:		; B = 0x14 (0x0A con el tipo 0x0B)
-	ld a,(ix+000h)		;a877
+	ld a,(ix+000h)		;a877   ; lee el tipo del actor
 	cp 00bh		;a87a
 	ld b,014h		;a87c
 	jp nz,L_A883		;a87e
 	ld b,00ah		;a881
 L_A883:
 	ld a,r		;a883
-	xor (ix+00ch)		;a885
+	xor (ix+00ch)		;a885   ; XOR con la cuenta de cuadros del actor
 	and 00fh		;a888
 	add a,b			;a88a
-	ld (ix+012h),a		;a88b
+	ld (ix+012h),a		;a88b   ; guarda la cuenta de espera del actor
 	ret			;a88e
 L_A88F:
 	call cuadro_por_direccion		;a88f   ; cuadro_por_direccion: cuadro = 2 x ((ix+0x11) - 1), +1 con el bit 2 de (ix+0x0C)
@@ -1263,7 +1263,7 @@ L_A88F:
 	call 08292h		;a897   ; choca_actor: choca con H = (ix+5), L = (ix+3)
 	jp nc,L_A8BB		;a89a
 	ld b,000h		;a89d
-	ld c,(ix+011h)		;a89f
+	ld c,(ix+011h)		;a89f   ; lee la direccion del actor
 	call 08292h		;a8a2   ; choca_actor: choca con H = (ix+5), L = (ix+3)
 	ret nc			;a8a5
 	ld a,(ix+013h)		;a8a6
@@ -1272,22 +1272,22 @@ L_A88F:
 	ld c,a			;a8ae
 	call 08292h		;a8af   ; choca_actor: choca con H = (ix+5), L = (ix+3)
 	jp nc,L_A8BB		;a8b2
-	ld a,(ix+011h)		;a8b5
+	ld a,(ix+011h)		;a8b5   ; lee la direccion del actor
 	call 0835fh		;a8b8   ; contraria: A = la direccion contraria (1 y 2, 3 y 4)
 L_A8BB:
-	ld (ix+001h),000h		;a8bb
+	ld (ix+001h),000h		;a8bb   ; el paso del actor = 0x00
 L_A8BF:
-	ld (ix+011h),a		;a8bf
+	ld (ix+011h),a		;a8bf   ; guarda la direccion del actor
 	call cuadro_por_a		;a8c2   ; cuadro_por_a: cuadro = 2 x (A - 1), +1 con el bit 2 de (ix+0x0C)
 	call velocidad_a916_dir		;a8c5   ; velocidad_a916_dir: las velocidades de la direccion (ix+0x11) de la tabla 0xA916
 	jp espera_por_tipo		;a8c8   ; espera_por_tipo: B = 0x14 (0x0A con el tipo 0x0B)
 L_A8CB:
 	call cuadro_por_direccion		;a8cb   ; cuadro_por_direccion: cuadro = 2 x ((ix+0x11) - 1), +1 con el bit 2 de (ix+0x0C)
 	ld b,000h		;a8ce
-	ld c,(ix+011h)		;a8d0
+	ld c,(ix+011h)		;a8d0   ; lee la direccion del actor
 	call 08292h		;a8d3   ; choca_actor: choca con H = (ix+5), L = (ix+3)
 	jp c,L_A7E6		;a8d6
-	dec (ix+012h)		;a8d9
+	dec (ix+012h)		;a8d9   ; baja la cuenta de espera del actor
 	ret nz			;a8dc
 	call es_tipo_0b		;a8dd   ; es_tipo_0b: sin acarreo si el tipo no es 0x0B
 	jp c,L_A840		;a8e0
@@ -1296,21 +1296,21 @@ L_A8CB:
 L_A8E8:
 	dec (ix+013h)		;a8e8
 	ret nz			;a8eb
-	ld (ix+001h),000h		;a8ec
+	ld (ix+001h),000h		;a8ec   ; el paso del actor = 0x00
 	ld a,(0c602h)		;a8f0   ; lee la bandera 0xC602 (refuerzos y musica)
 	or a			;a8f3
 	ret nz			;a8f4
 	jp 07d2ah		;a8f5   ; pon_c602: 0xC602 = 1, 0xC604 = la sala, 0xC606 y la musica 0x32 (0x2F si la pone un actor del tipo 6 o 0x23)
 velocidad_a90e:		; las velocidades de la direccion (ix+0x11) de la tabla 0xA90E
-	ld a,(ix+011h)		;a8f8
+	ld a,(ix+011h)		;a8f8   ; lee la direccion del actor
 	ld de,la90eh		;a8fb
 L_A8FE:
 	call 042b4h		;a8fe   ; palabra_a: DE = la palabra A de la tabla DE
-	ld (ix+008h),e		;a901
-	ld (ix+00ah),d		;a904
+	ld (ix+008h),e		;a901   ; guarda la velocidad Y del actor (alta)
+	ld (ix+00ah),d		;a904   ; guarda la velocidad X del actor (alta)
 	ret			;a907
 velocidad_a916_dir:		; las velocidades de la direccion (ix+0x11) de la tabla 0xA916
-	ld a,(ix+011h)		;a908
+	ld a,(ix+011h)		;a908   ; lee la direccion del actor
 velocidad_a916:		; las velocidades de la direccion A de la tabla 0xA916
 	ld de,0a916h		;a90b
 L_A90E:
@@ -1337,39 +1337,39 @@ DATA_velocidades_a910:
 
 
 cuadro_por_direccion:		; cuadro = 2 x ((ix+0x11) - 1), +1 con el bit 2 de (ix+0x0C)
-	ld a,(ix+011h)		;a920
+	ld a,(ix+011h)		;a920   ; lee la direccion del actor
 cuadro_por_a:		; cuadro = 2 x (A - 1), +1 con el bit 2 de (ix+0x0C)
 	dec a			;a923
 	add a,a			;a924
-	bit 2,(ix+00ch)		;a925
+	bit 2,(ix+00ch)		;a925   ; mira el bit 2 de la cuenta de cuadros del actor
 	jp z,L_A92D		;a929
 	inc a			;a92c
 L_A92D:
 	add a,(ix+01bh)		;a92d
-	ld (ix+00bh),a		;a930
+	ld (ix+00bh),a		;a930   ; guarda el cuadro del actor
 	ret			;a933
 cuadro_mas_1b:		; cuadro = (ix+0x11) + 7 + (ix+0x1B)
-	ld a,(ix+011h)		;a934
+	ld a,(ix+011h)		;a934   ; lee la direccion del actor
 cuadro_a_mas_1b:		; cuadro = A + 7 + (ix+0x1B)
 	add a,007h		;a937
 	add a,(ix+01bh)		;a939
-	ld (ix+00bh),a		;a93c
+	ld (ix+00bh),a		;a93c   ; guarda el cuadro del actor
 	ret			;a93f
 es_tipo_0b:		; sin acarreo si el tipo no es 0x0B
-	ld a,(ix+000h)		;a940
+	ld a,(ix+000h)		;a940   ; lee el tipo del actor
 	cp 00bh		;a943
 	scf			;a945
 	ccf			;a946
 	ret nz			;a947
 lejos_de_snake_x:		; la distancia en X a Snake
 	ld a,(0c184h)		;a948   ; lee la X de Snake
-	sub (ix+005h)		;a94b
+	sub (ix+005h)		;a94b   ; le resta la X del actor
 	jp nc,L_A953		;a94e
 	neg		;a951
 L_A953:
 	ld b,a			;a953
 	ld a,(0c182h)		;a954   ; lee la Y de Snake
-	sub (ix+003h)		;a957
+	sub (ix+003h)		;a957   ; le resta la Y del actor
 	jp nc,L_A95F		;a95a
 	neg		;a95d
 L_A95F:
@@ -1380,10 +1380,10 @@ L_A964:
 	cp 030h		;a964
 	ret			;a966
 ficha_del_tipo_10:		; las fichas bajo el actor: (ix+0x1B) segun la ficha que pisa
-	ld a,(ix+005h)		;a967
+	ld a,(ix+005h)		;a967   ; lee la X del actor
 	sub 004h		;a96a
 	ld h,a			;a96c
-	ld l,(ix+003h)		;a96d
+	ld l,(ix+003h)		;a96d   ; lee la Y del actor
 	call 08305h		;a970   ; fichas_en_el_punto: H y L = la ficha de la sala en el punto HL y la siguiente
 	ld a,l			;a973
 	dec a			;a974
@@ -1410,22 +1410,22 @@ L_A99B:
 	ld (ix+01bh),049h		;a99b
 	ret			;a99f
 L_A9A0:
-	ld (ix+001h),000h		;a9a0
-	ld (ix+012h),00ah		;a9a4
-	ld a,(ix+011h)		;a9a8
+	ld (ix+001h),000h		;a9a0   ; el paso del actor = 0x00
+	ld (ix+012h),00ah		;a9a4   ; la cuenta de espera del actor = 0x0A
+	ld a,(ix+011h)		;a9a8   ; lee la direccion del actor
 	call 0835fh		;a9ab   ; contraria: A = la direccion contraria (1 y 2, 3 y 4)
-	ld (ix+011h),a		;a9ae
+	ld (ix+011h),a		;a9ae   ; guarda la direccion del actor
 	call cuadro_por_a		;a9b1   ; cuadro_por_a: cuadro = 2 x (A - 1), +1 con el bit 2 de (ix+0x0C)
 	jp velocidad_a916_dir		;a9b4   ; velocidad_a916_dir: las velocidades de la direccion (ix+0x11) de la tabla 0xA916
 azar_0_3:		; A = (R XOR (ix+0x0C)) AND 3
 	ld a,r		;a9b7
-	xor (ix+00ch)		;a9b9
+	xor (ix+00ch)		;a9b9   ; XOR con la cuenta de cuadros del actor
 	and 003h		;a9bc
 	ret			;a9be
 crea_tipo_47:		; la creacion del tipo 47
-	inc (ix+006h)		;a9bf
-	ld (ix+00eh),001h		;a9c2
-	ld (ix+00bh),072h		;a9c6
+	inc (ix+006h)		;a9bf   ; sube si el actor se mueve (p01:7336)
+	ld (ix+00eh),001h		;a9c2   ; con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x01
+	ld (ix+00bh),072h		;a9c6   ; el cuadro del actor = 0x72
 	ld a,090h		;a9ca
 	call 05c27h		;a9cc   ; hacia_snake_a: HL y DE = la velocidad de IX hacia Snake con el modulo A (+ 8 x 0xC152)
 	call 05b64h		;a9cf   ; velocidades: la velocidad X del actor = DE y la Y = HL
@@ -1440,16 +1440,16 @@ crea_tipo_19:		; la creacion del tipo 19
 	pop bc			;a9e2
 	add a,b			;a9e3
 	ld (ix+07dh),a		;a9e4
-	ld (ix+00fh),a		;a9e7
-	ld (ix+00eh),000h		;a9ea
+	ld (ix+00fh),a		;a9e7   ; guarda el numero del actor entre los de su tipo
+	ld (ix+00eh),000h		;a9ea   ; con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x00
 	call 05997h		;a9ee   ; camino_b: el camino B de la sala (p06:A2DF) para IX, con los arreglos de algunas salas (p03:A10C-A17B)
 	ld a,(0c130h)		;a9f1   ; lee la sala
 	cp 007h		;a9f4
 	jr nz,banderas_salas_5_7		;a9f6
-	ld a,(ix+00fh)		;a9f8
+	ld a,(ix+00fh)		;a9f8   ; lee el numero del actor entre los de su tipo
 	dec a			;a9fb
 	jr z,banderas_salas_5_7		;a9fc
-	ld (ix+043h),008h		;a9fe
+	ld (ix+043h),008h		;a9fe   ; la marcha del actor (0, 4 u 8) = 0x08
 banderas_salas_5_7:		; la bandera de 0xC634 que toca en las salas 5 y 7
 	ld a,(0c130h)		;aa02   ; lee la sala
 	cp 005h		;aa05
@@ -1457,7 +1457,7 @@ banderas_salas_5_7:		; la bandera de 0xC634 que toca en las salas 5 y 7
 	jr z,L_AA1B		;aa0a
 	cp 007h		;aa0c
 	jr nz,L_AA1D		;aa0e
-	ld a,(ix+00fh)		;aa10
+	ld a,(ix+00fh)		;aa10   ; lee el numero del actor entre los de su tipo
 	dec a			;aa13
 	inc hl			;aa14
 	jr z,L_AA1B		;aa15
@@ -1467,7 +1467,7 @@ banderas_salas_5_7:		; la bandera de 0xC634 que toca en las salas 5 y 7
 L_AA1B:
 	ld (hl),000h		;aa1b
 L_AA1D:
-	ld (ix+006h),001h		;aa1d
+	ld (ix+006h),001h		;aa1d   ; si el actor se mueve (p01:7336) = 0x01
 	ld (ix+014h),000h		;aa21
 	ld a,(0c002h)		;aa25   ; lee las banderas del juego (bit 6: se juega; en la demo no)
 	bit 6,a		;aa28
@@ -1477,10 +1477,10 @@ L_AA1D:
 	set 7,a		;aa30
 L_AA32:
 	ld (ix+07eh),a		;aa32
-	ld (ix+00bh),002h		;aa35
+	ld (ix+00bh),002h		;aa35   ; el cuadro del actor = 0x02
 	jp parado		;aa39   ; parado: las dos velocidades a cero
 cuadro_tipo_19:		; lo de cada cuadro del tipo 19
-	ld b,(ix+001h)		;aa3c
+	ld b,(ix+001h)		;aa3c   ; lee el paso del actor
 	inc b			;aa3f
 	djnz L_AA79		;aa40
 	dec (ix+07eh)		;aa42
@@ -1491,7 +1491,7 @@ cuadro_tipo_19:		; lo de cada cuadro del tipo 19
 	jr z,L_AA5F		;aa4e
 	cp 007h		;aa50
 	jr nz,L_AA61		;aa52
-	ld a,(ix+00fh)		;aa54
+	ld a,(ix+00fh)		;aa54   ; lee el numero del actor entre los de su tipo
 	dec a			;aa57
 	inc hl			;aa58
 	jr z,L_AA5F		;aa59
@@ -1504,7 +1504,7 @@ L_AA61:
 	ld (ix+07eh),008h		;aa61
 	ld a,004h		;aa65
 	call 04676h		;aa67   ; colores_del_tipo: copia los colores del tipo A (p05:975A) a la ficha IX, uno cada 5 bytes desde (ix+0x25)
-	ld (ix+00eh),003h		;aa6a
+	ld (ix+00eh),003h		;aa6a   ; con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x03
 	ld hl,00200h		;aa6e
 	ld de,00000h		;aa71
 	call 05b64h		;aa74   ; velocidades: la velocidad X del actor = DE y la Y = HL
@@ -1520,7 +1520,7 @@ L_AA79:
 	inc de			;aa8d
 	call 0592fh		;aa8e
 L_AA91:
-	inc (ix+001h)		;aa91
+	inc (ix+001h)		;aa91   ; sube el paso del actor
 	ret			;aa94
 L_AA95:
 	djnz L_AADB		;aa95
@@ -1540,7 +1540,7 @@ L_AA95:
 	ld a,(ix+040h)		;aab8
 	or a			;aabb
 	jr z,L_AAC8		;aabc
-	inc (ix+006h)		;aabe
+	inc (ix+006h)		;aabe   ; sube si el actor se mueve (p01:7336)
 	ld (ix+040h),000h		;aac1
 	call 05a02h		;aac5   ; hacia_el_punto: direccion (ix+0x11) y velocidades hacia el punto (ix+0x15, ix+0x16) con la marcha (ix+0x43)
 L_AAC8:
@@ -1548,7 +1548,7 @@ L_AAC8:
 	ld de,00000h		;aacb
 	call 05b64h		;aace   ; velocidades: la velocidad X del actor = DE y la Y = HL
 	ld (ix+07eh),008h		;aad1
-	ld (ix+00bh),000h		;aad5
+	ld (ix+00bh),000h		;aad5   ; el cuadro del actor = 0x00
 	jr L_AA91		;aad9
 L_AADB:
 	dec (ix+07eh)		;aadb
@@ -1559,7 +1559,7 @@ L_AADB:
 	jr z,L_AAF8		;aae7
 	cp 007h		;aae9
 	jr nz,L_AAFA		;aaeb
-	ld a,(ix+00fh)		;aaed
+	ld a,(ix+00fh)		;aaed   ; lee el numero del actor entre los de su tipo
 	dec a			;aaf0
 	inc hl			;aaf1
 	jr z,L_AAF8		;aaf2
@@ -1570,50 +1570,50 @@ L_AAF8:
 	ld (hl),000h		;aaf8
 L_AAFA:
 	xor a			;aafa
-	ld (ix+00eh),a		;aafb
+	ld (ix+00eh),a		;aafb   ; guarda con que choca el actor (bit 0 Snake, bit 1 proyectiles)
 	ld c,a			;aafe
 	call 05bc3h		;aaff
 	call banderas_salas_5_7		;ab02   ; banderas_salas_5_7: la bandera de 0xC634 que toca en las salas 5 y 7
 	jp 05ba6h		;ab05   ; paso_cero: el paso del actor (ix+1) a cero
 crea_tipo_14:		; la creacion del tipo 14
-	ld a,(ix+005h)		;ab08
+	ld a,(ix+005h)		;ab08   ; lee la X del actor
 	cp 0f2h		;ab0b
 	jr z,L_AB37		;ab0d
 	ld a,(0c136h)		;ab0f   ; lee la parada del ascensor
 	cp 0f0h		;ab12
 	jp z,07371h		;ab14
-	ld (ix+012h),000h		;ab17
-	ld (ix+001h),001h		;ab1b
-	ld (ix+006h),000h		;ab1f
-	ld a,(ix+005h)		;ab23
+	ld (ix+012h),000h		;ab17   ; la cuenta de espera del actor = 0x00
+	ld (ix+001h),001h		;ab1b   ; el paso del actor = 0x01
+	ld (ix+006h),000h		;ab1f   ; si el actor se mueve (p01:7336) = 0x00
+	ld a,(ix+005h)		;ab23   ; lee la X del actor
 	ld (ix+013h),a		;ab26
 	ld (ix+015h),01eh		;ab29
 	ld a,002h		;ab2d
-	ld (ix+011h),a		;ab2f
-	ld (ix+00bh),009h		;ab32
+	ld (ix+011h),a		;ab2f   ; guarda la direccion del actor
+	ld (ix+00bh),009h		;ab32   ; el cuadro del actor = 0x09
 	ret			;ab36
 L_AB37:
-	ld (ix+001h),000h		;ab37
-	ld (ix+006h),001h		;ab3b
+	ld (ix+001h),000h		;ab37   ; el paso del actor = 0x00
+	ld (ix+006h),001h		;ab3b   ; si el actor se mueve (p01:7336) = 0x01
 	ld a,003h		;ab3f
-	ld (ix+011h),a		;ab41
+	ld (ix+011h),a		;ab41   ; guarda la direccion del actor
 	call cuadro_por_a		;ab44   ; cuadro_por_a: cuadro = 2 x (A - 1), +1 con el bit 2 de (ix+0x0C)
 	call parado		;ab47   ; parado: las dos velocidades a cero
 	call velocidad_a90e		;ab4a   ; velocidad_a90e: las velocidades de la direccion (ix+0x11) de la tabla 0xA90E
 	ld a,(ix+013h)		;ab4d
 	cp 090h		;ab50
 	ret z			;ab52
-	ld (ix+012h),040h		;ab53
+	ld (ix+012h),040h		;ab53   ; la cuenta de espera del actor = 0x40
 	ld (ix+013h),050h		;ab57
 	ret			;ab5b
 cuadro_tipo_14:		; lo de cada cuadro del tipo 14
-	ld a,(ix+001h)		;ab5c
+	ld a,(ix+001h)		;ab5c   ; lee el paso del actor
 	cp 003h		;ab5f
 	jr nc,L_AB6D		;ab61
 	ld a,(0c602h)		;ab63   ; lee la bandera 0xC602 (refuerzos y musica)
 	or a			;ab66
 	jp nz,058e9h		;ab67   ; reaparece: crea en IX el actor de p06:A445 de la sala (salas < 0xBC)
-	ld a,(ix+001h)		;ab6a
+	ld a,(ix+001h)		;ab6a   ; lee el paso del actor
 L_AB6D:
 	call 041eah		;ab6d   ; despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 
@@ -1634,13 +1634,13 @@ L_AB7A:
 	cp 03dh		;ab7d
 	jr c,L_ABEA		;ab7f
 	call cuadro_por_direccion		;ab81   ; cuadro_por_direccion: cuadro = 2 x ((ix+0x11) - 1), +1 con el bit 2 de (ix+0x0C)
-	ld a,(ix+005h)		;ab84
+	ld a,(ix+005h)		;ab84   ; lee la X del actor
 	cp (ix+013h)		;ab87
 	jr z,L_ABA5		;ab8a
 	ld a,(ix+013h)		;ab8c
 	cp 090h		;ab8f
 	ret z			;ab91
-	dec (ix+012h)		;ab92
+	dec (ix+012h)		;ab92   ; baja la cuenta de espera del actor
 	ret nz			;ab95
 	ld c,00eh		;ab96
 	ld de,0f230h		;ab98
@@ -1650,24 +1650,24 @@ L_AB7A:
 	ld (hl),090h		;aba2
 	ret			;aba4
 L_ABA5:
-	ld (ix+012h),000h		;aba5
-	ld (ix+001h),001h		;aba9
-	ld (ix+006h),000h		;abad
+	ld (ix+012h),000h		;aba5   ; la cuenta de espera del actor = 0x00
+	ld (ix+001h),001h		;aba9   ; el paso del actor = 0x01
+	ld (ix+006h),000h		;abad   ; si el actor se mueve (p01:7336) = 0x00
 	ld (ix+015h),01eh		;abb1
 	ld a,002h		;abb5
-	ld (ix+011h),a		;abb7
-	ld (ix+00bh),009h		;abba
+	ld (ix+011h),a		;abb7   ; guarda la direccion del actor
+	ld (ix+00bh),009h		;abba   ; el cuadro del actor = 0x09
 	ret			;abbe
 L_ABBF:
 	ld a,(0c182h)		;abbf   ; lee la Y de Snake
 	cp 03dh		;abc2
 	jr c,L_ABEA		;abc4
-	dec (ix+012h)		;abc6
+	dec (ix+012h)		;abc6   ; baja la cuenta de espera del actor
 	jp nz,L_AC63		;abc9
-	ld (ix+001h),002h		;abcc
-	ld (ix+006h),001h		;abd0
+	ld (ix+001h),002h		;abcc   ; el paso del actor = 0x02
+	ld (ix+006h),001h		;abd0   ; si el actor se mueve (p01:7336) = 0x01
 	ld a,004h		;abd4
-	ld (ix+011h),a		;abd6
+	ld (ix+011h),a		;abd6   ; guarda la direccion del actor
 	call cuadro_por_a		;abd9   ; cuadro_por_a: cuadro = 2 x (A - 1), +1 con el bit 2 de (ix+0x0C)
 	call velocidad_a90e		;abdc   ; velocidad_a90e: las velocidades de la direccion (ix+0x11) de la tabla 0xA90E
 	ld a,(ix+013h)		;abdf
@@ -1678,20 +1678,20 @@ L_ABBF:
 L_ABEA:
 	push ix		;abea
 	ld a,(0c184h)		;abec   ; lee la X de Snake
-	cp (ix+005h)		;abef
+	cp (ix+005h)		;abef   ; compara con la X del actor
 	ld a,00ah		;abf2
 	jr c,L_ABF7		;abf4
 	inc a			;abf6
 L_ABF7:
-	ld (ix+001h),003h		;abf7
-	ld (ix+006h),000h		;abfb
-	ld (ix+00bh),a		;abff
+	ld (ix+001h),003h		;abf7   ; el paso del actor = 0x03
+	ld (ix+006h),000h		;abfb   ; si el actor se mueve (p01:7336) = 0x00
+	ld (ix+00bh),a		;abff   ; guarda el cuadro del actor
 	ld (ix+014h),00fh		;ac02
 	ld bc,00080h		;ac06
 	add ix,bc		;ac09
-	ld (ix+001h),003h		;ac0b
-	ld (ix+006h),000h		;ac0f
-	ld (ix+00bh),a		;ac13
+	ld (ix+001h),003h		;ac0b   ; el paso del actor = 0x03
+	ld (ix+006h),000h		;ac0f   ; si el actor se mueve (p01:7336) = 0x00
+	ld (ix+00bh),a		;ac13   ; guarda el cuadro del actor
 	ld (ix+014h),00fh		;ac16
 	ld a,(0c602h)		;ac1a   ; lee la bandera 0xC602 (refuerzos y musica)
 	or a			;ac1d
@@ -1741,18 +1741,18 @@ L_AC63:
 	add a,020h		;ac6b
 	ld (ix+015h),a		;ac6d
 	ld a,r		;ac70
-	xor (ix+00ch)		;ac72
+	xor (ix+00ch)		;ac72   ; XOR con la cuenta de cuadros del actor
 	and 001h		;ac75
 	ld b,a			;ac77
-	ld a,(ix+011h)		;ac78
+	ld a,(ix+011h)		;ac78   ; lee la direccion del actor
 	and 001h		;ac7b
 	add a,b			;ac7d
-	add a,(ix+011h)		;ac7e
+	add a,(ix+011h)		;ac7e   ; le suma la direccion del actor
 	and 003h		;ac81
 	or a			;ac83
 	ret z			;ac84
 	inc a			;ac85
-	ld (ix+011h),a		;ac86
+	ld (ix+011h),a		;ac86   ; guarda la direccion del actor
 	jp cuadro_a_mas_1b		;ac89   ; cuadro_a_mas_1b: cuadro = A + 7 + (ix+0x1B)
 L_AC8C:
 	call cuadro_por_direccion		;ac8c   ; cuadro_por_direccion: cuadro = 2 x ((ix+0x11) - 1), +1 con el bit 2 de (ix+0x0C)
@@ -1761,7 +1761,7 @@ L_AC8C:
 	ret nc			;ac94
 	ld a,(0c184h)		;ac95   ; lee la X de Snake
 	add a,010h		;ac98
-	cp (ix+005h)		;ac9a
+	cp (ix+005h)		;ac9a   ; compara con la X del actor
 	jp nc,L_ABEA		;ac9d
 	ret			;aca0
 L_ACA1:
@@ -1778,7 +1778,7 @@ L_ACA1:
 L_ACC0:
 	jp cuadro_por_direccion		;acc0   ; cuadro_por_direccion: cuadro = 2 x ((ix+0x11) - 1), +1 con el bit 2 de (ix+0x0C)
 crea_tipo_13:		; la creacion del tipo 13
-	ld (ix+011h),001h		;acc3
+	ld (ix+011h),001h		;acc3   ; la direccion del actor = 0x01
 	ld (ix+015h),003h		;acc7
 	ld a,(0c130h)		;accb   ; lee la sala
 	cp 0ceh		;acce
@@ -1794,9 +1794,9 @@ crea_tipo_13:		; la creacion del tipo 13
 	ld a,(0c182h)		;ace4   ; lee la Y de Snake
 	rla			;ace7
 	jr c,L_ACEE		;ace8
-	ld (ix+003h),0a8h		;acea
+	ld (ix+003h),0a8h		;acea   ; la Y del actor = 0xA8
 L_ACEE:
-	ld a,(ix+005h)		;acee
+	ld a,(ix+005h)		;acee   ; lee la X del actor
 	cp 098h		;acf1
 	ld b,003h		;acf3
 	jr z,L_AD14		;acf5
@@ -1807,10 +1807,10 @@ L_ACFA:
 	ld a,(0c182h)		;acfe   ; lee la Y de Snake
 	rla			;ad01
 	jr c,L_AD27		;ad02
-	ld (ix+003h),090h		;ad04
+	ld (ix+003h),090h		;ad04   ; la Y del actor = 0x90
 	jr L_AD27		;ad08
 L_AD0A:
-	ld a,(ix+005h)		;ad0a
+	ld a,(ix+005h)		;ad0a   ; lee la X del actor
 	cp 078h		;ad0d
 	ld b,004h		;ad0f
 	jr z,L_AD14		;ad11
@@ -1823,25 +1823,25 @@ L_AD19:
 	ld a,(0c182h)		;ad1d   ; lee la Y de Snake
 	rla			;ad20
 	jr nc,L_AD27		;ad21
-	ld (ix+003h),038h		;ad23
+	ld (ix+003h),038h		;ad23   ; la Y del actor = 0x38
 L_AD27:
-	bit 7,(ix+003h)		;ad27
+	bit 7,(ix+003h)		;ad27   ; mira el bit 7 de la Y del actor
 	jr nz,L_AD31		;ad2b
-	ld (ix+011h),002h		;ad2d
+	ld (ix+011h),002h		;ad2d   ; la direccion del actor = 0x02
 L_AD31:
 	call cuadro_mas_1b		;ad31   ; cuadro_mas_1b: cuadro = (ix+0x11) + 7 + (ix+0x1B)
 	call parado		;ad34   ; parado: las dos velocidades a cero
-	ld a,(ix+005h)		;ad37
+	ld a,(ix+005h)		;ad37   ; lee la X del actor
 	ld (ix+013h),a		;ad3a
 	jp espera_azar_64		;ad3d   ; espera_azar_64: (ix+0x12) = 1-64 al azar
 cuadro_tipo_13:		; lo de cada cuadro del tipo 13
 	ld a,(0c182h)		;ad40   ; lee la Y de Snake
-	sub (ix+003h)		;ad43
+	sub (ix+003h)		;ad43   ; le resta la Y del actor
 	add a,010h		;ad46
 	cp 021h		;ad48
 	ld a,00ah		;ad4a
 	jp c,058fdh		;ad4c   ; pon_tipo: pone el tipo A en IX y lo prepara (p03:B3F8, p02:8334, p03:A923, colores)
-	ld a,(ix+001h)		;ad4f
+	ld a,(ix+001h)		;ad4f   ; lee el paso del actor
 	call 041eah		;ad52   ; despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 
 ; ----------------------------------------------------------------------
@@ -1857,63 +1857,63 @@ DATA_tabla_AD55:
 
 
 L_AD5D:
-	dec (ix+012h)		;ad5d
+	dec (ix+012h)		;ad5d   ; baja la cuenta de espera del actor
 	ret nz			;ad60
 	dec (ix+015h)		;ad61
 	ld a,00ah		;ad64
 	jp z,058fdh		;ad66   ; pon_tipo: pone el tipo A en IX y lo prepara (p03:B3F8, p02:8334, p03:A923, colores)
-	inc (ix+001h)		;ad69
-	ld (ix+006h),001h		;ad6c
-	ld (ix+012h),00ah		;ad70
+	inc (ix+001h)		;ad69   ; sube el paso del actor
+	ld (ix+006h),001h		;ad6c   ; si el actor se mueve (p01:7336) = 0x01
+	ld (ix+012h),00ah		;ad70   ; la cuenta de espera del actor = 0x0A
 	ld a,(ix+014h)		;ad74
 	or a			;ad77
 	jp nz,L_AD84		;ad78
 	ld a,r		;ad7b
-	xor (ix+00ch)		;ad7d
+	xor (ix+00ch)		;ad7d   ; XOR con la cuenta de cuadros del actor
 	and 001h		;ad80
 	add a,003h		;ad82
 L_AD84:
-	ld (ix+011h),a		;ad84
+	ld (ix+011h),a		;ad84   ; guarda la direccion del actor
 	call cuadro_por_a		;ad87   ; cuadro_por_a: cuadro = 2 x (A - 1), +1 con el bit 2 de (ix+0x0C)
 	jp velocidad_a916_dir		;ad8a   ; velocidad_a916_dir: las velocidades de la direccion (ix+0x11) de la tabla 0xA916
 L_AD8D:
 	call cuadro_por_direccion		;ad8d   ; cuadro_por_direccion: cuadro = 2 x ((ix+0x11) - 1), +1 con el bit 2 de (ix+0x0C)
-	dec (ix+012h)		;ad90
+	dec (ix+012h)		;ad90   ; baja la cuenta de espera del actor
 	ret nz			;ad93
-	inc (ix+001h)		;ad94
-	ld (ix+006h),000h		;ad97
+	inc (ix+001h)		;ad94   ; sube el paso del actor
+	ld (ix+006h),000h		;ad97   ; si el actor se mueve (p01:7336) = 0x00
 	call espera_azar_64		;ad9b   ; espera_azar_64: (ix+0x12) = 1-64 al azar
-	bit 7,(ix+003h)		;ad9e
+	bit 7,(ix+003h)		;ad9e   ; mira el bit 7 de la Y del actor
 	ld a,001h		;ada2
 	jp nz,cuadro_a_mas_1b		;ada4   ; cuadro_a_mas_1b: cuadro = A + 7 + (ix+0x1B)
 	inc a			;ada7
 	jp cuadro_a_mas_1b		;ada8   ; cuadro_a_mas_1b: cuadro = A + 7 + (ix+0x1B)
 L_ADAB:
-	dec (ix+012h)		;adab
+	dec (ix+012h)		;adab   ; baja la cuenta de espera del actor
 	jp z,L_ADBC		;adae
-	ld a,(ix+00ch)		;adb1
+	ld a,(ix+00ch)		;adb1   ; lee la cuenta de cuadros del actor
 	and 00fh		;adb4
 	ret nz			;adb6
 	ld c,03bh		;adb7
 	jp crea_encima		;adb9   ; crea_encima: crea el actor C 0x10 puntos por encima de IX
 L_ADBC:
-	inc (ix+001h)		;adbc
-	ld a,(ix+00ah)		;adbf
+	inc (ix+001h)		;adbc   ; sube el paso del actor
+	ld a,(ix+00ah)		;adbf   ; lee la velocidad X del actor (alta)
 	neg		;adc2
-	ld (ix+00ah),a		;adc4
-	ld (ix+006h),001h		;adc7
-	ld a,(ix+011h)		;adcb
+	ld (ix+00ah),a		;adc4   ; guarda la velocidad X del actor (alta)
+	ld (ix+006h),001h		;adc7   ; si el actor se mueve (p01:7336) = 0x01
+	ld a,(ix+011h)		;adcb   ; lee la direccion del actor
 	call 0835fh		;adce   ; contraria: A = la direccion contraria (1 y 2, 3 y 4)
-	ld (ix+011h),a		;add1
+	ld (ix+011h),a		;add1   ; guarda la direccion del actor
 	jp cuadro_por_a		;add4   ; cuadro_por_a: cuadro = 2 x (A - 1), +1 con el bit 2 de (ix+0x0C)
 L_ADD7:
 	call cuadro_por_direccion		;add7   ; cuadro_por_direccion: cuadro = 2 x ((ix+0x11) - 1), +1 con el bit 2 de (ix+0x0C)
-	ld a,(ix+005h)		;adda
+	ld a,(ix+005h)		;adda   ; lee la X del actor
 	sub (ix+013h)		;addd
 	ret nz			;ade0
-	ld (ix+001h),a		;ade1
-	ld (ix+006h),a		;ade4
-	bit 7,(ix+003h)		;ade7
+	ld (ix+001h),a		;ade1   ; guarda el paso del actor
+	ld (ix+006h),a		;ade4   ; guarda si el actor se mueve (p01:7336)
+	bit 7,(ix+003h)		;ade7   ; mira el bit 7 de la Y del actor
 	ld a,001h		;adeb
 	jp nz,L_ADF1		;aded
 	inc a			;adf0
@@ -1921,10 +1921,10 @@ L_ADF1:
 	call cuadro_a_mas_1b		;adf1   ; cuadro_a_mas_1b: cuadro = A + 7 + (ix+0x1B)
 espera_azar_64:		; (ix+0x12) = 1-64 al azar
 	ld a,r		;adf4
-	xor (ix+00ch)		;adf6
+	xor (ix+00ch)		;adf6   ; XOR con la cuenta de cuadros del actor
 	and 03fh		;adf9
 	inc a			;adfb
-	ld (ix+012h),a		;adfc
+	ld (ix+012h),a		;adfc   ; guarda la cuenta de espera del actor
 	ret			;adff
 crea_tipo_58:		; la creacion del tipo 58
 	ld hl,0ffc0h		;ae00
@@ -1933,7 +1933,7 @@ crea_tipo_58:		; la creacion del tipo 58
 	ld d,000h		;ae07
 	ld e,a			;ae09
 	add hl,de			;ae0a
-	bit 7,(ix+005h)		;ae0b
+	bit 7,(ix+005h)		;ae0b   ; mira el bit 7 de la X del actor
 	ld de,0fb00h		;ae0f
 	jp nz,L_AE32		;ae12
 	ld d,005h		;ae15
@@ -1946,15 +1946,15 @@ crea_tipo_59:		; la creacion del tipo 59
 	ld l,a			;ae23
 	add hl,de			;ae24
 	ex de,hl			;ae25
-	bit 7,(ix+003h)		;ae26
+	bit 7,(ix+003h)		;ae26   ; mira el bit 7 de la Y del actor
 	ld hl,0fb00h		;ae2a
 	jp nz,L_AE32		;ae2d
 	ld h,005h		;ae30
 L_AE32:
 	call 05b64h		;ae32   ; velocidades: la velocidad X del actor = DE y la Y = HL
-	ld (ix+006h),001h		;ae35
-	ld (ix+00eh),001h		;ae39
-	ld (ix+00bh),072h		;ae3d
+	ld (ix+006h),001h		;ae35   ; si el actor se mueve (p01:7336) = 0x01
+	ld (ix+00eh),001h		;ae39   ; con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x01
+	ld (ix+00bh),072h		;ae3d   ; el cuadro del actor = 0x72
 	ld a,005h		;ae41
 	jp 0427ch		;ae43   ; sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
 crea_tipo_57:		; la creacion del tipo 57
@@ -1964,19 +1964,19 @@ crea_tipo_57:		; la creacion del tipo 57
 	ld a,03eh		;ae4d
 	ld (0c159h),a		;ae4f   ; guarda la musica que suena
 	call 0427ch		;ae52   ; sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
-	inc (ix+006h)		;ae55
+	inc (ix+006h)		;ae55   ; sube si el actor se mueve (p01:7336)
 	call parado		;ae58   ; parado: las dos velocidades a cero
 	ld a,r		;ae5b
 	and 00fh		;ae5d
 	inc a			;ae5f
-	ld (ix+012h),a		;ae60
-	bit 7,(ix+003h)		;ae63
+	ld (ix+012h),a		;ae60   ; guarda la cuenta de espera del actor
+	bit 7,(ix+003h)		;ae63   ; mira el bit 7 de la Y del actor
 	ld a,009h		;ae67
 	ld b,003h		;ae69
 	jp z,L_AE79		;ae6b
 	inc a			;ae6e
 	ld b,001h		;ae6f
-	bit 7,(ix+005h)		;ae71
+	bit 7,(ix+005h)		;ae71   ; mira el bit 7 de la X del actor
 	jp nz,L_AE79		;ae75
 	inc a			;ae78
 L_AE79:
@@ -1986,7 +1986,7 @@ cuadro_tipo_57:		; lo de cada cuadro del tipo 57
 	bit 0,(ix+016h)		;ae7f
 	jp nz,cuadro_tipo_10		;ae83   ; cuadro_tipo_10: lo de cada cuadro del tipo 10
 	call snake_a_tiro		;ae86   ; snake_a_tiro: si Snake esta a menos de 0x20 en la otra coordenada
-	ld a,(ix+001h)		;ae89
+	ld a,(ix+001h)		;ae89   ; lee el paso del actor
 	call 041eah		;ae8c   ; despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 
 ; ----------------------------------------------------------------------
@@ -2002,28 +2002,28 @@ DATA_tabla_AE8F:
 
 
 L_AE97:
-	dec (ix+012h)		;ae97
+	dec (ix+012h)		;ae97   ; baja la cuenta de espera del actor
 	ret nz			;ae9a
-	ld (ix+001h),001h		;ae9b
-	ld (ix+012h),00eh		;ae9f
+	ld (ix+001h),001h		;ae9b   ; el paso del actor = 0x01
+	ld (ix+012h),00eh		;ae9f   ; la cuenta de espera del actor = 0x0E
 	ld a,r		;aea3
-	xor (ix+00ch)		;aea5
+	xor (ix+00ch)		;aea5   ; XOR con la cuenta de cuadros del actor
 	and 001h		;aea8
 	add a,(ix+015h)		;aeaa
-	ld (ix+011h),a		;aead
+	ld (ix+011h),a		;aead   ; guarda la direccion del actor
 	call cuadro_por_a		;aeb0   ; cuadro_por_a: cuadro = 2 x (A - 1), +1 con el bit 2 de (ix+0x0C)
 	jp velocidad_a916_dir		;aeb3   ; velocidad_a916_dir: las velocidades de la direccion (ix+0x11) de la tabla 0xA916
 L_AEB6:
 	call cuadro_por_direccion		;aeb6   ; cuadro_por_direccion: cuadro = 2 x ((ix+0x11) - 1), +1 con el bit 2 de (ix+0x0C)
-	dec (ix+012h)		;aeb9
+	dec (ix+012h)		;aeb9   ; baja la cuenta de espera del actor
 	ret nz			;aebc
-	ld (ix+001h),002h		;aebd
+	ld (ix+001h),002h		;aebd   ; el paso del actor = 0x02
 	call parado		;aec1   ; parado: las dos velocidades a cero
 	ld a,r		;aec4
-	xor (ix+00ch)		;aec6
+	xor (ix+00ch)		;aec6   ; XOR con la cuenta de cuadros del actor
 	and 007h		;aec9
 	inc a			;aecb
-	ld (ix+012h),a		;aecc
+	ld (ix+012h),a		;aecc   ; guarda la cuenta de espera del actor
 	call cuadro_por_lado		;aecf   ; cuadro_por_lado: cuadro 9, 10 u 11 segun (ix+0x15) y el lado de la sala
 	bit 1,(ix+015h)		;aed2
 	ld c,03bh		;aed6
@@ -2031,49 +2031,49 @@ L_AEB6:
 	dec c			;aedb
 	jp crea_encima		;aedc   ; crea_encima: crea el actor C 0x10 puntos por encima de IX
 L_AEDF:
-	dec (ix+012h)		;aedf
+	dec (ix+012h)		;aedf   ; baja la cuenta de espera del actor
 	ret nz			;aee2
-	ld (ix+001h),003h		;aee3
-	ld (ix+012h),00eh		;aee7
-	ld a,(ix+011h)		;aeeb
+	ld (ix+001h),003h		;aee3   ; el paso del actor = 0x03
+	ld (ix+012h),00eh		;aee7   ; la cuenta de espera del actor = 0x0E
+	ld a,(ix+011h)		;aeeb   ; lee la direccion del actor
 	call 0835fh		;aeee   ; contraria: A = la direccion contraria (1 y 2, 3 y 4)
-	ld (ix+011h),a		;aef1
+	ld (ix+011h),a		;aef1   ; guarda la direccion del actor
 	call cuadro_por_a		;aef4   ; cuadro_por_a: cuadro = 2 x (A - 1), +1 con el bit 2 de (ix+0x0C)
 	jp velocidad_a916_dir		;aef7   ; velocidad_a916_dir: las velocidades de la direccion (ix+0x11) de la tabla 0xA916
 L_AEFA:
 	call cuadro_por_direccion		;aefa   ; cuadro_por_direccion: cuadro = 2 x ((ix+0x11) - 1), +1 con el bit 2 de (ix+0x0C)
-	dec (ix+012h)		;aefd
+	dec (ix+012h)		;aefd   ; baja la cuenta de espera del actor
 	ret nz			;af00
-	ld (ix+001h),000h		;af01
+	ld (ix+001h),000h		;af01   ; el paso del actor = 0x00
 	call parado		;af05   ; parado: las dos velocidades a cero
 	ld a,r		;af08
-	xor (ix+00ch)		;af0a
+	xor (ix+00ch)		;af0a   ; XOR con la cuenta de cuadros del actor
 	and 00fh		;af0d
 	inc a			;af0f
-	ld (ix+012h),a		;af10
+	ld (ix+012h),a		;af10   ; guarda la cuenta de espera del actor
 cuadro_por_lado:		; cuadro 9, 10 u 11 segun (ix+0x15) y el lado de la sala
 	bit 1,(ix+015h)		;af13
 	ld a,009h		;af17
 	jp nz,L_AF25		;af19
 	inc a			;af1c
-	bit 7,(ix+005h)		;af1d
+	bit 7,(ix+005h)		;af1d   ; mira el bit 7 de la X del actor
 	jp nz,L_AF25		;af21
 	inc a			;af24
 L_AF25:
-	ld (ix+00bh),a		;af25
+	ld (ix+00bh),a		;af25   ; guarda el cuadro del actor
 	ret			;af28
 snake_a_tiro:		; si Snake esta a menos de 0x20 en la otra coordenada
 	bit 1,(ix+015h)		;af29
 	jp z,L_AF3D		;af2d
 	ld a,(0c182h)		;af30   ; lee la Y de Snake
-	sub (ix+003h)		;af33
+	sub (ix+003h)		;af33   ; le resta la Y del actor
 	add a,020h		;af36
 	cp 041h		;af38
 	ret nc			;af3a
 	jr L_AF48		;af3b
 L_AF3D:
 	ld a,(0c184h)		;af3d   ; lee la X de Snake
-	sub (ix+005h)		;af40
+	sub (ix+005h)		;af40   ; le resta la X del actor
 	add a,020h		;af43
 	cp 041h		;af45
 	ret nc			;af47
@@ -2086,9 +2086,9 @@ crea_tipo_7:		; la creacion del tipo 7
 	ld a,007h		;af52
 	call 05bafh		;af54   ; cuenta_tipo: A = cuantos actores del tipo A hay
 	dec a			;af57
-	ld (ix+00fh),a		;af58
-	ld h,(ix+005h)		;af5b
-	ld l,(ix+003h)		;af5e
+	ld (ix+00fh),a		;af58   ; guarda el numero del actor entre los de su tipo
+	ld h,(ix+005h)		;af5b   ; lee la X del actor
+	ld l,(ix+003h)		;af5e   ; lee la Y del actor
 	call sitio_de_mina		;af61   ; sitio_de_mina: H, L - 8 y A = (ix+0x0F) x 16
 	ld d,a			;af64
 	ld e,0a0h		;af65
@@ -2099,10 +2099,10 @@ crea_tipo_7:		; la creacion del tipo 7
 	cp 007h		;af72
 	ret nz			;af74
 punto_de_mina:		; copia 5 x 5 de (0x95, 0x65) de la pagina 1 a (Y - 3, X - 3) con TIMP
-	ld a,(ix+005h)		;af75
+	ld a,(ix+005h)		;af75   ; lee la X del actor
 	sub 003h		;af78
 	ld d,a			;af7a
-	ld a,(ix+003h)		;af7b
+	ld a,(ix+003h)		;af7b   ; lee la Y del actor
 	sub 003h		;af7e
 	ld e,a			;af80
 	ld hl,09565h		;af81
@@ -2116,7 +2116,7 @@ sitio_de_mina:		; H, L - 8 y A = (ix+0x0F) x 16
 	ld a,l			;af90
 	sub 008h		;af91
 	ld l,a			;af93
-	ld a,(ix+00fh)		;af94
+	ld a,(ix+00fh)		;af94   ; lee el numero del actor entre los de su tipo
 	rlca			;af97
 	rlca			;af98
 	rlca			;af99
@@ -2137,69 +2137,69 @@ L_AFA8:
 	djnz L_AFA8		;afb5
 	ret			;afb7
 marca_mina:		; el punto de la mina IX
-	ld l,(ix+003h)		;afb8
-	ld h,(ix+005h)		;afbb
+	ld l,(ix+003h)		;afb8   ; lee la Y del actor
+	ld h,(ix+005h)		;afbb   ; lee la X del actor
 	push bc			;afbe
 	call punto_de_mina		;afbf   ; punto_de_mina: copia 5 x 5 de (0x95, 0x65) de la pagina 1 a (Y - 3, X - 3) con TIMP
 	pop bc			;afc2
 	ret			;afc3
 crea_tipo_20:		; la creacion del tipo 20
 	call 08334h		;afc4   ; hacia_snake_dir: A = la direccion de IX hacia Snake por el eje mayor (1-4), B = la del otro eje
-	ld (ix+011h),a		;afc7
+	ld (ix+011h),a		;afc7   ; guarda la direccion del actor
 	call cuadro_mas_54		;afca   ; cuadro_mas_54: cuadro = A + 0x54
 L_AFCD:
 	call parado		;afcd   ; parado: las dos velocidades a cero
-	ld (ix+006h),000h		;afd0
-	ld (ix+012h),020h		;afd4
+	ld (ix+006h),000h		;afd0   ; si el actor se mueve (p01:7336) = 0x00
+	ld (ix+012h),020h		;afd4   ; la cuenta de espera del actor = 0x20
 	ld (ix+014h),000h		;afd8
 	ld (ix+015h),0ffh		;afdc
-	ld (ix+00eh),002h		;afe0
+	ld (ix+00eh),002h		;afe0   ; con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x02
 	ld a,(ix+002h)		;afe4
 	ld (ix+016h),a		;afe7
-	ld a,(ix+003h)		;afea
+	ld a,(ix+003h)		;afea   ; lee la Y del actor
 	ld (ix+017h),a		;afed
 	ld a,(ix+004h)		;aff0
 	ld (ix+018h),a		;aff3
-	ld a,(ix+005h)		;aff6
+	ld a,(ix+005h)		;aff6   ; lee la X del actor
 	ld (ix+019h),a		;aff9
-	ld a,(ix+000h)		;affc
+	ld a,(ix+000h)		;affc   ; lee el tipo del actor
 	cp 015h		;afff
-	ld (ix+000h),014h		;b001
-	ld (ix+020h),004h		;b005
+	ld (ix+000h),014h		;b001   ; el tipo del actor = 0x14
+	ld (ix+020h),004h		;b005   ; cuantos sprites tiene el actor = 0x04
 	ret z			;b009
-	ld (ix+020h),006h		;b00a
+	ld (ix+020h),006h		;b00a   ; cuantos sprites tiene el actor = 0x06
 	ret			;b00e
 cuadro_tipo_20:		; lo de cada cuadro del tipo 20
 	call cuadro_dir_mas_58		;b00f   ; cuadro_dir_mas_58: cuadro = (ix+0x11) + 0x58
-	dec (ix+012h)		;b012
+	dec (ix+012h)		;b012   ; baja la cuenta de espera del actor
 	jr z,L_B025		;b015
 	ld a,(ix+015h)		;b017
-	add a,(ix+003h)		;b01a
-	ld (ix+003h),a		;b01d
-	ld (ix+020h),004h		;b020
+	add a,(ix+003h)		;b01a   ; le suma la Y del actor
+	ld (ix+003h),a		;b01d   ; guarda la Y del actor
+	ld (ix+020h),004h		;b020   ; cuantos sprites tiene el actor = 0x04
 	ret			;b024
 L_B025:
-	ld (ix+000h),016h		;b025
-	ld (ix+006h),001h		;b029
-	ld (ix+012h),02dh		;b02d
-	ld (ix+020h),006h		;b031
+	ld (ix+000h),016h		;b025   ; el tipo del actor = 0x16
+	ld (ix+006h),001h		;b029   ; si el actor se mueve (p01:7336) = 0x01
+	ld (ix+012h),02dh		;b02d   ; la cuenta de espera del actor = 0x2D
+	ld (ix+020h),006h		;b031   ; cuantos sprites tiene el actor = 0x06
 	jp L_B0AE		;b035
 crea_tipo_21:		; la creacion del tipo 21
 	ld a,(0c136h)		;b038   ; lee la parada del ascensor
 	cp 0a0h		;b03b
 	jp z,07371h		;b03d
-	ld (ix+006h),001h		;b040
-	ld (ix+00eh),002h		;b044
+	ld (ix+006h),001h		;b040   ; si el actor se mueve (p01:7336) = 0x01
+	ld (ix+00eh),002h		;b044   ; con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x02
 	ld a,001h		;b048
-	ld (ix+011h),a		;b04a
+	ld (ix+011h),a		;b04a   ; guarda la direccion del actor
 	call cuadro_mas_58		;b04d   ; cuadro_mas_58: cuadro = A + 0x58
 	jp parado		;b050   ; parado: las dos velocidades a cero
 cuadro_tipo_21:		; lo de cada cuadro del tipo 21
-	bit 0,(ix+001h)		;b053
+	bit 0,(ix+001h)		;b053   ; mira el bit 0 de el paso del actor
 	jr nz,L_B072		;b057
-	ld (ix+020h),004h		;b059
-	ld (ix+001h),001h		;b05d
-	ld (ix+008h),002h		;b061
+	ld (ix+020h),004h		;b059   ; cuantos sprites tiene el actor = 0x04
+	ld (ix+001h),001h		;b05d   ; el paso del actor = 0x01
+	ld (ix+008h),002h		;b061   ; la velocidad Y del actor (alta) = 0x02
 	call cuadro_dir_mas_58		;b065   ; cuadro_dir_mas_58: cuadro = (ix+0x11) + 0x58
 	ld a,(0c602h)		;b068   ; lee la bandera 0xC602 (refuerzos y musica)
 	or a			;b06b
@@ -2207,7 +2207,7 @@ cuadro_tipo_21:		; lo de cada cuadro del tipo 21
 	ld a,05ah		;b06d
 	jp 07d27h		;b06f   ; pon_c602_con_cuenta: 0xC605 = A y pon_c602
 L_B072:
-	ld a,(ix+003h)		;b072
+	ld a,(ix+003h)		;b072   ; lee la Y del actor
 	cp 086h		;b075
 	ret c			;b077
 	ld a,015h		;b078
@@ -2216,18 +2216,18 @@ L_B072:
 	ld c,02ch		;b080
 	call 0569ah		;b082   ; crea_actor: crea un actor del tipo C en Y = E, X = D en la primera ficha libre de 0xD000; HL = la ficha, A = 0 si no cabe
 	call 08334h		;b085   ; hacia_snake_dir: A = la direccion de IX hacia Snake por el eje mayor (1-4), B = la del otro eje
-	ld (ix+011h),a		;b088
+	ld (ix+011h),a		;b088   ; guarda la direccion del actor
 	call cuadro_mas_58		;b08b   ; cuadro_mas_58: cuadro = A + 0x58
 	jp L_AFCD		;b08e
 crea_tipo_22:		; la creacion del tipo 22
-	ld (ix+006h),001h		;b091
-	ld (ix+00eh),002h		;b095
+	ld (ix+006h),001h		;b091   ; si el actor se mueve (p01:7336) = 0x01
+	ld (ix+00eh),002h		;b095   ; con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x02
 	ld a,003h		;b099
-	ld (ix+011h),a		;b09b
+	ld (ix+011h),a		;b09b   ; guarda la direccion del actor
 	call cuadro_mas_58		;b09e   ; cuadro_mas_58: cuadro = A + 0x58
 	call parado		;b0a1   ; parado: las dos velocidades a cero
 	call tipo_22_altura		;b0a4   ; tipo_22_altura: HL = la velocidad Y y B = 0x60 o 0x70 por el bit 7 de (ix+0x0C)
-	ld (ix+012h),02dh		;b0a7
+	ld (ix+012h),02dh		;b0a7   ; la cuenta de espera del actor = 0x2D
 	call tipo_22_por_sala		;b0ab   ; tipo_22_por_sala: valores del tipo 22 segun la sala (0xD8, 0xBB, 0x9A, 0x58-0x5C)
 L_B0AE:
 	ld a,(0c602h)		;b0ae   ; lee la bandera 0xC602 (refuerzos y musica)
@@ -2237,67 +2237,67 @@ L_B0AE:
 	jp 07d27h		;b0b5   ; pon_c602_con_cuenta: 0xC605 = A y pon_c602
 cuadro_tipo_22:		; lo de cada cuadro del tipo 22
 	call 08334h		;b0b8   ; hacia_snake_dir: A = la direccion de IX hacia Snake por el eje mayor (1-4), B = la del otro eje
-	ld (ix+011h),a		;b0bb
+	ld (ix+011h),a		;b0bb   ; guarda la direccion del actor
 	call cuadro_mas_58		;b0be   ; cuadro_mas_58: cuadro = A + 0x58
 	call tipo_22_altura		;b0c1   ; tipo_22_altura: HL = la velocidad Y y B = 0x60 o 0x70 por el bit 7 de (ix+0x0C)
-	dec (ix+012h)		;b0c4
+	dec (ix+012h)		;b0c4   ; baja la cuenta de espera del actor
 	ret nz			;b0c7
 	ld a,r		;b0c8
-	xor (ix+00ch)		;b0ca
+	xor (ix+00ch)		;b0ca   ; XOR con la cuenta de cuadros del actor
 	and 00fh		;b0cd
 	add a,01eh		;b0cf
-	ld (ix+012h),a		;b0d1
+	ld (ix+012h),a		;b0d1   ; guarda la cuenta de espera del actor
 	ld c,03dh		;b0d4
 	jp crea_encima		;b0d6   ; crea_encima: crea el actor C 0x10 puntos por encima de IX
 L_B0D9:
-	ld a,(ix+011h)		;b0d9
+	ld a,(ix+011h)		;b0d9   ; lee la direccion del actor
 cuadro_mas_54:		; cuadro = A + 0x54
 	add a,054h		;b0dc
-	ld (ix+00bh),a		;b0de
+	ld (ix+00bh),a		;b0de   ; guarda el cuadro del actor
 	ret			;b0e1
 cuadro_dir_mas_58:		; cuadro = (ix+0x11) + 0x58
-	ld a,(ix+011h)		;b0e2
+	ld a,(ix+011h)		;b0e2   ; lee la direccion del actor
 cuadro_mas_58:		; cuadro = A + 0x58
 	add a,058h		;b0e5
-	ld (ix+00bh),a		;b0e7
+	ld (ix+00bh),a		;b0e7   ; guarda el cuadro del actor
 	ret			;b0ea
 tipo_22_altura:		; HL = la velocidad Y y B = 0x60 o 0x70 por el bit 7 de (ix+0x0C)
-	ld l,(ix+007h)		;b0eb
-	ld h,(ix+008h)		;b0ee
-	bit 7,(ix+00ch)		;b0f1
+	ld l,(ix+007h)		;b0eb   ; lee la velocidad Y del actor
+	ld h,(ix+008h)		;b0ee   ; lee la velocidad Y del actor (alta)
+	bit 7,(ix+00ch)		;b0f1   ; mira el bit 7 de la cuenta de cuadros del actor
 	ld b,060h		;b0f5
 	jr z,L_B0FB		;b0f7
 	ld b,070h		;b0f9
 L_B0FB:
-	ld a,(ix+003h)		;b0fb
+	ld a,(ix+003h)		;b0fb   ; lee la Y del actor
 	cp b			;b0fe
 	ld bc,00018h		;b0ff
 	jr c,L_B107		;b102
 	ld bc,0ffe8h		;b104
 L_B107:
 	add hl,bc			;b107
-	ld (ix+007h),l		;b108
-	ld (ix+008h),h		;b10b
-	ld l,(ix+009h)		;b10e
-	ld h,(ix+00ah)		;b111
-	bit 7,(ix+00ch)		;b114
+	ld (ix+007h),l		;b108   ; guarda la velocidad Y del actor
+	ld (ix+008h),h		;b10b   ; guarda la velocidad Y del actor (alta)
+	ld l,(ix+009h)		;b10e   ; lee la velocidad X del actor
+	ld h,(ix+00ah)		;b111   ; lee la velocidad X del actor (alta)
+	bit 7,(ix+00ch)		;b114   ; mira el bit 7 de la cuenta de cuadros del actor
 	ld b,078h		;b118
 	jr z,L_B11E		;b11a
 	ld b,088h		;b11c
 L_B11E:
-	ld a,(ix+005h)		;b11e
+	ld a,(ix+005h)		;b11e   ; lee la X del actor
 	cp b			;b121
 	ld bc,00030h		;b122
 	jr c,L_B12A		;b125
 	ld bc,0ffd0h		;b127
 L_B12A:
 	add hl,bc			;b12a
-	ld (ix+009h),l		;b12b
-	ld (ix+00ah),h		;b12e
+	ld (ix+009h),l		;b12b   ; guarda la velocidad X del actor
+	ld (ix+00ah),h		;b12e   ; guarda la velocidad X del actor (alta)
 	ret			;b131
 crea_tipo_31:		; la creacion del tipo 31
-	ld (ix+001h),002h		;b132
-	ld (ix+012h),008h		;b136
+	ld (ix+001h),002h		;b132   ; el paso del actor = 0x02
+	ld (ix+012h),008h		;b136   ; la cuenta de espera del actor = 0x08
 	ld a,r		;b13a
 	ld hl,0c003h		;b13c   ; apunta a la cuenta de cuadros
 	xor (hl)			;b13f
@@ -2305,7 +2305,7 @@ crea_tipo_31:		; la creacion del tipo 31
 	inc a			;b142
 	jp cuadro_mas_60		;b143   ; cuadro_mas_60: cuadro = 2 x A + 0x60, +1 con el bit 2 de (ix+0x0C)
 cuadro_tipo_31:		; lo de cada cuadro del tipo 31
-	ld a,(ix+001h)		;b146
+	ld a,(ix+001h)		;b146   ; lee el paso del actor
 	call 041eah		;b149   ; despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 
 ; ----------------------------------------------------------------------
@@ -2326,65 +2326,65 @@ L_B152:
 	jr c,L_B176		;b157
 	call cerca_del_centro		;b159   ; cerca_del_centro: acarreo si el actor esta en el recuadro (Y + 0x50 < 0x61, X + 0x10 < 0x21)
 	jr c,L_B184		;b15c
-	dec (ix+012h)		;b15e
+	dec (ix+012h)		;b15e   ; baja la cuenta de espera del actor
 	ret nz			;b161
 L_B162:
 	call espera_azar_5		;b162   ; espera_azar_5: (ix+0x12) = 5-8 al azar
 	call azar_0_3		;b165   ; azar_0_3: A = (R XOR (ix+0x0C)) AND 3
 	inc a			;b168
-	ld (ix+011h),a		;b169
+	ld (ix+011h),a		;b169   ; guarda la direccion del actor
 	call cuadro_mas_60		;b16c   ; cuadro_mas_60: cuadro = 2 x A + 0x60, +1 con el bit 2 de (ix+0x0C)
 	call cerca_del_centro		;b16f   ; cerca_del_centro: acarreo si el actor esta en el recuadro (Y + 0x50 < 0x61, X + 0x10 < 0x21)
 	jr c,L_B184		;b172
 	jr L_B1CE		;b174
 L_B176:
-	ld (ix+001h),001h		;b176
-	ld (ix+012h),008h		;b17a
+	ld (ix+001h),001h		;b176   ; el paso del actor = 0x01
+	ld (ix+012h),008h		;b17a   ; la cuenta de espera del actor = 0x08
 	call 05c25h		;b17e   ; hacia_snake: HL y DE = la velocidad de IX hacia Snake con el modulo 0x80 (+ 8 x 0xC152)
 	jp 05b64h		;b181   ; velocidades: la velocidad X del actor = DE y la Y = HL
 L_B184:
-	ld a,(ix+011h)		;b184
+	ld a,(ix+011h)		;b184   ; lee la direccion del actor
 	call 0835fh		;b187   ; contraria: A = la direccion contraria (1 y 2, 3 y 4)
-	ld (ix+011h),a		;b18a
+	ld (ix+011h),a		;b18a   ; guarda la direccion del actor
 	call cuadro_mas_60		;b18d   ; cuadro_mas_60: cuadro = 2 x A + 0x60, +1 con el bit 2 de (ix+0x0C)
 	jr L_B1CE		;b190
 L_B192:
 	call cerca_del_centro		;b192   ; cerca_del_centro: acarreo si el actor esta en el recuadro (Y + 0x50 < 0x61, X + 0x10 < 0x21)
 	jr c,L_B19B		;b195
-	dec (ix+012h)		;b197
+	dec (ix+012h)		;b197   ; baja la cuenta de espera del actor
 	ret nz			;b19a
 L_B19B:
-	inc (ix+001h)		;b19b
-	ld (ix+012h),014h		;b19e
+	inc (ix+001h)		;b19b   ; sube el paso del actor
+	ld (ix+012h),014h		;b19e   ; la cuenta de espera del actor = 0x14
 	jp parado		;b1a2   ; parado: las dos velocidades a cero
 L_B1A5:
-	dec (ix+012h)		;b1a5
+	dec (ix+012h)		;b1a5   ; baja la cuenta de espera del actor
 	ret nz			;b1a8
-	ld (ix+001h),000h		;b1a9
-	ld (ix+006h),001h		;b1ad
+	ld (ix+001h),000h		;b1a9   ; el paso del actor = 0x00
+	ld (ix+006h),001h		;b1ad   ; si el actor se mueve (p01:7336) = 0x01
 	jr L_B162		;b1b1
 espera_azar_5:		; (ix+0x12) = 5-8 al azar
 	call azar_0_3		;b1b3   ; azar_0_3: A = (R XOR (ix+0x0C)) AND 3
 	add a,005h		;b1b6
-	ld (ix+012h),a		;b1b8
+	ld (ix+012h),a		;b1b8   ; guarda la cuenta de espera del actor
 	ret			;b1bb
 L_B1BC:
-	ld a,(ix+011h)		;b1bc
+	ld a,(ix+011h)		;b1bc   ; lee la direccion del actor
 cuadro_mas_60:		; cuadro = 2 x A + 0x60, +1 con el bit 2 de (ix+0x0C)
 	add a,a			;b1bf
 	add a,060h		;b1c0
-	bit 2,(ix+00ch)		;b1c2
+	bit 2,(ix+00ch)		;b1c2   ; mira el bit 2 de la cuenta de cuadros del actor
 	jp z,L_B1CA		;b1c6
 	inc a			;b1c9
 L_B1CA:
-	ld (ix+00bh),a		;b1ca
+	ld (ix+00bh),a		;b1ca   ; guarda el cuadro del actor
 	ret			;b1cd
 L_B1CE:
-	ld a,(ix+011h)		;b1ce
+	ld a,(ix+011h)		;b1ce   ; lee la direccion del actor
 	ld de,0b1dch		;b1d1
 	call 042b4h		;b1d4   ; palabra_a: DE = la palabra A de la tabla DE
-	ld (ix+008h),e		;b1d7
-	ld (ix+00ah),d		;b1da
+	ld (ix+008h),e		;b1d7   ; guarda la velocidad Y del actor (alta)
+	ld (ix+00ah),d		;b1da   ; guarda la velocidad X del actor (alta)
 	ret			;b1dd
 
 ; ----------------------------------------------------------------------
@@ -2403,19 +2403,19 @@ DATA_velocidad_b1de:
 
 
 cerca_del_centro:		; acarreo si el actor esta en el recuadro (Y + 0x50 < 0x61, X + 0x10 < 0x21)
-	ld a,(ix+003h)		;b1e6
+	ld a,(ix+003h)		;b1e6   ; lee la Y del actor
 	add a,050h		;b1e9
 	cp 061h		;b1eb
 	ret c			;b1ed
-	ld a,(ix+005h)		;b1ee
+	ld a,(ix+005h)		;b1ee   ; lee la X del actor
 	add a,010h		;b1f1
 	cp 021h		;b1f3
 	ret			;b1f5
 cuadro_tipo_18:		; lo de cada cuadro del tipo 18
-	ld a,(ix+003h)		;b1f6
+	ld a,(ix+003h)		;b1f6   ; lee la Y del actor
 	cp 0a0h		;b1f9
 	jp nc,velocidad_y_cero		;b1fb   ; velocidad_y_cero: la velocidad Y a cero
-	ld a,(ix+001h)		;b1fe
+	ld a,(ix+001h)		;b1fe   ; lee el paso del actor
 	call 041eah		;b201   ; despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 
 ; ----------------------------------------------------------------------
@@ -2467,8 +2467,8 @@ crea_tipo_18:		; la creacion del tipo 18
 	ld (ix+01bh),l		;b252
 	ld (ix+01ch),h		;b255
 	ld (ix+013h),030h		;b258
-	ld (ix+00bh),013h		;b25c
-	inc (ix+006h)		;b260
+	ld (ix+00bh),013h		;b25c   ; el cuadro del actor = 0x13
+	inc (ix+006h)		;b260   ; sube si el actor se mueve (p01:7336)
 	ld de,00000h		;b263
 	ld hl,00060h		;b266
 	call 05b64h		;b269   ; velocidades: la velocidad X del actor = DE y la Y = HL
@@ -2483,13 +2483,13 @@ crea_tipo_24:		; la creacion del tipo 24
 	ld a,(0c136h)		;b278   ; lee la parada del ascensor
 	cp 08bh		;b27b
 	jp z,07371h		;b27d
-	inc (ix+006h)		;b280
-	ld (ix+011h),004h		;b283
+	inc (ix+006h)		;b280   ; sube si el actor se mueve (p01:7336)
+	ld (ix+011h),004h		;b283   ; la direccion del actor = 0x04
 	call cuadro_por_direccion		;b287   ; cuadro_por_direccion: cuadro = 2 x ((ix+0x11) - 1), +1 con el bit 2 de (ix+0x0C)
 	call parado		;b28a   ; parado: las dos velocidades a cero
 	jp velocidad_a90e		;b28d   ; velocidad_a90e: las velocidades de la direccion (ix+0x11) de la tabla 0xA90E
 cuadro_tipo_24:		; lo de cada cuadro del tipo 24
-	ld a,(ix+001h)		;b290
+	ld a,(ix+001h)		;b290   ; lee el paso del actor
 	call 041eah		;b293   ; despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 
 ; ----------------------------------------------------------------------
@@ -2511,7 +2511,7 @@ L_B2A4:
 	jp nz,L_B3C4		;b2a8
 	call cuadro_por_direccion		;b2ab   ; cuadro_por_direccion: cuadro = 2 x ((ix+0x11) - 1), +1 con el bit 2 de (ix+0x0C)
 	call snake_abajo		;b2ae   ; snake_abajo: acarreo si la Y de Snake es 0x80 o mas
-	ld a,(ix+005h)		;b2b1
+	ld a,(ix+005h)		;b2b1   ; lee la X del actor
 	ld b,004h		;b2b4
 	cp 050h		;b2b6
 	jr z,L_B2D2		;b2b8
@@ -2520,24 +2520,24 @@ L_B2A4:
 	cp 0d0h		;b2be
 	ret nz			;b2c0
 L_B2C1:
-	ld (ix+001h),001h		;b2c1
-	ld (ix+006h),000h		;b2c5
-	ld (ix+012h),01eh		;b2c9
-	ld (ix+00bh),008h		;b2cd
+	ld (ix+001h),001h		;b2c1   ; el paso del actor = 0x01
+	ld (ix+006h),000h		;b2c5   ; si el actor se mueve (p01:7336) = 0x00
+	ld (ix+012h),01eh		;b2c9   ; la cuenta de espera del actor = 0x1E
+	ld (ix+00bh),008h		;b2cd   ; el cuadro del actor = 0x08
 	ret			;b2d1
 L_B2D2:
-	ld (ix+011h),b		;b2d2
+	ld (ix+011h),b		;b2d2   ; guarda la direccion del actor
 	call cuadro_por_direccion		;b2d5   ; cuadro_por_direccion: cuadro = 2 x ((ix+0x11) - 1), +1 con el bit 2 de (ix+0x0C)
 	jp velocidad_a90e		;b2d8   ; velocidad_a90e: las velocidades de la direccion (ix+0x11) de la tabla 0xA90E
 L_B2DB:
 	ld a,(0c602h)		;b2db   ; lee la bandera 0xC602 (refuerzos y musica)
 	or a			;b2de
 	jp nz,L_B3C4		;b2df
-	dec (ix+012h)		;b2e2
+	dec (ix+012h)		;b2e2   ; baja la cuenta de espera del actor
 	jr nz,L_B2FD		;b2e5
-	ld (ix+001h),000h		;b2e7
-	ld (ix+006h),001h		;b2eb
-	ld a,(ix+005h)		;b2ef
+	ld (ix+001h),000h		;b2e7   ; el paso del actor = 0x00
+	ld (ix+006h),001h		;b2eb   ; si el actor se mueve (p01:7336) = 0x01
+	ld a,(ix+005h)		;b2ef   ; lee la X del actor
 	cp 0d0h		;b2f2
 	jr z,L_B2F9		;b2f4
 	jp cuadro_por_direccion		;b2f6   ; cuadro_por_direccion: cuadro = 2 x ((ix+0x11) - 1), +1 con el bit 2 de (ix+0x0C)
@@ -2545,7 +2545,7 @@ L_B2F9:
 	ld b,003h		;b2f9
 	jr L_B2D2		;b2fb
 L_B2FD:
-	ld a,(ix+005h)		;b2fd
+	ld a,(ix+005h)		;b2fd   ; lee la X del actor
 	cp 0d0h		;b300
 	jr nz,L_B30D		;b302
 	ld a,(0c184h)		;b304   ; lee la X de Snake
@@ -2554,7 +2554,7 @@ L_B2FD:
 	jr snake_abajo		;b30b
 L_B30D:
 	ld a,(0c184h)		;b30d   ; lee la X de Snake
-	sub (ix+005h)		;b310
+	sub (ix+005h)		;b310   ; le resta la X del actor
 	add a,008h		;b313
 	cp 011h		;b315
 	jr c,L_B31E		;b317
@@ -2583,42 +2583,42 @@ L_B336:
 	call 07d27h		;b337   ; pon_c602_con_cuenta: 0xC605 = A y pon_c602
 	ld h,000h		;b33a
 	call pon_aviso		;b33c   ; pon_aviso: guarda el fondo en la pagina 1 y pone el dibujo de 0x80 sobre el actor (0xC60C)
-	ld (ix+001h),006h		;b33f
-	ld (ix+006h),000h		;b343
-	ld (ix+012h),00fh		;b347
+	ld (ix+001h),006h		;b33f   ; el paso del actor = 0x06
+	ld (ix+006h),000h		;b343   ; si el actor se mueve (p01:7336) = 0x00
+	ld (ix+012h),00fh		;b347   ; la cuenta de espera del actor = 0x0F
 	call 08334h		;b34b   ; hacia_snake_dir: A = la direccion de IX hacia Snake por el eje mayor (1-4), B = la del otro eje
 	jp cuadro_a_mas_1b		;b34e   ; cuadro_a_mas_1b: cuadro = A + 7 + (ix+0x1B)
 L_B351:
 	call cuadro_por_direccion		;b351   ; cuadro_por_direccion: cuadro = 2 x ((ix+0x11) - 1), +1 con el bit 2 de (ix+0x0C)
-	ld a,(ix+005h)		;b354
+	ld a,(ix+005h)		;b354   ; lee la X del actor
 	cp 025h		;b357
 	ret nc			;b359
-	inc (ix+001h)		;b35a
-	ld (ix+006h),000h		;b35d
-	ld (ix+012h),00ah		;b361
-	ld (ix+00bh),008h		;b365
+	inc (ix+001h)		;b35a   ; sube el paso del actor
+	ld (ix+006h),000h		;b35d   ; si el actor se mueve (p01:7336) = 0x00
+	ld (ix+012h),00ah		;b361   ; la cuenta de espera del actor = 0x0A
+	ld (ix+00bh),008h		;b365   ; el cuadro del actor = 0x08
 	ld a,015h		;b369
 	call 0427ch		;b36b   ; sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
 	ld c,02ch		;b36e
 	ld de,02470h		;b370
 	jp 0569ah		;b373   ; crea_actor: crea un actor del tipo C en Y = E, X = D en la primera ficha libre de 0xD000; HL = la ficha, A = 0 si no cabe
 L_B376:
-	dec (ix+012h)		;b376
+	dec (ix+012h)		;b376   ; baja la cuenta de espera del actor
 	ret nz			;b379
-	inc (ix+001h)		;b37a
-	ld (ix+006h),001h		;b37d
-	ld (ix+012h),010h		;b381
-	ld (ix+011h),004h		;b385
+	inc (ix+001h)		;b37a   ; sube el paso del actor
+	ld (ix+006h),001h		;b37d   ; si el actor se mueve (p01:7336) = 0x01
+	ld (ix+012h),010h		;b381   ; la cuenta de espera del actor = 0x10
+	ld (ix+011h),004h		;b385   ; la direccion del actor = 0x04
 	call cuadro_por_a		;b389   ; cuadro_por_a: cuadro = 2 x (A - 1), +1 con el bit 2 de (ix+0x0C)
 	jp velocidad_a90e		;b38c   ; velocidad_a90e: las velocidades de la direccion (ix+0x11) de la tabla 0xA90E
 L_B38F:
 	call cuadro_por_direccion		;b38f   ; cuadro_por_direccion: cuadro = 2 x ((ix+0x11) - 1), +1 con el bit 2 de (ix+0x0C)
-	dec (ix+012h)		;b392
+	dec (ix+012h)		;b392   ; baja la cuenta de espera del actor
 	ret nz			;b395
-	inc (ix+001h)		;b396
-	ld (ix+006h),000h		;b399
-	ld (ix+00bh),00bh		;b39d
-	ld (ix+012h),001h		;b3a1
+	inc (ix+001h)		;b396   ; sube el paso del actor
+	ld (ix+006h),000h		;b399   ; si el actor se mueve (p01:7336) = 0x00
+	ld (ix+00bh),00bh		;b39d   ; el cuadro del actor = 0x0B
+	ld (ix+012h),001h		;b3a1   ; la cuenta de espera del actor = 0x01
 	ret			;b3a5
 L_B3A6:
 	ld a,(0c182h)		;b3a6   ; lee la Y de Snake
@@ -2626,35 +2626,35 @@ L_B3A6:
 	ret nc			;b3aa
 	call 08334h		;b3ab   ; hacia_snake_dir: A = la direccion de IX hacia Snake por el eje mayor (1-4), B = la del otro eje
 	add a,007h		;b3ae
-	ld (ix+00bh),a		;b3b0
-	dec (ix+012h)		;b3b3
+	ld (ix+00bh),a		;b3b0   ; guarda el cuadro del actor
+	dec (ix+012h)		;b3b3   ; baja la cuenta de espera del actor
 	ret nz			;b3b6
-	ld (ix+012h),010h		;b3b7
+	ld (ix+012h),010h		;b3b7   ; la cuenta de espera del actor = 0x10
 	ld c,03dh		;b3bb
 	jp crea_encima		;b3bd   ; crea_encima: crea el actor C 0x10 puntos por encima de IX
 L_B3C0:
-	dec (ix+012h)		;b3c0
+	dec (ix+012h)		;b3c0   ; baja la cuenta de espera del actor
 	ret nz			;b3c3
 L_B3C4:
-	ld (ix+001h),002h		;b3c4
-	ld (ix+006h),001h		;b3c8
-	ld (ix+00ah),0fdh		;b3cc
+	ld (ix+001h),002h		;b3c4   ; el paso del actor = 0x02
+	ld (ix+006h),001h		;b3c8   ; si el actor se mueve (p01:7336) = 0x01
+	ld (ix+00ah),0fdh		;b3cc   ; la velocidad X del actor (alta) = 0xFD
 	ld a,003h		;b3d0
-	ld (ix+011h),a		;b3d2
+	ld (ix+011h),a		;b3d2   ; guarda la direccion del actor
 	jp cuadro_por_a		;b3d5   ; cuadro_por_a: cuadro = 2 x (A - 1), +1 con el bit 2 de (ix+0x0C)
 crea_tipo_27:		; la creacion del tipo 27
 	ld a,01bh		;b3d8
 	call 05bafh		;b3da   ; cuenta_tipo: A = cuantos actores del tipo A hay
 	cp 003h		;b3dd
 	jp nc,07371h		;b3df
-	inc (ix+006h)		;b3e2
+	inc (ix+006h)		;b3e2   ; sube si el actor se mueve (p01:7336)
 	ld a,(0c62fh)		;b3e5
 	or a			;b3e8
 	jr z,L_B400		;b3e9
 	ld (ix+013h),040h		;b3eb
-	ld (ix+00bh),014h		;b3ef
+	ld (ix+00bh),014h		;b3ef   ; el cuadro del actor = 0x14
 	ld a,r		;b3f3
-	ld (ix+00ch),a		;b3f5
+	ld (ix+00ch),a		;b3f5   ; guarda la cuenta de cuadros del actor
 parado:		; las dos velocidades a cero
 	ld de,00000h		;b3f8
 	ld l,e			;b3fb
@@ -2668,7 +2668,7 @@ L_B400:
 	jr nz,$+85		;b409
 sube_o_baja_a_snake:		; velocidad Y de 3 hacia Snake
 	ld a,(0c182h)		;b40b   ; lee la Y de Snake
-	cp (ix+003h)		;b40e
+	cp (ix+003h)		;b40e   ; compara con la Y del actor
 	ld b,000h		;b411
 	ld de,00000h		;b413
 	ld hl,0fd00h		;b416
@@ -2676,21 +2676,21 @@ sube_o_baja_a_snake:		; velocidad Y de 3 hacia Snake
 	inc b			;b41b
 	ld hl,00300h		;b41c
 L_B41F:
-	ld (ix+011h),b		;b41f
+	ld (ix+011h),b		;b41f   ; guarda la direccion del actor
 	ld a,b			;b422
 	add a,a			;b423
 	add a,020h		;b424
-	ld (ix+00bh),a		;b426
+	ld (ix+00bh),a		;b426   ; guarda el cuadro del actor
 	jp 05b64h		;b429   ; velocidades: la velocidad X del actor = DE y la Y = HL
 cuadro_tipo_27:		; lo de cada cuadro del tipo 27
-	bit 1,(ix+011h)		;b42c
+	bit 1,(ix+011h)		;b42c   ; mira el bit 1 de la direccion del actor
 	jr nz,L_B43C		;b430
 	ld a,020h		;b432
-	cp (ix+005h)		;b434
+	cp (ix+005h)		;b434   ; compara con la X del actor
 	jr c,L_B43C		;b437
-	ld (ix+005h),a		;b439
+	ld (ix+005h),a		;b439   ; guarda la X del actor
 L_B43C:
-	ld a,(ix+001h)		;b43c
+	ld a,(ix+001h)		;b43c   ; lee el paso del actor
 	call 041eah		;b43f   ; despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 
 ; ----------------------------------------------------------------------
@@ -2712,11 +2712,11 @@ L_B448:
 	ld a,003h		;b44f
 	call 0427ch		;b451   ; sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
 	ld (ix+013h),018h		;b454
-	bit 1,(ix+011h)		;b458
+	bit 1,(ix+011h)		;b458   ; mira el bit 1 de la direccion del actor
 	jr z,$-81		;b45c
 L_B45E:
 	ld a,(0c184h)		;b45e   ; lee la X de Snake
-	cp (ix+005h)		;b461
+	cp (ix+005h)		;b461   ; compara con la X del actor
 	ld b,002h		;b464
 	ld hl,00000h		;b466
 	ld de,0fd00h		;b469
@@ -2740,7 +2740,7 @@ L_B48A:
 mira_delante:		; alterna el cuadro y mira la ficha de delante (0xB542)
 	ld b,007h		;b48d
 	call 05b6ah		;b48f   ; alterna_cuadro: si (ix+0x0C) AND B es 0, cambia el bit 0 del cuadro
-	ld l,(ix+011h)		;b492
+	ld l,(ix+011h)		;b492   ; lee la direccion del actor
 	ld h,000h		;b495
 	ld de,0b542h		;b497
 	add hl,hl			;b49a
@@ -2748,12 +2748,12 @@ mira_delante:		; alterna el cuadro y mira la ficha de delante (0xB542)
 	ex de,hl			;b49c
 	ld a,(de)			;b49d
 	inc de			;b49e
-	add a,(ix+003h)		;b49f
+	add a,(ix+003h)		;b49f   ; le suma la Y del actor
 	ld l,a			;b4a2
 	ld a,(de)			;b4a3
-	add a,(ix+005h)		;b4a4
+	add a,(ix+005h)		;b4a4   ; le suma la X del actor
 	ld h,a			;b4a7
-	ld a,(ix+011h)		;b4a8
+	ld a,(ix+011h)		;b4a8   ; lee la direccion del actor
 	inc a			;b4ab
 	cp 005h		;b4ac
 	jr c,L_B4B1		;b4ae
@@ -2763,17 +2763,17 @@ L_B4B1:
 	ld b,002h		;b4b2
 	call 08298h		;b4b4   ; choca: acarreo si alguno de los 2 puntos de la caja B (0x82CB) hacia C, desde Y = L, X = H, pisa una ficha con choque (0xC700 bit 0)
 	ret nc			;b4b7
-	ld a,(ix+005h)		;b4b8
+	ld a,(ix+005h)		;b4b8   ; lee la X del actor
 	cp 0f2h		;b4bb
 	ret nc			;b4bd
 	cp 00ch		;b4be
 	ret c			;b4c0
-	ld a,(ix+003h)		;b4c1
+	ld a,(ix+003h)		;b4c1   ; lee la Y del actor
 	cp 01ch		;b4c4
 	ret c			;b4c6
 	cp 0b4h		;b4c7
 	ret nc			;b4c9
-	bit 1,(ix+011h)		;b4ca
+	bit 1,(ix+011h)		;b4ca   ; mira el bit 1 de la direccion del actor
 	ld a,000h		;b4ce
 	jr nz,L_B4D4		;b4d0
 	ld a,002h		;b4d2
@@ -2792,10 +2792,10 @@ L_B4D4:
 	ld d,019h		;b4e9
 L_B4EB:
 	ld a,d			;b4eb
-	add a,(ix+005h)		;b4ec
+	add a,(ix+005h)		;b4ec   ; le suma la X del actor
 	ld h,a			;b4ef
 	ld a,e			;b4f0
-	add a,(ix+003h)		;b4f1
+	add a,(ix+003h)		;b4f1   ; le suma la Y del actor
 	ld l,a			;b4f4
 	ld a,(ix+017h)		;b4f5
 	inc a			;b4f8
@@ -2808,7 +2808,7 @@ L_B4FF:
 	call 08298h		;b502   ; choca: acarreo si alguno de los 2 puntos de la caja B (0x82CB) hacia C, desde Y = L, X = H, pisa una ficha con choque (0xC700 bit 0)
 	jr c,L_B53A		;b505
 	dec a			;b507
-	ld (ix+011h),a		;b508
+	ld (ix+011h),a		;b508   ; guarda la direccion del actor
 	ld hl,0fd00h		;b50b
 	ld de,00000h		;b50e
 	or a			;b511
@@ -2823,14 +2823,14 @@ L_B4FF:
 	ld de,00300h		;b523
 L_B526:
 	call 05b64h		;b526   ; velocidades: la velocidad X del actor = DE y la Y = HL
-	ld a,(ix+00bh)		;b529
+	ld a,(ix+00bh)		;b529   ; lee el cuadro del actor
 	and 001h		;b52c
 	ld b,a			;b52e
-	ld a,(ix+011h)		;b52f
+	ld a,(ix+011h)		;b52f   ; lee la direccion del actor
 	add a,a			;b532
 	add a,020h		;b533
 	add a,b			;b535
-	ld (ix+00bh),a		;b536
+	ld (ix+00bh),a		;b536   ; guarda el cuadro del actor
 	ret			;b539
 L_B53A:
 	ld a,(ix+017h)		;b53a
@@ -2855,9 +2855,9 @@ DATA_velocidad_b542:
 
 alineado_con_snake:		; si Snake esta en linea con el actor por su direccion
 	call 05b45h		;b54a   ; sitio_de_snake: E = la Y de Snake, D = la X
-	ld h,(ix+005h)		;b54d
-	ld l,(ix+003h)		;b550
-	bit 1,(ix+011h)		;b553
+	ld h,(ix+005h)		;b54d   ; lee la X del actor
+	ld l,(ix+003h)		;b550   ; lee la Y del actor
+	bit 1,(ix+011h)		;b553   ; mira el bit 1 de la direccion del actor
 	jr nz,L_B572		;b557
 	ld a,d			;b559
 	sub h			;b55a
@@ -2903,7 +2903,7 @@ L_B595:
 	ld (ix+016h),a		;b595
 	ld (ix+015h),e		;b598
 	ld (ix+013h),030h		;b59b
-	ld (ix+00eh),000h		;b59f
+	ld (ix+00eh),000h		;b59f   ; con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x00
 	ret			;b5a3
 cuadro_tipo_29:		; lo de cada cuadro del tipo 29
 	dec (ix+013h)		;b5a4
@@ -2922,24 +2922,24 @@ crea_tipo_33:		; la creacion del tipo 33
 	ld hl,0c631h		;b5c0
 	bit 0,(hl)		;b5c3
 	jp nz,0737bh		;b5c5   ; quita_actor: quita al actor: banderas por tipo (0xA0, 0x9A, 0xA9, 0xA4, 0xA1, 0xA2, 0xB9, 0x12, 0x2C), objeto y musica
-	ld (ix+00bh),05dh		;b5c8
+	ld (ix+00bh),05dh		;b5c8   ; el cuadro del actor = 0x5D
 	ld (ix+014h),002h		;b5cc
-	inc (ix+006h)		;b5d0
+	inc (ix+006h)		;b5d0   ; sube si el actor se mueve (p01:7336)
 	ld a,(0c184h)		;b5d3   ; lee la X de Snake
-	cp (ix+005h)		;b5d6
+	cp (ix+005h)		;b5d6   ; compara con la X del actor
 	ld a,004h		;b5d9
 	ld b,a			;b5db
 	jr nc,L_B5E1		;b5dc
 	ld a,0fch		;b5de
 	dec b			;b5e0
 L_B5E1:
-	ld (ix+00ah),a		;b5e1
-	ld (ix+011h),b		;b5e4
-	ld (ix+012h),00bh		;b5e7
-	ld (ix+00eh),000h		;b5eb
+	ld (ix+00ah),a		;b5e1   ; guarda la velocidad X del actor (alta)
+	ld (ix+011h),b		;b5e4   ; guarda la direccion del actor
+	ld (ix+012h),00bh		;b5e7   ; la cuenta de espera del actor = 0x0B
+	ld (ix+00eh),000h		;b5eb   ; con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x00
 	ret			;b5ef
 cuadro_tipo_33:		; lo de cada cuadro del tipo 33
-	ld a,(ix+001h)		;b5f0
+	ld a,(ix+001h)		;b5f0   ; lee el paso del actor
 	call 041eah		;b5f3   ; despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 
 ; ----------------------------------------------------------------------
@@ -2964,11 +2964,11 @@ L_B5FC:
 	ld a,03dh		;b609
 	call 05cd9h		;b60b   ; ventana_de_texto_2: abre la ventana del texto A en el modo 2 (0xCEE0)
 L_B60E:
-	ld (ix+001h),001h		;b60e
+	ld (ix+001h),001h		;b60e   ; el paso del actor = 0x01
 	jp musica_3e		;b612   ; musica_3e: la musica 0x3E (salvo en el modo 8)
 L_B615:
 	call cuadro_b68f		;b615   ; cuadro_b68f: cuadro de la tabla 0xB68F por los bits 1-2 de (ix+0x0C)
-	bit 7,(ix+00ah)		;b618
+	bit 7,(ix+00ah)		;b618   ; mira el bit 7 de la velocidad X del actor (alta)
 	ld c,003h		;b61c
 	jr nz,L_B621		;b61e
 	inc c			;b620
@@ -2976,17 +2976,17 @@ L_B621:
 	ld b,000h		;b621
 	call 08292h		;b623   ; choca_actor: choca con H = (ix+5), L = (ix+3)
 	jr c,L_B62C		;b626
-	dec (ix+012h)		;b628
+	dec (ix+012h)		;b628   ; baja la cuenta de espera del actor
 	ret nz			;b62b
 L_B62C:
-	ld (ix+00ah),000h		;b62c
-	ld (ix+00bh),05dh		;b630
-	ld (ix+012h),02dh		;b634
-	ld (ix+001h),002h		;b638
-	ld (ix+00eh),003h		;b63c
+	ld (ix+00ah),000h		;b62c   ; la velocidad X del actor (alta) = 0x00
+	ld (ix+00bh),05dh		;b630   ; el cuadro del actor = 0x5D
+	ld (ix+012h),02dh		;b634   ; la cuenta de espera del actor = 0x2D
+	ld (ix+001h),002h		;b638   ; el paso del actor = 0x02
+	ld (ix+00eh),003h		;b63c   ; con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x03
 	ret			;b640
 L_B641:
-	dec (ix+012h)		;b641
+	dec (ix+012h)		;b641   ; baja la cuenta de espera del actor
 	jr z,L_B65E		;b644
 	ld a,(0c182h)		;b646   ; lee la Y de Snake
 	cp 0a6h		;b649
@@ -2995,33 +2995,33 @@ L_B641:
 	cp 0aah		;b650
 	ret nc			;b652
 L_B653:
-	ld a,(ix+00ch)		;b653
+	ld a,(ix+00ch)		;b653   ; lee la cuenta de cuadros del actor
 	and 00fh		;b656
 	ret nz			;b658
 	ld c,02bh		;b659
 	jp crea_encima		;b65b   ; crea_encima: crea el actor C 0x10 puntos por encima de IX
 L_B65E:
 	ld a,(0c184h)		;b65e   ; lee la X de Snake
-	cp (ix+005h)		;b661
+	cp (ix+005h)		;b661   ; compara con la X del actor
 	ld a,004h		;b664
 	ld b,a			;b666
 	jr nc,L_B66C		;b667
 	ld a,0fch		;b669
 	dec b			;b66b
 L_B66C:
-	ld (ix+00ah),a		;b66c
-	ld (ix+011h),b		;b66f
-	ld (ix+001h),001h		;b672
-	ld (ix+012h),00bh		;b676
-	ld (ix+00eh),000h		;b67a
+	ld (ix+00ah),a		;b66c   ; guarda la velocidad X del actor (alta)
+	ld (ix+011h),b		;b66f   ; guarda la direccion del actor
+	ld (ix+001h),001h		;b672   ; el paso del actor = 0x01
+	ld (ix+012h),00bh		;b676   ; la cuenta de espera del actor = 0x0B
+	ld (ix+00eh),000h		;b67a   ; con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x00
 cuadro_b68f:		; cuadro de la tabla 0xB68F por los bits 1-2 de (ix+0x0C)
 	ld hl,0b68fh		;b67e
-	ld a,(ix+00ch)		;b681
+	ld a,(ix+00ch)		;b681   ; lee la cuenta de cuadros del actor
 	and 006h		;b684
 	rra			;b686
 	call 041e0h		;b687   ; hl_mas_a: HL = HL + A
 	ld a,(hl)			;b68a
-	ld (ix+00bh),a		;b68b
+	ld (ix+00bh),a		;b68b   ; guarda el cuadro del actor
 	ret			;b68e
 
 ; ----------------------------------------------------------------------
@@ -3037,18 +3037,18 @@ DATA_patrones_b68f:
 
 
 crea_tipo_43:		; la creacion del tipo 43
-	inc (ix+006h)		;b693
-	ld (ix+00bh),06eh		;b696
-	ld (ix+00eh),001h		;b69a
-	ld (ix+012h),000h		;b69e
+	inc (ix+006h)		;b693   ; sube si el actor se mueve (p01:7336)
+	ld (ix+00bh),06eh		;b696   ; el cuadro del actor = 0x6E
+	ld (ix+00eh),001h		;b69a   ; con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x01
+	ld (ix+012h),000h		;b69e   ; la cuenta de espera del actor = 0x00
 	ld a,090h		;b6a2
 	call 05c27h		;b6a4   ; hacia_snake_a: HL y DE = la velocidad de IX hacia Snake con el modulo A (+ 8 x 0xC152)
 	call 05b64h		;b6a7   ; velocidades: la velocidad X del actor = DE y la Y = HL
 	ld a,00fh		;b6aa
 	jp 0427ch		;b6ac   ; sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
 cuadro_tipo_43:		; lo de cada cuadro del tipo 43
-	inc (ix+012h)		;b6af
-	ld a,(ix+012h)		;b6b2
+	inc (ix+012h)		;b6af   ; sube la cuenta de espera del actor
+	ld a,(ix+012h)		;b6b2   ; lee la cuenta de espera del actor
 	cp 007h		;b6b5
 	ld bc,0026eh		;b6b7
 	jr c,L_B6C8		;b6ba
@@ -3061,7 +3061,7 @@ cuadro_tipo_43:		; lo de cada cuadro del tipo 43
 	inc c			;b6c6
 	dec b			;b6c7
 L_B6C8:
-	ld (ix+00bh),c		;b6c8
+	ld (ix+00bh),c		;b6c8   ; guarda el cuadro del actor
 	ld c,002h		;b6cb
 	call 08292h		;b6cd   ; choca_actor: choca con H = (ix+5), L = (ix+3)
 	ret nc			;b6d0
@@ -3070,11 +3070,11 @@ crea_tipo_34:		; la creacion del tipo 34
 	ld hl,0c630h		;b6d4
 	bit 0,(hl)		;b6d7
 	jp nz,0737bh		;b6d9   ; quita_actor: quita al actor: banderas por tipo (0xA0, 0x9A, 0xA9, 0xA4, 0xA1, 0xA2, 0xB9, 0x12, 0x2C), objeto y musica
-	ld (ix+00bh),031h		;b6dc
+	ld (ix+00bh),031h		;b6dc   ; el cuadro del actor = 0x31
 	ld (ix+014h),002h		;b6e0
 	ret			;b6e4
 cuadro_tipo_34:		; lo de cada cuadro del tipo 34
-	ld a,(ix+001h)		;b6e5
+	ld a,(ix+001h)		;b6e5   ; lee el paso del actor
 	call 041eah		;b6e8   ; despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 
 ; ----------------------------------------------------------------------
@@ -3099,14 +3099,14 @@ L_B6F5:
 	ld a,04fh		;b702
 	call 05cd9h		;b704   ; ventana_de_texto_2: abre la ventana del texto A en el modo 2 (0xCEE0)
 L_B707:
-	ld (ix+006h),001h		;b707
+	ld (ix+006h),001h		;b707   ; si el actor se mueve (p01:7336) = 0x01
 	call musica_3e		;b70b   ; musica_3e: la musica 0x3E (salvo en el modo 8)
 	jp L_B7B6		;b70e
 L_B711:
-	dec (ix+012h)		;b711
+	dec (ix+012h)		;b711   ; baja la cuenta de espera del actor
 	jr nz,L_B738		;b714
 	ld a,r		;b716
-	xor (ix+00ch)		;b718
+	xor (ix+00ch)		;b718   ; XOR con la cuenta de cuadros del actor
 	rra			;b71b
 	ld b,003h		;b71c
 	ld a,0fch		;b71e
@@ -3114,57 +3114,57 @@ L_B711:
 	inc b			;b722
 	ld a,004h		;b723
 L_B725:
-	ld (ix+011h),b		;b725
-	ld (ix+00ah),a		;b728
+	ld (ix+011h),b		;b725   ; guarda la direccion del actor
+	ld (ix+00ah),a		;b728   ; guarda la velocidad X del actor (alta)
 L_B72B:
-	ld (ix+00bh),033h		;b72b
-	ld (ix+012h),008h		;b72f
-	ld (ix+001h),002h		;b733
+	ld (ix+00bh),033h		;b72b   ; el cuadro del actor = 0x33
+	ld (ix+012h),008h		;b72f   ; la cuenta de espera del actor = 0x08
+	ld (ix+001h),002h		;b733   ; el paso del actor = 0x02
 	ret			;b737
 L_B738:
 	ld a,(0c184h)		;b738   ; lee la X de Snake
-	sub (ix+005h)		;b73b
+	sub (ix+005h)		;b73b   ; le resta la X del actor
 	add a,008h		;b73e
 	cp 011h		;b740
 	ret c			;b742
 	ld a,(0c184h)		;b743   ; lee la X de Snake
-	cp (ix+005h)		;b746
+	cp (ix+005h)		;b746   ; compara con la X del actor
 	ld b,003h		;b749
 	ld a,0fch		;b74b
 	jr c,L_B752		;b74d
 	inc b			;b74f
 	ld a,004h		;b750
 L_B752:
-	ld (ix+011h),b		;b752
-	ld (ix+00ah),a		;b755
+	ld (ix+011h),b		;b752   ; guarda la direccion del actor
+	ld (ix+00ah),a		;b755   ; guarda la velocidad X del actor (alta)
 	jr L_B72B		;b758
 L_B75A:
-	bit 2,(ix+00ch)		;b75a
+	bit 2,(ix+00ch)		;b75a   ; mira el bit 2 de la cuenta de cuadros del actor
 	ld a,033h		;b75e
 	jr z,L_B763		;b760
 	inc a			;b762
 L_B763:
-	ld (ix+00bh),a		;b763
-	dec (ix+012h)		;b766
+	ld (ix+00bh),a		;b763   ; guarda el cuadro del actor
+	dec (ix+012h)		;b766   ; baja la cuenta de espera del actor
 	ret nz			;b769
-	ld (ix+00bh),031h		;b76a
-	ld (ix+012h),028h		;b76e
-	ld (ix+001h),003h		;b772
-	ld (ix+00ah),000h		;b776
+	ld (ix+00bh),031h		;b76a   ; el cuadro del actor = 0x31
+	ld (ix+012h),028h		;b76e   ; la cuenta de espera del actor = 0x28
+	ld (ix+001h),003h		;b772   ; el paso del actor = 0x03
+	ld (ix+00ah),000h		;b776   ; la velocidad X del actor (alta) = 0x00
 	ret			;b77a
 L_B77B:
 	ld a,(0c184h)		;b77b   ; lee la X de Snake
-	sub (ix+005h)		;b77e
+	sub (ix+005h)		;b77e   ; le resta la X del actor
 	add a,030h		;b781
 	cp 061h		;b783
 	jr nc,L_B7B6		;b785
-	dec (ix+012h)		;b787
+	dec (ix+012h)		;b787   ; baja la cuenta de espera del actor
 	jr z,L_B7B6		;b78a
-	ld a,(ix+012h)		;b78c
+	ld a,(ix+012h)		;b78c   ; lee la cuenta de espera del actor
 	and 003h		;b78f
-	ld (ix+00bh),031h		;b791
+	ld (ix+00bh),031h		;b791   ; el cuadro del actor = 0x31
 	ret nz			;b795
-	ld (ix+00bh),032h		;b796
+	ld (ix+00bh),032h		;b796   ; el cuadro del actor = 0x32
 	ld c,03ch		;b79a
 	call crea_encima		;b79c   ; crea_encima: crea el actor C 0x10 puntos por encima de IX
 	ld bc,00012h		;b79f
@@ -3181,7 +3181,7 @@ L_B7B4:
 	ld (hl),a			;b7b4
 	ret			;b7b5
 L_B7B6:
-	ld a,(ix+005h)		;b7b6
+	ld a,(ix+005h)		;b7b6   ; lee la X del actor
 	ld c,a			;b7b9
 	cp 0e0h		;b7ba
 	ld a,0fch		;b7bc
@@ -3200,38 +3200,38 @@ L_B7B6:
 	inc b			;b7d3
 	ld a,004h		;b7d4
 L_B7D6:
-	ld (ix+011h),b		;b7d6
-	ld (ix+00ah),a		;b7d9
-	ld (ix+00bh),033h		;b7dc
-	ld (ix+012h),008h		;b7e0
-	ld (ix+001h),004h		;b7e4
-	ld (ix+006h),001h		;b7e8
+	ld (ix+011h),b		;b7d6   ; guarda la direccion del actor
+	ld (ix+00ah),a		;b7d9   ; guarda la velocidad X del actor (alta)
+	ld (ix+00bh),033h		;b7dc   ; el cuadro del actor = 0x33
+	ld (ix+012h),008h		;b7e0   ; la cuenta de espera del actor = 0x08
+	ld (ix+001h),004h		;b7e4   ; el paso del actor = 0x04
+	ld (ix+006h),001h		;b7e8   ; si el actor se mueve (p01:7336) = 0x01
 	ret			;b7ec
 L_B7ED:
-	bit 2,(ix+00ch)		;b7ed
+	bit 2,(ix+00ch)		;b7ed   ; mira el bit 2 de la cuenta de cuadros del actor
 	ld a,033h		;b7f1
 	jr z,L_B7F6		;b7f3
 	inc a			;b7f5
 L_B7F6:
-	ld (ix+00bh),a		;b7f6
-	dec (ix+012h)		;b7f9
+	ld (ix+00bh),a		;b7f6   ; guarda el cuadro del actor
+	dec (ix+012h)		;b7f9   ; baja la cuenta de espera del actor
 	ret nz			;b7fc
-	ld (ix+001h),001h		;b7fd
-	ld (ix+00ah),000h		;b801
-	ld (ix+012h),02dh		;b805
-	ld (ix+00bh),031h		;b809
+	ld (ix+001h),001h		;b7fd   ; el paso del actor = 0x01
+	ld (ix+00ah),000h		;b801   ; la velocidad X del actor (alta) = 0x00
+	ld (ix+012h),02dh		;b805   ; la cuenta de espera del actor = 0x2D
+	ld (ix+00bh),031h		;b809   ; el cuadro del actor = 0x31
 	ret			;b80d
 crea_tipo_60:		; la creacion del tipo 60
-	ld (ix+006h),001h		;b80e
-	ld (ix+00eh),001h		;b812
-	ld (ix+00bh),072h		;b816
+	ld (ix+006h),001h		;b80e   ; si el actor se mueve (p01:7336) = 0x01
+	ld (ix+00eh),001h		;b812   ; con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x01
+	ld (ix+00bh),072h		;b816   ; el cuadro del actor = 0x72
 	ret			;b81a
 cuadro_tipo_60:		; lo de cada cuadro del tipo 60
-	bit 0,(ix+001h)		;b81b
+	bit 0,(ix+001h)		;b81b   ; mira el bit 0 de el paso del actor
 	ret nz			;b81f
-	ld (ix+001h),001h		;b820
+	ld (ix+001h),001h		;b820   ; el paso del actor = 0x01
 	ld hl,0ff80h		;b824
-	ld a,(ix+012h)		;b827
+	ld a,(ix+012h)		;b827   ; lee la cuenta de espera del actor
 	or a			;b82a
 	rra			;b82b
 	rra			;b82c
@@ -3240,9 +3240,9 @@ cuadro_tipo_60:		; lo de cada cuadro del tipo 60
 	rl d		;b830
 	ld e,a			;b832
 	add hl,de			;b833
-	ld (ix+009h),l		;b834
-	ld (ix+00ah),h		;b837
-	ld (ix+008h),005h		;b83a
+	ld (ix+009h),l		;b834   ; guarda la velocidad X del actor
+	ld (ix+00ah),h		;b837   ; guarda la velocidad X del actor (alta)
+	ld (ix+008h),005h		;b83a   ; la velocidad Y del actor (alta) = 0x05
 	ld a,005h		;b83e
 	jp 0427ch		;b840   ; sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
 crea_tipo_38:		; la creacion del tipo 38
@@ -3254,7 +3254,7 @@ crea_tipo_38:		; la creacion del tipo 38
 	ld hl,0c620h		;b852
 	ld (ix+01bh),l		;b855
 	ld (ix+01ch),h		;b858
-	ld (ix+00bh),086h		;b85b
+	ld (ix+00bh),086h		;b85b   ; el cuadro del actor = 0x86
 	call musica_3e		;b85f   ; musica_3e: la musica 0x3E (salvo en el modo 8)
 dibujo_si_hind_d:		; si el primer actor es el 0x26, el dibujo p15:B431 en (0x40, 0)
 	ld a,(0d000h)		;b862   ; lee los 16 actores (fichas de 0x80)
@@ -3272,12 +3272,12 @@ cuadro_tipo_38:		; lo de cada cuadro del tipo 38
 	ld (ix+016h),a		;b87c
 L_B87F:
 	add a,086h		;b87f
-	ld (ix+00bh),a		;b881
-	ld a,(ix+00ch)		;b884
+	ld (ix+00bh),a		;b881   ; guarda el cuadro del actor
+	ld a,(ix+00ch)		;b884   ; lee la cuenta de cuadros del actor
 	and 003h		;b887
 	ld a,002h		;b889
 	call z,04284h		;b88b   ; sonido: pide el sonido A al controlador del banco 4 (0x67FD) con los bancos 4 y 5
-	bit 0,(ix+001h)		;b88e
+	bit 0,(ix+001h)		;b88e   ; mira el bit 0 de el paso del actor
 	jr nz,L_B8B5		;b892
 	dec (ix+014h)		;b894
 	ret nz			;b897
@@ -3285,11 +3285,11 @@ L_B87F:
 	dec (ix+015h)		;b89c
 	jr z,L_B8AC		;b89f
 	ld c,03dh		;b8a1
-	ld e,(ix+003h)		;b8a3
-	ld d,(ix+005h)		;b8a6
+	ld e,(ix+003h)		;b8a3   ; lee la Y del actor
+	ld d,(ix+005h)		;b8a6   ; lee la X del actor
 	jp 0569ah		;b8a9   ; crea_actor: crea un actor del tipo C en Y = E, X = D en la primera ficha libre de 0xD000; HL = la ficha, A = 0 si no cabe
 L_B8AC:
-	ld (ix+001h),001h		;b8ac
+	ld (ix+001h),001h		;b8ac   ; el paso del actor = 0x01
 	ld (ix+014h),011h		;b8b0
 	ret			;b8b4
 L_B8B5:
@@ -3297,7 +3297,7 @@ L_B8B5:
 	ret nz			;b8b8
 	ld (ix+014h),005h		;b8b9
 	ld (ix+015h),005h		;b8bd
-	ld (ix+001h),000h		;b8c1
+	ld (ix+001h),000h		;b8c1   ; el paso del actor = 0x00
 cuadro_tipo_23:		; lo de cada cuadro del tipo 23
 	ret			;b8c5
 L_B8C6:
@@ -3306,9 +3306,9 @@ L_B8C6:
 	call 044afh		;b8cc   ; pone_dibujo: pone un dibujo del banco 15 ([filas][columnas] y fichas) en la sala, en D/E
 	jp 0737bh		;b8cf   ; quita_actor: quita al actor: banderas por tipo (0xA0, 0x9A, 0xA9, 0xA4, 0xA1, 0xA2, 0xB9, 0x12, 0x2C), objeto y musica
 crea_tipo_61:		; la creacion del tipo 61
-	inc (ix+006h)		;b8d2
-	ld (ix+00eh),001h		;b8d5
-	ld (ix+00bh),072h		;b8d9
+	inc (ix+006h)		;b8d2   ; sube si el actor se mueve (p01:7336)
+	ld (ix+00eh),001h		;b8d5   ; con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x01
+	ld (ix+00bh),072h		;b8d9   ; el cuadro del actor = 0x72
 	ld a,090h		;b8dd
 	call 05c27h		;b8df   ; hacia_snake_a: HL y DE = la velocidad de IX hacia Snake con el modulo A (+ 8 x 0xC152)
 	jp 05b64h		;b8e2   ; velocidades: la velocidad X del actor = DE y la Y = HL
@@ -3316,27 +3316,27 @@ crea_tipo_39:		; la creacion del tipo 39
 	ld a,(0c621h)		;b8e5
 	or a			;b8e8
 	jp nz,0737bh		;b8e9   ; quita_actor: quita al actor: banderas por tipo (0xA0, 0x9A, 0xA9, 0xA4, 0xA1, 0xA2, 0xB9, 0x12, 0x2C), objeto y musica
-	ld (ix+00eh),000h		;b8ec
-	ld (ix+012h),014h		;b8f0
+	ld (ix+00eh),000h		;b8ec   ; con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x00
+	ld (ix+012h),014h		;b8f0   ; la cuenta de espera del actor = 0x14
 	ret			;b8f4
 cuadro_tipo_39:		; lo de cada cuadro del tipo 39
-	dec (ix+012h)		;b8f5
+	dec (ix+012h)		;b8f5   ; baja la cuenta de espera del actor
 	ret nz			;b8f8
-	bit 0,(ix+001h)		;b8f9
+	bit 0,(ix+001h)		;b8f9   ; mira el bit 0 de el paso del actor
 	jr nz,L_B90C		;b8fd
-	ld (ix+001h),001h		;b8ff
-	ld (ix+012h),014h		;b903
+	ld (ix+001h),001h		;b8ff   ; el paso del actor = 0x01
+	ld (ix+012h),014h		;b903   ; la cuenta de espera del actor = 0x14
 	ld a,00bh		;b907
 	jp 0427ch		;b909   ; sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
 L_B90C:
-	ld (ix+001h),000h		;b90c
-	ld (ix+012h),032h		;b910
-	ld a,(ix+00ch)		;b914
+	ld (ix+001h),000h		;b90c   ; el paso del actor = 0x00
+	ld (ix+012h),032h		;b910   ; la cuenta de espera del actor = 0x32
+	ld a,(ix+00ch)		;b914   ; lee la cuenta de cuadros del actor
 	and 003h		;b917
 	ld a,(0c184h)		;b919   ; lee la X de Snake
 	jr z,L_B92B		;b91c
 	ld a,r		;b91e
-	xor (ix+00ch)		;b920
+	xor (ix+00ch)		;b920   ; XOR con la cuenta de cuadros del actor
 	srl a		;b923
 	ld b,a			;b925
 	srl a		;b926
@@ -3348,19 +3348,19 @@ L_B92B:
 	ld e,000h		;b92e
 	jp 0569ah		;b930   ; crea_actor: crea un actor del tipo C en Y = E, X = D en la primera ficha libre de 0xD000; HL = la ficha, A = 0 si no cabe
 crea_tipo_12:		; la creacion del tipo 12
-	ld (ix+006h),001h		;b933
-	ld (ix+00eh),001h		;b937
-	ld (ix+00bh),07eh		;b93b
+	ld (ix+006h),001h		;b933   ; si el actor se mueve (p01:7336) = 0x01
+	ld (ix+00eh),001h		;b937   ; con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x01
+	ld (ix+00bh),07eh		;b93b   ; el cuadro del actor = 0x7E
 	ld a,r		;b93f
 	ld hl,0c003h		;b941   ; apunta a la cuenta de cuadros
 	xor (hl)			;b944
 	and 00fh		;b945
 	add a,00ah		;b947
-	ld (ix+012h),a		;b949
+	ld (ix+012h),a		;b949   ; guarda la cuenta de espera del actor
 	and 001h		;b94c
 	ld (ix+013h),a		;b94e
 	call parado		;b951   ; parado: las dos velocidades a cero
-	ld (ix+008h),006h		;b954
+	ld (ix+008h),006h		;b954   ; la velocidad Y del actor (alta) = 0x06
 	ret			;b958
 cuadro_tipo_12:		; lo de cada cuadro del tipo 12
 	ld de,00018h		;b959
@@ -3369,17 +3369,17 @@ cuadro_tipo_12:		; lo de cada cuadro del tipo 12
 	ld de,0ffe8h		;b962
 L_B965:
 	call 05b55h		;b965   ; suma_velocidad_x: la velocidad X del actor (ix+9, ix+0x0A) += DE
-	dec (ix+012h)		;b968
+	dec (ix+012h)		;b968   ; baja la cuenta de espera del actor
 	ret nz			;b96b
-	ld (ix+012h),012h		;b96c
-	ld (ix+000h),041h		;b970
-	ld (ix+006h),000h		;b974
+	ld (ix+012h),012h		;b96c   ; la cuenta de espera del actor = 0x12
+	ld (ix+000h),041h		;b970   ; el tipo del actor = 0x41
+	ld (ix+006h),000h		;b974   ; si el actor se mueve (p01:7336) = 0x00
 	ld a,01ah		;b978
 	jp 0427ch		;b97a   ; sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
 cuadro_tipo_65:		; lo de cada cuadro del tipo 65
-	dec (ix+012h)		;b97d
+	dec (ix+012h)		;b97d   ; baja la cuenta de espera del actor
 	jp z,07371h		;b980
-	ld a,(ix+012h)		;b983
+	ld a,(ix+012h)		;b983   ; lee la cuenta de espera del actor
 	cp 00dh		;b986
 	ld b,073h		;b988
 	jr nc,L_B992		;b98a
@@ -3388,7 +3388,7 @@ cuadro_tipo_65:		; lo de cada cuadro del tipo 65
 	jr nc,L_B992		;b98f
 	inc b			;b991
 L_B992:
-	ld (ix+00bh),b		;b992
+	ld (ix+00bh),b		;b992   ; guarda el cuadro del actor
 	ld a,b			;b995
 	sub 073h		;b996
 	ld de,0b9abh		;b998
@@ -3415,12 +3415,12 @@ crea_tipo_9:		; la creacion del tipo 9
 	ld a,(0c621h)		;b9b1
 	or a			;b9b4
 	jp nz,0737bh		;b9b5   ; quita_actor: quita al actor: banderas por tipo (0xA0, 0x9A, 0xA9, 0xA4, 0xA1, 0xA2, 0xB9, 0x12, 0x2C), objeto y musica
-	inc (ix+006h)		;b9b8
-	ld (ix+00bh),016h		;b9bb
+	inc (ix+006h)		;b9b8   ; sube si el actor se mueve (p01:7336)
+	ld (ix+00bh),016h		;b9bb   ; el cuadro del actor = 0x16
 	xor a			;b9bf
-	ld (ix+007h),080h		;b9c0
-	ld (ix+008h),a		;b9c4
-	ld (ix+012h),01eh		;b9c7
+	ld (ix+007h),080h		;b9c0   ; la velocidad Y del actor = 0x80
+	ld (ix+008h),a		;b9c4   ; guarda la velocidad Y del actor (alta)
+	ld (ix+012h),01eh		;b9c7   ; la cuenta de espera del actor = 0x1E
 	ld (ix+013h),a		;b9cb
 	ld (ix+014h),001h		;b9ce
 	ld (ix+015h),a		;b9d2
@@ -3441,39 +3441,39 @@ cuadro_tipo_9:		; lo de cada cuadro del tipo 9
 	jp nz,L_BA1C		;b9f7
 	inc (ix+016h)		;b9fa
 	ld a,(0c184h)		;b9fd   ; lee la X de Snake
-	sub (ix+005h)		;ba00
+	sub (ix+005h)		;ba00   ; le resta la X del actor
 	add a,004h		;ba03
 	cp 009h		;ba05
 	jp nc,L_BA1C		;ba07
 	ld c,017h		;ba0a
-	ld a,(ix+003h)		;ba0c
+	ld a,(ix+003h)		;ba0c   ; lee la Y del actor
 	add a,004h		;ba0f
 	ld e,a			;ba11
-	ld d,(ix+005h)		;ba12
+	ld d,(ix+005h)		;ba12   ; lee la X del actor
 	call 0569ah		;ba15   ; crea_actor: crea un actor del tipo C en Y = E, X = D en la primera ficha libre de 0xD000; HL = la ficha, A = 0 si no cabe
 	ld (ix+016h),01eh		;ba18
 L_BA1C:
 	bit 0,(ix+013h)		;ba1c
 	jp nz,L_BA31		;ba20
-	dec (ix+012h)		;ba23
+	dec (ix+012h)		;ba23   ; baja la cuenta de espera del actor
 	jp nz,L_BA83		;ba26
-	ld (ix+012h),02dh		;ba29
+	ld (ix+012h),02dh		;ba29   ; la cuenta de espera del actor = 0x2D
 	ld (ix+013h),001h		;ba2d
 L_BA31:
-	dec (ix+012h)		;ba31
+	dec (ix+012h)		;ba31   ; baja la cuenta de espera del actor
 	jp nz,L_BA4A		;ba34
-	ld (ix+012h),01eh		;ba37
+	ld (ix+012h),01eh		;ba37   ; la cuenta de espera del actor = 0x1E
 	ld (ix+013h),000h		;ba3b
 	ld a,(ix+014h)		;ba3f
 	neg		;ba42
 	ld (ix+014h),a		;ba44
 	jp L_BA83		;ba47
 L_BA4A:
-	ld a,(ix+00ch)		;ba4a
+	ld a,(ix+00ch)		;ba4a   ; lee la cuenta de cuadros del actor
 	and 007h		;ba4d
 	jp nz,L_BA83		;ba4f
 	ld c,03eh		;ba52
-	ld a,(ix+003h)		;ba54
+	ld a,(ix+003h)		;ba54   ; lee la Y del actor
 	sub 00eh		;ba57
 	ld e,a			;ba59
 	bit 7,(ix+014h)		;ba5a
@@ -3481,7 +3481,7 @@ L_BA4A:
 	jp z,L_BA65		;ba60
 	neg		;ba63
 L_BA65:
-	add a,(ix+005h)		;ba65
+	add a,(ix+005h)		;ba65   ; le suma la X del actor
 	ld d,a			;ba68
 	call 0569ah		;ba69   ; crea_actor: crea un actor del tipo C en Y = E, X = D en la primera ficha libre de 0xD000; HL = la ficha, A = 0 si no cabe
 	ld bc,00012h		;ba6c
@@ -3497,25 +3497,25 @@ L_BA65:
 L_BA82:
 	ld (hl),a			;ba82
 L_BA83:
-	ld a,(ix+001h)		;ba83
+	ld a,(ix+001h)		;ba83   ; lee el paso del actor
 	cp 002h		;ba86
 	jp z,L_BAFC		;ba88
 	ld a,016h		;ba8b
-	bit 2,(ix+00ch)		;ba8d
+	bit 2,(ix+00ch)		;ba8d   ; mira el bit 2 de la cuenta de cuadros del actor
 	jp z,L_BA95		;ba91
 	inc a			;ba94
 L_BA95:
-	ld (ix+00bh),a		;ba95
-	ld a,(ix+00ch)		;ba98
+	ld (ix+00bh),a		;ba95   ; guarda el cuadro del actor
+	ld a,(ix+00ch)		;ba98   ; lee la cuenta de cuadros del actor
 	and 07fh		;ba9b
 	jp nz,L_BAB1		;ba9d
-	ld (ix+006h),a		;baa0
-	ld a,(ix+001h)		;baa3
+	ld (ix+006h),a		;baa0   ; guarda si el actor se mueve (p01:7336)
+	ld a,(ix+001h)		;baa3   ; lee el paso del actor
 	ld (ix+019h),a		;baa6
-	ld (ix+001h),002h		;baa9
+	ld (ix+001h),002h		;baa9   ; el paso del actor = 0x02
 	ld (ix+018h),028h		;baad
 L_BAB1:
-	ld a,(ix+001h)		;bab1
+	ld a,(ix+001h)		;bab1   ; lee el paso del actor
 	call 041eah		;bab4   ; despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 
 ; ----------------------------------------------------------------------
@@ -3534,80 +3534,80 @@ L_BABF:
 	dec (ix+017h)		;babf
 	ret nz			;bac2
 	ld (ix+017h),032h		;bac3
-	ld (ix+007h),080h		;bac7
+	ld (ix+007h),080h		;bac7   ; la velocidad Y del actor = 0x80
 	ld b,000h		;bacb
-	bit 7,(ix+008h)		;bacd
+	bit 7,(ix+008h)		;bacd   ; mira el bit 7 de la velocidad Y del actor (alta)
 	jp nz,L_BAE3		;bad1
 	dec b			;bad4
 	call azar_0_3		;bad5   ; azar_0_3: A = (R XOR (ix+0x0C)) AND 3
 	jp nz,L_BAE3		;bad8
-	ld (ix+001h),001h		;badb
+	ld (ix+001h),001h		;badb   ; el paso del actor = 0x01
 	ld (ix+017h),09ah		;badf
 L_BAE3:
-	ld (ix+008h),b		;bae3
+	ld (ix+008h),b		;bae3   ; guarda la velocidad Y del actor (alta)
 	ret			;bae6
 L_BAE7:
 	dec (ix+017h)		;bae7
 	ret nz			;baea
 	ld (ix+017h),09ah		;baeb
-	ld (ix+001h),000h		;baef
-	ld (ix+007h),080h		;baf3
-	ld (ix+008h),000h		;baf7
+	ld (ix+001h),000h		;baef   ; el paso del actor = 0x00
+	ld (ix+007h),080h		;baf3   ; la velocidad Y del actor = 0x80
+	ld (ix+008h),000h		;baf7   ; la velocidad Y del actor (alta) = 0x00
 	ret			;bafb
 L_BAFC:
 	dec (ix+018h)		;bafc
 	ret nz			;baff
 	ld a,(ix+019h)		;bb00
-	ld (ix+001h),a		;bb03
-	ld (ix+006h),001h		;bb06
+	ld (ix+001h),a		;bb03   ; guarda el paso del actor
+	ld (ix+006h),001h		;bb06   ; si el actor se mueve (p01:7336) = 0x01
 	ret			;bb0a
 L_BB0B:
 	xor a			;bb0b
 	ld (0c621h),a		;bb0c
 	ret			;bb0f
 crea_tipo_23:		; la creacion del tipo 23
-	ld (ix+006h),001h		;bb10
-	ld (ix+00eh),001h		;bb14
-	ld (ix+00bh),07eh		;bb18
+	ld (ix+006h),001h		;bb10   ; si el actor se mueve (p01:7336) = 0x01
+	ld (ix+00eh),001h		;bb14   ; con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x01
+	ld (ix+00bh),07eh		;bb18   ; el cuadro del actor = 0x7E
 	call parado		;bb1c   ; parado: las dos velocidades a cero
-	ld (ix+008h),006h		;bb1f
+	ld (ix+008h),006h		;bb1f   ; la velocidad Y del actor (alta) = 0x06
 	ld a,013h		;bb23
 	jp 0427ch		;bb25   ; sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
 crea_tipo_62:		; la creacion del tipo 62
-	ld (ix+00bh),072h		;bb28
-	ld (ix+00eh),001h		;bb2c
+	ld (ix+00bh),072h		;bb28   ; el cuadro del actor = 0x72
+	ld (ix+00eh),001h		;bb2c   ; con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x01
 	jp parado		;bb30   ; parado: las dos velocidades a cero
 cuadro_tipo_62:		; lo de cada cuadro del tipo 62
-	bit 0,(ix+001h)		;bb33
+	bit 0,(ix+001h)		;bb33   ; mira el bit 0 de el paso del actor
 	ret nz			;bb37
-	ld (ix+001h),001h		;bb38
-	ld (ix+006h),001h		;bb3c
-	ld (ix+008h),006h		;bb40
-	ld a,(ix+012h)		;bb44
+	ld (ix+001h),001h		;bb38   ; el paso del actor = 0x01
+	ld (ix+006h),001h		;bb3c   ; si el actor se mueve (p01:7336) = 0x01
+	ld (ix+008h),006h		;bb40   ; la velocidad Y del actor (alta) = 0x06
+	ld a,(ix+012h)		;bb44   ; lee la cuenta de espera del actor
 	add a,0feh		;bb47
-	ld (ix+00ah),a		;bb49
+	ld (ix+00ah),a		;bb49   ; guarda la velocidad X del actor (alta)
 	ld a,005h		;bb4c
 	jp 0427ch		;bb4e   ; sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
 crea_tipo_26:		; la creacion del tipo 26
 	ld a,(0c5b3h)		;bb51
 	or a			;bb54
 	jp nz,0737bh		;bb55   ; quita_actor: quita al actor: banderas por tipo (0xA0, 0x9A, 0xA9, 0xA4, 0xA1, 0xA2, 0xB9, 0x12, 0x2C), objeto y musica
-	ld (ix+006h),001h		;bb58
-	ld (ix+00eh),003h		;bb5c
-	ld a,(ix+003h)		;bb60
+	ld (ix+006h),001h		;bb58   ; si el actor se mueve (p01:7336) = 0x01
+	ld (ix+00eh),003h		;bb5c   ; con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x03
+	ld a,(ix+003h)		;bb60   ; lee la Y del actor
 	rlca			;bb63
 	rlca			;bb64
 	and 001h		;bb65
 	add a,003h		;bb67
-	ld (ix+011h),a		;bb69
+	ld (ix+011h),a		;bb69   ; guarda la direccion del actor
 	call cuadro_doble		;bb6c   ; cuadro_doble: cuadro = 2 x A
 	call parado		;bb6f   ; parado: las dos velocidades a cero
 	jp espera_azar_bc95		;bb72   ; espera_azar_bc95: (ix+0x12) al azar (1-48)
 cuadro_tipo_26:		; lo de cada cuadro del tipo 26
-	ld a,(ix+01eh)		;bb75
+	ld a,(ix+01eh)		;bb75   ; lee las marcas del actor (bits 0-4 el arma que le dio, 6 golpe, 7 contacto)
 	and 00fh		;bb78
 	jp nz,L_BC29		;bb7a
-	ld a,(ix+001h)		;bb7d
+	ld a,(ix+001h)		;bb7d   ; lee el paso del actor
 	call 041eah		;bb80   ; despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 
 ; ----------------------------------------------------------------------
@@ -3624,97 +3624,97 @@ DATA_tabla_BB83:
 
 L_BB8B:
 	ld a,(0c182h)		;bb8b   ; lee la Y de Snake
-	sub (ix+003h)		;bb8e
+	sub (ix+003h)		;bb8e   ; le resta la Y del actor
 	add a,010h		;bb91
 	cp 021h		;bb93
 	jr nc,L_BBB4		;bb95
 L_BB97:
-	ld (ix+001h),001h		;bb97
+	ld (ix+001h),001h		;bb97   ; el paso del actor = 0x01
 	call espera_azar_bc95		;bb9b   ; espera_azar_bc95: (ix+0x12) al azar (1-48)
 	ld a,(0c184h)		;bb9e   ; lee la X de Snake
-	cp (ix+005h)		;bba1
+	cp (ix+005h)		;bba1   ; compara con la X del actor
 	ld a,003h		;bba4
 	jr c,L_BBA9		;bba6
 	inc a			;bba8
 L_BBA9:
-	ld (ix+011h),a		;bba9
+	ld (ix+011h),a		;bba9   ; guarda la direccion del actor
 	ld b,004h		;bbac
 	call cuadro_dir_bc7f		;bbae   ; cuadro_dir_bc7f: cuadro de la direccion (ix+0x11), +1 con (ix+0x0C) AND B
 	jp 09bcdh		;bbb1   ; velocidad_de_dir: las velocidades (ix+8, ix+0x0A) por la direccion (ix+0x11) (0x9BDB)
 L_BBB4:
-	dec (ix+012h)		;bbb4
+	dec (ix+012h)		;bbb4   ; baja la cuenta de espera del actor
 	ret nz			;bbb7
 	call espera_azar_bc95		;bbb8   ; espera_azar_bc95: (ix+0x12) al azar (1-48)
 	ld a,r		;bbbb
-	xor (ix+00ch)		;bbbd
+	xor (ix+00ch)		;bbbd   ; XOR con la cuenta de cuadros del actor
 	and 001h		;bbc0
 	add a,a			;bbc2
 	add a,082h		;bbc3
-	ld (ix+00bh),a		;bbc5
+	ld (ix+00bh),a		;bbc5   ; guarda el cuadro del actor
 	ret			;bbc8
 L_BBC9:
 	ld a,(0c182h)		;bbc9   ; lee la Y de Snake
-	sub (ix+003h)		;bbcc
+	sub (ix+003h)		;bbcc   ; le resta la Y del actor
 	add a,010h		;bbcf
 	cp 021h		;bbd1
 	jr nc,L_BBEA		;bbd3
 	ld b,004h		;bbd5
 	call cuadro_dir_bc7f		;bbd7   ; cuadro_dir_bc7f: cuadro de la direccion (ix+0x11), +1 con (ix+0x0C) AND B
 	ld b,000h		;bbda
-	ld c,(ix+011h)		;bbdc
+	ld c,(ix+011h)		;bbdc   ; lee la direccion del actor
 	call 08292h		;bbdf   ; choca_actor: choca con H = (ix+5), L = (ix+3)
 	jr c,L_BB97		;bbe2
-	dec (ix+012h)		;bbe4
+	dec (ix+012h)		;bbe4   ; baja la cuenta de espera del actor
 	ret nz			;bbe7
 	jr L_BB97		;bbe8
 L_BBEA:
-	ld (ix+001h),002h		;bbea
-	ld a,(ix+005h)		;bbee
+	ld (ix+001h),002h		;bbea   ; el paso del actor = 0x02
+	ld a,(ix+005h)		;bbee   ; lee la X del actor
 	cp 080h		;bbf1
 	jr z,L_BC1C		;bbf3
 	ld a,004h		;bbf5
 	jr c,L_BBFA		;bbf7
 	dec a			;bbf9
 L_BBFA:
-	ld (ix+011h),a		;bbfa
+	ld (ix+011h),a		;bbfa   ; guarda la direccion del actor
 	ld b,004h		;bbfd
 	call cuadro_bc7f		;bbff   ; cuadro_bc7f: cuadro = 2 x A, +1 con (ix+0x0C) AND B
 	jp velocidad_a90e		;bc02   ; velocidad_a90e: las velocidades de la direccion (ix+0x11) de la tabla 0xA90E
 L_BC05:
 	ld a,(0c182h)		;bc05   ; lee la Y de Snake
-	sub (ix+003h)		;bc08
+	sub (ix+003h)		;bc08   ; le resta la Y del actor
 	add a,010h		;bc0b
 	cp 021h		;bc0d
 	jr c,L_BB97		;bc0f
 	ld b,008h		;bc11
 	call cuadro_dir_bc7f		;bc13   ; cuadro_dir_bc7f: cuadro de la direccion (ix+0x11), +1 con (ix+0x0C) AND B
-	ld a,(ix+005h)		;bc16
+	ld a,(ix+005h)		;bc16   ; lee la X del actor
 	cp 080h		;bc19
 	ret nz			;bc1b
 L_BC1C:
 	call cuadro_dir_bc92		;bc1c   ; cuadro_dir_bc92: cuadro = 2 x (ix+0x11)
-	ld (ix+001h),000h		;bc1f
-	ld (ix+00ah),000h		;bc23
+	ld (ix+001h),000h		;bc1f   ; el paso del actor = 0x00
+	ld (ix+00ah),000h		;bc23   ; la velocidad X del actor (alta) = 0x00
 	jr espera_azar_bc95		;bc27
 L_BC29:
 	add a,003h		;bc29
 	ld (ix+015h),a		;bc2b
-	ld a,(ix+00ah)		;bc2e
+	ld a,(ix+00ah)		;bc2e   ; lee la velocidad X del actor (alta)
 	ld (ix+014h),a		;bc31
 	ld a,(0c184h)		;bc34   ; lee la X de Snake
-	cp (ix+005h)		;bc37
+	cp (ix+005h)		;bc37   ; compara con la X del actor
 	ld a,002h		;bc3a
 	jr c,L_BC40		;bc3c
 	ld a,0feh		;bc3e
 L_BC40:
-	ld (ix+00ah),a		;bc40
-	ld a,(ix+001h)		;bc43
+	ld (ix+00ah),a		;bc40   ; guarda la velocidad X del actor (alta)
+	ld a,(ix+001h)		;bc43   ; lee el paso del actor
 	ld (ix+013h),a		;bc46
-	ld (ix+001h),003h		;bc49
-	ld (ix+00eh),001h		;bc4d
-	ld (ix+01eh),000h		;bc51
+	ld (ix+001h),003h		;bc49   ; el paso del actor = 0x03
+	ld (ix+00eh),001h		;bc4d   ; con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x01
+	ld (ix+01eh),000h		;bc51   ; las marcas del actor (bits 0-4 el arma que le dio, 6 golpe, 7 contacto) = 0x00
 L_BC55:
-	bit 7,(ix+00ah)		;bc55
+	bit 7,(ix+00ah)		;bc55   ; mira el bit 7 de la velocidad X del actor (alta)
 	ld bc,00004h		;bc59
 	jr z,L_BC5F		;bc5c
 	dec c			;bc5e
@@ -3726,33 +3726,33 @@ L_BC5F:
 	ret nz			;bc69
 	ld a,(ix+014h)		;bc6a
 L_BC6D:
-	ld (ix+00ah),a		;bc6d
+	ld (ix+00ah),a		;bc6d   ; guarda la velocidad X del actor (alta)
 	ld a,(ix+013h)		;bc70
-	ld (ix+001h),a		;bc73
-	ld (ix+00eh),003h		;bc76
+	ld (ix+001h),a		;bc73   ; guarda el paso del actor
+	ld (ix+00eh),003h		;bc76   ; con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x03
 	ld b,004h		;bc7a
 cuadro_dir_bc7f:		; cuadro de la direccion (ix+0x11), +1 con (ix+0x0C) AND B
-	ld a,(ix+011h)		;bc7c
+	ld a,(ix+011h)		;bc7c   ; lee la direccion del actor
 cuadro_bc7f:		; cuadro = 2 x A, +1 con (ix+0x0C) AND B
 	add a,a			;bc7f
 	ld c,a			;bc80
-	ld a,(ix+00ch)		;bc81
+	ld a,(ix+00ch)		;bc81   ; lee la cuenta de cuadros del actor
 	and b			;bc84
 	ld a,c			;bc85
 	jr z,L_BC89		;bc86
 	inc a			;bc88
 L_BC89:
 	add a,07ch		;bc89
-	ld (ix+00bh),a		;bc8b
+	ld (ix+00bh),a		;bc8b   ; guarda el cuadro del actor
 	ret			;bc8e
 cuadro_dir_bc92:		; cuadro = 2 x (ix+0x11)
-	ld a,(ix+011h)		;bc8f
+	ld a,(ix+011h)		;bc8f   ; lee la direccion del actor
 cuadro_doble:		; cuadro = 2 x A
 	add a,a			;bc92
 	jr L_BC89		;bc93
 espera_azar_bc95:		; (ix+0x12) al azar (1-48)
 	ld a,r		;bc95
-	xor (ix+00ch)		;bc97
+	xor (ix+00ch)		;bc97   ; XOR con la cuenta de cuadros del actor
 	srl a		;bc9a
 	srl a		;bc9c
 	srl a		;bc9e
@@ -3760,13 +3760,13 @@ espera_azar_bc95:		; (ix+0x12) al azar (1-48)
 	srl a		;bca1
 	add a,b			;bca3
 	inc a			;bca4
-	ld (ix+012h),a		;bca5
+	ld (ix+012h),a		;bca5   ; guarda la cuenta de espera del actor
 	ret			;bca8
 crea_tipo_28:		; la creacion del tipo 28
 	call 05bc1h		;bca9   ; colores_a_cero: escribe A y C alternos cada 5 bytes desde (ix+0x25)
-	ld (ix+00eh),000h		;bcac
+	ld (ix+00eh),000h		;bcac   ; con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x00
 	ld a,002h		;bcb0
-	ld (ix+011h),a		;bcb2
+	ld (ix+011h),a		;bcb2   ; guarda la direccion del actor
 	call cuadro_a_mas_1b		;bcb5   ; cuadro_a_mas_1b: cuadro = A + 7 + (ix+0x1B)
 	ld a,(0c151h)		;bcb8   ; lee el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
 	cp 008h		;bcbb
@@ -3776,13 +3776,13 @@ crea_tipo_28:		; la creacion del tipo 28
 	call 0427ch		;bcc4   ; sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
 L_BCC7:
 	ld a,r		;bcc7
-	xor (ix+00ch)		;bcc9
+	xor (ix+00ch)		;bcc9   ; XOR con la cuenta de cuadros del actor
 	and 00fh		;bccc
 	inc a			;bcce
-	ld (ix+012h),a		;bccf
+	ld (ix+012h),a		;bccf   ; guarda la cuenta de espera del actor
 	ret			;bcd2
 cuadro_tipo_28:		; lo de cada cuadro del tipo 28
-	ld a,(ix+001h)		;bcd3
+	ld a,(ix+001h)		;bcd3   ; lee el paso del actor
 	call 041eah		;bcd6   ; despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 
 ; ----------------------------------------------------------------------
@@ -3798,65 +3798,65 @@ DATA_tabla_BCD9:
 
 
 L_BCE3:
-	dec (ix+012h)		;bce3
+	dec (ix+012h)		;bce3   ; baja la cuenta de espera del actor
 	ret nz			;bce6
 	call azar_0_3		;bce7   ; azar_0_3: A = (R XOR (ix+0x0C)) AND 3
 	cp 001h		;bcea
 	jp c,L_BD11		;bcec
 	jp z,L_BD03		;bcef
-	ld (ix+001h),002h		;bcf2
-	ld (ix+008h),002h		;bcf6
-	inc (ix+006h)		;bcfa
-	ld (ix+012h),00ah		;bcfd
+	ld (ix+001h),002h		;bcf2   ; el paso del actor = 0x02
+	ld (ix+008h),002h		;bcf6   ; la velocidad Y del actor (alta) = 0x02
+	inc (ix+006h)		;bcfa   ; sube si el actor se mueve (p01:7336)
+	ld (ix+012h),00ah		;bcfd   ; la cuenta de espera del actor = 0x0A
 	jr colores_4d		;bd01
 L_BD03:
-	ld (ix+001h),001h		;bd03
-	ld (ix+012h),01eh		;bd07
+	ld (ix+001h),001h		;bd03   ; el paso del actor = 0x01
+	ld (ix+012h),01eh		;bd07   ; la cuenta de espera del actor = 0x1E
 	call cuadro_mas_1b		;bd0b   ; cuadro_mas_1b: cuadro = (ix+0x11) + 7 + (ix+0x1B)
 	call colores_4d		;bd0e   ; colores_4d: (ix+0x0E) = 3 y los colores 0x02/0x4D
 L_BD11:
 	ld c,03dh		;bd11
 	jp crea_encima		;bd13   ; crea_encima: crea el actor C 0x10 puntos por encima de IX
 L_BD16:
-	dec (ix+012h)		;bd16
+	dec (ix+012h)		;bd16   ; baja la cuenta de espera del actor
 	ret nz			;bd19
-	ld (ix+001h),000h		;bd1a
-	ld (ix+00eh),000h		;bd1e
+	ld (ix+001h),000h		;bd1a   ; el paso del actor = 0x00
+	ld (ix+00eh),000h		;bd1e   ; con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x00
 	call 05bc1h		;bd22   ; colores_a_cero: escribe A y C alternos cada 5 bytes desde (ix+0x25)
 	jr $-94		;bd25
 L_BD27:
 	call cuadro_por_direccion		;bd27   ; cuadro_por_direccion: cuadro = 2 x ((ix+0x11) - 1), +1 con el bit 2 de (ix+0x0C)
-	dec (ix+012h)		;bd2a
+	dec (ix+012h)		;bd2a   ; baja la cuenta de espera del actor
 	ret nz			;bd2d
-	ld (ix+001h),003h		;bd2e
-	ld (ix+008h),000h		;bd32
-	ld (ix+012h),019h		;bd36
+	ld (ix+001h),003h		;bd2e   ; el paso del actor = 0x03
+	ld (ix+008h),000h		;bd32   ; la velocidad Y del actor (alta) = 0x00
+	ld (ix+012h),019h		;bd36   ; la cuenta de espera del actor = 0x19
 	call 08334h		;bd3a   ; hacia_snake_dir: A = la direccion de IX hacia Snake por el eje mayor (1-4), B = la del otro eje
-	ld (ix+011h),a		;bd3d
+	ld (ix+011h),a		;bd3d   ; guarda la direccion del actor
 	call cuadro_a_mas_1b		;bd40   ; cuadro_a_mas_1b: cuadro = A + 7 + (ix+0x1B)
 	jr L_BD11		;bd43
 L_BD45:
-	dec (ix+012h)		;bd45
+	dec (ix+012h)		;bd45   ; baja la cuenta de espera del actor
 	ret nz			;bd48
-	ld (ix+001h),004h		;bd49
-	ld (ix+008h),0feh		;bd4d
-	ld (ix+011h),001h		;bd51
-	ld (ix+012h),00ah		;bd55
+	ld (ix+001h),004h		;bd49   ; el paso del actor = 0x04
+	ld (ix+008h),0feh		;bd4d   ; la velocidad Y del actor (alta) = 0xFE
+	ld (ix+011h),001h		;bd51   ; la direccion del actor = 0x01
+	ld (ix+012h),00ah		;bd55   ; la cuenta de espera del actor = 0x0A
 	ret			;bd59
 L_BD5A:
 	call cuadro_por_direccion		;bd5a   ; cuadro_por_direccion: cuadro = 2 x ((ix+0x11) - 1), +1 con el bit 2 de (ix+0x0C)
-	dec (ix+012h)		;bd5d
+	dec (ix+012h)		;bd5d   ; baja la cuenta de espera del actor
 	ret nz			;bd60
 	xor a			;bd61
-	ld (ix+001h),a		;bd62
-	ld (ix+008h),a		;bd65
-	ld (ix+006h),001h		;bd68
-	ld (ix+011h),002h		;bd6c
-	ld (ix+00eh),a		;bd70
+	ld (ix+001h),a		;bd62   ; guarda el paso del actor
+	ld (ix+008h),a		;bd65   ; guarda la velocidad Y del actor (alta)
+	ld (ix+006h),001h		;bd68   ; si el actor se mueve (p01:7336) = 0x01
+	ld (ix+011h),002h		;bd6c   ; la direccion del actor = 0x02
+	ld (ix+00eh),a		;bd70   ; guarda con que choca el actor (bit 0 Snake, bit 1 proyectiles)
 	call 05bc1h		;bd73   ; colores_a_cero: escribe A y C alternos cada 5 bytes desde (ix+0x25)
 	jp L_BCC7		;bd76
 colores_4d:		; (ix+0x0E) = 3 y los colores 0x02/0x4D
-	ld (ix+00eh),003h		;bd79
+	ld (ix+00eh),003h		;bd79   ; con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x03
 	ld de,0024dh		;bd7d
 	ld (ix+025h),d		;bd80
 	ld (ix+02ah),e		;bd83
@@ -3867,12 +3867,12 @@ crea_tipo_32:		; la creacion del tipo 32
 	ld hl,0c637h		;bd8d
 	bit 0,(hl)		;bd90
 	jp nz,0737bh		;bd92   ; quita_actor: quita al actor: banderas por tipo (0xA0, 0x9A, 0xA9, 0xA4, 0xA1, 0xA2, 0xB9, 0x12, 0x2C), objeto y musica
-	ld (ix+012h),002h		;bd95
+	ld (ix+012h),002h		;bd95   ; la cuenta de espera del actor = 0x02
 	call parado		;bd99   ; parado: las dos velocidades a cero
-	ld (ix+011h),004h		;bd9c
+	ld (ix+011h),004h		;bd9c   ; la direccion del actor = 0x04
 	jr $+86		;bda0
 cuadro_tipo_32:		; lo de cada cuadro del tipo 32
-	ld a,(ix+001h)		;bda2
+	ld a,(ix+001h)		;bda2   ; lee el paso del actor
 	call 041eah		;bda5   ; despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 
 ; ----------------------------------------------------------------------
@@ -3889,9 +3889,9 @@ DATA_tabla_BDA8:
 
 
 L_BDB4:
-	dec (ix+012h)		;bdb4
+	dec (ix+012h)		;bdb4   ; baja la cuenta de espera del actor
 	ret nz			;bdb7
-	ld (ix+001h),001h		;bdb8
+	ld (ix+001h),001h		;bdb8   ; el paso del actor = 0x01
 	call espera_azar_32		;bdbc   ; espera_azar_32: (ix+0x12) = 1-32 al azar
 	ld hl,0c637h		;bdbf
 	bit 1,(hl)		;bdc2
@@ -3904,22 +3904,22 @@ L_BDCC:
 	jr c,L_BDEB		;bdcf
 	call dx_a_snake_bf53		;bdd1   ; dx_a_snake_bf53: la distancia en X a Snake si esta en la fila
 	jr nc,L_BDF8		;bdd4
-	dec (ix+012h)		;bdd6
+	dec (ix+012h)		;bdd6   ; baja la cuenta de espera del actor
 	ret nz			;bdd9
-	ld (ix+001h),003h		;bdda
-	ld (ix+006h),001h		;bdde
-	ld (ix+012h),005h		;bde2
+	ld (ix+001h),003h		;bdda   ; el paso del actor = 0x03
+	ld (ix+006h),001h		;bdde   ; si el actor se mueve (p01:7336) = 0x01
+	ld (ix+012h),005h		;bde2   ; la cuenta de espera del actor = 0x05
 	call mira_a_snake_lado_2		;bde6   ; mira_a_snake_lado_2: en las filas 0x38/0xA8, la direccion de lado hacia Snake
 	jr L_BDF6		;bde9
 L_BDEB:
-	ld (ix+001h),002h		;bdeb
-	ld (ix+006h),001h		;bdef
+	ld (ix+001h),002h		;bdeb   ; el paso del actor = 0x02
+	ld (ix+006h),001h		;bdef   ; si el actor se mueve (p01:7336) = 0x01
 	call mira_a_snake_lado		;bdf3   ; mira_a_snake_lado: en las filas 0x38/0xA8, mira hacia Snake de lado
 L_BDF6:
 	jr direccion_be73		;bdf6
 L_BDF8:
-	ld (ix+001h),002h		;bdf8
-	ld (ix+006h),001h		;bdfc
+	ld (ix+001h),002h		;bdf8   ; el paso del actor = 0x02
+	ld (ix+006h),001h		;bdfc   ; si el actor se mueve (p01:7336) = 0x01
 	ld (ix+013h),002h		;be00
 	call mira_a_snake_lado_2		;be04   ; mira_a_snake_lado_2: en las filas 0x38/0xA8, la direccion de lado hacia Snake
 	jr direccion_be73		;be07
@@ -3932,25 +3932,25 @@ L_BE09:
 	jr c,L_BDEB		;be16
 	call dx_a_snake_bf53		;be18   ; dx_a_snake_bf53: la distancia en X a Snake si esta en la fila
 	ret nc			;be1b
-	ld (ix+001h),001h		;be1c
-	ld (ix+006h),000h		;be20
+	ld (ix+001h),001h		;be1c   ; el paso del actor = 0x01
+	ld (ix+006h),000h		;be20   ; si el actor se mueve (p01:7336) = 0x00
 	jr L_BE84		;be24
 L_BE26:
 	call direccion_be73		;be26   ; direccion_be73: A = (ix+0x11)
-	dec (ix+012h)		;be29
+	dec (ix+012h)		;be29   ; baja la cuenta de espera del actor
 	ret nz			;be2c
-	ld (ix+001h),004h		;be2d
-	ld (ix+006h),000h		;be31
-	ld (ix+012h),005h		;be35
+	ld (ix+001h),004h		;be2d   ; el paso del actor = 0x04
+	ld (ix+006h),000h		;be31   ; si el actor se mueve (p01:7336) = 0x00
+	ld (ix+012h),005h		;be35   ; la cuenta de espera del actor = 0x05
 	jr L_BE84		;be39
 L_BE3B:
-	dec (ix+012h)		;be3b
+	dec (ix+012h)		;be3b   ; baja la cuenta de espera del actor
 	ret nz			;be3e
-	ld (ix+001h),005h		;be3f
-	ld (ix+006h),001h		;be43
-	ld a,(ix+011h)		;be47
+	ld (ix+001h),005h		;be3f   ; el paso del actor = 0x05
+	ld (ix+006h),001h		;be43   ; si el actor se mueve (p01:7336) = 0x01
+	ld a,(ix+011h)		;be47   ; lee la direccion del actor
 	call 0835fh		;be4a   ; contraria: A = la direccion contraria (1 y 2, 3 y 4)
-	ld (ix+011h),a		;be4d
+	ld (ix+011h),a		;be4d   ; guarda la direccion del actor
 	call velocidad_doble		;be50   ; velocidad_doble: las velocidades de la direccion A (0xA916) al doble
 	call fila_38_a8		;be53   ; fila_38_a8: Z si la Y del actor es 0x38 o 0xA8
 	ld c,03ah		;be56
@@ -3961,26 +3961,26 @@ L_BE5F:
 	call direccion_be73		;be5f   ; direccion_be73: A = (ix+0x11)
 	call en_la_fila		;be62   ; en_la_fila: Z si el actor esta en las filas 0x38/0xA8 o en 0x58/0x98
 	ret nz			;be65
-	ld (ix+001h),001h		;be66
-	ld (ix+006h),000h		;be6a
+	ld (ix+001h),001h		;be66   ; el paso del actor = 0x01
+	ld (ix+006h),000h		;be6a   ; si el actor se mueve (p01:7336) = 0x00
 	call espera_azar_32		;be6e   ; espera_azar_32: (ix+0x12) = 1-32 al azar
 	jr L_BE84		;be71
 direccion_be73:		; A = (ix+0x11)
-	ld a,(ix+011h)		;be73
+	ld a,(ix+011h)		;be73   ; lee la direccion del actor
 L_BE76:
 	add a,a			;be76
 	add a,03fh		;be77
-	bit 1,(ix+00ch)		;be79
+	bit 1,(ix+00ch)		;be79   ; mira el bit 1 de la cuenta de cuadros del actor
 	jr nz,L_BE80		;be7d
 	inc a			;be7f
 L_BE80:
-	ld (ix+00bh),a		;be80
+	ld (ix+00bh),a		;be80   ; guarda el cuadro del actor
 	ret			;be83
 L_BE84:
 	call fila_38_a8		;be84   ; fila_38_a8: Z si la Y del actor es 0x38 o 0xA8
 	ld b,002h		;be87
 	jr z,L_BE90		;be89
-	ld a,(ix+005h)		;be8b
+	ld a,(ix+005h)		;be8b   ; lee la X del actor
 	ld b,004h		;be8e
 L_BE90:
 	rlca			;be90
@@ -3992,23 +3992,23 @@ mira_a_snake_lado:		; en las filas 0x38/0xA8, mira hacia Snake de lado
 	call fila_38_a8		;be98   ; fila_38_a8: Z si la Y del actor es 0x38 o 0xA8
 	jr nz,L_BEBC		;be9b
 	ld a,(0c184h)		;be9d   ; lee la X de Snake
-	cp (ix+005h)		;bea0
+	cp (ix+005h)		;bea0   ; compara con la X del actor
 	ld a,004h		;bea3
 	jr c,L_BEA8		;bea5
 	dec a			;bea7
 L_BEA8:
-	ld (ix+011h),a		;bea8
-	ld a,(ix+011h)		;beab
+	ld (ix+011h),a		;bea8   ; guarda la direccion del actor
+	ld a,(ix+011h)		;beab   ; lee la direccion del actor
 velocidad_doble:		; las velocidades de la direccion A (0xA916) al doble
 	call velocidad_a916		;beae   ; velocidad_a916: las velocidades de la direccion A de la tabla 0xA916
 	sla e		;beb1
 	sla d		;beb3
-	ld (ix+008h),e		;beb5
-	ld (ix+00ah),d		;beb8
+	ld (ix+008h),e		;beb5   ; guarda la velocidad Y del actor (alta)
+	ld (ix+00ah),d		;beb8   ; guarda la velocidad X del actor (alta)
 	ret			;bebb
 L_BEBC:
 	ld a,(0c182h)		;bebc   ; lee la Y de Snake
-	cp (ix+003h)		;bebf
+	cp (ix+003h)		;bebf   ; compara con la Y del actor
 	ld a,002h		;bec2
 	jr c,L_BEA8		;bec4
 	dec a			;bec6
@@ -4017,14 +4017,14 @@ mira_a_snake_lado_2:		; en las filas 0x38/0xA8, la direccion de lado hacia Snake
 	call fila_38_a8		;bec9   ; fila_38_a8: Z si la Y del actor es 0x38 o 0xA8
 	jr nz,L_BEDB		;becc
 	ld a,(0c184h)		;bece   ; lee la X de Snake
-	cp (ix+005h)		;bed1
+	cp (ix+005h)		;bed1   ; compara con la X del actor
 	ld a,003h		;bed4
 	jr c,L_BEA8		;bed6
 	inc a			;bed8
 	jr L_BEA8		;bed9
 L_BEDB:
 	ld a,(0c182h)		;bedb   ; lee la Y de Snake
-	cp (ix+003h)		;bede
+	cp (ix+003h)		;bede   ; compara con la Y del actor
 	ld a,001h		;bee1
 	jr c,L_BEA8		;bee3
 	inc a			;bee5
@@ -4032,46 +4032,46 @@ L_BEDB:
 en_el_borde_x:		; si no se mueve en Y y esta en X = 0x18 o 0xC8
 	call se_mueve_en_y		;bee8   ; se_mueve_en_y: NZ si la velocidad Y alta no es cero
 	jr nz,L_BF02		;beeb
-	ld a,(ix+005h)		;beed
+	ld a,(ix+005h)		;beed   ; lee la X del actor
 	cp 018h		;bef0
 	jr z,L_BEF7		;bef2
 	cp 0c8h		;bef4
 	ret nz			;bef6
 L_BEF7:
-	bit 7,(ix+003h)		;bef7
+	bit 7,(ix+003h)		;bef7   ; mira el bit 7 de la Y del actor
 	ld a,002h		;befb
 	jr z,L_BEA8		;befd
 	dec a			;beff
 	jr L_BEA8		;bf00
 L_BF02:
-	ld a,(ix+003h)		;bf02
+	ld a,(ix+003h)		;bf02   ; lee la Y del actor
 	cp 038h		;bf05
 	jr z,L_BF0C		;bf07
 	cp 0a8h		;bf09
 	ret nz			;bf0b
 L_BF0C:
-	bit 7,(ix+005h)		;bf0c
+	bit 7,(ix+005h)		;bf0c   ; mira el bit 7 de la X del actor
 	ld a,004h		;bf10
 	jr z,L_BEA8		;bf12
 	dec a			;bf14
 	jr L_BEA8		;bf15
 espera_azar_32:		; (ix+0x12) = 1-32 al azar
 	ld a,r		;bf17
-	xor (ix+00ch)		;bf19
+	xor (ix+00ch)		;bf19   ; XOR con la cuenta de cuadros del actor
 	and 01fh		;bf1c
 	inc a			;bf1e
-	ld (ix+012h),a		;bf1f
+	ld (ix+012h),a		;bf1f   ; guarda la cuenta de espera del actor
 	ret			;bf22
 en_la_fila:		; Z si el actor esta en las filas 0x38/0xA8 o en 0x58/0x98
 	call fila_38_a8		;bf23   ; fila_38_a8: Z si la Y del actor es 0x38 o 0xA8
 	jr z,L_BF31		;bf26
-	ld a,(ix+003h)		;bf28
+	ld a,(ix+003h)		;bf28   ; lee la Y del actor
 	cp 058h		;bf2b
 	ret z			;bf2d
 	cp 098h		;bf2e
 	ret			;bf30
 L_BF31:
-	ld a,(ix+005h)		;bf31
+	ld a,(ix+005h)		;bf31   ; lee la X del actor
 	cp 030h		;bf34
 	ret z			;bf36
 	cp 070h		;bf37
@@ -4080,12 +4080,12 @@ L_BF31:
 	ret			;bf3c
 snake_cerca_48:		; acarreo si Snake esta a menos de 0x48 en X y en Y
 	ld a,(0c184h)		;bf3d   ; lee la X de Snake
-	sub (ix+005h)		;bf40
+	sub (ix+005h)		;bf40   ; le resta la X del actor
 	add a,048h		;bf43
 	cp 091h		;bf45
 	ret nc			;bf47
 	ld a,(0c182h)		;bf48   ; lee la Y de Snake
-	sub (ix+003h)		;bf4b
+	sub (ix+003h)		;bf4b   ; le resta la Y del actor
 	add a,048h		;bf4e
 	cp 091h		;bf50
 	ret			;bf52
@@ -4093,30 +4093,30 @@ dx_a_snake_bf53:		; la distancia en X a Snake si esta en la fila
 	call fila_38_a8		;bf53   ; fila_38_a8: Z si la Y del actor es 0x38 o 0xA8
 	jr nz,L_BF60		;bf56
 	ld a,(0c184h)		;bf58   ; lee la X de Snake
-	sub (ix+005h)		;bf5b
+	sub (ix+005h)		;bf5b   ; le resta la X del actor
 	jr L_BF66		;bf5e
 L_BF60:
 	ld a,(0c182h)		;bf60   ; lee la Y de Snake
-	sub (ix+003h)		;bf63
+	sub (ix+003h)		;bf63   ; le resta la Y del actor
 L_BF66:
 	add a,030h		;bf66
 	cp 061h		;bf68
 	ret			;bf6a
 fila_38_a8:		; Z si la Y del actor es 0x38 o 0xA8
-	ld a,(ix+003h)		;bf6b
+	ld a,(ix+003h)		;bf6b   ; lee la Y del actor
 	cp 038h		;bf6e
 	ret z			;bf70
 	cp 0a8h		;bf71
 	ret			;bf73
 se_mueve_en_y:		; NZ si la velocidad Y alta no es cero
-	ld a,(ix+008h)		;bf74
+	ld a,(ix+008h)		;bf74   ; lee la velocidad Y del actor (alta)
 	or a			;bf77
 	ret			;bf78
 crea_tipo_40:		; la creacion del tipo 40
-	ld (ix+00eh),000h		;bf79
+	ld (ix+00eh),000h		;bf79   ; con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x00
 	ld a,(0c136h)		;bf7d   ; lee la parada del ascensor
 	cp 0f0h		;bf80
-	ld (ix+012h),01eh		;bf82
+	ld (ix+012h),01eh		;bf82   ; la cuenta de espera del actor = 0x1E
 	ld (ix+013h),005h		;bf86
 	ret z			;bf8a
 	ld (ix+013h),013h		;bf8b
@@ -4125,9 +4125,9 @@ cuadro_tipo_40:		; lo de cada cuadro del tipo 40
 	ld a,(0c602h)		;bf90   ; lee la bandera 0xC602 (refuerzos y musica)
 	or a			;bf93
 	jp nz,07371h		;bf94
-	dec (ix+012h)		;bf97
+	dec (ix+012h)		;bf97   ; baja la cuenta de espera del actor
 	ret nz			;bf9a
-	ld (ix+012h),01eh		;bf9b
+	ld (ix+012h),01eh		;bf9b   ; la cuenta de espera del actor = 0x1E
 	dec (ix+013h)		;bf9f
 	ret nz			;bfa2
 	ld (ix+013h),017h		;bfa3

@@ -772,6 +772,16 @@ RAM = {
     0xC900: ("el paso de la secuencia 0xC900", "p01:7D7F"),
     0xC005: ("el semaforo del juego del cuadro", "p00:41C8"),
     0xC130: ("la sala", "p00:42B1"),
+    0xC131: ("la vida (LIFE)", "p02:902B"),
+    0xC132: ("la CLASS (0-3 estrellas)", "p02:90AA"),
+    0xC137: ("la vida maxima", "p01:64DF"),
+    0xC13B: ("la bandera de capturado (sin armas ni objetos)", "p01:7DCA"),
+    0xC13C: ("la cuenta atras en marcha", "p01:757B"),
+    0xC13D: ("la cuenta atras (BCD, 16 bits)", "p02:9209"),
+    0xC15F: ("la llamada del transceptor (0 pendiente, 1 llamando, 2 ninguna)", "p02:91E9"),
+    0xC160: ("la cuenta hasta la llamada", "p02:91E9"),
+    0xC199: ("la cuenta de herido (Snake parpadea)", "p00:537F"),
+    0xC6A0: ("la cinta (1 carga, 2 graba)", "p15:B948"),
     0xC133: ("el lado por el que se sale (1 arriba, 2 abajo, 3 izquierda, 4 derecha)", "p00:4309, p01:63FC"),
     0xC134: ("el arma elegida (p06:B865: 1 HAND GUN, 2 SMG, 3 GRENADE, 4 ROCKET, 5 P.BOMB, 6 L.MINE, 7 MISSILE, 8 SILENCER)", "p00:4BEC"),
     0xC135: ("el objeto elegido (p06:B8F6: 3 LIGHT, 4 GOGGL, 6 CIGAL, 0x0E-0x15 CARD1-8, 0x16 RATIO, 0x19 BOX...)", "p00:4843"),
@@ -816,7 +826,7 @@ RAM = {
     0xF0F2: ("la copia del banco de 0x8000", "p00:4253"),
     0xF0F3: ("la copia del banco de 0xA000", "p00:4253"),
     0xF0F6: ("el banco de zona de 0xA000", "p00:492F"),
-    0xF680: ("la copia de la paleta", "p00:4E7D"),
+    0xF680: ("la copia de la paleta en la VRAM (0xF680, 2 bytes por color)", "p00:4E7D"),
 }
 
 RAM16 = {
@@ -826,8 +836,17 @@ RAM16 = {
 
 # IX apunta a una ficha de actor (16 de 0x80 desde 0xD000, p01:71E5).
 FICHAS_IX = (0xD000,)
-# Los bancos en los que IX llega siempre como la ficha del actor.
-IX_FICHA_POR_DEFECTO = ()
+# Los tramos en los que IX llega siempre como la ficha del actor: los
+# manejadores por tipo (las dos tablas de despacho) y lo que solo llaman ellos
+# o el bucle p01:71E5. Leido rutina a rutina; los proyectiles (IX = 0xC200),
+# los objetos (IX = 0xC5D0) y p02:8C66-8D3A (IX proyectil, IY actor) fuera.
+IX_FICHA_POR_DEFECTO = {
+    0: ((0x4673, 0x469C), (0x5506, 0x556F), (0x57EC, 0x580B), (0x58FD, 0x5927),
+        (0x5935, 0x5BDF), (0x5C25, 0x5C7A)),
+    1: ((0x7212, 0x7458), (0x746F, 0x7707)),
+    2: ((0x830D, 0x8364), (0x8957, 0x8AD9), (0x8AEE, 0x8B8A), (0x95BF, 0xA000)),
+    3: ((0xA001, 0xC000),),
+}
 # Solo los campos que valen igual para todos los tipos.
 CAMPOS = {
     0x00: "el tipo del actor",
@@ -841,12 +860,12 @@ CAMPOS = {
     0x0B: "el cuadro del actor",
     0x0C: "la cuenta de cuadros del actor",
     0x11: "la direccion del actor",
-    0x13: "cuantos puntos tiene el camino del actor",
-    0x14: "el punto del camino del actor",
-    0x15: "la Y del punto al que va el actor",
-    0x16: "la X del punto al que va el actor",
-    0x17: "el camino del actor",
-    0x18: "el camino del actor (alta)",
+    0x06: "si el actor se mueve (p01:7336)",
+    0x0E: "con que choca el actor (bit 0 Snake, bit 1 proyectiles)",
+    0x0F: "el numero del actor entre los de su tipo",
+    0x12: "la cuenta de espera del actor",
+    0x1E: "las marcas del actor (bits 0-4 el arma que le dio, 6 golpe, 7 contacto)",
+    0x1F: "la cuenta del golpe del actor",
     0x20: "cuantos sprites tiene el actor",
     0x43: "la marcha del actor (0, 4 u 8)",
     0x7F: "el paso de la animacion del actor (1-4)",

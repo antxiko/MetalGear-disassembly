@@ -3016,7 +3016,7 @@ colores_de_actores_a_vram:		; los colores de 0xE840 y los atributos de 0xEA10 a 
 L_B945:
 	jp 040c8h		;b945   ; escribe_vram_y_vuelve: llama a escribe_vram (p00:4D59) y deja otra vez los bancos 1-2 y el de zona
 cinta:		; carga (0xC6A0 = 1) o graba (2) la partida en cinta, por pasos (0xC6A1)
-	ld hl,0c6a0h		;b948
+	ld hl,0c6a0h		;b948   ; apunta a la cinta (1 carga, 2 graba)
 	ld a,(hl)			;b94b
 	inc hl			;b94c
 	dec a			;b94d
@@ -3191,7 +3191,7 @@ L_BA89:
 	ldir		;ba94
 	ld hl,0c165h		;ba96
 	ld (hl),000h		;ba99
-	ld a,(0c6a0h)		;ba9b
+	ld a,(0c6a0h)		;ba9b   ; lee la cinta (1 carga, 2 graba)
 	dec a			;ba9e
 	jp nz,040e1h		;ba9f   ; musica_de_nuevo_y_vuelve: llama a musica_de_nuevo (p01:6DD9) y deja otra vez los bancos 1-2 y el de zona
 	ld a,(0c167h)		;baa2
@@ -3284,7 +3284,7 @@ L_BB47:
 	ld (0c167h),a		;bb4c
 	ld hl,0bd52h		;bb4f
 	ld b,003h		;bb52
-	ld a,(0c6a0h)		;bb54
+	ld a,(0c6a0h)		;bb54   ; lee la cinta (1 carga, 2 graba)
 	dec a			;bb57
 	jr z,L_BB5F		;bb58
 	ld hl,0bcf1h		;bb5a
@@ -3577,7 +3577,7 @@ final_prepara:		; sala 0xFB, cuenta 0x200, modo 4, Snake en (0x80, 0x80) y la fr
 	xor a			;bd73
 	ld (0c922h),a		;bd74
 	ld hl,00200h		;bd77
-	ld (0c13dh),hl		;bd7a
+	ld (0c13dh),hl		;bd7a   ; guarda la cuenta atras (BCD, 16 bits) y el byte siguiente (16 bits)
 	ld a,004h		;bd7d
 	ld (0c151h),a		;bd7f   ; guarda el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
 	ld a,080h		;bd82

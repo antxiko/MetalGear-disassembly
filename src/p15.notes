@@ -563,6 +563,7 @@ C 0xB92D de_mas_a_y_vuelve: llama a de_mas_a (p00:41E5) y deja otra vez los banc
 C 0xB933 escribe_vram_y_vuelve: llama a escribe_vram (p00:4D59) y deja otra vez los bancos 1-2 y el de zona
 C 0xB93F de_mas_a_y_vuelve: llama a de_mas_a (p00:41E5) y deja otra vez los bancos 1-2 y el de zona
 C 0xB945 escribe_vram_y_vuelve: llama a escribe_vram (p00:4D59) y deja otra vez los bancos 1-2 y el de zona
+C 0xB948 apunta a la cinta (1 carga, 2 graba)
 C 0xB956 pantalla_de_cinta: el recuadro, y 0xFBF0 (40) y el nombre a cero
 C 0xB95C rotulo_y_vuelve: llama a rotulo (p00:510C) y deja otra vez los bancos 1-2 y el de zona
 C 0xB95F borra_c6ae: 0xC6AE-0xC6BB a cero
@@ -586,6 +587,7 @@ C 0xBA61 rotulo_y_vuelve: llama a rotulo (p00:510C) y deja otra vez los bancos 1
 C 0xBA67 rotulo_y_vuelve: llama a rotulo (p00:510C) y deja otra vez los bancos 1-2 y el de zona
 C 0xBA79 borra_rotulo_y_vuelve: llama a borra_rotulo (p00:5110) y deja otra vez los bancos 1-2 y el de zona
 C 0xBA7F borra_rotulo_y_vuelve: llama a borra_rotulo (p00:5110) y deja otra vez los bancos 1-2 y el de zona
+C 0xBA9B lee la cinta (1 carga, 2 graba)
 C 0xBA9F musica_de_nuevo_y_vuelve: llama a musica_de_nuevo (p01:6DD9) y deja otra vez los bancos 1-2 y el de zona
 C 0xBAA6 musica_de_nuevo_y_vuelve: llama a musica_de_nuevo (p01:6DD9) y deja otra vez los bancos 1-2 y el de zona
 C 0xBAB5 borra_rotulo_y_vuelve: llama a borra_rotulo (p00:5110) y deja otra vez los bancos 1-2 y el de zona
@@ -598,6 +600,7 @@ C 0xBAEF teclea_nombre: una tecla (CHGET) para el nombre 0xC6A8: ESC acarreo, RE
 C 0xBAFF borra_rotulo_y_vuelve: llama a borra_rotulo (p00:5110) y deja otra vez los bancos 1-2 y el de zona
 C 0xBB0B busca_en_cinta: busca la cabecera (10 x 0xEA) y el nombre de 6 letras
 C 0xBB2F suma_de_control: A = la suma de los 0x300 bytes de 0xCA00; HL = 0xC166
+C 0xBB54 lee la cinta (1 carga, 2 graba)
 C 0xBB63 rotulo_y_vuelve: llama a rotulo (p00:510C) y deja otra vez los bancos 1-2 y el de zona
 C 0xBB69 rotulo_y_vuelve: llama a rotulo (p00:510C) y deja otra vez los bancos 1-2 y el de zona
 C 0xBB6F rotulo_y_vuelve: llama a rotulo (p00:510C) y deja otra vez los bancos 1-2 y el de zona
@@ -619,6 +622,7 @@ C 0xBD65 pantalla_limpia_y_vuelve: llama a pantalla_limpia (p00:4DF8) y deja otr
 C 0xBD6A guarda la sala
 C 0xBD6D juego_de_fichas_y_vuelve: llama a juego_de_fichas (p00:4935) y deja otra vez los bancos 1-2 y el de zona
 C 0xBD70 paleta_de_la_sala_y_vuelve: llama a paleta_de_la_sala (p00:4ACB) y deja otra vez los bancos 1-2 y el de zona
+C 0xBD7A guarda la cuenta atras (BCD, 16 bits) y el byte siguiente (16 bits)
 C 0xBD7F guarda el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
 C 0xBD84 guarda la X de Snake
 C 0xBD87 guarda la Y de Snake

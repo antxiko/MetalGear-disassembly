@@ -24,7 +24,7 @@ l82c7h:	equ 0x082c7
 
 guarda_para_el_telescopio:		; guarda 0xC639, 0xC15F y 0xC632, los sprites de 0x8037 en 0xEA10, colores 14 y patrones p06:A6F9
 	ld (0c639h),a		;8000
-	ld hl,(0c15fh)		;8003
+	ld hl,(0c15fh)		;8003   ; lee la llamada del transceptor (0 pendiente, 1 llamando, 2 ninguna) y el byte siguiente (16 bits)
 	ld (0c163h),hl		;8006
 	ld a,(0c632h)		;8009
 	ld (0c16ah),a		;800c
@@ -487,8 +487,8 @@ fichas_en_el_punto:		; H y L = la ficha de la sala en el punto HL y la siguiente
 	ld h,a			;830b
 	ret			;830c
 cuadro_tipo_47:		; lo de cada cuadro del tipo 47
-	ld l,(ix+003h)		;830d
-	ld h,(ix+005h)		;8310
+	ld l,(ix+003h)		;830d   ; lee la Y del actor
+	ld h,(ix+005h)		;8310   ; lee la X del actor
 	call 05c09h		;8313   ; ficha_en_el_punto: HL = 0xE000 + (L / 8) x 32 + H / 8: la ficha de la sala montada en ese punto
 	ld b,002h		;8316
 L_8318:
@@ -512,7 +512,7 @@ L_8318:
 	jp 07371h		;8331
 hacia_snake_dir:		; A = la direccion de IX hacia Snake por el eje mayor (1-4), B = la del otro eje
 	ld a,(0c182h)		;8334   ; lee la Y de Snake
-	sub (ix+003h)		;8337
+	sub (ix+003h)		;8337   ; le resta la Y del actor
 	ld d,002h		;833a
 	jr nc,L_8341		;833c
 	dec d			;833e
@@ -520,7 +520,7 @@ hacia_snake_dir:		; A = la direccion de IX hacia Snake por el eje mayor (1-4), B
 L_8341:
 	ld b,a			;8341
 	ld a,(0c184h)		;8342   ; lee la X de Snake
-	sub (ix+005h)		;8345
+	sub (ix+005h)		;8345   ; le resta la X del actor
 	ld e,004h		;8348
 	jr nc,L_834F		;834a
 	dec e			;834c
@@ -1317,13 +1317,13 @@ L_894D:
 	djnz L_8940		;8954
 	ret			;8956
 snake_contra_actor:		; el actor IX contra Snake: golpe con la tecla 0x20, caja por tipo (p05:89D3) y dano
-	ld a,(ix+01eh)		;8957
+	ld a,(ix+01eh)		;8957   ; lee las marcas del actor (bits 0-4 el arma que le dio, 6 golpe, 7 contacto)
 	and 01fh		;895a
-	ld (ix+01eh),a		;895c
-	ld a,(ix+000h)		;895f
+	ld (ix+01eh),a		;895c   ; guarda las marcas del actor (bits 0-4 el arma que le dio, 6 golpe, 7 contacto)
+	ld a,(ix+000h)		;895f   ; lee el tipo del actor
 	cp 023h		;8962
 	jp z,contra_tipo_35		;8964   ; contra_tipo_35: el tipo 35 (largo ix+0x15, de lado si ix+0x16 bit 0) toca a Snake: pon_c602 y quita a todos
-	bit 0,(ix+00eh)		;8967
+	bit 0,(ix+00eh)		;8967   ; mira el bit 0 de con que choca el actor (bit 0 Snake, bit 1 proyectiles)
 	ret z			;896b
 	cp 010h		;896c
 	jp z,contra_tipo_16		;896e   ; contra_tipo_16: el tipo 16: dentro de su recuadro (ix+0x13, 0x14, 0x15) dano 0xFF
@@ -1335,10 +1335,10 @@ snake_contra_actor:		; el actor IX contra Snake: golpe con la tecla 0x20, caja p
 	ld a,(0c18bh)		;897d   ; lee el modo de la pose de Snake
 	dec a			;8980
 	call z,golpea_actor		;8981   ; golpea_actor: si el tipo esta en 0x8A11 y en el alcance del golpe (0x8A5B): bit 6 de (ix+0x1E) y el sonido 8
-	bit 6,(ix+01eh)		;8984
+	bit 6,(ix+01eh)		;8984   ; mira el bit 6 de las marcas del actor (bits 0-4 el arma que le dio, 6 golpe, 7 contacto)
 	ret nz			;8988
 L_8989:
-	ld a,(ix+000h)		;8989
+	ld a,(ix+000h)		;8989   ; lee el tipo del actor
 	ld hl,089d3h		;898c
 	call 043a3h		;898f   ; byte_del_banco_5: A = el byte A - 1 de la tabla HL, con los bancos 4-5-6
 	ld l,a			;8992
@@ -1349,19 +1349,19 @@ L_8989:
 	pop de			;8999
 	call cerca_de_snake		;899a   ; cerca_de_snake: acarreo si (ix+3, ix+5) mas el desplazamiento de HL esta a menos de [alto][ancho] de (E, D)
 	ret nc			;899d
-	ld a,(ix+000h)		;899e
+	ld a,(ix+000h)		;899e   ; lee el tipo del actor
 	sub 002h		;89a1
 	jp z,contra_tipo_2		;89a3   ; contra_tipo_2: 0xC15E = 1 y el bit 7 de (ix+0x1E)
-	ld a,(ix+01fh)		;89a6
+	ld a,(ix+01fh)		;89a6   ; lee la cuenta del golpe del actor
 	and a			;89a9
 	ret nz			;89aa
-	set 7,(ix+01eh)		;89ab
-	ld a,(ix+000h)		;89af
+	set 7,(ix+01eh)		;89ab   ; pone a uno el bit 7 de las marcas del actor (bits 0-4 el arma que le dio, 6 golpe, 7 contacto)
+	ld a,(ix+000h)		;89af   ; lee el tipo del actor
 	cp 007h		;89b2
 	jr nz,L_89BA		;89b4
-	ld (ix+00dh),000h		;89b6
+	ld (ix+00dh),000h		;89b6   ; el aguante del actor = 0x00
 L_89BA:
-	ld a,(ix+000h)		;89ba
+	ld a,(ix+000h)		;89ba   ; lee el tipo del actor
 	cp 01fh		;89bd
 	jr nz,L_89CB		;89bf
 	ld a,001h		;89c1
@@ -1370,7 +1370,7 @@ sonido_10:		; el sonido 0x10
 	ld a,010h		;89c6
 	jp 04284h		;89c8   ; sonido: pide el sonido A al controlador del banco 4 (0x67FD) con los bancos 4 y 5
 L_89CB:
-	ld a,(ix+000h)		;89cb
+	ld a,(ix+000h)		;89cb   ; lee el tipo del actor
 	cp 031h		;89ce
 	jr c,L_89D8		;89d0
 	cp 035h		;89d2
@@ -1378,15 +1378,15 @@ L_89CB:
 	cp 037h		;89d5
 	ret z			;89d7
 L_89D8:
-	ld a,(0c199h)		;89d8
+	ld a,(0c199h)		;89d8   ; lee la cuenta de herido (Snake parpadea)
 	and a			;89db
 	ret nz			;89dc
 	call sonido_10		;89dd   ; sonido_10: el sonido 0x10
 	ld a,020h		;89e0
-	ld (0c199h),a		;89e2
+	ld (0c199h),a		;89e2   ; guarda la cuenta de herido (Snake parpadea)
 	ld hl,08a14h		;89e5
 	ld (0ec00h),hl		;89e8   ; guarda la casilla de trabajo 0xEC00 y el byte siguiente (16 bits)
-	ld a,(ix+000h)		;89eb
+	ld a,(ix+000h)		;89eb   ; lee el tipo del actor
 	push af			;89ee
 	dec a			;89ef
 	call 04396h		;89f0   ; dano: A = el byte A de la tabla de dano de 0xEC00
@@ -1421,7 +1421,7 @@ DATA_tipos_8a11:
 
 
 golpea_actor:		; si el tipo esta en 0x8A11 y en el alcance del golpe (0x8A5B): bit 6 de (ix+0x1E) y el sonido 8
-	ld a,(ix+000h)		;8a1d
+	ld a,(ix+000h)		;8a1d   ; lee el tipo del actor
 	ld b,00ch		;8a20
 	ld hl,08a11h		;8a22
 L_8A25:
@@ -1445,11 +1445,11 @@ L_8A2C:
 L_8A44:
 	call cerca_de_snake		;8a44   ; cerca_de_snake: acarreo si (ix+3, ix+5) mas el desplazamiento de HL esta a menos de [alto][ancho] de (E, D)
 	ret nc			;8a47
-	ld a,(ix+01fh)		;8a48
+	ld a,(ix+01fh)		;8a48   ; lee la cuenta del golpe del actor
 	cp 038h		;8a4b
 	ret nc			;8a4d
-	ld (ix+01fh),000h		;8a4e
-	set 6,(ix+01eh)		;8a52
+	ld (ix+01fh),000h		;8a4e   ; la cuenta del golpe del actor = 0x00
+	set 6,(ix+01eh)		;8a52   ; pone a uno el bit 6 de las marcas del actor (bits 0-4 el arma que le dio, 6 golpe, 7 contacto)
 	ld a,008h		;8a56
 	jp 04284h		;8a58   ; sonido: pide el sonido A al controlador del banco 4 (0x67FD) con los bancos 4 y 5
 
@@ -1472,7 +1472,7 @@ DATA_alcance_del_punetazo:
 
 
 cerca_de_snake:		; acarreo si (ix+3, ix+5) mas el desplazamiento de HL esta a menos de [alto][ancho] de (E, D)
-	ld a,(ix+003h)		;8a67
+	ld a,(ix+003h)		;8a67   ; lee la Y del actor
 	add a,(hl)			;8a6a
 	inc hl			;8a6b
 	sub e			;8a6c
@@ -1482,7 +1482,7 @@ L_8A71:
 	cp (hl)			;8a71
 	ret nc			;8a72
 	inc hl			;8a73
-	ld a,(ix+005h)		;8a74
+	ld a,(ix+005h)		;8a74   ; lee la X del actor
 	add a,(hl)			;8a77
 	inc hl			;8a78
 	sub d			;8a79
@@ -1492,12 +1492,12 @@ L_8A7E:
 	cp (hl)			;8a7e
 	ret			;8a7f
 contra_tipo_35:		; el tipo 35 (largo ix+0x15, de lado si ix+0x16 bit 0) toca a Snake: pon_c602 y quita a todos
-	bit 0,(ix+001h)		;8a80
+	bit 0,(ix+001h)		;8a80   ; mira el bit 0 de el paso del actor
 	ret z			;8a84
 	bit 0,(ix+016h)		;8a85
 	jr nz,L_8AAA		;8a89
 	ld a,d			;8a8b
-	sub (ix+005h)		;8a8c
+	sub (ix+005h)		;8a8c   ; le resta la X del actor
 	jr nc,L_8A93		;8a8f
 	neg		;8a91
 L_8A93:
@@ -1507,7 +1507,7 @@ L_8A93:
 	srl a		;8a99
 	ld b,a			;8a9b
 	add a,008h		;8a9c
-	add a,(ix+003h)		;8a9e
+	add a,(ix+003h)		;8a9e   ; le suma la Y del actor
 	sub e			;8aa1
 	jr nc,L_8AA6		;8aa2
 	neg		;8aa4
@@ -1517,7 +1517,7 @@ L_8AA6:
 	jr L_8AC5		;8aa8
 L_8AAA:
 	ld a,e			;8aaa
-	sub (ix+003h)		;8aab
+	sub (ix+003h)		;8aab   ; le resta la Y del actor
 	jr nc,L_8AB2		;8aae
 	neg		;8ab0
 L_8AB2:
@@ -1526,7 +1526,7 @@ L_8AB2:
 	ld a,(ix+015h)		;8ab5
 	srl a		;8ab8
 	ld b,a			;8aba
-	add a,(ix+005h)		;8abb
+	add a,(ix+005h)		;8abb   ; le suma la X del actor
 	sub d			;8abe
 	jr nc,L_8AC3		;8abf
 	neg		;8ac1
@@ -1534,7 +1534,7 @@ L_8AC3:
 	cp b			;8ac3
 	ret nc			;8ac4
 L_8AC5:
-	set 7,(ix+01eh)		;8ac5
+	set 7,(ix+01eh)		;8ac5   ; pone a uno el bit 7 de las marcas del actor (bits 0-4 el arma que le dio, 6 golpe, 7 contacto)
 	ld a,05ah		;8ac9
 	call 07d27h		;8acb   ; pon_c602_con_cuenta: 0xC605 = A y pon_c602
 	push ix		;8ace
@@ -1556,10 +1556,10 @@ L_8ADF:
 contra_tipo_2:		; 0xC15E = 1 y el bit 7 de (ix+0x1E)
 	ld a,001h		;8aee
 	ld (0c15eh),a		;8af0
-	set 7,(ix+01eh)		;8af3
+	set 7,(ix+01eh)		;8af3   ; pone a uno el bit 7 de las marcas del actor (bits 0-4 el arma que le dio, 6 golpe, 7 contacto)
 	ret			;8af7
 contra_tipo_16:		; el tipo 16: dentro de su recuadro (ix+0x13, 0x14, 0x15) dano 0xFF
-	bit 2,(ix+00eh)		;8af8
+	bit 2,(ix+00eh)		;8af8   ; mira el bit 2 de con que choca el actor (bit 0 Snake, bit 1 proyectiles)
 	jr nz,L_8B1E		;8afc
 	ld b,(ix+015h)		;8afe
 	srl b		;8b01
@@ -1582,24 +1582,24 @@ L_8B17:
 	ld b,0ffh		;8b19
 	jp dano_a_snake		;8b1b   ; dano_a_snake: resta B a la vida 0xC131; al llegar a cero, Snake muere (estado 3, modo 9, sonido 0x44)
 L_8B1E:
-	ld a,(ix+003h)		;8b1e
+	ld a,(ix+003h)		;8b1e   ; lee la Y del actor
 	sub e			;8b21
 	jr nc,L_8B26		;8b22
 	neg		;8b24
 L_8B26:
 	cp 028h		;8b26
 	ret nc			;8b28
-	ld a,(ix+005h)		;8b29
+	ld a,(ix+005h)		;8b29   ; lee la X del actor
 	sub d			;8b2c
 	jr nc,L_8B31		;8b2d
 	neg		;8b2f
 L_8B31:
 	cp 028h		;8b31
 	ret nc			;8b33
-	set 7,(ix+01eh)		;8b34
+	set 7,(ix+01eh)		;8b34   ; pone a uno el bit 7 de las marcas del actor (bits 0-4 el arma que le dio, 6 golpe, 7 contacto)
 	ret			;8b38
 contra_tipo_54:		; el tipo 54: en su columna (X +- 8) y su alto por (ix+0x0C) (0x8B7E), dano
-	ld a,(ix+005h)		;8b39
+	ld a,(ix+005h)		;8b39   ; lee la X del actor
 	sub d			;8b3c
 	jr nc,L_8B41		;8b3d
 	neg		;8b3f
@@ -1609,13 +1609,13 @@ L_8B41:
 	ld a,(0c130h)		;8b44   ; lee la sala
 	cp 06fh		;8b47
 	jr nz,L_8B56		;8b49
-	ld a,(ix+00ch)		;8b4b
+	ld a,(ix+00ch)		;8b4b   ; lee la cuenta de cuadros del actor
 	cp 008h		;8b4e
 	jr c,L_8B59		;8b50
 	ld a,007h		;8b52
 	jr L_8B59		;8b54
 L_8B56:
-	ld a,(ix+00ch)		;8b56
+	ld a,(ix+00ch)		;8b56   ; lee la cuenta de cuadros del actor
 L_8B59:
 	cp 00ch		;8b59
 	ret z			;8b5b
@@ -1634,7 +1634,7 @@ L_8B6C:
 	add a,a			;8b6e
 	add a,a			;8b6f
 	ld d,a			;8b70
-	add a,(ix+003h)		;8b71
+	add a,(ix+003h)		;8b71   ; le suma la Y del actor
 	sub e			;8b74
 	jr nc,L_8B79		;8b75
 	neg		;8b77
@@ -1719,13 +1719,13 @@ L_8BDD:
 	cp c			;8bf2
 	ret nz			;8bf3
 L_8BF4:
-	ld a,(0c199h)		;8bf4
+	ld a,(0c199h)		;8bf4   ; lee la cuenta de herido (Snake parpadea)
 	and a			;8bf7
 	ret nz			;8bf8
 	ld a,018h		;8bf9
 	call 04284h		;8bfb   ; sonido: pide el sonido A al controlador del banco 4 (0x67FD) con los bancos 4 y 5
 	ld a,008h		;8bfe
-	ld (0c199h),a		;8c00
+	ld (0c199h),a		;8c00   ; guarda la cuenta de herido (Snake parpadea)
 	jr L_8C25		;8c03
 salas_que_hieren:		; en las salas de 0x8C2A, sin la MASK (objeto 5): dano 2 cada 0x10 cuadros
 	ld a,(0c130h)		;8c05   ; lee la sala
@@ -1743,11 +1743,11 @@ L_8C14:
 	ret z			;8c19
 	ld c,010h		;8c1a
 dano_cada_c:		; si 0xC199 es cero: 0xC199 = C y dano 2
-	ld a,(0c199h)		;8c1c
+	ld a,(0c199h)		;8c1c   ; lee la cuenta de herido (Snake parpadea)
 	and a			;8c1f
 	ret nz			;8c20
 	ld a,c			;8c21
-	ld (0c199h),a		;8c22
+	ld (0c199h),a		;8c22   ; guarda la cuenta de herido (Snake parpadea)
 L_8C25:
 	ld b,002h		;8c25
 	jp dano_a_snake		;8c27   ; dano_a_snake: resta B a la vida 0xC131; al llegar a cero, Snake muere (estado 3, modo 9, sonido 0x44)
@@ -2021,9 +2021,9 @@ L_8DE8:
 	cp 008h		;8dea
 	jr nz,L_8DF7		;8dec
 	ld a,010h		;8dee
-	ld (0c160h),a		;8df0
+	ld (0c160h),a		;8df0   ; guarda la cuenta hasta la llamada
 	xor a			;8df3
-	ld (0c15fh),a		;8df4
+	ld (0c15fh),a		;8df4   ; guarda la llamada del transceptor (0 pendiente, 1 llamando, 2 ninguna)
 L_8DF7:
 	call suma_objeto		;8df7   ; suma_objeto: suma a (HL + 1) lo de p05:8AE8 del objeto y recorta a los maximos
 	jp borra_objeto		;8dfa   ; borra_objeto: tapa el objeto (copia de la pagina 1), sonido 0x24 y el texto de p05:8AC5 si es 0x3E
@@ -2093,7 +2093,7 @@ L_8E6D:
 	jr borra_objeto		;8e74
 coge_objeto_34:		; 0xC13B = 0, 0xC5B9 = 1 y el objeto 0x17 en 0xC530
 	xor a			;8e76
-	ld (0c13bh),a		;8e77
+	ld (0c13bh),a		;8e77   ; guarda la bandera de capturado (sin armas ni objetos)
 	inc a			;8e7a
 	ld (0c5b9h),a		;8e7b
 	ld hl,0c530h		;8e7e   ; apunta a los objetos que se llevan (fichas de 4)
@@ -2262,7 +2262,7 @@ marcador:		; LIFE, CLASS, la llamada, el arma y el objeto
 	jp 04843h		;8fcd   ; marcador_objeto: pinta en el marcador el objeto elegido (0xC135)
 marcador_llamada:		; CALL parpadeando con 0xC15F = 1 (sonido 0x22) o la cuenta atras 0xC13D
 	ld c,000h		;8fd0
-	ld a,(0c15fh)		;8fd2
+	ld a,(0c15fh)		;8fd2   ; lee la llamada del transceptor (0 pendiente, 1 llamando, 2 ninguna)
 	dec a			;8fd5
 	jr nz,L_8FF2		;8fd6
 	ld a,(0c151h)		;8fd8   ; lee el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
@@ -2278,7 +2278,7 @@ marcador_llamada:		; CALL parpadeando con 0xC15F = 1 (sonido 0x22) o la cuenta a
 	call z,0427ch		;8fed   ; sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
 	ld c,0ffh		;8ff0
 L_8FF2:
-	ld a,(0c13ch)		;8ff2
+	ld a,(0c13ch)		;8ff2   ; lee la cuenta atras en marcha
 	and a			;8ff5
 	jr nz,L_8FFE		;8ff6
 	ld hl,092cfh		;8ff8
@@ -2297,18 +2297,18 @@ L_8FFE:
 	call 06b16h		;9010   ; digito_de_frecuencia: el digito A (dos caracteres de 0x6B34) en (D, E)
 	ld a,(0c13eh)		;9013
 	call 06b16h		;9016   ; digito_de_frecuencia: el digito A (dos caracteres de 0x6B34) en (D, E)
-	ld a,(0c13dh)		;9019
+	ld a,(0c13dh)		;9019   ; lee la cuenta atras (BCD, 16 bits)
 	rra			;901c
 	rra			;901d
 	rra			;901e
 	rra			;901f
 	call 06b16h		;9020   ; digito_de_frecuencia: el digito A (dos caracteres de 0x6B34) en (D, E)
-	ld a,(0c13dh)		;9023
+	ld a,(0c13dh)		;9023   ; lee la cuenta atras (BCD, 16 bits)
 	jp 06b16h		;9026   ; digito_de_frecuencia: el digito A (dos caracteres de 0x6B34) en (D, E)
 dano_4:		; dano 4
 	ld b,004h		;9029
 dano_a_snake:		; resta B a la vida 0xC131; al llegar a cero, Snake muere (estado 3, modo 9, sonido 0x44)
-	ld hl,0c131h		;902b
+	ld hl,0c131h		;902b   ; apunta a la vida (LIFE)
 	ld a,(hl)			;902e
 	and a			;902f
 	jr z,snake_muere		;9030
@@ -2328,7 +2328,7 @@ snake_muere:		; estado 3, pose 6, modo 9, 0xC19D = 0x80 y el sonido 0x44
 	ld a,080h		;904c
 	ld (0c19dh),a		;904e
 	xor a			;9051
-	ld (0c199h),a		;9052
+	ld (0c199h),a		;9052   ; guarda la cuenta de herido (Snake parpadea)
 	ld hl,0ea10h		;9055
 	ld de,0ea11h		;9058
 	ld bc,00017h		;905b
@@ -2343,7 +2343,7 @@ barra_de_vida:		; LIFE y la barra 0xC131 sobre el maximo 0xC137
 	ld de,03208h		;9070
 	ld c,00eh		;9073
 	call 04f63h		;9075   ; recuadro: un recuadro de D x E desde (H, L) en el color C
-	ld a,(0c131h)		;9078
+	ld a,(0c131h)		;9078   ; lee la vida (LIFE)
 	and a			;907b
 	jr z,L_908F		;907c
 	dec a			;907e
@@ -2356,7 +2356,7 @@ barra_de_vida:		; LIFE y la barra 0xC131 sobre el maximo 0xC137
 	ld a,088h		;908a
 	call 04f91h		;908c   ; rellena: HMMV: llena B x C desde (H, L) de la pagina D con el byte A
 L_908F:
-	ld a,(0c131h)		;908f
+	ld a,(0c131h)		;908f   ; lee la vida (LIFE)
 	cp 030h		;9092
 	ret z			;9094
 	cp 02fh		;9095
@@ -2377,11 +2377,11 @@ estrellas:		; CLASS y las estrellas de 0xC132
 	ld hl,092b6h		;90aa
 	call 0510ch		;90ad   ; rotulo: escribe el rotulo de HL ([X][Y], caracteres, 0xFE otra posicion, 0xFF acaba)
 	ld de,034c9h		;90b0
-	ld a,(0c132h)		;90b3
+	ld a,(0c132h)		;90b3   ; lee la CLASS (0-3 estrellas)
 	inc a			;90b6
 	ld c,03bh		;90b7
 	call caracter_b_veces		;90b9   ; caracter_b_veces: el caracter C B veces desde (D, E)
-	ld a,(0c132h)		;90bc
+	ld a,(0c132h)		;90bc   ; lee la CLASS (0-3 estrellas)
 	sub 003h		;90bf
 	ret z			;90c1
 	neg		;90c2
@@ -2438,7 +2438,7 @@ maximos:		; los maximos de municion y de raciones por CLASS (0x918A-0x91BA) en 0
 	ld bc,0004fh		;9107
 	ld (hl),0ffh		;910a
 	ldir		;910c
-	ld a,(0c132h)		;910e
+	ld a,(0c132h)		;910e   ; lee la CLASS (0-3 estrellas)
 	and a			;9111
 	ld hl,0918ah		;9112
 	ld c,003h		;9115
@@ -2534,11 +2534,11 @@ recorta:		; si la cantidad de (HL + 1) pasa de BC, la deja en BC
 	ld (hl),c			;91e7
 	ret			;91e8
 cuenta_de_llamada:		; baja 0xC160 y pasa 0xC15F de 0 a 1 (llamando) y de 1 a 2
-	ld hl,0c160h		;91e9
+	ld hl,0c160h		;91e9   ; apunta a la cuenta hasta la llamada
 	ld a,(hl)			;91ec
 	and a			;91ed
 	ret z			;91ee
-	ld a,(0c15fh)		;91ef
+	ld a,(0c15fh)		;91ef   ; lee la llamada del transceptor (0 pendiente, 1 llamando, 2 ninguna)
 	cp 002h		;91f2
 	ret z			;91f4
 	dec a			;91f5
@@ -2547,18 +2547,18 @@ cuenta_de_llamada:		; baja 0xC160 y pasa 0xC15F de 0 a 1 (llamando) y de 1 a 2
 	ret nz			;91f9
 	ld (hl),058h		;91fa
 	ld a,001h		;91fc
-	ld (0c15fh),a		;91fe
+	ld (0c15fh),a		;91fe   ; guarda la llamada del transceptor (0 pendiente, 1 llamando, 2 ninguna)
 L_9201:
 	dec (hl)			;9201
 	ret nz			;9202
 	ld a,002h		;9203
-	ld (0c15fh),a		;9205
+	ld (0c15fh),a		;9205   ; guarda la llamada del transceptor (0 pendiente, 1 llamando, 2 ninguna)
 	ret			;9208
 cuenta_atras:		; con 0xC13C baja la cuenta 0xC13D (BCD); a cero, Snake muere
-	ld a,(0c13ch)		;9209
+	ld a,(0c13ch)		;9209   ; lee la cuenta atras en marcha
 	and a			;920c
 	ret z			;920d
-	ld hl,0c13dh		;920e
+	ld hl,0c13dh		;920e   ; apunta a la cuenta atras (BCD, 16 bits)
 	ld a,(hl)			;9211
 	sub 001h		;9212
 	daa			;9214
@@ -2577,7 +2577,7 @@ L_921F:
 	ret nz			;9222
 	call marcador_llamada		;9223   ; marcador_llamada: CALL parpadeando con 0xC15F = 1 (sonido 0x22) o la cuenta atras 0xC13D
 	xor a			;9226
-	ld (0c131h),a		;9227
+	ld (0c131h),a		;9227   ; guarda la vida (LIFE)
 	jp snake_muere		;922a   ; snake_muere: estado 3, pose 6, modo 9, 0xC19D = 0x80 y el sonido 0x44
 aprieta_armas:		; quita los huecos de la lista de armas 0xC500
 	ld de,0c500h		;922d   ; apunta a las armas que se llevan (fichas de 4: [arma][municion BCD])
@@ -3082,7 +3082,7 @@ DATA_sprites_95b7:
 
 
 cuadro_tipo_41:		; lo de cada cuadro del tipo 41
-	ld a,(ix+001h)		;95bf
+	ld a,(ix+001h)		;95bf   ; lee el paso del actor
 	call 041eah		;95c2   ; despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 
 ; ----------------------------------------------------------------------
@@ -3115,14 +3115,14 @@ L_95E7:
 	ret nz			;95ea
 	ld (ix+013h),008h		;95eb
 	ld a,(0c184h)		;95ef   ; lee la X de Snake
-	cp (ix+005h)		;95f2
+	cp (ix+005h)		;95f2   ; compara con la X del actor
 	ld de,00200h		;95f5
 	jr nc,L_95FD		;95f8
 	ld de,0fe00h		;95fa
 L_95FD:
 	call 05b5dh		;95fd   ; velocidad_x: la velocidad X del actor (ix+9, ix+0x0A) = DE
 paso_siguiente_9600:		; sube el paso del actor (ix+1)
-	inc (ix+001h)		;9600
+	inc (ix+001h)		;9600   ; sube el paso del actor
 	ret			;9603
 L_9604:
 	ld b,007h		;9604
@@ -3130,22 +3130,22 @@ L_9604:
 	dec (ix+013h)		;9609
 	ret nz			;960c
 	ld (ix+013h),005h		;960d
-	ld (ix+00bh),01ah		;9611
+	ld (ix+00bh),01ah		;9611   ; el cuadro del actor = 0x1A
 	ld de,00000h		;9615
 	call 05b5dh		;9618   ; velocidad_x: la velocidad X del actor (ix+9, ix+0x0A) = DE
 	call paso_siguiente_9600		;961b   ; paso_siguiente_9600: sube el paso del actor (ix+1)
-	ld a,(ix+003h)		;961e
+	ld a,(ix+003h)		;961e   ; lee la Y del actor
 	sub 010h		;9621
 	ld e,a			;9623
-	ld d,(ix+005h)		;9624
+	ld d,(ix+005h)		;9624   ; lee la X del actor
 	ld c,03fh		;9627
 	jp 0569ah		;9629   ; crea_actor: crea un actor del tipo C en Y = E, X = D en la primera ficha libre de 0xD000; HL = la ficha, A = 0 si no cabe
 L_962C:
 	dec (ix+013h)		;962c
 	ret nz			;962f
 	ld (ix+013h),008h		;9630
-	ld (ix+00bh),018h		;9634
-	ld a,(ix+005h)		;9638
+	ld (ix+00bh),018h		;9634   ; el cuadro del actor = 0x18
+	ld a,(ix+005h)		;9638   ; lee la X del actor
 	cp 080h		;963b
 	ld de,0fe00h		;963d
 	jr nc,L_9645		;9640
@@ -3161,14 +3161,14 @@ L_964A:
 	ld (ix+013h),008h		;9653
 	ld de,00000h		;9657
 	call 05b5dh		;965a   ; velocidad_x: la velocidad X del actor (ix+9, ix+0x0A) = DE
-	ld (ix+001h),001h		;965d
+	ld (ix+001h),001h		;965d   ; el paso del actor = 0x01
 	ret			;9661
 crea_tipo_63:		; la creacion del tipo 63
 	ld a,006h		;9662
 	call 0427ch		;9664   ; sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
-	ld a,(ix+003h)		;9667
+	ld a,(ix+003h)		;9667   ; lee la Y del actor
 	ld (ix+015h),a		;966a
-	ld a,(ix+005h)		;966d
+	ld a,(ix+005h)		;966d   ; lee la X del actor
 	ld (ix+016h),a		;9670
 	cp 080h		;9673
 	ld a,000h		;9675
@@ -3179,14 +3179,14 @@ L_967B:
 	ld a,r		;967e
 	and 001h		;9680
 	ld (ix+01ch),a		;9682
-	ld (ix+00bh),077h		;9685
+	ld (ix+00bh),077h		;9685   ; el cuadro del actor = 0x77
 	ld (ix+017h),040h		;9689
 	ld (ix+019h),0feh		;968d
 	ld (ix+018h),040h		;9691
 	ld (ix+01ah),0fch		;9695
 	ret			;9699
 cuadro_tipo_63:		; lo de cada cuadro del tipo 63
-	ld a,(ix+00ch)		;969a
+	ld a,(ix+00ch)		;969a   ; lee la cuenta de cuadros del actor
 	and 001h		;969d
 	jr nz,L_96B4		;969f
 	inc (ix+014h)		;96a1
@@ -3197,7 +3197,7 @@ cuadro_tipo_63:		; lo de cada cuadro del tipo 63
 	ld (ix+014h),a		;96ac
 L_96AF:
 	add a,077h		;96af
-	ld (ix+00bh),a		;96b1
+	ld (ix+00bh),a		;96b1   ; guarda el cuadro del actor
 L_96B4:
 	ld a,(ix+017h)		;96b4
 	add a,(ix+019h)		;96b7
@@ -3213,7 +3213,7 @@ L_96B4:
 L_96CF:
 	ld a,(ix+015h)		;96cf
 	add a,b			;96d2
-	ld (ix+003h),a		;96d3
+	ld (ix+003h),a		;96d3   ; guarda la Y del actor
 	ld a,(ix+018h)		;96d6
 	add a,(ix+01ah)		;96d9
 	ld (ix+018h),a		;96dc
@@ -3234,7 +3234,7 @@ L_96FB:
 	ld a,b			;96fb
 L_96FC:
 	add a,(ix+016h)		;96fc
-	ld (ix+005h),a		;96ff
+	ld (ix+005h),a		;96ff   ; guarda la X del actor
 	ret			;9702
 rebota_y:		; cambia de signo (ix+0x19); si queda en 0xFE, quita al actor
 	ld a,(ix+019h)		;9703
@@ -3255,14 +3255,14 @@ crea_tipo_41:		; la creacion del tipo 41
 	ld a,(0c5b4h)		;971d
 	or a			;9720
 	jr nz,L_970E		;9721
-	ld (ix+00bh),018h		;9723
+	ld (ix+00bh),018h		;9723   ; el cuadro del actor = 0x18
 	ld (ix+013h),003h		;9727
-	inc (ix+006h)		;972b
+	inc (ix+006h)		;972b   ; sube si el actor se mueve (p01:7336)
 	jp 0b9e6h		;972e   ; musica_3e: la musica 0x3E (salvo en el modo 8)
 ve_a_snake:		; el actor mira hacia (ix+0x11) desde su sitio: si ve a Snake, alarma
-	ld a,(ix+011h)		;9731
-	ld h,(ix+005h)		;9734
-	ld l,(ix+003h)		;9737
+	ld a,(ix+011h)		;9731   ; lee la direccion del actor
+	ld h,(ix+005h)		;9734   ; lee la X del actor
+	ld l,(ix+003h)		;9737   ; lee la Y del actor
 ve_a_snake_desde:		; mira hacia A desde HL: Snake en linea y sin pared por medio (no en la caja quieta)
 	ld (0ec00h),a		;973a   ; guarda la casilla de trabajo 0xEC00
 	ld (0ec01h),hl		;973d
@@ -3292,7 +3292,7 @@ ve_a_snake_desde:		; mira hacia A desde HL: Snake en linea y sin pared por medio
 	or a			;9765
 	ret z			;9766
 L_9767:
-	ld a,(ix+01eh)		;9767
+	ld a,(ix+01eh)		;9767   ; lee las marcas del actor (bits 0-4 el arma que le dio, 6 golpe, 7 contacto)
 	bit 7,a		;976a
 	jp nz,alarma_de_actor		;976c   ; alarma_de_actor: la alarma desde el actor: 0xC614 por la sala (0x98DE), 0xC60C y los refuerzos
 	ld a,(0ec00h)		;976f   ; lee la casilla de trabajo 0xEC00
@@ -3440,7 +3440,7 @@ L_9828:
 L_9835:
 	add hl,de			;9835
 	djnz L_97E9		;9836
-	ld a,(ix+000h)		;9838
+	ld a,(ix+000h)		;9838   ; lee el tipo del actor
 	cp 006h		;983b
 	jr nz,alarma_de_actor		;983d
 	ld a,001h		;983f
@@ -3485,7 +3485,7 @@ L_9883:
 	ld (0c614h),a		;9883
 	ld a,(0c184h)		;9886   ; lee la X de Snake
 	ld b,a			;9889
-	ld a,(ix+005h)		;988a
+	ld a,(ix+005h)		;988a   ; lee la X del actor
 	ld c,008h		;988d
 	cp b			;988f
 	jr c,L_9894		;9890
@@ -3494,7 +3494,7 @@ L_9894:
 	add a,008h		;9894
 	and 0f8h		;9896
 	ld d,a			;9898
-	ld a,(ix+003h)		;9899
+	ld a,(ix+003h)		;9899   ; lee la Y del actor
 	sub 018h		;989c
 	and 0f8h		;989e
 	ld e,a			;98a0
@@ -3527,7 +3527,7 @@ L_98C0:
 L_98CF:
 	call 0ac5bh		;98cf   ; pon_dibujo_16: copia 16 x 16 de HL a DE con TIMP
 	call alarma		;98d2   ; alarma: pon_c602 y 0xC60F = la sala, 0xC669 = 0x10
-	ld a,(ix+000h)		;98d5
+	ld a,(ix+000h)		;98d5   ; lee el tipo del actor
 	cp 006h		;98d8
 	ret z			;98da
 	jp 058e9h		;98db   ; reaparece: crea en IX el actor de p06:A445 de la sala (salas < 0xBC)
@@ -3556,7 +3556,7 @@ en_columna:		; acarreo si Snake esta en la columna de 0xEC02
 	cp e			;98fe
 	ret			;98ff
 en_fila:		; acarreo si Snake esta en la fila de 0xEC01
-	ld a,(ix+000h)		;9900
+	ld a,(ix+000h)		;9900   ; lee el tipo del actor
 	cp 006h		;9903
 	ld hl,00408h		;9905
 	jr z,L_990D		;9908
@@ -3573,10 +3573,10 @@ L_990D:
 	cp d			;991a
 	ret			;991b
 oye_disparo:		; acarreo si el actor esta marcado o hay un disparo sin SILENCER en marcha
-	ld a,(ix+000h)		;991c
+	ld a,(ix+000h)		;991c   ; lee el tipo del actor
 	cp 006h		;991f
 	ret z			;9921
-	ld a,(ix+01eh)		;9922
+	ld a,(ix+01eh)		;9922   ; lee las marcas del actor (bits 0-4 el arma que le dio, 6 golpe, 7 contacto)
 	bit 7,a		;9925
 	jr nz,L_994C		;9927
 	ld a,(0c134h)		;9929   ; lee el arma elegida (p06:B865: 1 HAND GUN, 2 SMG, 3 GRENADE, 4 ROCKET, 5 P.BOMB, 6 L.MINE, 7 MISSILE, 8 SILENCER)
@@ -3611,13 +3611,13 @@ cuadro_tipo_15:		; lo de cada cuadro del tipo 15
 	ld b,003h		;994e
 	call 05b6ah		;9950   ; alterna_cuadro: si (ix+0x0C) AND B es 0, cambia el bit 0 del cuadro
 	call rueda_en_el_borde		;9953   ; rueda_en_el_borde: el tipo 15 al llegar a 0x38/0xC8 da la vuelta con el sonido 0x1D
-	ld a,(ix+001h)		;9956
+	ld a,(ix+001h)		;9956   ; lee el paso del actor
 	dec a			;9959
 	jr nz,L_9991		;995a
 	ld a,(ix+013h)		;995c
 	cp 080h		;995f
 	jr c,L_9971		;9961
-	ld a,(ix+005h)		;9963
+	ld a,(ix+005h)		;9963   ; lee la X del actor
 	cp 0c8h		;9966
 	jp nc,05ba2h		;9968   ; paso_siguiente: sube el paso del actor (ix+1)
 	cp 038h		;996b
@@ -3629,18 +3629,18 @@ L_9971:
 	cp 080h		;9975
 	ret nc			;9977
 	ld a,d			;9978
-	cp (ix+005h)		;9979
+	cp (ix+005h)		;9979   ; compara con la X del actor
 	ld de,00080h		;997c
 	ld b,002h		;997f
 	jr c,L_9988		;9981
 	ld de,0ff80h		;9983
 	ld b,003h		;9986
 L_9988:
-	ld (ix+011h),b		;9988
+	ld (ix+011h),b		;9988   ; guarda la direccion del actor
 	call 05b5dh		;998b   ; velocidad_x: la velocidad X del actor (ix+9, ix+0x0A) = DE
 	jp 05ba2h		;998e   ; paso_siguiente: sube el paso del actor (ix+1)
 L_9991:
-	ld a,(ix+011h)		;9991
+	ld a,(ix+011h)		;9991   ; lee la direccion del actor
 	rra			;9994
 	ld de,0fff8h		;9995
 	jr nc,L_999D		;9998
@@ -3648,7 +3648,7 @@ L_9991:
 L_999D:
 	jp 05b55h		;999d   ; suma_velocidad_x: la velocidad X del actor (ix+9, ix+0x0A) += DE
 rueda_en_el_borde:		; el tipo 15 al llegar a 0x38/0xC8 da la vuelta con el sonido 0x1D
-	ld a,(ix+005h)		;99a0
+	ld a,(ix+005h)		;99a0   ; lee la X del actor
 	ld h,0c8h		;99a3
 	ld c,h			;99a5
 	dec h			;99a6
@@ -3664,8 +3664,8 @@ rueda_en_el_borde:		; el tipo 15 al llegar a 0x38/0xC8 da la vuelta con el sonid
 	ld b,003h		;99b5
 	ld de,00080h		;99b7
 L_99BA:
-	ld (ix+005h),h		;99ba
-	ld (ix+011h),b		;99bd
+	ld (ix+005h),h		;99ba   ; guarda la X del actor
+	ld (ix+011h),b		;99bd   ; guarda la direccion del actor
 	call 05b5dh		;99c0   ; velocidad_x: la velocidad X del actor (ix+9, ix+0x0A) = DE
 	ld a,01dh		;99c3
 	jp 0427ch		;99c5   ; sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
@@ -3680,17 +3680,17 @@ crea_tipo_15:		; la creacion del tipo 15
 	ld de,0ff80h		;99db
 L_99DE:
 	call 05b64h		;99de   ; velocidades: la velocidad X del actor = DE y la Y = HL
-	inc (ix+006h)		;99e1
-	ld (ix+00bh),036h		;99e4
+	inc (ix+006h)		;99e1   ; sube si el actor se mueve (p01:7336)
+	ld (ix+00bh),036h		;99e4   ; el cuadro del actor = 0x36
 	ret			;99e8
 crea_tipo_8:		; la creacion del tipo 8
-	ld (ix+00eh),000h		;99e9
+	ld (ix+00eh),000h		;99e9   ; con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x00
 	ld a,r		;99ed
 	ld (ix+013h),a		;99ef
-	ld (ix+00bh),038h		;99f2
+	ld (ix+00bh),038h		;99f2   ; el cuadro del actor = 0x38
 	ret			;99f6
 cuadro_tipo_8:		; lo de cada cuadro del tipo 8
-	ld a,(ix+001h)		;99f7
+	ld a,(ix+001h)		;99f7   ; lee el paso del actor
 	call 041eah		;99fa   ; despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 
 ; ----------------------------------------------------------------------
@@ -3727,14 +3727,14 @@ crea_tipo_46:		; la creacion del tipo 46
 	cp 049h		;9a2b
 	jp z,0740ch		;9a2d   ; borra_actor: el tipo y (ix+0x0E) a cero y sus sprites escondidos
 	ld (ix+014h),010h		;9a30
-	ld (ix+00eh),000h		;9a34
+	ld (ix+00eh),000h		;9a34   ; con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x00
 	ret			;9a38
 cuadro_tipo_46:		; lo de cada cuadro del tipo 46
 	ld a,(0c602h)		;9a39   ; lee la bandera 0xC602 (refuerzos y musica)
 	or a			;9a3c
 	jp nz,0740ch		;9a3d   ; borra_actor: el tipo y (ix+0x0E) a cero y sus sprites escondidos
 	call texto_23_una_vez		;9a40   ; texto_23_una_vez: tras (ix+0x14) cuadros, el texto 0x23 una vez (0xC63A)
-	ld a,(ix+001h)		;9a43
+	ld a,(ix+001h)		;9a43   ; lee el paso del actor
 	call 041eah		;9a46   ; despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 
 ; ----------------------------------------------------------------------
@@ -3759,7 +3759,7 @@ L_9A4D:
 	ret c			;9a57
 	cp 0b8h		;9a58
 	ret nc			;9a5a
-	inc (ix+001h)		;9a5b
+	inc (ix+001h)		;9a5b   ; sube el paso del actor
 L_9A5E:
 	ld a,(0c135h)		;9a5e   ; lee el objeto elegido (p06:B8F6: 3 LIGHT, 4 GOGGL, 6 CIGAL, 0x0E-0x15 CARD1-8, 0x16 RATIO, 0x19 BOX...)
 	cp 018h		;9a61
@@ -3865,12 +3865,12 @@ crea_tipo_25:		; la creacion del tipo 25
 	add a,a			;9b1d
 	add a,a			;9b1e
 	add a,020h		;9b1f
-	ld (ix+012h),a		;9b21
-	ld (ix+00bh),014h		;9b24
-	ld (ix+00eh),003h		;9b28
+	ld (ix+012h),a		;9b21   ; guarda la cuenta de espera del actor
+	ld (ix+00bh),014h		;9b24   ; el cuadro del actor = 0x14
+	ld (ix+00eh),003h		;9b28   ; con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x03
 	jp 0b3f8h		;9b2c   ; parado: las dos velocidades a cero
 cuadro_tipo_25:		; lo de cada cuadro del tipo 25
-	ld a,(ix+001h)		;9b2f
+	ld a,(ix+001h)		;9b2f   ; lee el paso del actor
 	call 041eah		;9b32   ; despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 
 ; ----------------------------------------------------------------------
@@ -3886,7 +3886,7 @@ DATA_tabla_9B35:
 
 
 L_9B3B:
-	dec (ix+012h)		;9b3b
+	dec (ix+012h)		;9b3b   ; baja la cuenta de espera del actor
 	ret nz			;9b3e
 	call 0a9b7h		;9b3f   ; azar_0_3: A = (R XOR (ix+0x0C)) AND 3
 	add a,005h		;9b42
@@ -3894,23 +3894,23 @@ L_9B3B:
 	add a,a			;9b45
 	ld (ix+013h),a		;9b46
 	add a,a			;9b49
-	ld (ix+012h),a		;9b4a
-	ld (ix+001h),001h		;9b4d
-	ld (ix+00bh),015h		;9b51
+	ld (ix+012h),a		;9b4a   ; guarda la cuenta de espera del actor
+	ld (ix+001h),001h		;9b4d   ; el paso del actor = 0x01
+	ld (ix+00bh),015h		;9b51   ; el cuadro del actor = 0x15
 	ret			;9b55
 L_9B56:
 	dec (ix+013h)		;9b56
 	ret nz			;9b59
 	ld a,r		;9b5a
-	xor (ix+00ch)		;9b5c
+	xor (ix+00ch)		;9b5c   ; XOR con la cuenta de cuadros del actor
 	rra			;9b5f
 	jr c,L_9B6B		;9b60
-	ld (ix+001h),000h		;9b62
-	ld (ix+00bh),014h		;9b66
+	ld (ix+001h),000h		;9b62   ; el paso del actor = 0x00
+	ld (ix+00bh),014h		;9b66   ; el cuadro del actor = 0x14
 	ret			;9b6a
 L_9B6B:
-	ld (ix+001h),002h		;9b6b
-	ld (ix+006h),001h		;9b6f
+	ld (ix+001h),002h		;9b6b   ; el paso del actor = 0x02
+	ld (ix+006h),001h		;9b6f   ; si el actor se mueve (p01:7336) = 0x01
 	call hacia_snake_dir		;9b73   ; hacia_snake_dir: A = la direccion de IX hacia Snake por el eje mayor (1-4), B = la del otro eje
 	exx			;9b76
 	call choca_hacia		;9b77   ; choca_hacia: choca hacia la direccion A, 8 puntos por delante del actor
@@ -3918,16 +3918,16 @@ L_9B6B:
 	exx			;9b7c
 	ld a,b			;9b7d
 L_9B7E:
-	ld (ix+011h),a		;9b7e
+	ld (ix+011h),a		;9b7e   ; guarda la direccion del actor
 	call cuadro_de_a		;9b81   ; cuadro_de_a: cuadro = 2 x A + 0x1E (+1 con el bit 2 de (ix+0x0C) a cero)
 	call velocidad_de_dir		;9b84   ; velocidad_de_dir: las velocidades (ix+8, ix+0x0A) por la direccion (ix+0x11) (0x9BDB)
 	jr L_9BB1		;9b87
 L_9B89:
 	call cuadro_de_dir		;9b89   ; cuadro_de_dir: cuadro = 2 x direccion + 0x1E (+1 con el bit 2 de (ix+0x0C) a cero)
-	ld a,(ix+011h)		;9b8c
+	ld a,(ix+011h)		;9b8c   ; lee la direccion del actor
 	call choca_hacia		;9b8f   ; choca_hacia: choca hacia la direccion A, 8 puntos por delante del actor
 	jr c,L_9B9D		;9b92
-	dec (ix+012h)		;9b94
+	dec (ix+012h)		;9b94   ; baja la cuenta de espera del actor
 	ret nz			;9b97
 	ld a,003h		;9b98
 	call 0427ch		;9b9a   ; sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
@@ -3939,7 +3939,7 @@ L_9B9D:
 	exx			;9ba6
 	ld a,b			;9ba7
 L_9BA8:
-	ld (ix+011h),a		;9ba8
+	ld (ix+011h),a		;9ba8   ; guarda la direccion del actor
 	call cuadro_de_a		;9bab   ; cuadro_de_a: cuadro = 2 x A + 0x1E (+1 con el bit 2 de (ix+0x0C) a cero)
 	call velocidad_de_dir		;9bae   ; velocidad_de_dir: las velocidades (ix+8, ix+0x0A) por la direccion (ix+0x11) (0x9BDB)
 L_9BB1:
@@ -3947,25 +3947,25 @@ L_9BB1:
 	add a,005h		;9bb4
 	add a,a			;9bb6
 	add a,a			;9bb7
-	ld (ix+012h),a		;9bb8
+	ld (ix+012h),a		;9bb8   ; guarda la cuenta de espera del actor
 	ret			;9bbb
 cuadro_de_dir:		; cuadro = 2 x direccion + 0x1E (+1 con el bit 2 de (ix+0x0C) a cero)
-	ld a,(ix+011h)		;9bbc
+	ld a,(ix+011h)		;9bbc   ; lee la direccion del actor
 cuadro_de_a:		; cuadro = 2 x A + 0x1E (+1 con el bit 2 de (ix+0x0C) a cero)
 	add a,a			;9bbf
 	add a,01eh		;9bc0
-	bit 2,(ix+00ch)		;9bc2
+	bit 2,(ix+00ch)		;9bc2   ; mira el bit 2 de la cuenta de cuadros del actor
 	jr nz,L_9BC9		;9bc6
 	inc a			;9bc8
 L_9BC9:
-	ld (ix+00bh),a		;9bc9
+	ld (ix+00bh),a		;9bc9   ; guarda el cuadro del actor
 	ret			;9bcc
 velocidad_de_dir:		; las velocidades (ix+8, ix+0x0A) por la direccion (ix+0x11) (0x9BDB)
-	ld a,(ix+011h)		;9bcd
+	ld a,(ix+011h)		;9bcd   ; lee la direccion del actor
 	ld de,09bdbh		;9bd0
 	call 042b4h		;9bd3   ; palabra_a: DE = la palabra A de la tabla DE
-	ld (ix+008h),e		;9bd6
-	ld (ix+00ah),d		;9bd9
+	ld (ix+008h),e		;9bd6   ; guarda la velocidad Y del actor (alta)
+	ld (ix+00ah),d		;9bd9   ; guarda la velocidad X del actor (alta)
 	ret			;9bdc
 
 ; ----------------------------------------------------------------------
@@ -3989,10 +3989,10 @@ choca_hacia:		; choca hacia la direccion A, 8 puntos por delante del actor
 	ld de,09bfah		;9be6
 	call 042b4h		;9be9   ; palabra_a: DE = la palabra A de la tabla DE
 	ld a,e			;9bec
-	add a,(ix+003h)		;9bed
+	add a,(ix+003h)		;9bed   ; le suma la Y del actor
 	ld b,a			;9bf0
 	ld a,d			;9bf1
-	add a,(ix+005h)		;9bf2
+	add a,(ix+005h)		;9bf2   ; le suma la X del actor
 	ld l,b			;9bf5
 	ld h,a			;9bf6
 	ld b,001h		;9bf7
@@ -4014,7 +4014,7 @@ DATA_velocidad_9bfc:
 
 
 cuadro_tipo_55:		; lo de cada cuadro del tipo 55
-	ld a,(ix+001h)		;9c04
+	ld a,(ix+001h)		;9c04   ; lee el paso del actor
 	call 041eah		;9c07   ; despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 
 ; ----------------------------------------------------------------------
@@ -4032,9 +4032,9 @@ DATA_tabla_9C0A:
 L_9C12:
 	ld b,00fh		;9c12
 	call 05b6ah		;9c14   ; alterna_cuadro: si (ix+0x0C) AND B es 0, cambia el bit 0 del cuadro
-	bit 7,(ix+01eh)		;9c17
+	bit 7,(ix+01eh)		;9c17   ; mira el bit 7 de las marcas del actor (bits 0-4 el arma que le dio, 6 golpe, 7 contacto)
 	ret z			;9c1b
-	ld (ix+00bh),040h		;9c1c
+	ld (ix+00bh),040h		;9c1c   ; el cuadro del actor = 0x40
 	jp 05ba2h		;9c20   ; paso_siguiente: sube el paso del actor (ix+1)
 L_9C23:
 	ld a,06dh		;9c23
@@ -4042,7 +4042,7 @@ L_9C23:
 	jp 05ba2h		;9c28   ; paso_siguiente: sube el paso del actor (ix+1)
 L_9C2B:
 	call 05ba2h		;9c2b   ; paso_siguiente: sube el paso del actor (ix+1)
-	inc (ix+006h)		;9c2e
+	inc (ix+006h)		;9c2e   ; sube si el actor se mueve (p01:7336)
 	ld de,00100h		;9c31
 	call 05b4eh		;9c34   ; velocidad_y: la velocidad Y del actor (ix+7, ix+8) = DE
 	ld a,001h		;9c37
@@ -4056,12 +4056,12 @@ L_9C48:
 	ret nz			;9c4b
 	jp 07371h		;9c4c
 crea_tipo_49:		; la creacion del tipo 49
-	ld (ix+00bh),03eh		;9c4f
-	ld a,(ix+000h)		;9c53
+	ld (ix+00bh),03eh		;9c4f   ; el cuadro del actor = 0x3E
+	ld a,(ix+000h)		;9c53   ; lee el tipo del actor
 	call 05bafh		;9c56   ; cuenta_tipo: A = cuantos actores del tipo A hay
-	ld (ix+00fh),a		;9c59
+	ld (ix+00fh),a		;9c59   ; guarda el numero del actor entre los de su tipo
 	ld a,r		;9c5c
-	ld (ix+00ch),a		;9c5e
+	ld (ix+00ch),a		;9c5e   ; guarda la cuenta de cuadros del actor
 	ld (ix+013h),020h		;9c61
 	ld (ix+014h),002h		;9c65
 	ld a,(0c130h)		;9c69   ; lee la sala
@@ -4092,7 +4092,7 @@ DATA_salas_9c87:
 
 
 cuadro_tipo_49:		; lo de cada cuadro del tipo 49
-	ld a,(ix+001h)		;9c9e
+	ld a,(ix+001h)		;9c9e   ; lee el paso del actor
 	call 041eah		;9ca1   ; despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 
 ; ----------------------------------------------------------------------
@@ -4108,7 +4108,7 @@ DATA_tabla_9CA4:
 
 
 L_9CAC:
-	ld a,(ix+000h)		;9cac
+	ld a,(ix+000h)		;9cac   ; lee el tipo del actor
 	cp 032h		;9caf
 	call z,cuadro_tipo_3		;9cb1   ; cuadro_tipo_3: lo de cada cuadro del tipo 3
 	ld b,00fh		;9cb4
@@ -4120,10 +4120,10 @@ L_9CAC:
 	or a			;9cc3
 	ret z			;9cc4
 L_9CC5:
-	bit 7,(ix+01eh)		;9cc5
+	bit 7,(ix+01eh)		;9cc5   ; mira el bit 7 de las marcas del actor (bits 0-4 el arma que le dio, 6 golpe, 7 contacto)
 	ret z			;9cc9
 	ld (ix+014h),002h		;9cca
-	ld (ix+00bh),040h		;9cce
+	ld (ix+00bh),040h		;9cce   ; el cuadro del actor = 0x40
 	jr paso_actor		;9cd2
 cuadro_tipo_3:		; lo de cada cuadro del tipo 3
 	dec (ix+014h)		;9cd4
@@ -4159,7 +4159,7 @@ paso_actor:		; sube el paso del actor (ix+1)
 	inc (ix+001h)		;9d0c
 	ret			;9d0f
 habla_en_c1:		; en la sala 0xC1, el texto 0x83 o 0x8C segun la Y
-	ld a,(ix+003h)		;9d10
+	ld a,(ix+003h)		;9d10   ; lee la Y del actor
 	cp 054h		;9d13
 	ld a,083h		;9d15
 	jr nz,L_9D00		;9d17
@@ -4171,7 +4171,7 @@ L_9D20:
 	ret nz			;9d23
 	jr paso_actor		;9d24
 habla_tipo_49:		; el texto de la sala (0x9D59; casos 0xA7, 0xC1 y el tipo 0x34), sube_c132_cada_5
-	ld a,(ix+000h)		;9d26
+	ld a,(ix+000h)		;9d26   ; lee el tipo del actor
 	cp 034h		;9d29
 	jr z,habla_tipo_52		;9d2b
 	ld a,(0c130h)		;9d2d   ; lee la sala
@@ -4234,7 +4234,7 @@ crea_tipo_3:		; la creacion del tipo 3
 	ld a,(0c654h)		;9d7f
 	or a			;9d82
 	jp nz,07371h		;9d83
-	ld (ix+00eh),000h		;9d86
+	ld (ix+00eh),000h		;9d86   ; con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x00
 	ld (ix+014h),020h		;9d8a
 	ret			;9d8e
 marca_sala_del_tipo_49:		; pone a 1 la bandera de la sala (ix+0x15, 0x16) en 0xC640
@@ -4244,14 +4244,14 @@ marca_sala_del_tipo_49:		; pone a 1 la bandera de la sala (ix+0x15, 0x16) en 0xC
 L_9D97:
 	ret			;9d97
 cuadro_de_direccion:		; cuadro = 2 x (ix+0x11) + el bit 0 del cuadro
-	ld a,(ix+011h)		;9d98
+	ld a,(ix+011h)		;9d98   ; lee la direccion del actor
 	rlca			;9d9b
 	add a,000h		;9d9c
 	ld b,a			;9d9e
-	ld a,(ix+00bh)		;9d9f
+	ld a,(ix+00bh)		;9d9f   ; lee el cuadro del actor
 	and 001h		;9da2
 	or b			;9da4
-	ld (ix+00bh),a		;9da5
+	ld (ix+00bh),a		;9da5   ; guarda el cuadro del actor
 	ret			;9da8
 cuadro_tipo_4:		; lo de cada cuadro del tipo 4
 	ld a,(ix+045h)		;9da9
@@ -4286,11 +4286,11 @@ anda_el_camino:		; se duerme si toca, alterna el cuadro y mira si llego al punto
 	ld bc,00700h		;9dd7
 	call 05b6ah		;9dda   ; alterna_cuadro: si (ix+0x0C) AND B es 0, cambia el bit 0 del cuadro
 llego_al_punto:		; si paso el punto (ix+0x15, 0x16) por su direccion, punto_alcanzado
-	ld d,(ix+005h)		;9ddd
-	ld e,(ix+003h)		;9de0
+	ld d,(ix+005h)		;9ddd   ; lee la X del actor
+	ld e,(ix+003h)		;9de0   ; lee la Y del actor
 	ld h,(ix+016h)		;9de3
 	ld l,(ix+015h)		;9de6
-	ld a,(ix+011h)		;9de9
+	ld a,(ix+011h)		;9de9   ; lee la direccion del actor
 	dec a			;9dec
 	jr z,L_9DFA		;9ded
 	dec a			;9def
@@ -4318,9 +4318,9 @@ L_9E04:
 	sub d			;9e05
 	jr L_9DFC		;9e06
 da_la_vuelta:		; tras (ix+0x12) cuadros, mira a otro lado al azar
-	dec (ix+012h)		;9e08
+	dec (ix+012h)		;9e08   ; baja la cuenta de espera del actor
 	ret nz			;9e0b
-	ld a,(ix+011h)		;9e0c
+	ld a,(ix+011h)		;9e0c   ; lee la direccion del actor
 	ld (ix+042h),a		;9e0f
 	xor 002h		;9e12
 	ld b,a			;9e14
@@ -4329,19 +4329,19 @@ da_la_vuelta:		; tras (ix+0x12) cuadros, mira a otro lado al azar
 	rra			;9e18
 	and 001h		;9e19
 	or b			;9e1b
-	ld (ix+011h),a		;9e1c
+	ld (ix+011h),a		;9e1c   ; guarda la direccion del actor
 	add a,008h		;9e1f
-	ld (ix+00bh),a		;9e21
-	ld (ix+012h),010h		;9e24
+	ld (ix+00bh),a		;9e21   ; guarda el cuadro del actor
+	ld (ix+012h),010h		;9e24   ; la cuenta de espera del actor = 0x10
 L_9E28:
 	inc (ix+040h)		;9e28
 	ret			;9e2b
 sigue_andando:		; tras (ix+0x12) cuadros, vuelve a la direccion de antes y al paso 0
-	dec (ix+012h)		;9e2c
+	dec (ix+012h)		;9e2c   ; baja la cuenta de espera del actor
 	ret nz			;9e2f
-	inc (ix+006h)		;9e30
+	inc (ix+006h)		;9e30   ; sube si el actor se mueve (p01:7336)
 	ld a,(ix+042h)		;9e33
-	ld (ix+011h),a		;9e36
+	ld (ix+011h),a		;9e36   ; guarda la direccion del actor
 	ld (ix+040h),000h		;9e39
 	ret			;9e3d
 se_duerme:		; con 0xC633, al acabar (ix+0x44): se para, cuadro 2, texto 0x21 y el tipo 0x40 encima
@@ -4352,16 +4352,16 @@ se_duerme:		; con 0xC633, al acabar (ix+0x44): se para, cuadro 2, texto 0x21 y e
 	ret nz			;9e46
 	pop hl			;9e47
 	pop hl			;9e48
-	ld (ix+006h),000h		;9e49
+	ld (ix+006h),000h		;9e49   ; si el actor se mueve (p01:7336) = 0x00
 	ld a,(ix+040h)		;9e4d
 	ld (ix+047h),a		;9e50
 	ld (ix+040h),003h		;9e53
-	ld (ix+00bh),002h		;9e57
+	ld (ix+00bh),002h		;9e57   ; el cuadro del actor = 0x02
 	ld (ix+046h),000h		;9e5b
 	ld a,021h		;9e5f
 	call 05cd9h		;9e61   ; ventana_de_texto_2: abre la ventana del texto A en el modo 2 (0xCEE0)
-	ld d,(ix+005h)		;9e64
-	ld a,(ix+003h)		;9e67
+	ld d,(ix+005h)		;9e64   ; lee la X del actor
+	ld a,(ix+003h)		;9e67   ; lee la Y del actor
 	sub 023h		;9e6a
 	ld e,a			;9e6c
 	ld c,040h		;9e6d
@@ -4379,7 +4379,7 @@ dormido:		; si oye un disparo, alarma; al acabar (ix+0x46) se despierta
 	ld (hl),000h		;9e87
 	jr L_9E28		;9e89
 despierta:		; vuelve al paso de antes con el texto 0x22
-	inc (ix+006h)		;9e8b
+	inc (ix+006h)		;9e8b   ; sube si el actor se mueve (p01:7336)
 	ld a,(ix+047h)		;9e8e
 	ld (ix+040h),a		;9e91
 	ld a,022h		;9e94
@@ -4392,16 +4392,16 @@ crea_tipo_53:		; la creacion del tipo 53
 	or a			;9ea3
 	jp nz,07371h		;9ea4
 L_9EA7:
-	ld (ix+00eh),000h		;9ea7
+	ld (ix+00eh),000h		;9ea7   ; con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x00
 	ld a,035h		;9eab
 	jr L_9EB1		;9ead
 crea_tipo_6:		; la creacion del tipo 6
 	ld a,006h		;9eaf
 L_9EB1:
 	call 05bafh		;9eb1   ; cuenta_tipo: A = cuantos actores del tipo A hay
-	ld (ix+00fh),a		;9eb4
+	ld (ix+00fh),a		;9eb4   ; guarda el numero del actor entre los de su tipo
 	ld a,r		;9eb7
-	ld (ix+012h),a		;9eb9
+	ld (ix+012h),a		;9eb9   ; guarda la cuenta de espera del actor
 	ld a,(0c130h)		;9ebc   ; lee la sala
 	ld hl,09eebh		;9ebf
 	ld bc,0000bh		;9ec2
@@ -4413,16 +4413,16 @@ L_9EB1:
 	inc hl			;9ecf
 	ld d,(hl)			;9ed0
 	ex de,hl			;9ed1
-	ld a,(ix+00fh)		;9ed2
+	ld a,(ix+00fh)		;9ed2   ; lee el numero del actor entre los de su tipo
 	dec a			;9ed5
 	call 041e0h		;9ed6   ; hl_mas_a: HL = HL + A
 	ld a,(hl)			;9ed9
 	ld (ix+01bh),a		;9eda
 	add a,01ch		;9edd
-	ld (ix+00bh),a		;9edf
-	inc (ix+006h)		;9ee2
+	ld (ix+00bh),a		;9edf   ; guarda el cuadro del actor
+	inc (ix+006h)		;9ee2   ; sube si el actor se mueve (p01:7336)
 camino_del_actor:		; carga el camino (ix+0x0F) de la sala
-	ld b,(ix+00fh)		;9ee5
+	ld b,(ix+00fh)		;9ee5   ; lee el numero del actor entre los de su tipo
 	jp 059cch		;9ee8   ; carga_camino: carga el camino B de la sala (p06:A2DF) en IX y va al primer punto
 
 ; ----------------------------------------------------------------------
@@ -4454,7 +4454,7 @@ DATA_bytes_9f0e:
 
 
 cuadro_tipo_6:		; lo de cada cuadro del tipo 6
-	ld a,(ix+001h)		;9f19
+	ld a,(ix+001h)		;9f19   ; lee el paso del actor
 	call 041eah		;9f1c   ; despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 
 ; ----------------------------------------------------------------------
@@ -4477,11 +4477,11 @@ camara_vigila:		; mira hacia (ix+0x1B) desde su sitio (0x9F86); si ve a Snake, a
 	ld b,a			;9f2f
 	ld hl,09f86h		;9f30
 	call 041dfh		;9f33   ; hl_mas_2a: HL = HL + 2 x A
-	ld a,(ix+003h)		;9f36
+	ld a,(ix+003h)		;9f36   ; lee la Y del actor
 	add a,(hl)			;9f39
 	inc hl			;9f3a
 	ld e,a			;9f3b
-	ld a,(ix+005h)		;9f3c
+	ld a,(ix+005h)		;9f3c   ; lee la X del actor
 	add a,(hl)			;9f3f
 	ld d,a			;9f40
 	ld a,b			;9f41
@@ -4490,23 +4490,23 @@ camara_vigila:		; mira hacia (ix+0x1B) desde su sitio (0x9F86); si ve a Snake, a
 	ld a,(ix+041h)		;9f46
 	or a			;9f49
 	jr z,L_9F57		;9f4a
-	ld (ix+006h),000h		;9f4c
-	ld (ix+012h),020h		;9f50
+	ld (ix+006h),000h		;9f4c   ; si el actor se mueve (p01:7336) = 0x00
+	ld (ix+012h),020h		;9f50   ; la cuenta de espera del actor = 0x20
 	jp 05ba2h		;9f54   ; paso_siguiente: sube el paso del actor (ix+1)
 L_9F57:
-	ld a,(ix+006h)		;9f57
+	ld a,(ix+006h)		;9f57   ; lee si el actor se mueve (p01:7336)
 	or a			;9f5a
 	jp nz,llego_al_punto		;9f5b   ; llego_al_punto: si paso el punto (ix+0x15, 0x16) por su direccion, punto_alcanzado
-	dec (ix+012h)		;9f5e
+	dec (ix+012h)		;9f5e   ; baja la cuenta de espera del actor
 	ret nz			;9f61
-	ld (ix+006h),001h		;9f62
+	ld (ix+006h),001h		;9f62   ; si el actor se mueve (p01:7336) = 0x01
 	ld a,r		;9f66
-	ld (ix+012h),a		;9f68
+	ld (ix+012h),a		;9f68   ; guarda la cuenta de espera del actor
 	jp 05a02h		;9f6b   ; hacia_el_punto: direccion (ix+0x11) y velocidades hacia el punto (ix+0x15, ix+0x16) con la marcha (ix+0x43)
 camara_avisa:		; parpadea (colores 2/0x4D y 4/0x4B) hasta acabar (ix+0x12)
-	dec (ix+012h)		;9f6e
+	dec (ix+012h)		;9f6e   ; baja la cuenta de espera del actor
 	jp z,0a1a0h		;9f71
-	ld a,(ix+012h)		;9f74
+	ld a,(ix+012h)		;9f74   ; lee la cuenta de espera del actor
 	ld bc,0024dh		;9f77
 	bit 2,a		;9f7a
 	jr z,L_9F81		;9f7c
@@ -4533,7 +4533,7 @@ DATA_parejas_9f86:
 
 
 cuadro_tipo_53:		; lo de cada cuadro del tipo 53
-	ld a,(ix+001h)		;9f8e
+	ld a,(ix+001h)		;9f8e   ; lee el paso del actor
 	call 041eah		;9f91   ; despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 
 ; ----------------------------------------------------------------------
@@ -4552,24 +4552,24 @@ L_9F9A:
 	call llego_al_punto		;9f9a   ; llego_al_punto: si paso el punto (ix+0x15, 0x16) por su direccion, punto_alcanzado
 bajo_la_camara:		; si Snake pasa por debajo: paso 1 y crea el tipo 0x36; A = 0xFF
 	ld a,(0c182h)		;9f9d   ; lee la Y de Snake
-	cp (ix+003h)		;9fa0
+	cp (ix+003h)		;9fa0   ; compara con la Y del actor
 	ret c			;9fa3
 	ld a,(0c184h)		;9fa4   ; lee la X de Snake
 	sub 004h		;9fa7
-	ld d,(ix+005h)		;9fa9
+	ld d,(ix+005h)		;9fa9   ; lee la X del actor
 	cp d			;9fac
 	ret nc			;9fad
 	add a,008h		;9fae
 	cp d			;9fb0
 	ret c			;9fb1
-	ld a,(ix+001h)		;9fb2
+	ld a,(ix+001h)		;9fb2   ; lee el paso del actor
 	or a			;9fb5
 	call z,05ba2h		;9fb6   ; paso_siguiente: sube el paso del actor (ix+1)
 	ld (ix+059h),020h		;9fb9
 	ld de,00000h		;9fbd
 	call 05b5dh		;9fc0   ; velocidad_x: la velocidad X del actor (ix+9, ix+0x0A) = DE
-	ld d,(ix+005h)		;9fc3
-	ld e,(ix+003h)		;9fc6
+	ld d,(ix+005h)		;9fc3   ; lee la X del actor
+	ld e,(ix+003h)		;9fc6   ; lee la Y del actor
 	ld c,036h		;9fc9
 	push ix		;9fcb
 	call 0569ah		;9fcd   ; crea_actor: crea un actor del tipo C en Y = E, X = D en la primera ficha libre de 0xD000; HL = la ficha, A = 0 si no cabe
@@ -4588,7 +4588,7 @@ L_9FE2:
 	inc a			;9fe5
 	ret z			;9fe6
 	ld a,(0c184h)		;9fe7   ; lee la X de Snake
-	sub (ix+005h)		;9fea
+	sub (ix+005h)		;9fea   ; le resta la X del actor
 	jr nc,L_9FF1		;9fed
 	neg		;9fef
 L_9FF1:

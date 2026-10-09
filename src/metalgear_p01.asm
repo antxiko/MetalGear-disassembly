@@ -671,26 +671,26 @@ baja_c132:		; borra 0xC640-0xC651 (salvo 0xC64D) y, si 0xC132 > 0, lo baja con e
 	ld (0c64dh),a		;6498
 	xor a			;649b
 	ld (0c13ah),a		;649c
-	ld hl,0c132h		;649f
+	ld hl,0c132h		;649f   ; apunta a la CLASS (0-3 estrellas)
 	ld a,(hl)			;64a2
 	and a			;64a3
 	ret z			;64a4
 	dec (hl)			;64a5
 	ld a,027h		;64a6
 	call 0427ch		;64a8   ; sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
-	ld a,(0c131h)		;64ab
+	ld a,(0c131h)		;64ab   ; lee la vida (LIFE)
 	push af			;64ae
 	call maximo_c137		;64af   ; maximo_c137: 0xC137 = 0x20, 0x28, 0x30 o 0x18 segun 0xC132 (1, 2, 3, 0) y lo pinta
 	pop af			;64b2
 	ld c,a			;64b3
-	ld a,(0c137h)		;64b4
+	ld a,(0c137h)		;64b4   ; lee la vida maxima
 	cp c			;64b7
 	jr nc,L_64BE		;64b8
-	ld a,(0c137h)		;64ba
+	ld a,(0c137h)		;64ba   ; lee la vida maxima
 	ld c,a			;64bd
 L_64BE:
 	ld a,c			;64be
-	ld (0c131h),a		;64bf
+	ld (0c131h),a		;64bf   ; guarda la vida (LIFE)
 	call 08f2eh		;64c2
 	jp 04751h		;64c5   ; marcador_arma: pinta en el marcador el arma elegida (0xC134) y su municion
 sube_c132_cada_5:		; sube 0xC13A y, cada 5, sube 0xC132
@@ -701,7 +701,7 @@ sube_c132_cada_5:		; sube 0xC13A y, cada 5, sube 0xC132
 	ret nz			;64cf
 	ld (hl),000h		;64d0
 sube_c132:		; sube 0xC132 hasta 3 con el sonido 0x26
-	ld hl,0c132h		;64d2
+	ld hl,0c132h		;64d2   ; apunta a la CLASS (0-3 estrellas)
 	ld a,(hl)			;64d5
 	cp 003h		;64d6
 	ret z			;64d8
@@ -724,8 +724,8 @@ maximo_c137:		; 0xC137 = 0x20, 0x28, 0x30 o 0x18 segun 0xC132 (1, 2, 3, 0) y lo 
 	jr z,L_64F6		;64f2
 	ld a,018h		;64f4
 L_64F6:
-	ld (0c137h),a		;64f6
-	ld (0c131h),a		;64f9
+	ld (0c137h),a		;64f6   ; guarda la vida maxima
+	ld (0c131h),a		;64f9   ; guarda la vida (LIFE)
 	call 09067h		;64fc   ; barra_de_vida: LIFE y la barra 0xC131 sobre el maximo 0xC137
 	jp 09101h		;64ff   ; maximos: los maximos de municion y de raciones por CLASS (0x918A-0x91BA) en 0xC380
 pose_de_snake:		; elige la pose 0xC18A por el modo 0xC18B (tabla 0x6508)
@@ -1002,7 +1002,7 @@ juego_estado_0:		; estado 0: los pasos 0xC001 del banco 9 (p09:B6B6, B4DA, B506,
 	call 04919h		;669d   ; zona_banco_9: pone el banco 9 en 0xA000 y lo apunta en 0xF0F3 y 0xF0F6
 	call 0b6b6h		;66a0   ; logotipo_konami_baja: descubre el logotipo de Konami linea a linea; al acabar 0xC132 = 1
 	call 04248h		;66a3   ; bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
-	ld a,(0c132h)		;66a6
+	ld a,(0c132h)		;66a6   ; lee la CLASS (0-3 estrellas)
 	or a			;66a9
 	ret z			;66aa
 	call 05317h		;66ab   ; nada: solo ret
@@ -1181,7 +1181,7 @@ borra_game_over:		; con F5 borra el rotulo 0x92A0 y pone 0xC125 = 1
 	ld hl,092a0h		;67fa
 	call 05110h		;67fd   ; borra_rotulo: lo mismo que rotulo, con el caracter en blanco
 	xor a			;6800
-	ld (0c6a0h),a		;6801
+	ld (0c6a0h),a		;6801   ; guarda la cinta (1 carga, 2 graba)
 	inc a			;6804
 	ld (0c125h),a		;6805
 	ret			;6808
@@ -1193,7 +1193,7 @@ L_6809:
 	ld (0c125h),a		;6813
 	jp L_673B		;6816
 juego_estado_7:		; estado 7: la pausa: F1 sigue (y mira las claves tecleadas), F4 carga y F5 graba en cinta (0xC6A0)
-	ld a,(0c6a0h)		;6819
+	ld a,(0c6a0h)		;6819   ; lee la cinta (1 carga, 2 graba)
 	or a			;681c
 	jr z,L_684A		;681d
 	call 04913h		;681f   ; zona_banco_6: pone el banco 6 en 0xA000 y lo apunta en 0xF0F3 y 0xF0F6
@@ -1208,7 +1208,7 @@ juego_estado_7:		; estado 7: la pausa: F1 sigue (y mira las claves tecleadas), F
 	xor a			;6836
 	ld (0c008h),a		;6837   ; guarda la pausa (1) o F5 (2)
 	ld (0c167h),a		;683a
-	ld (0c6a0h),a		;683d
+	ld (0c6a0h),a		;683d   ; guarda la cinta (1 carga, 2 graba)
 	inc a			;6840
 	ld (0c0f1h),a		;6841
 	ld (0c125h),a		;6844
@@ -1233,7 +1233,7 @@ L_684A:
 	inc b			;6867
 L_6868:
 	ld a,b			;6868
-	ld (0c6a0h),a		;6869
+	ld (0c6a0h),a		;6869   ; guarda la cinta (1 carga, 2 graba)
 	xor a			;686c
 	ld (0c6a1h),a		;686d
 	jp 04e2ch		;6870   ; esconde_los_sprites: llena de 0xE0 las dos tablas de atributos de la VRAM (0xF600 y 0xF200)
@@ -1324,7 +1324,7 @@ transceptor_abre:		; paso 0: la pantalla del transceptor (marco p15:B369, retrat
 	call 04e1bh		;6918   ; borra_la_pagina_0: llena la pagina 0 de color 0 y pone R#23 a cero
 	call 04aaah		;691b   ; paleta_del_transceptor: manda al VDP la paleta p05:8B1E
 	ld a,002h		;691e
-	ld (0c15fh),a		;6920
+	ld (0c15fh),a		;6920   ; guarda la llamada del transceptor (0 pendiente, 1 llamando, 2 ninguna)
 	dec a			;6923
 	ld (0c168h),a		;6924
 	ld de,03018h		;6927
@@ -1579,7 +1579,7 @@ L_6AE1:
 	ld a,(hl)			;6ae1
 	cp 048h		;6ae2
 	jr nz,L_6AF5		;6ae4
-	ld a,(0c132h)		;6ae6
+	ld a,(0c132h)		;6ae6   ; lee la CLASS (0-3 estrellas)
 	cp 003h		;6ae9
 	jr nz,L_6B02		;6aeb
 	ld a,(0c657h)		;6aed
@@ -1801,7 +1801,7 @@ L_6C3E:
 	ld (0c154h),a		;6c47   ; guarda el hueco elegido en la ventana de armas
 	call 043cah		;6c4a
 	call pon_marca		;6c4d   ; pon_marca: el caracter 0x3C en 0xC155
-	ld a,(0c13bh)		;6c50
+	ld a,(0c13bh)		;6c50   ; lee la bandera de capturado (sin armas ni objetos)
 	and a			;6c53
 	jr z,L_6C59		;6c54
 	xor a			;6c56
@@ -1901,7 +1901,7 @@ L_6D0A:
 	jp 05135h		;6d0e   ; caracter: copia el caracter A de la pagina 1 a (D, E); con A = 0 o C = 0, el blanco
 guarda_paleta:		; lee la paleta de 0xF680 (VRAM) a 0xC1CF en formato [color][RB][G]
 	ld de,0c1cfh		;6d11
-	ld hl,0f680h		;6d14   ; apunta a la copia de la paleta
+	ld hl,0f680h		;6d14   ; apunta a la copia de la paleta en la VRAM (0xF680, 2 bytes por color)
 	ld bc,01000h		;6d17
 L_6D1A:
 	ld a,c			;6d1a
@@ -2082,7 +2082,7 @@ L_6E61:
 	call 04acbh		;6e85   ; paleta_de_la_sala: manda al VDP la paleta de la sala (nibble p05:8B40, tabla p05:8BBE)
 	call 04ab5h		;6e88   ; paleta_de_sprites: manda al VDP la paleta del juego de sprites de la sala (p05:8CB4)
 	call 08fc1h		;6e8b   ; marcador: LIFE, CLASS, la llamada, el arma y el objeto
-	ld a,(0c6a0h)		;6e8e
+	ld a,(0c6a0h)		;6e8e   ; lee la cinta (1 carga, 2 graba)
 	or a			;6e91
 	jr nz,L_6E9B		;6e92
 	ld a,(0c167h)		;6e94
@@ -2092,7 +2092,7 @@ L_6E9B:
 	call 04925h		;6e9b   ; zona_banco_15: pone el banco 15 en 0xA000 y lo apunta en 0xF0F3 y 0xF0F6
 	call 0bf22h		;6e9e   ; rayos_con_goggl: con GOGGL (objeto 4), sin 0xC602, en las salas 0x18, 0x19 y 0x48: pinta los rayos de los actores
 	call 04248h		;6ea1   ; bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
-	ld a,(0c6a0h)		;6ea4
+	ld a,(0c6a0h)		;6ea4   ; lee la cinta (1 carga, 2 graba)
 	or a			;6ea7
 	jr z,L_6EC2		;6ea8
 	call 0491fh		;6eaa   ; zona_banco_12: pone el banco 12 en 0xA000 y lo apunta en 0xF0F3 y 0xF0F6
@@ -2119,7 +2119,7 @@ L_6ED1:
 	call 0ae28h		;6ede   ; sprites_de_la_cabina: los 12 sprites del ascensor (0xAE5F) en 0xEA50 y sus colores en 0xE940
 	jp 04248h		;6ee1   ; bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 L_6EE4:
-	ld a,(0c6a0h)		;6ee4
+	ld a,(0c6a0h)		;6ee4   ; lee la cinta (1 carga, 2 graba)
 	or a			;6ee7
 	jp z,04248h		;6ee8   ; bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 	call 053a5h		;6eeb   ; sprites_de_snake: atributos, colores y patrones de la pose de Snake
@@ -2131,7 +2131,7 @@ L_6EE4:
 	call 0b8bch		;6efd   ; cambia_tabla_de_sprites: alterna las tablas de atributos (0xF600/0xF400 y 0xF200/0xF000) con R#5
 	call 0b8deh		;6f00   ; sprites_a_vram: atributos y colores a la tabla de 0xC114, empezando cada cuadro por otro grupo (0xC00F)
 	xor a			;6f03
-	ld (0c6a0h),a		;6f04
+	ld (0c6a0h),a		;6f04   ; guarda la cinta (1 carga, 2 graba)
 	ld (0c167h),a		;6f07
 	jp 04248h		;6f0a   ; bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 L_6F0D:
@@ -2234,7 +2234,7 @@ L_6FB2:
 	ret			;6fca
 L_6FCB:
 	call 05877h		;6fcb   ; mira_c602: quita 0xC602 (y lo que sigue) segun la sala, la cuenta 0xC605 y los actores que quedan
-	ld hl,0c199h		;6fce
+	ld hl,0c199h		;6fce   ; apunta a la cuenta de herido (Snake parpadea)
 	ld a,(hl)			;6fd1
 	and a			;6fd2
 	jr z,L_6FD6		;6fd3
@@ -2362,7 +2362,7 @@ vuelve_de_la_vecina:		; devuelve los actores de 0xD800 y lo guardado, y al modo 
 	ld a,(0c639h)		;70d0
 	ld (0c616h),a		;70d3
 	ld hl,(0c163h)		;70d6
-	ld (0c15fh),hl		;70d9
+	ld (0c15fh),hl		;70d9   ; guarda la llamada del transceptor (0 pendiente, 1 llamando, 2 ninguna) y el byte siguiente (16 bits)
 	ld a,(0c16ah)		;70dc
 	ld (0c632h),a		;70df
 	ld hl,0ea0eh		;70e2
@@ -2513,10 +2513,10 @@ L_71EB:
 	and a			;71ee
 	jr z,L_720A		;71ef
 	push bc			;71f1
-	ld a,(ix+01fh)		;71f2
+	ld a,(ix+01fh)		;71f2   ; lee la cuenta del golpe del actor
 	and a			;71f5
 	jr z,L_7200		;71f6
-	dec (ix+01fh)		;71f8
+	dec (ix+01fh)		;71f8   ; baja la cuenta del golpe del actor
 	call sacude_actor		;71fb   ; sacude_actor: con (ix+0x1F) 0x3F/0x3D sube la Y 4 puntos, con 0x3B/0x39 la baja
 	jr L_7209		;71fe
 L_7200:
@@ -2532,15 +2532,15 @@ L_720A:
 fin_de_actores:		; solo ret: fin del bucle de actores y lo de cada cuadro de los tipos 2, 7, 17, 42 y 56
 	ret			;7211
 un_actor:		; sube (ix+0x0C) y despacha: sin aguante muere, con el bit 7 del tipo muriendo, si no su tipo (tabla 0x722F)
-	inc (ix+00ch)		;7212
-	ld a,(ix+00dh)		;7215
+	inc (ix+00ch)		;7212   ; sube la cuenta de cuadros del actor
+	ld a,(ix+00dh)		;7215   ; lee el aguante del actor
 	or a			;7218
 	jp z,muere_actor		;7219   ; muere_actor: baja 0xC606 (tipos 10, 11, 13, 20-22), tapa el 7 y marca el tipo con el bit 7 (salvo 0x40), sonido 0x16
-	ld a,(ix+000h)		;721c
+	ld a,(ix+000h)		;721c   ; lee el tipo del actor
 	bit 7,a		;721f
 	jp nz,muriendo		;7221   ; muriendo: despacha por el nibble del tipo (0x74D0, tabla 0x74C0)
 	dec a			;7224
-	bit 6,(ix+01eh)		;7225
+	bit 6,(ix+01eh)		;7225   ; mira el bit 6 de las marcas del actor (bits 0-4 el arma que le dio, 6 golpe, 7 contacto)
 	jp nz,actor_golpeado		;7229   ; actor_golpeado: sube (ix+0x7A): al tercero muere (y a veces suelta algo); si no, (ix+0x1F) = 0x40
 	call 041eah		;722c   ; despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 
@@ -2595,7 +2595,7 @@ cuenta_c669:		; al acabar 0xC669, en la sala 0xC60F y con 0xC668 a cero copia 16
 	ld a,001h		;72d6
 	jp 04fcdh		;72d8   ; copia_vram: HMMM: copia B x C de (H, L) a (D, E); A = paginas (bits 0-1 origen, 2-3 destino)
 sacude_actor:		; con (ix+0x1F) 0x3F/0x3D sube la Y 4 puntos, con 0x3B/0x39 la baja
-	ld a,(ix+01fh)		;72db
+	ld a,(ix+01fh)		;72db   ; lee la cuenta del golpe del actor
 	cp 03fh		;72de
 	ld c,0fch		;72e0
 	jr z,L_72F1		;72e2
@@ -2607,19 +2607,19 @@ sacude_actor:		; con (ix+0x1F) 0x3F/0x3D sube la Y 4 puntos, con 0x3B/0x39 la ba
 	cp 039h		;72ee
 	ret nz			;72f0
 L_72F1:
-	ld a,(ix+003h)		;72f1
+	ld a,(ix+003h)		;72f1   ; lee la Y del actor
 	add a,c			;72f4
-	ld (ix+003h),a		;72f5
+	ld (ix+003h),a		;72f5   ; guarda la Y del actor
 	ret			;72f8
 actor_golpeado:		; sube (ix+0x7A): al tercero muere (y a veces suelta algo); si no, (ix+0x1F) = 0x40
 	inc (ix+07ah)		;72f9
 	ld a,(ix+07ah)		;72fc
 	cp 003h		;72ff
 	jr z,L_7308		;7301
-	ld (ix+01fh),040h		;7303
+	ld (ix+01fh),040h		;7303   ; la cuenta del golpe del actor = 0x40
 	ret			;7307
 L_7308:
-	ld a,(ix+000h)		;7308
+	ld a,(ix+000h)		;7308   ; lee el tipo del actor
 	cp 004h		;730b
 	jr nz,L_7333		;730d
 	cp 005h		;730f
@@ -2629,10 +2629,10 @@ L_7308:
 	cp 01eh		;7317
 	jr z,L_731B		;7319
 L_731B:
-	ld a,(ix+003h)		;731b
+	ld a,(ix+003h)		;731b   ; lee la Y del actor
 	sub 004h		;731e
 	ld e,a			;7320
-	ld a,(ix+005h)		;7321
+	ld a,(ix+005h)		;7321   ; lee la X del actor
 	sub 008h		;7324
 	ld d,a			;7326
 	ld a,r		;7327
@@ -2645,42 +2645,42 @@ L_731B:
 L_7333:
 	jp muere_actor		;7333   ; muere_actor: baja 0xC606 (tipos 10, 11, 13, 20-22), tapa el 7 y marca el tipo con el bit 7 (salvo 0x40), sonido 0x16
 mueve_actor:		; suma las velocidades a la Y y a la X (16 bits) si (ix+6) no es cero
-	bit 7,(ix+000h)		;7336
+	bit 7,(ix+000h)		;7336   ; mira el bit 7 de el tipo del actor
 	ret nz			;733a
-	ld a,(ix+006h)		;733b
+	ld a,(ix+006h)		;733b   ; lee si el actor se mueve (p01:7336)
 	and a			;733e
 	ret z			;733f
 	ld b,002h		;7340
 	push ix		;7342
 L_7344:
-	ld e,(ix+007h)		;7344
-	ld d,(ix+008h)		;7347
+	ld e,(ix+007h)		;7344   ; lee la velocidad Y del actor
+	ld d,(ix+008h)		;7347   ; lee la velocidad Y del actor (alta)
 	ld l,(ix+002h)		;734a
-	ld h,(ix+003h)		;734d
+	ld h,(ix+003h)		;734d   ; lee la Y del actor
 	add hl,de			;7350
 	ld (ix+002h),l		;7351
-	ld (ix+003h),h		;7354
+	ld (ix+003h),h		;7354   ; guarda la Y del actor
 	inc ix		;7357
 	inc ix		;7359
 	djnz L_7344		;735b
 	pop ix		;735d
 	ret			;735f
 actor_fuera:		; si el actor sale de la sala (Y >= 0xC1, X >= 0xFF o < 7) lo quita
-	ld a,(ix+003h)		;7360
+	ld a,(ix+003h)		;7360   ; lee la Y del actor
 	cp 0c1h		;7363
 	jr nc,L_7371		;7365
-	ld a,(ix+005h)		;7367
+	ld a,(ix+005h)		;7367   ; lee la X del actor
 	cp 0ffh		;736a
 	jr nc,L_7371		;736c
 	cp 007h		;736e
 	ret nc			;7370
 L_7371:
-	ld a,(ix+000h)		;7371
+	ld a,(ix+000h)		;7371   ; lee el tipo del actor
 	and 07fh		;7374
 	cp 025h		;7376
 	jp z,0a538h		;7378
 quita_actor:		; quita al actor: banderas por tipo (0xA0, 0x9A, 0xA9, 0xA4, 0xA1, 0xA2, 0xB9, 0x12, 0x2C), objeto y musica
-	ld a,(ix+000h)		;737b
+	ld a,(ix+000h)		;737b   ; lee el tipo del actor
 	cp 0a0h		;737e
 	jr nz,L_738F		;7380
 	ld a,001h		;7382
@@ -2689,7 +2689,7 @@ quita_actor:		; quita al actor: banderas por tipo (0xA0, 0x9A, 0xA9, 0xA4, 0xA1,
 	set 0,(hl)		;738a
 	jp L_7409		;738c
 L_738F:
-	ld a,(ix+000h)		;738f
+	ld a,(ix+000h)		;738f   ; lee el tipo del actor
 	cp 09ah		;7392
 	jr nz,L_73A3		;7394
 	ld hl,0c626h		;7396
@@ -2699,35 +2699,35 @@ L_738F:
 	ld de,03030h		;739e
 	jr L_7406		;73a1
 L_73A3:
-	ld a,(ix+000h)		;73a3
+	ld a,(ix+000h)		;73a3   ; lee el tipo del actor
 	cp 0a9h		;73a6
 	jr nz,L_73B1		;73a8
 	ld c,003h		;73aa
 	ld de,03870h		;73ac
 	jr L_7406		;73af
 L_73B1:
-	ld a,(ix+000h)		;73b1
+	ld a,(ix+000h)		;73b1   ; lee el tipo del actor
 	cp 0a4h		;73b4
 	jr nz,L_73BF		;73b6
 	ld a,001h		;73b8
 	ld (0c627h),a		;73ba
 	jr L_7409		;73bd
 L_73BF:
-	ld a,(ix+000h)		;73bf
+	ld a,(ix+000h)		;73bf   ; lee el tipo del actor
 	cp 0a1h		;73c2
 	jr nz,L_73CD		;73c4
 	ld hl,0c631h		;73c6
 	set 0,(hl)		;73c9
 	jr L_7409		;73cb
 L_73CD:
-	ld a,(ix+000h)		;73cd
+	ld a,(ix+000h)		;73cd   ; lee el tipo del actor
 	cp 0a2h		;73d0
 	jr nz,L_73DB		;73d2
 	ld hl,0c630h		;73d4
 	set 0,(hl)		;73d7
 	jr L_7409		;73d9
 L_73DB:
-	ld a,(ix+000h)		;73db
+	ld a,(ix+000h)		;73db   ; lee el tipo del actor
 	cp 0b9h		;73de
 	jr nz,L_73EF		;73e0
 	ld hl,0c638h		;73e2
@@ -2737,15 +2737,15 @@ L_73DB:
 	ld de,06224h		;73ea
 	jr L_7406		;73ed
 L_73EF:
-	ld a,(ix+000h)		;73ef
+	ld a,(ix+000h)		;73ef   ; lee el tipo del actor
 	res 7,a		;73f2
 	cp 012h		;73f4
 	call z,0b26fh		;73f6   ; bandera_c622: 0xC622 = 1 y la musica de la sala
-	ld a,(ix+000h)		;73f9
+	ld a,(ix+000h)		;73f9   ; lee el tipo del actor
 	and 07fh		;73fc
 	cp 02ch		;73fe
 	jr nz,borra_actor		;7400
-	ld (ix+000h),a		;7402
+	ld (ix+000h),a		;7402   ; guarda el tipo del actor
 	ret			;7405
 L_7406:
 	call pon_objeto		;7406   ; pon_objeto: p06:BB8E con A = C y DE (Y, X)
@@ -2753,8 +2753,8 @@ L_7409:
 	call 044ech		;7409   ; musica_de_la_sala: 0xC602 a cero y elige la musica de la sala (0xC159, 0xC0F4) y 0xC15F
 borra_actor:		; el tipo y (ix+0x0E) a cero y sus sprites escondidos
 	xor a			;740c
-	ld (ix+000h),a		;740d
-	ld (ix+00eh),a		;7410
+	ld (ix+000h),a		;740d   ; guarda el tipo del actor
+	ld (ix+00eh),a		;7410   ; guarda con que choca el actor (bit 0 Snake, bit 1 proyectiles)
 	push ix		;7413
 	pop hl			;7415
 	set 5,l		;7416
@@ -2790,8 +2790,8 @@ pon_objeto:		; p06:BB8E con A = C y DE (Y, X)
 	pop ix		;7440
 	ret			;7442
 tapa_tipo_7:		; copia 16 x 16 de (p03:AF8C, 0xA0) de la pagina 1 a la Y/X del actor
-	ld h,(ix+005h)		;7443
-	ld l,(ix+003h)		;7446
+	ld h,(ix+005h)		;7443   ; lee la X del actor
+	ld l,(ix+003h)		;7446   ; lee la Y del actor
 	call 0af8ch		;7449   ; sitio_de_mina: H, L - 8 y A = (ix+0x0F) x 16
 	ex de,hl			;744c
 	ld h,a			;744d
@@ -2813,7 +2813,7 @@ L_745E:
 	djnz L_745E		;746c
 	ret			;746e
 muere_actor:		; baja 0xC606 (tipos 10, 11, 13, 20-22), tapa el 7 y marca el tipo con el bit 7 (salvo 0x40), sonido 0x16
-	ld a,(ix+000h)		;746f
+	ld a,(ix+000h)		;746f   ; lee el tipo del actor
 	ld d,a			;7472
 	cp 00ah		;7473
 	jr z,L_7489		;7475
@@ -2840,15 +2840,15 @@ L_7493:
 	cp 040h		;7499
 	jr z,muriendo		;749b
 	xor a			;749d
-	set 7,(ix+000h)		;749e
-	ld (ix+00eh),a		;74a2
-	ld (ix+00ch),a		;74a5
+	set 7,(ix+000h)		;749e   ; pone a uno el bit 7 de el tipo del actor
+	ld (ix+00eh),a		;74a2   ; guarda con que choca el actor (bit 0 Snake, bit 1 proyectiles)
+	ld (ix+00ch),a		;74a5   ; guarda la cuenta de cuadros del actor
 	inc a			;74a8
-	ld (ix+00dh),a		;74a9
+	ld (ix+00dh),a		;74a9   ; guarda el aguante del actor
 	ld a,016h		;74ac
 	call 04284h		;74ae   ; sonido: pide el sonido A al controlador del banco 4 (0x67FD) con los bancos 4 y 5
 muriendo:		; despacha por el nibble del tipo (0x74D0, tabla 0x74C0)
-	ld a,(ix+000h)		;74b1
+	ld a,(ix+000h)		;74b1   ; lee el tipo del actor
 	and 07fh		;74b4
 	dec a			;74b6
 	ld hl,074d0h		;74b7
@@ -2882,14 +2882,14 @@ muriendo_3:		; en la sala 0xC1 con (ix+0x0F) = 3 pone 0xC657 y 0xC64D; y muriend
 	ld a,(0c130h)		;74f1   ; lee la sala
 	cp 0c1h		;74f4
 	jr nz,muriendo_2		;74f6
-	ld a,(ix+00fh)		;74f8
+	ld a,(ix+00fh)		;74f8   ; lee el numero del actor entre los de su tipo
 	cp 003h		;74fb
 	jr nz,muriendo_2		;74fd
 	ld a,001h		;74ff
 	ld (0c657h),a		;7501
 	ld (0c64dh),a		;7504
 muriendo_2:		; si (ix+0x0C) es 0, baja_c132; y muriendo_1
-	ld a,(ix+00ch)		;7507
+	ld a,(ix+00ch)		;7507   ; lee la cuenta de cuadros del actor
 	and a			;750a
 	push ix		;750b
 	call z,baja_c132		;750d   ; baja_c132: borra 0xC640-0xC651 (salvo 0xC64D) y, si 0xC132 > 0, lo baja con el sonido 0x27
@@ -2904,7 +2904,7 @@ L_751E:
 	jp quita_actor		;751e   ; quita_actor: quita al actor: banderas por tipo (0xA0, 0x9A, 0xA9, 0xA4, 0xA1, 0xA2, 0xB9, 0x12, 0x2C), objeto y musica
 muriendo_4:		; explosion de 6 sprites (cuadros 0x7A-0x7C) y la quita al cuadro 0x10
 	ld hl,0764bh		;7521
-	ld a,(ix+00ch)		;7524
+	ld a,(ix+00ch)		;7524   ; lee la cuenta de cuadros del actor
 	cp 005h		;7527
 	ld c,07ah		;7529
 	jr c,L_7538		;752b
@@ -2919,7 +2919,7 @@ L_7538:
 	jr L_7555		;753a
 muriendo_5:		; explosion de 2 sprites (cuadros 0x6A-0x6C) y la quita al cuadro 0x10
 	ld hl,07647h		;753c
-	ld a,(ix+00ch)		;753f
+	ld a,(ix+00ch)		;753f   ; lee la cuenta de cuadros del actor
 	cp 005h		;7542
 	ld c,06ah		;7544
 	jr c,L_7553		;7546
@@ -2932,7 +2932,7 @@ muriendo_5:		; explosion de 2 sprites (cuadros 0x6A-0x6C) y la quita al cuadro 0
 L_7553:
 	ld b,002h		;7553
 L_7555:
-	ld (ix+00bh),c		;7555
+	ld (ix+00bh),c		;7555   ; guarda el cuadro del actor
 	push ix		;7558
 	pop de			;755a
 	ld a,025h		;755b
@@ -2946,24 +2946,24 @@ muriendo_6:		; la bandera (ix+0x1B), y explosion de 18 u 8 sprites (cuadros 0x7F
 	jr nz,L_758D		;756a
 	ld (hl),001h		;756c
 	call 044ech		;756e   ; musica_de_la_sala: 0xC602 a cero y elige la musica de la sala (0xC159, 0xC0F4) y 0xC15F
-	ld a,(ix+000h)		;7571
+	ld a,(ix+000h)		;7571   ; lee el tipo del actor
 	and 07fh		;7574
 	sub 011h		;7576
 	jr nz,L_758D		;7578
 	inc a			;757a
-	ld (0c13ch),a		;757b
+	ld (0c13ch),a		;757b   ; guarda la cuenta atras en marcha
 	ld hl,03000h		;757e
-	ld (0c13dh),hl		;7581
+	ld (0c13dh),hl		;7581   ; guarda la cuenta atras (BCD, 16 bits) y el byte siguiente (16 bits)
 	ld a,l			;7584
 	ld (0c4b2h),a		;7585
 	ld a,053h		;7588
 	call 04284h		;758a   ; sonido: pide el sonido A al controlador del banco 4 (0x67FD) con los bancos 4 y 5
 L_758D:
-	ld a,(ix+000h)		;758d
+	ld a,(ix+000h)		;758d   ; lee el tipo del actor
 	and 07fh		;7590
 	cp 011h		;7592
 	jr z,muriendo_metal_gear		;7594
-	ld a,(ix+00ch)		;7596
+	ld a,(ix+00ch)		;7596   ; lee la cuenta de cuadros del actor
 	cp 005h		;7599
 	ld hl,07647h		;759b
 	ld c,07fh		;759e
@@ -2980,13 +2980,13 @@ L_758D:
 	ld a,001h		;75b6
 	ld (0c610h),a		;75b8
 cuadro_y_colores:		; (ix+0x0B) = C y los colores de HL, uno cada 5 bytes desde (ix+0x25), B sprites
-	ld (ix+00bh),c		;75bb
+	ld (ix+00bh),c		;75bb   ; guarda el cuadro del actor
 	push ix		;75be
 	pop de			;75c0
 	ld a,025h		;75c1
 	call 041e5h		;75c3   ; de_mas_a: DE = DE + A
 	ld b,012h		;75c6
-	ld a,(ix+000h)		;75c8
+	ld a,(ix+000h)		;75c8   ; lee el tipo del actor
 	and 07fh		;75cb
 	cp 009h		;75cd
 	jr z,L_75D7		;75cf
@@ -3002,7 +3002,7 @@ L_75D7:
 	djnz L_75D7		;75df
 	ret			;75e1
 muriendo_metal_gear:		; el tipo 0x11: el color 15 parpadea, cuadros 0x89-0x8E y al final el texto 0x96
-	ld a,(ix+00ch)		;75e2
+	ld a,(ix+00ch)		;75e2   ; lee la cuenta de cuadros del actor
 	and 002h		;75e5
 	ld de,00000h		;75e7
 	jr nz,L_75EF		;75ea
@@ -3010,7 +3010,7 @@ muriendo_metal_gear:		; el tipo 0x11: el color 15 parpadea, cuadros 0x89-0x8E y 
 L_75EF:
 	ld a,00fh		;75ef
 	call 04e66h		;75f1   ; color: el color A de la paleta = DE ([RB][G]), y su copia en 0xF680
-	ld a,(ix+00ch)		;75f4
+	ld a,(ix+00ch)		;75f4   ; lee la cuenta de cuadros del actor
 	cp 005h		;75f7
 	ld hl,07649h		;75f9
 	ld c,089h		;75fc
@@ -3095,7 +3095,7 @@ metal_gear_roto:		; p12:BC36
 	call 0bc36h		;767e   ; dibujo_sin_metal_gear: el dibujo p15:B5F7 en (0x60, 0x20)
 	jp 04248h		;7681   ; bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 muriendo_7:		; tipos 9 y 0x12 se quitan, 0x26 p03:B8C6, 0x11 p12:BC36, 0x2C deja dos fichas en 0xC63B
-	ld a,(ix+000h)		;7684
+	ld a,(ix+000h)		;7684   ; lee el tipo del actor
 	and 07fh		;7687
 	cp 009h		;7689
 	jp z,quita_actor		;768b   ; quita_actor: quita al actor: banderas por tipo (0xA0, 0x9A, 0xA9, 0xA4, 0xA1, 0xA2, 0xB9, 0x12, 0x2C), objeto y musica
@@ -3109,13 +3109,13 @@ muriendo_7:		; tipos 9 y 0x12 se quitan, 0x26 p03:B8C6, 0x11 p12:BC36, 0x2C deja
 	ret nz			;769e
 	xor a			;769f
 	ld (0c616h),a		;76a0
-	ld (ix+000h),a		;76a3
+	ld (ix+000h),a		;76a3   ; guarda el tipo del actor
 	ld hl,0c63bh		;76a6
-	ld a,(ix+003h)		;76a9
+	ld a,(ix+003h)		;76a9   ; lee la Y del actor
 	sub 008h		;76ac
 	ld (hl),a			;76ae
 	inc hl			;76af
-	ld a,(ix+005h)		;76b0
+	ld a,(ix+005h)		;76b0   ; lee la X del actor
 	sub 004h		;76b3
 	ld (hl),a			;76b5
 	call 04acbh		;76b6   ; paleta_de_la_sala: manda al VDP la paleta de la sala (nibble p05:8B40, tabla p05:8BBE)
@@ -3135,7 +3135,7 @@ fichas_de_c63b:		; pinta las dos fichas de 0x7703 (0x7705 en la sala 0x28) en 0x
 	dec hl			;76cf
 	dec hl			;76d0
 L_76D1:
-	ld (ix+00eh),000h		;76d1
+	ld (ix+00eh),000h		;76d1   ; con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x00
 	jr L_76E4		;76d5
 fichas_de_c63b_si_hay:		; fichas_de_c63b si 0xC63B y no 0xC616
 	ld hl,0c63bh		;76d7
@@ -4209,7 +4209,7 @@ L_7D4A:
 	add a,003h		;7d4b
 L_7D4D:
 	ld (0c606h),a		;7d4d
-	ld a,(0c13ch)		;7d50
+	ld a,(0c13ch)		;7d50   ; lee la cuenta atras en marcha
 	or a			;7d53
 	ret nz			;7d54
 	ld a,(0c012h)		;7d55
@@ -4288,7 +4288,7 @@ c900_paso_5:		; 0xC13B = 1, sin arma ni objeto, sala 0xA5, parada 8, Snake en (0
 	ld hl,0c901h		;7dc5
 	dec (hl)			;7dc8
 	ret nz			;7dc9
-	ld hl,0c13bh		;7dca
+	ld hl,0c13bh		;7dca   ; apunta a la bandera de capturado (sin armas ni objetos)
 	ld (hl),001h		;7dcd
 	xor a			;7dcf
 	ld (0c134h),a		;7dd0   ; guarda el arma elegida (p06:B865: 1 HAND GUN, 2 SMG, 3 GRENADE, 4 ROCKET, 5 P.BOMB, 6 L.MINE, 7 MISSILE, 8 SILENCER)
@@ -4485,7 +4485,7 @@ L_7F4A:
 	ld (0c154h),a		;7f53   ; guarda el hueco elegido en la ventana de armas
 	call 043cfh		;7f56
 	call pon_marca		;7f59   ; pon_marca: el caracter 0x3C en 0xC155
-	ld a,(0c13bh)		;7f5c
+	ld a,(0c13bh)		;7f5c   ; lee la bandera de capturado (sin armas ni objetos)
 	and a			;7f5f
 	jr z,L_7F65		;7f60
 	xor a			;7f62
@@ -4513,8 +4513,8 @@ L_7F76:
 	ld c,002h		;7f8a
 	inc hl			;7f8c
 	call 04613h		;7f8d   ; gasta_municion: resta 1 (BCD) a la cantidad de HL y la pinta; con C = 1 o mas, al acabarse quita el arma o el objeto
-	ld a,(0c137h)		;7f90
-	ld (0c131h),a		;7f93
+	ld a,(0c137h)		;7f90   ; lee la vida maxima
+	ld (0c131h),a		;7f93   ; guarda la vida (LIFE)
 	call 09067h		;7f96   ; barra_de_vida: LIFE y la barra 0xC131 sobre el maximo 0xC137
 	jr L_7FCE		;7f99
 L_7F9B:
@@ -4535,7 +4535,7 @@ L_7FAB:
 L_7FB5:
 	cp 006h		;7fb5
 	ret nz			;7fb7
-	ld a,(0c13ch)		;7fb8
+	ld a,(0c13ch)		;7fb8   ; lee la cuenta atras en marcha
 	and a			;7fbb
 	ret z			;7fbc
 	ld c,002h		;7fbd

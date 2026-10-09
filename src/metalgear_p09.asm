@@ -492,7 +492,7 @@ L_AF3B:
 	sub 020h		;af42
 	ret nz			;af44
 	inc a			;af45
-	ld (0c15fh),a		;af46
+	ld (0c15fh),a		;af46   ; guarda la llamada del transceptor (0 pendiente, 1 llamando, 2 ninguna)
 	ld a,022h		;af49
 	jp 0405ah		;af4b   ; sonido_si_hay_y_vuelve: llama a sonido_si_hay (p00:427C) y deja otra vez los bancos 1-2 y el de zona
 L_AF4E:
@@ -1083,7 +1083,7 @@ logotipo_konami_baja:		; descubre el logotipo de Konami linea a linea; al acabar
 	dec (hl)			;b6bf
 	jr nz,L_B6C8		;b6c0
 	ld a,001h		;b6c2
-	ld (0c132h),a		;b6c4
+	ld (0c132h),a		;b6c4   ; guarda la CLASS (0-3 estrellas)
 	ret			;b6c7
 L_B6C8:
 	ld a,031h		;b6c8
