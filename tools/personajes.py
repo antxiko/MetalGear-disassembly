@@ -22,6 +22,12 @@ Todo sale de rutinas del listado, citadas en cada funcion.
     0xD10D. Con otro orden el golpe no quita nada (jr nz, L_8D32).
   - Sprites por tipo p05:971B + tipo (lo de sprites.py) y salas donde lo
     crea p00:564C (sprites.actores_de_sala).
+  - Objetos (p02:8DAB-8F2E): el numero va a 0xEC01; las armas (1-7) van
+    a la lista 0xC500 (7 fichas de 4 bytes, L_43E8) y el resto a 0xC530
+    (25, L_43E1). L_8F1F suma en BCD al contador p05:8AE8 + objeto - 1
+    (los objetos 9 en adelante siempre, p02:8DCB/8DF7; las armas solo si
+    ya la llevas, p02:8E11-8E14). El 35 (p02:8E9F) suma 0x20, 0x20, 0x06 y 0x02
+    a las armas 1-4 que lleves.
 Los nombres de tipo son los de Pazos (constants/Enums.asm), solo como
 referencia acreditada; los de arma, del menu (p06:B865).
 """
@@ -69,6 +75,14 @@ def orden_de_metal_gear():
     return [leer(2, 0x8D3B + i) for i in range(16)]
 
 
+MUNICION_DEL_35 = {1: 0x20, 2: 0x20, 3: 0x06, 4: 0x02}   # p02:8EA5/8EB0/8EBB/8EC6
+
+
+def suma_de_objeto(o):
+    """p02:8F20-8F27: lo que se suma en BCD al contador del objeto o."""
+    return leer(BANCO, 0x8AE8 + o - 1)
+
+
 def golpes(arma, tipo):
     """Cuantos golpes del arma hacen falta para dejar (ix+0x0D) a 0."""
     d, v = dano(arma, tipo), aguante(tipo)
@@ -101,6 +115,13 @@ def main(argv):
         print("%4d  %-18s %7s  " % (t, f["pazos"], "-" if a == 0xFF else a)
               + " ".join("%8s" % ("-" if f["dano"][w] is None else f["dano"][w]) for w in ARMAS)
               + "  %d" % len(f["salas"]))
+    import pagina1 as P1
+    print("\nobjeto  nombre    suma (p05:8AE8 + objeto - 1)")
+    for o in range(1, 36):
+        n = NOMBRE_DE_ARMA.get(o) or P1.nombre_de_objeto(o) or "-"
+        print("%6d  %-8s  0x%02X" % (o, n, suma_de_objeto(o)))
+    print("objeto 35 (p02:8E9F): %s" % ", ".join(
+        "0x%02X a %s" % (v, NOMBRE_DE_ARMA[w]) for w, v in MUNICION_DEL_35.items()))
     print("\nMetal Gear con %s: orden p02:8D3B (el ultimo golpe primero): %s"
           % (NOMBRE_DE_ARMA[5], " ".join(str(b) for b in orden_de_metal_gear())))
 

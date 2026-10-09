@@ -33,6 +33,17 @@ class TestPersonajes(unittest.TestCase):
         self.assertEqual(len(o), 16)
         self.assertEqual(set(o), {1, 2})
 
+    def test_las_cartas_suman_su_digito(self):
+        """p05:8AE8 se lee con objeto - 1 (p02:8F23 dec a): CARD1-CARD8
+        (objetos 22-29 en p06:B8F6) caen en '1'-'8' y la RATIO (30) en 1."""
+        import personajes as P
+        import pagina1 as P1
+        for k in range(8):
+            self.assertEqual(P1.nombre_de_objeto(22 + k), "CARD%d" % (k + 1))
+            self.assertEqual(P.suma_de_objeto(22 + k), 0x31 + k)
+        self.assertEqual(P.suma_de_objeto(30), 1)
+        self.assertEqual([P.suma_de_objeto(w) for w in P.ARMAS], [0, 0, 0, 0, 5, 5, 5])
+
 
 if __name__ == "__main__":
     unittest.main()

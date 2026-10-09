@@ -350,9 +350,10 @@ DATA_forma_8A14:
 	defb 010h	; 8a54
 
 ; ----------------------------------------------------------------------
-; DATOS formas_de_los_proyectiles: 28 fichas de 4 bytes, tipos 1-28, que
-;   p00:43B4 copia a 0xC928 (0x8A55 + 4 x (tipo - 1)); lo leen p00:43B4 (112
-;   bytes)
+; DATOS formas_de_los_proyectiles: 28 cajas de choque de 4 bytes, que p00:43B4
+;   copia a 0xC928: p02:8C8D lee el byte de caja del tipo (forma_8951/8992),
+;   le suma 1 (inc a, 0xFF = no choca) y L_42BD le vuelve a restar 1: la caja
+;   c esta en 0x8A55 + 4 x c; lo leen p00:43B4 (112 bytes)
 ;   0x8a55..0x8ac5  (112 bytes)
 DATA_formas_de_los_proyectiles:
 	defb 0f0h,010h,000h,008h	; 8a55
@@ -385,9 +386,11 @@ DATA_formas_de_los_proyectiles:
 	defb 000h,014h,000h,010h	; 8ac1
 
 ; ----------------------------------------------------------------------
-; DATOS texto_al_coger_cada_objeto: 35 bytes, uno por objeto: el numero de
-;   texto que sale al cogerlo (p00:43A3 lo lee en 0x8AC5 + objeto - 1 desde
-;   p02); lo leen p00:43A3 (35 bytes)
+; DATOS texto_al_coger_cada_objeto: 35 bytes, uno por objeto (p02:8F11 ->
+;   L_43A3: 0x8AC5 + objeto - 1, solo si el byte 4 de su ficha en 0xC5D0 es
+;   0); p02:8F17-8F1C solo hace algo si vale 0x3E (el objeto 34): saca ese
+;   texto con L_5CE1. Los otros 34 valores no los usa nadie a la vista; lo
+;   leen p00:43A3 (35 bytes)
 ;   0x8ac5..0x8ae8  (35 bytes)
 DATA_texto_al_coger_cada_objeto:
 	defb 010h,038h,02eh,077h,045h,012h,01dh,02bh,041h,043h,060h,04bh,097h,000h,055h,062h	; 8ac5  .8.wE..+AC`K..Ub
@@ -395,8 +398,10 @@ DATA_texto_al_coger_cada_objeto:
 	defb 028h,03eh,015h	; 8ae5
 
 ; ----------------------------------------------------------------------
-; DATOS unidades_de_cada_objeto: 35 bytes, uno por objeto: cuantas unidades da
-;   (p00:43AC lee 0x8AE8 + objeto); lo leen p00:43AC (35 bytes)
+; DATOS unidades_de_cada_objeto: 35 bytes, uno por objeto: lo que L_8F27 suma
+;   en BCD (daa) al contador del objeto si ya lo llevas (p02:8F20-8F24: 0x8AE8
+;   + objeto - 1): 5 con las armas 5-7, el digito '1'-'8' con CARD1-8 (objetos
+;   22-29) y 1 con la RATIO (30); lo leen p00:43AC (35 bytes)
 ;   0x8ae8..0x8b0b  (35 bytes)
 DATA_unidades_de_cada_objeto:
 	defb 000h,000h,000h,000h,005h,005h,005h,000h,000h,000h,000h,000h,000h,000h,000h,000h	; 8ae8  ................

@@ -698,14 +698,20 @@ def banco5():
                 "65 bytes, uno por tipo de actor, que %s carga en HL y lee por "
                 "p00:439C/p00:43A3 (HL + tipo, con 4-5-6 puesto)" % lec, lec, F=16)
     declara(T, 0x8A55, 0x8AC5, "formas_de_los_proyectiles",
-            "28 fichas de 4 bytes, tipos 1-28, que p00:43B4 copia a 0xC928 "
-            "(0x8A55 + 4 x (tipo - 1))", "p00:43B4", F=4)
+            "28 cajas de choque de 4 bytes, que p00:43B4 copia a 0xC928: "
+            "p02:8C8D lee el byte de caja del tipo (forma_8951/8992), le suma 1 "
+            "(inc a, 0xFF = no choca) y L_42BD le vuelve a restar 1: la caja c "
+            "esta en 0x8A55 + 4 x c", "p00:43B4", F=4)
     declara(T, 0x8AC5, 0x8AE8, "texto_al_coger_cada_objeto",
-            "35 bytes, uno por objeto: el numero de texto que sale al cogerlo "
-            "(p00:43A3 lo lee en 0x8AC5 + objeto - 1 desde p02)", "p00:43A3", F=16)
+            "35 bytes, uno por objeto (p02:8F11 -> L_43A3: 0x8AC5 + objeto - 1, "
+            "solo si el byte 4 de su ficha en 0xC5D0 es 0); p02:8F17-8F1C solo "
+            "hace algo si vale 0x3E (el objeto 34): saca ese texto con L_5CE1. "
+            "Los otros 34 valores no los usa nadie a la vista", "p00:43A3", F=16)
     declara(T, 0x8AE8, 0x8B0B, "unidades_de_cada_objeto",
-            "35 bytes, uno por objeto: cuantas unidades da (p00:43AC lee 0x8AE8 "
-            "+ objeto)", "p00:43AC", F=16)
+            "35 bytes, uno por objeto: lo que L_8F27 suma en BCD (daa) al "
+            "contador del objeto si ya lo llevas (p02:8F20-8F24: 0x8AE8 + "
+            "objeto - 1): 5 con las armas 5-7, el digito '1'-'8' con CARD1-8 "
+            "(objetos 22-29) y 1 con la RATIO (30)", "p00:43AC", F=16)
     declara(T, 0x8B0B, paleta(T, 0x8B0B), "paleta_del_menu_de_armas",
             "ternas [registro][RB][G] hasta 0xFF (p00:4A95 -> L_4EC4)", "p00:4A95", F=3)
     declara(T, 0x8B1E, paleta(T, 0x8B1E), "paleta_del_transceptor",
