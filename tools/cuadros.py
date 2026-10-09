@@ -160,12 +160,13 @@ FORMULAS = {
              (list(range(0, 8)), "p03:A920-A930 llamada desde la rutina del tipo (p03:AB44, AB81, AD8D, ADD7, BD27, BD5A); (ix+0x1B) = 0: p00:562C limpia las fichas 0xD000-0xD7FF y estos tipos no llegan a p03:A983", {13, 14, 28})],
     0xA93C: [(list(range(8, 12)) + list(range(81, 85)), "p03:A934-A93C: direccion (1-4) + 7 + (ix+0x1B), 0 o 0x49 como arriba", {10, 11}),
              (list(range(8, 12)), "p03:A934-A93C con (ix+0x1B) = 0 (p03:AD31, ADA4, ADF1, BCB5, BD0B, BD40)", {13, 14, 28})],
-    0x9EDF: (list(range(28, 32)), "p02:9EC8-9EDF: 0x1C + el byte de la tabla p02:9EF6 de la sala (0-3)", {6}),
+    0x9EDF: (list(range(28, 32)), "p02:9EC8-9EDF: 0x1C + el byte de la tabla p02:9EF6 de la sala (0-3); el laser (53) entra en p02:9E99 y sigue el mismo camino desde p02:9EAB", {6, 53}),
     0xBC8B: ([130, 131, 132, 133], "p03:BC7C-BC8B: 0x7C + 2 x direccion (3 o 4, p03:BBA4) + paso (bit 2 de (ix+0x0C))", {26}),
     0xBBC5: ([130, 132], "p03:BBBB-BBC5: 0x82 + 2 x (bit al azar)", {26}),
     0xB1CA: (list(range(98, 106)), "p03:B1BC-B1CA: 0x60 + 2 x direccion (ix+0x11, 1-4: p03:B1D1 lee 0xB1DC + 2 x direccion) + bit 2 de (ix+0x0C)", {31}),
     0xB0DE: (list(range(85, 89)), "p03:B0D9-B0DE: 0x54 + direccion (ix+0x11, 1-4)", {20, 21, 22}),
     0xB0E7: (list(range(89, 93)), "p03:B0E2-B0E7: 0x58 + direccion (ix+0x11, 1-4)", {20, 21, 22}),
+    0x5B9A: ([58, 59, 60], "p00:5B78-5B9A desde p03:A0F7 (C = 0x3A): 0x3A + 3 x direccion (0: nadie la escribe) + 1, 2, 1, 0 de p00:5B9E; tras p03:A0E3 (0x3A). Las listas son de un sprite (grupo 0xA4): el segundo coge el byte siguiente como patron y lleva color 0 (p05:975A), no se ve", {64}),
     0xAF25: ([9, 10, 11], "p03:AF13-AF25: 9 con el bit 1 de (ix+0x15), si no 10 con el bit 7 de (ix+5), si no 11", {57}),
     0x5B35: (list(range(8, 12)), "p00:5B01-5B35: 8 + direccion; el registro sale de p06:A2DF[sala] por el orden del actor entre los de su tipo (L_5BAF), [cuenta][direcciones], y en las salas de los centinelas las direcciones son 0-3", {48}),
     0xBE80: (list(range(65, 73)), "p03:BE73-BE80: 0x3F + 2 x direccion (ix+0x11, 1-4) + 1 si el bit 1 de (ix+0x0C) es 0", {32}),
@@ -176,6 +177,16 @@ FORMULAS = {
 # ((ix+0x20) = B): 0x6A-0x6C con 2 sprites; 0x7F-0x81 con 18 para los
 # tipos 9 y 18 (p01:75C6-75D3). [(cuadro, sprites)]
 EXPLOSIONES = [(106, 2), (107, 2), (108, 2), (127, 18), (128, 18), (129, 18)]
+
+
+# Cuadros fijos que pone la rutina de creacion del tipo y cuya lista es mas
+# larga que su cuenta de sprites: el juego lee solo el principio (p00:5526)
+# y no se sale. {tipo: (cuadros, donde)}
+FIJOS_LEIDOS = {
+    23: ([126], "p03:BB18 (grupo 0x95: patrones 0x54 y 0x58)"),
+    60: ([114], "p03:B816 (grupo 0x95: patron 0x50)"),
+    62: ([114], "p03:BB28 (grupo 0x95: patron 0x50)"),
+}
 
 
 def formulas_de(a):
@@ -199,12 +210,15 @@ def cuadros_por_tipo(t, codigo=None, tablas=None):
     crear, _ = cuadros_de(alcanzable([e[0]], codigo, tablas, t), codigo)
     todos, calc = cuadros_de(alcanzable(e, codigo, tablas, t), codigo)
     todos = set(todos)
+    leidos = set(FIJOS_LEIDOS.get(t, ([], ""))[0])   # leidos para este tipo
+    todos |= leidos
     sin = []
     for a, v in calc:
         valen = [f for f in formulas_de(a) if f[2] is None or t in f[2]]
         if valen:
             for f in valen:
                 todos |= set(f[0])
+                leidos |= set(f[0])
         elif a in (0x7555, 0x75BB):
             continue                      # explosiones: EXPLOSIONES, con otra cuenta de sprites
         else:
@@ -212,9 +226,11 @@ def cuadros_por_tipo(t, codigo=None, tablas=None):
     # El analisis sigue los dos lados de cada salto condicional, asi que
     # coge cuadros de rutinas vecinas de otro tipo (p03:A4A2-A4FF: el
     # lanzallamas y su llama). La cuenta de sprites del tipo (p05:971C)
-    # tiene que ser la de la lista del cuadro: si no, no es suyo.
+    # tiene que ser la de la lista del cuadro: si no, no es suyo. Lo que
+    # sale de una formula leida para el tipo no pasa por este filtro.
     n = SP.sprites_por_tipo(t)
-    ajenos = sorted(c for c in todos if SP.largo_de_cuadro(c) != n)
+    ajenos = sorted(c for c in todos if SP.largo_de_cuadro(c) != n and c not in leidos)
+    crear = sorted(set(crear) | set(FIJOS_LEIDOS.get(t, ([], ""))[0]))
     crear = [c for c in crear if c not in ajenos]
     todos = [c for c in sorted(todos) if c not in ajenos]
     return dict(crear=crear, todos=todos, calculados=sin, ajenos=ajenos)

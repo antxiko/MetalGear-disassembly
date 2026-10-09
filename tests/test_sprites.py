@@ -110,11 +110,15 @@ class Sprites(unittest.TestCase):
             self.assertEqual(SP.largo_de_cuadro(c), n, "cuadro %d" % c)
         # y los cuadros que el listado da a cada tipo son de su cuenta de sprites
         codigo, tablas = C.lee_listado(), C.tablas_nocode()
-        for t in (4, 9, 13, 14, 18, 20, 25, 26, 28, 31, 32, 33, 34, 36, 38, 48, 57):
+        for t in (4, 9, 13, 14, 18, 20, 25, 26, 28, 31, 32, 33, 34, 36, 38, 48, 53, 57):
             cu = C.cuadros_por_tipo(t, codigo, tablas)
             self.assertTrue(cu["todos"], "tipo %d sin cuadros" % t)
             for c in cu["todos"]:
                 self.assertEqual(SP.largo_de_cuadro(c), SP.sprites_por_tipo(t))
+        # las balas leen solo el principio de una lista mas larga, y el
+        # letrero del 64 una mas corta con un segundo sprite de color 0
+        for t in (23, 60, 62, 64):
+            self.assertTrue(C.cuadros_por_tipo(t, codigo, tablas)["todos"], "tipo %d" % t)
 
     def test_los_proyectiles_de_las_armas(self):
         """p02:8140 da 1, 1, 2, 4, 4, 2, 4 sprites a las armas 1-7; la bala
