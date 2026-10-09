@@ -14,6 +14,196 @@ F 0xB542 2
 D 0xB68F 0xB693 patrones_b68f  4 numeros de patron (0x5E, 0x5F, 0x60, 0x5F) que p03:B67E lee con los bits 1-2 de (ix+0x0C)
 D 0xB9AB 0xB9B1 palabras_b9ab  3 palabras, tipos de actor 0x73-0x75: p03:B998 lee 0xB9AB + 2 x (tipo - 0x73) con L_42B4 y las guarda en (ix+0x25)/(ix+0x2A)
 F 0xB9AB w3
+C 0xA04D en la sala 0x6F...
+C 0xA051 ...3 sprites...
+C 0xA058 ...y los 7 huecos de sprite de antes se devuelven
+C 0xA065 (ix+0x58) = 0x0B: los sprites que faltan
+C 0xA069 (ix+0x59) = 1: la cuenta
+C 0xA06D el sonido 4
+C 0xA07E paso 0: cada (ix+0x59) cuadros...
+C 0xA086 ...un sprite mas se enciende
+C 0xA08B al acabar, al paso 1
+C 0xA096 el sprite 11 - (ix+0x58)...
+C 0xA09C ...en el color 8
+C 0xA09E HL = la ficha + 0x20
+C 0xA0A8 + 5 x B: el color del sprite B
+C 0xA0AB = C
+C 0xA0AD paso 1: el color 14 o 8 cada 4 cuadros
+C 0xA0BB cada (ix+0x59) cuadros...
+C 0xA0C3 ...un sprite se apaga
+C 0xA0C8 al acabar, se quita
+C 0xA0CB el sprite 11 - (ix+0x58)...
+C 0xA0D1 ...en el color 0
+C 0xA0D5 paso 2: nada
+C 0xA234 al pasar de 7...
+C 0xA235 ...vuelve al 6...
+C 0xA239 ...o, al pasar de 0, al 1
+C 0xA23E y el sentido cambia
+C 0xA26A busca los actores del tipo 0x25 (las llamas)
+C 0xA273 el tipo 0x25
+C 0xA275 uno mas, y su ficha a la pila
+C 0xA27A la ficha siguiente
+C 0xA27D ninguna: nada
+C 0xA281 (ix+0x3F) = cuantas...
+C 0xA28A ...y sus fichas detras
+C 0xA28B una ficha de la pila
+C 0xA295 al paso siguiente
+C 0xA2A2 Snake a la derecha: cuadro 0x2C y X + 2
+C 0xA2A9 a la izquierda: cuadro 0x28 y X - 2
+C 0xA2B4 paso 2: alterna el cuadro cada 4
+C 0xA2BC hasta la X 0x80...
+C 0xA2C1 ...o la 0x60
+C 0xA2C5 queda justo ahi
+C 0xA2CB (ix+0x17) = su Y, (ix+0x19) = su X
+C 0xA2D5 las llamas, 0x0B por debajo...
+C 0xA2D8 ...y en su X
+C 0xA2DC +3 y +5 de los actores 1, 2... (0xD083, de 0x80 en 0x80)
+C 0xA2E9 quieto
+C 0xA2F1 cada llama de la lista:
+C 0xA2FC +0x3E + 2 x n: su ficha
+C 0xA30A IX = la llama
+C 0xA30C (ix+0x72) = 0 y choca con todo
+C 0xA314 colores 8 y 0x46
+C 0xA319 la siguiente
+C 0xA31B IX = el tipo 36 otra vez
+C 0xA31F 0x10 cuadros
+C 0xA323 el paso siguiente
+C 0xA327 paso 3: la llama crece 0x10 cuadros
+C 0xA32C luego 0x50 cuadros del paso 4
+C 0xA332 el largo: 0x10 - la cuenta
+C 0xA33A los desplazamientos de cada llama en (ix+0x50)...
+C 0xA344 ...de C en C
+C 0xA346 [dy] = n x C, [dx] = 0
+C 0xA34E las llamas a su sitio
+C 0xA351 paso 4: la llama ondea
+C 0xA356 luego (ix+0x3F) + 1 cuadros del paso 5
+C 0xA35F el angulo (ix+0x14) avanza (ix+0x1A)
+C 0xA369 entre 0x18...
+C 0xA36E ...y 0x3F
+C 0xA373 al salir, rebota...
+C 0xA37C ...y el cuarto (ix+0x15) siguiente
+C 0xA385 el cuadro por el angulo: 0x2F...
+C 0xA38E ...0x2E en los cuartos 1 y 2...
+C 0xA399 ...0x30 en los otros
+C 0xA3A1 el coseno / 16: el paso X
+C 0xA3AB en los cuartos 1 y 2, hacia el otro lado
+C 0xA3B9 (ix+0x51) = el paso X
+C 0xA3BC el seno / 16: el paso Y
+C 0xA3CD (ix+0x50) = el paso Y
+C 0xA3D0 H = cuantas llamas
+C 0xA3D6 los desplazamientos (ix+0x50)
+C 0xA3DA C = el paso Y
+C 0xA3E0 [dy] de cada llama = n x paso
+C 0xA3E6 vuelve al primero
+C 0xA3F1 C = el paso X
+C 0xA3F6 [dx] de cada llama = n x paso
+C 0xA3FC HL = (ix+0x50): los desplazamientos
+C 0xA404 (ix+0x3F): cuantas llamas
+C 0xA40D la ficha de la llama
+C 0xA413 IY = la llama
+C 0xA418 +3: su Y
+C 0xA41C [dy] tambien en (iy+0x50)
+C 0xA421 la Y = (ix+0x17) + dy
+C 0xA426 +5: su X
+C 0xA427 [dx] tambien en (iy+0x51)
+C 0xA42D la X = (ix+0x19) + dx
+C 0xA434 la siguiente
+C 0xA439 paso 5: las llamas se apagan una a una
+C 0xA43E la llama n - 1...
+C 0xA442 ...+0x40 + 2 x n: su ficha
+C 0xA451 IX = la llama
+C 0xA453 (ix+0x72) = 1: apagada...
+C 0xA457 ...no choca...
+C 0xA45B ...y transparente
+C 0xA460 IX = el tipo 36
+C 0xA463 al acabar: otra vez desde el principio
+C 0xA469 al paso 1
+C 0xA46E la Y y la X (16 bits) de (ix+0x16)...
+C 0xA47E ...mas las velocidades
+C 0xA485 de la Y a la X
+C 0xA48D al pasar la X 0x80, hacia la izquierda...
+C 0xA499 ...al bajar de 0x60, hacia la derecha
+C 0xA4A2 con 0xC627 no aparece
+C 0xA4A8 (ix+0x73) = 2 cuadros
+C 0xA4AC hasta 2 del tipo 0x33
+C 0xA4B9 el angulo sube de 4 en 4...
+C 0xA4BD ...desde 0x3F...
+C 0xA4C1 ...en el cuarto 2
+C 0xA4CF (ix+0x17) = su Y, (ix+0x19) = su X
+C 0xA4D5 hacia la izquierda a 2 puntos
+C 0xA4DD con 0xC628 no aparece
+C 0xA4E4 hasta 5 del tipo 0x34
+C 0xA4F2 la cuenta al azar
+C 0xA4FA quieto
+C 0xA502 con 0xC627, se borra
+C 0xA509 sin tipo 0x24, se quita
+C 0xA512 alterna el cuadro cada 8
+C 0xA517 con color, nada mas
+C 0xA51C (ix+0x70): a que lado mira
+C 0xA523 0: se enciende en la mitad derecha...
+C 0xA52A ...1: en la izquierda
+C 0xA52D apagada (ix+0x72): nada
+C 0xA532 colores 8 y 0x46
+C 0xA538 (ix+0x70) = el signo de (ix+0x51)
+C 0xA544 colores 0: transparente
+C 0xA54C paso 1: el vaiven
+C 0xA550 paso 0: busca los actores del tipo 2
+C 0xA559 el tipo 2
+C 0xA55B uno mas, y su ficha a la pila
+C 0xA560 la ficha siguiente
+C 0xA563 ninguno: al paso 1
+C 0xA567 (ix+0x30) = cuantos...
+C 0xA570 ...y sus fichas detras
+C 0xA571 una ficha de la pila
+C 0xA578 las velocidades de 0xA5E4
+C 0xA57B C = cuantos
+C 0xA585 la ficha del tipo 2
+C 0xA58A (ix+0x13, 0x14) = por donde va la lista
+C 0xA591 +7, +8: la velocidad Y a cero
+C 0xA59C +9, +0x0A: la velocidad X de la tabla
+C 0xA5A4 el siguiente
+C 0xA5B0 cada 0x20 cuadros...
+C 0xA5B8 ...a cada uno del tipo 2...
+C 0xA5C2 la ficha
+C 0xA5CD +9: la velocidad X...
+C 0xA5D4 ...cambia de signo
+C 0xA5DA el siguiente
+C 0xA637 cada B cuadros
+C 0xA639 el alto (ix+0x15) crece 2...
+C 0xA641 ...hasta 0x40
+C 0xA645 abierta del todo: (ix+0x16) = 0x16, (ix+0x18) = 0x40, (ix+0x17) = 0xA0
+C 0xAF8C H = la X - 8
+C 0xAF90 L = la Y - 8
+C 0xAF97 x 16
+C 0xB4D4 (ix+0x17) = A
+C 0xB4D7 0: los colores de 0xE7...
+C 0xB4DE ...1: de 0x19
+C 0xB5A4 cada (ix+0x13) cuadros...
+C 0xB5A8 ...mientras queden del tipo 0x1B (0xC62E)...
+C 0xB5B0 ...uno menos...
+C 0xB5B1 ...0x30 cuadros...
+C 0xB5B5 ...en (ix+0x15, ix+0x16)...
+C 0xB5BB ...crea uno del tipo 0x1B
+C 0xA79A sin cuenta de refuerzos...
+C 0xA79D ...en la sala 0xD8
+C 0xA7A1 en las 0xBB, 0x9A y 0x58-0x5C...
+C 0xA7AE ...0xC606 = 0x0A y la cuenta 0x10-0x1F al azar
+C 0xA7B7 0xC605 = la cuenta, 0xC606 = cuantos
+C 0xAE00 la X al azar: -0x40 a +0x3F...
+C 0xAE0F ...la Y a 5 puntos hacia el centro
+C 0xAE1A la Y al azar: -0x40 a +0x3F...
+C 0xAE2A ...la X a 5 puntos hacia el centro
+C 0xAE41 el sonido 5
+C 0xB55F Snake a menos de 0x30 en X...
+C 0xB562 ...y en la franja Y 0x18 por arriba...
+C 0xB56B ...0x18 cuadros y al paso siguiente
+C 0xB572 |dy| a Snake
+C 0xB578 menos de 0x30...
+C 0xB57B ...y en la franja X 0x20 a cada lado...
+C 0xB584 ...0x18 cuadros y al paso siguiente
+C 0xB871 el cuadro siguiente...
+C 0xB877 ...0, 1, 2 y vuelta...
+C 0xB87F ...0x86-0x88
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0xA078 0xA07E tabla_A078  3 destinos del despachador p00:41EA (call en p03:A075, el indice en A): A07E, A0AD, A0D5; lo leen p03:A075 (6 bytes)
@@ -251,7 +441,6 @@ C 0xA24C lee el paso del actor
 C 0xA24F despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 C 0xA262 sube el paso del actor
 C 0xA267 ventana_de_texto_1: abre la ventana del texto A en el modo 1 (0xCEE0)
-C 0xA26A apunta a los 16 actores (fichas de 0x80)
 C 0xA292 hacia_snake_de_lado: velocidad X de 2 hacia Snake y cuadro 0x2C/0x28
 C 0xA298 si el actor se mueve (p01:7336) = 0x01
 C 0xA29C lee la X de Snake
@@ -260,7 +449,6 @@ C 0xA2AE guarda el cuadro del actor
 C 0xA2B1 velocidad_x: la velocidad X del actor (ix+9, ix+0x0A) = DE
 C 0xA2B6 alterna_cuadro: si (ix+0x0C) AND B es 0, cambia el bit 0 del cuadro
 C 0xA2B9 lee la X del actor
-C 0xA2C5 guarda la X del actor
 C 0xA2C8 lee la Y del actor
 C 0xA2D1 el cuadro del actor = 0x2F
 C 0xA2EE velocidades: la velocidad X del actor = DE y la Y = HL
@@ -268,11 +456,9 @@ C 0xA2F9 guarda la casilla de trabajo 0xEC00 y el byte siguiente (16 bits)
 C 0xA300 lee la casilla de trabajo 0xEC00 y el byte siguiente (16 bits)
 C 0xA303 hl_mas_a: HL = HL + A
 C 0xA315 colores_8_46: A = 8, C = 0x46 y pone los colores
-C 0xA31B lee la casilla de trabajo 0xEC00 y el byte siguiente (16 bits)
 C 0xA39B guarda el cuadro del actor
 C 0xA39E pareja_del_angulo: C y B = los bytes (ix+0x14) y 63 - (ix+0x14) de la tabla p06:A6B9
 C 0xA44A hl_mas_a: HL = HL + A
-C 0xA463 tipo_36_empieza: los valores de partida del tipo 36 y velocidad X de -2
 C 0xA466 hacia_snake_de_lado: velocidad X de 2 hacia Snake y cuadro 0x2C/0x28
 C 0xA46B paso_a: el paso del actor (ix+1) = A
 C 0xA472 lee la velocidad Y del actor
@@ -293,9 +479,7 @@ C 0xA50B cuenta_tipo: A = cuantos actores del tipo A hay
 C 0xA514 alterna_cuadro: si (ix+0x0C) AND B es 0, cambia el bit 0 del cuadro
 C 0xA520 lee la X del actor
 C 0xA549 lee el paso del actor
-C 0xA550 apunta a los 16 actores (fichas de 0x80)
 C 0xA5AD paso_siguiente: sube el paso del actor (ix+1)
-C 0xA5D4 de_negado: DE = -DE
 C 0xA5F4 sube si el actor se mueve (p01:7336)
 C 0xA5F7 el cuadro del actor = 0x35
 C 0xA5FF con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x01
@@ -342,7 +526,6 @@ C 0xA786 guarda la velocidad X del actor
 C 0xA78C la cuenta de espera del actor = 0x14
 C 0xA791 guarda si el actor se mueve (p01:7336)
 C 0xA797 lee la sala
-C 0xA7B7 guarda la cuenta de los refuerzos y el byte siguiente (16 bits)
 C 0xA7BB ficha_del_tipo_10: las fichas bajo el actor: (ix+0x1B) segun la ficha que pisa
 C 0xA7BE lee el paso del actor
 C 0xA7C1 despacha: salta a la palabra A de la tabla que va pegada detras del `call`

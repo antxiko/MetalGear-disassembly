@@ -1,6 +1,139 @@
 # notas del banco 06
 
 # --- A MANO: comentarios, nombres y bloques ---
+C 0xBB8E 0xBBD8: el objeto que suelta cada caso (A)
+C 0xBB94 el objeto...
+C 0xBB95 ...en 0xC5C1 con su Y y su X...
+C 0xBB9E ...y 0xFF detras
+C 0xBBA0 C = 1 con los objetos 0x1E y 0x23 (no guardan fondo: 16 de ancho)
+C 0xBBAB solo uno a la vez (0xC5C0)
+C 0xBBB4 si el primer hueco de objetos esta ocupado, nada
+C 0xBBBB copia el objeto al primer hueco
+C 0xBBC1 vuelve al +1 de la ficha...
+C 0xBBC8 ...con el bit de ancho C
+C 0xBBC9 y lo pinta (un objeto, el primero)
+C 0xBBD3 el sonido 0x25
+C 0xBBDD los 3 huecos de objetos (0x30 bytes) a cero
+C 0xBBEC solo en las salas 0x7A-0xD9
+C 0xBBF4 p06:B9EF: un byte por sala, la lista de objetos
+C 0xBBFC 0: sin objetos
+C 0xBBFE p06:BA50: las listas
+C 0xBC07 [objeto][Y][X]; 0xFF acaba
+C 0xBC0C el objeto 4 solo con 0xC661 (el texto 0x75)
+C 0xBC15 las armas (1-8) se miran en 0xC520...
+C 0xBC1D ...los objetos en 0xC5A0
+C 0xBC28 ya cogido: el siguiente de la lista
+C 0xBC31 +0: el objeto
+C 0xBC36 +2: la Y
+C 0xBC3A +3: la X
+C 0xBC3E +4 a cero
+C 0xBC40 la ficha siguiente (0x10)
+C 0xBC4B 3 objetos desde el 0
+C 0xBC4F vacio: el siguiente
+C 0xBC55 las armas: su dibujo en p06:B855...
+C 0xBC5C ...los objetos en p06:B8C0
+C 0xBC66 bit 0: 16 de ancho, en +1
+C 0xBC6D el fondo se guarda en (0xB0, 0xA0), (0xC0, 0xA0) o (0xD0, 0xA0)
+C 0xBC7F 32 x 16 o 16 x 16
+C 0xBC85 el sitio del objeto
+C 0xBC8B de la pagina 0 a la 1
+C 0xBC93 el dibujo: [X][Y] en la pagina 1
+C 0xBC99 en el sitio del objeto
+C 0xBC9F de la pagina 1 a la 0 con TIMP
+C 0xBCA5 la ficha siguiente
+C 0xBCB1 el guion siguiente (0-3)
+C 0xBCBA p06:BD8F: los 4 guiones
+C 0xBCC0 [cuadros]...
+C 0xBCC5 ...[teclas]
+C 0xBCC9 0xC00D = por donde va
+C 0xBCCD el guion 1: la sala 5
+C 0xBCD3 el 2: el transceptor
+C 0xBCD6 el 3: la sala 0x1F con la HAND GUN
+C 0xBCDF el 0 (y el 2): el transceptor, frecuencia 120.85, vida 0x10
+C 0xBCEC la barra de senal a cero
+C 0xBCFD la sala 5
+C 0xBD04 la sala 0x1F...
+C 0xBD09 ...con la HAND GUN elegida y en la lista
+C 0xBD14 la sala nueva
+C 0xBD17 sin 0xF0F7, la musica 0x2C
+C 0xBD25 Snake en (0x70, 0x10) o (0x28, 0x70)
+C 0xBD39 0xC123 = 1: la demo en marcha
+C 0xBD3F los guiones 1 y 3: un cuadro de juego (p00:415E)
+C 0xBD46 el 0 y el 2, por pasos (0xC009):
+C 0xBD4F paso 0: la barra de senal...
+C 0xBD52 ...al acabar, el texto 0x24
+C 0xBD5F paso 1: la ventana de texto...
+C 0xBD62 ...hasta volver al modo 4
+C 0xBD6D la cuenta de la pareja
+C 0xBD73 la siguiente pareja
+C 0xBD78 0xFF: se acaba
+C 0xBD7C [cuadros]
+C 0xBD80 0xC00D = por donde va
+C 0xBD83 las teclas de la pareja...
+C 0xBD87 ...como si se pulsaran
+C 0xBD8A la demo acabo
+C 0xBDF8 tras el texto de Metal Gear, no
+C 0xBDFD p06:BE64: 31 parejas [sala][parada]
+C 0xBE00 D = la sala, E = de donde viene
+C 0xBE0A la sala...
+C 0xBE0F ...y la parada
+C 0xBE13 la pareja siguiente
+C 0xBE17 A = 0: devuelve
+C 0xBE1B 0xC199 a cero
+C 0xBE20 A = 1: guarda
+C 0xBE26 el sentido
+C 0xBE29 la copia en 0xCA00
+C 0xBE2C p06:BE51: [direccion][largo] de cada bloque
+C 0xBE2F 0xFF acaba
+C 0xBE34 HL = la direccion, BC = el largo
+C 0xBE3E guardando: de la RAM a 0xCA00...
+C 0xBE44 ...devolviendo: de 0xCA00 a la RAM
+C 0xBEA8 9 filas del teclado
+C 0xBEB0 una fila
+C 0xBEB5 (la 8 primero, de B - 1)
+C 0xBEB8 pulsado = 1
+C 0xBEBB C = las de antes
+C 0xBEBD las nuevas...
+C 0xBEC2 la fila siguiente
+C 0xBEC6 las nuevas de las 9 filas
+C 0xBECB la primera fila con alguna
+C 0xBED3 E = la fila
+C 0xBED5 la primera tecla de la fila (del bit 7 al 0)
+C 0xBEDF fila x 8 + bit
+C 0xBEE4 la clave corre un sitio (0xE500-0xE50B)...
+C 0xBEEF ...y la tecla nueva al final
+C 0xBF22 la ultima tecla de la clave
+C 0xBF25 0xFF: la clave entera casa
+C 0xBF29 distinta: no
+C 0xBF2B hacia atras
+C 0xBF2F la clave 0
+C 0xBF3A la 1
+C 0xBF43 la 2
+C 0xBF4C la 3
+C 0xBF55 la 4
+C 0xBF5C B = la clave
+C 0xBF5F la clave 1: CLASS +3
+C 0xBF65 la 0: CLASS +1
+C 0xBF68 la 2:
+C 0xBF6A 0xC141 bit 0...
+C 0xBF72 ...y los 8 maximos de municion a 999
+C 0xBF7A 0x0999 (BCD)
+C 0xBF81 la 3:
+C 0xBF83 0xC141 bit 1...
+C 0xBF8B ...y el maximo de raciones a 999
+C 0xBF92 la 4: las tarjetas
+C 0xBF94 desde la CARD1 (0x0E), 8
+C 0xBF98 si no la lleva...
+C 0xBFA0 ...se la da
+C 0xBFA4 la siguiente
+C 0xBFA8 0xC45B a cero
+C 0xBFB0 el primer hueco vacio
+C 0xBFB4 la ficha siguiente
+C 0xBFBB el objeto
+C 0xBFBE la cantidad: objeto + 0x23 ('1'-'8' en las tarjetas)
+C 0xBFC1 y marcado como cogido
+C 0xBEAA las de antes en 0xE515-0xE51D, las nuevas en 0xE50C-0xE514 (la fila 8 primero)
+C 0xBEBF ...en 0xE50C + 8 - fila
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0xA000 0xA00C camino_9FFF_cola  el camino del actor 1 de la sala 33: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente) (sigue del banco 5); lo leen p00:59F5 (12 bytes)

@@ -2995,7 +2995,7 @@ L_9529:
 	ld (0c181h),hl		;952c   ; guarda la Y de Snake (16 bits)
 	ret			;952f
 L_9530:
-	call teclas_a_cero		;9530   ; teclas_a_cero: 0xC191 y 0xC192 a cero
+	call teclas_a_cero		;9530   ; quieto, mirando arriba
 	ld (0c180h),a		;9533   ; guarda el estado de Snake
 	ld (0c18bh),a		;9536   ; guarda el modo de la pose de Snake
 	ld (0c18fh),a		;9539
@@ -3525,12 +3525,12 @@ L_98C0:
 	ld a,e			;98cb
 	ld (0c60ch),a		;98cc
 L_98CF:
-	call 0ac5bh		;98cf   ; pon_dibujo_16: copia 16 x 16 de HL a DE con TIMP
-	call alarma		;98d2   ; alarma: pon_c602 y 0xC60F = la sala, 0xC669 = 0x10
+	call 0ac5bh		;98cf   ; p03:AC5B: el dibujo
+	call alarma		;98d2   ; la alarma
 	ld a,(ix+000h)		;98d5   ; lee el tipo del actor
 	cp 006h		;98d8   ; la camara no se mueve
 	ret z			;98da
-	jp 058e9h		;98db   ; reaparece: crea en IX el actor de p06:A445 de la sala (salas < 0xBC)
+	jp 058e9h		;98db   ; los demas, a reaparecer
 
 ; ----------------------------------------------------------------------
 ; DATOS tabla_98de: 16 bytes que p02:9871 lee en 0x98DE + (A / 4) y deja en C
@@ -3556,7 +3556,7 @@ en_columna:		; acarreo si Snake esta en la columna de 0xEC02
 	cp e			;98fe
 	ret			;98ff
 en_fila:		; acarreo si Snake esta en la fila de 0xEC01
-	ld a,(ix+000h)		;9900   ; lee el tipo del actor
+	ld a,(ix+000h)		;9900   ; la camara: 4 y 8...
 	cp 006h		;9903
 	ld hl,00408h		;9905
 	jr z,L_990D		;9908
@@ -3664,7 +3664,7 @@ rueda_en_el_borde:		; el tipo 15 al llegar a 0x38/0xC8 da la vuelta con el sonid
 	ld b,003h		;99b5   ; ...hacia la derecha (3)
 	ld de,00080h		;99b7
 L_99BA:
-	ld (ix+005h),h		;99ba   ; guarda la X del actor
+	ld (ix+005h),h		;99ba   ; la deja en el borde
 	ld (ix+011h),b		;99bd   ; guarda la direccion del actor
 	call 05b5dh		;99c0   ; velocidad_x: la velocidad X del actor (ix+9, ix+0x0A) = DE
 	ld a,01dh		;99c3   ; el sonido 0x1D

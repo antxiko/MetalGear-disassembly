@@ -1,6 +1,189 @@
 # notas del banco 15
 
 # --- A MANO: comentarios, nombres y bloques ---
+C 0xB8BC la tabla de 0xC114 (la de colores)...
+C 0xB8BF ...si era la de 0xF000, ahora la de 0xF400:
+C 0xB8C1 atributos en 0xF600, colores en 0xF400...
+C 0xB8C7 ...R#5 = 0xE7 (y C = 5)
+C 0xB8CC si no: atributos en 0xF200, colores en 0xF000...
+C 0xB8D2 ...R#5 = 0xEF
+C 0xB8D4 0xC116 = la tabla de atributos que se va a escribir
+C 0xB8D7 0xC114 = la de colores
+C 0xB8DE 0xC00F: por que grupo de sprites se empieza...
+C 0xB8E2 ...avanza 0x68 cada cuadro (de 8 en 8, 16 grupos)
+C 0xB8E7 el puerto de datos del VDP
+C 0xB8EB los colores a la tabla de 0xC114
+C 0xB8F4 16 grupos de 2 sprites
+C 0xB8F7 los colores del grupo: (0x7400 + A) x 2 = 0xE800 + 2 x A
+C 0xB8FB 2 sprites x 16 lineas
+C 0xB8FF el grupo siguiente, en otro orden
+C 0xB904 los atributos, en el mismo orden
+C 0xB909 de 0xEA00
+C 0xB90B el grupo: 2 sprites x 4 bytes
+C 0xB910 el siguiente
+C 0xB918 los colores de 0xE800...
+C 0xB91F ...0x280 bytes
+C 0xB924 los colores de los actores (0xE840)...
+C 0xB92B ...desde el sprite 4 de la tabla
+C 0xB930 ...0x1C0 bytes
+C 0xB936 los atributos desde 0xEA10...
+C 0xB93D ...desde el sprite 4...
+C 0xB942 ...0x70 bytes
+C 0xBA89 los canales de sonido a cero (0xC010-0xC0EF)
+C 0xBA96 0xC165 a cero
+C 0xBA9E tras grabar (2), la musica de la sala
+C 0xBAA2 tras cargar mal, tambien
+C 0xBAA9 0xC165 = 1: la cinta acabo
+C 0xBAB2 borra los rotulos...
+C 0xBAC4 ...y al paso 1
+C 0xBAD2 0xC167 = 1
+C 0xBAD9 cargar, por pasos (0xC6A1):
+C 0xBADC paso 0: la pantalla y el rotulo 0xBCBD
+C 0xBAED paso 1: el nombre
+C 0xBAF2 ESC: deja la cinta
+C 0xBAFB otra tecla
+C 0xBB03 RETURN: al paso siguiente
+C 0xBB09 paso 2: lee
+C 0xBB0E 0x300 bytes a 0xD800
+C 0xBB14 un byte de la cinta
+C 0xBB1B error: fallo
+C 0xBB1D a 0xD800
+C 0xBB27 y la suma de control
+C 0xBB2F si no casa con la de los datos, fallo
+C 0xBB35 bien: la partida leida pasa a 0xCA00
+C 0xBB40 0xC167 a cero
+C 0xBB47 fallo: el motor parado...
+C 0xBB4A ...0xC167 = 1...
+C 0xBB4F ...el rotulo 0xBD52 y al paso 3 (cargando)...
+C 0xBB5A ...o 0xBCF1 y al paso 6 (grabando)
+C 0xBB66 y los rotulos 0xBD11 y 0xBD25
+C 0xBB9D sin cabecera: fallo
+C 0xBB9F 10 bytes 0xEA
+C 0xBBA6 error: fallo
+C 0xBBA8 otro byte: busca otra cabecera
+C 0xBBAE el nombre de 6 letras...
+C 0xBBB0 ...a 0xC6A2
+C 0xBBB3 un byte
+C 0xBBBE comparado con el tecleado (0xC6A8)
+C 0xBBC6 letra a letra
+C 0xBBCE casa: el rotulo 0xBD48 (encontrado)...
+C 0xBBDA ...y los datos detras
+C 0xBBDD otro nombre: el rotulo 0xBD41 (saltado)...
+C 0xBBEF sin la tecla de antes (REPCNT)
+C 0xBBF6 C = la tecla
+C 0xBBF7 0xC6AE: cuantas letras
+C 0xBBFD donde va la letra
+C 0xBC02 ESC: acarreo
+C 0xBC06 RETURN: 0x0D
+C 0xBC0A BS: borra
+C 0xBC0E '0'-'9'...
+C 0xBC14 ...'A'-'Z'...
+C 0xBC1A ...'a'-'z' en mayusculas...
+C 0xBC1E ...las demas no valen
+C 0xBC23 la letra
+C 0xBC25 hasta 6
+C 0xBC2E acarreo: ESC
+C 0xBC33 0x0D: RETURN
+C 0xBC36 BS: la letra de ahora a cero
+C 0xBC3A una menos (no por debajo de 0)
+C 0xBC40 si estaba vacia...
+C 0xBC44 ...borra la de antes
+C 0xBC48 si no, se queda en el mismo sitio
+C 0xBC4A en (0x50, 0x30)
+C 0xBC50 el caracter de verdad
+C 0xBC52 6 letras
+C 0xBC54 una letra
+C 0xBC59 8 puntos a la derecha
+C 0xBC5F A = 0
+C 0xBC61 desde (8, 8)...
+C 0xBC64 ...0xA0 x 0xA0 a negro
+C 0xBC67 0xC165 y 0xC167 a cero
+C 0xBC72 0xFBF0 (40 bytes, el bufer de teclado de la BIOS) a cero
+C 0xBC7A y el nombre
+C 0xBC81 0xC6AE-0xC6BB
+C 0xBC86 a cero
+C 0xBC8C la partida guardada...
+C 0xBC8F ...0x300 bytes
+C 0xBC94 los suma
+C 0xBC9B HL = 0xC166, la suma de la cinta
+C 0xBD92 el paso del final
+C 0xBD96 paso 1: Snake corre...
+C 0xBD9B ...0x80 cuadros
+C 0xBDA2 luego 0x80 de espera...
+C 0xBDA7 ...la pose 0...
+C 0xBDAE ...y borra (0x40, 0x80) 0x40 x 0x28
+C 0xBDBA paso 2: espera
+C 0xBDC7 paso 3: Snake corre otra vez
+C 0xBDD2 paso 4: tras la musica (canal 2)...
+C 0xBDE2 ...el transceptor y 0x40 cuadros
+C 0xBDE9 paso 5: al acabar la espera...
+C 0xBDF3 ...el texto 0x9B
+C 0xBDF7 paso 6: tras el texto...
+C 0xBE00 ...el sonido 0x50
+C 0xBE07 paso 7: la frecuencia sube...
+C 0xBE0C ...cada 4 cuadros...
+C 0xBE17 ...y se pinta...
+C 0xBE1D ...hasta 0x77
+C 0xBE20 la barra de senal...
+C 0xBE2C el paso siguiente
+C 0xBE31 paso 8: la barra sube...
+C 0xBE3B ...el sonido 0x5C y el texto 0x1F
+C 0xBE44 paso 9: tras el texto, el sonido 0x41 y el texto 0x2D
+C 0xBE53 paso 10: tras el texto, la musica 0x5C tras el fundido...
+C 0xBE5E ...y guarda la paleta
+C 0xBE63 paso 11: funde la paleta...
+C 0xBE69 ...pantalla limpia y 0x70 cuadros
+C 0xBE73 paso 12: al acabar la espera...
+C 0xBE7A ...el sonido 0x5C...
+C 0xBE7F ...el color 14 blanco...
+C 0xBE87 ...y el texto 0x0F
+C 0xBE8F paso 13: tras el texto, la pantalla
+C 0xBE9A paso 0: Snake corre y la cuenta atras baja
+C 0xBEA2 a cero...
+C 0xBEA5 ...si no, baja 1 (BCD)...
+C 0xBEAE ...y se pinta (p00:412C)
+C 0xBEB1 a cero: borra los digitos (0xC0, 0x70) 0x20 x 0x10
+C 0xBEC8 Z: el transceptor (modo 4)
+C 0xBECE cada 8 cuadros...
+C 0xBED0 ...la pose 4 o 5
+C 0xBEDB X - 8
+C 0xBEE8 por la cuenta:
+C 0xBEE9 0xE8: el sonido 0x56
+C 0xBEF2 0xE0: el dibujo 0xB31F en (0x60, 0x90)
+C 0xBEFC 0xD0: el dibujo 0xB325 en (0x50, 0x80)
+C 0xBF06 0xC0: el dibujo 0xB33F en (0x40, 0x80)
+C 0xBF0B por debajo, cada 8 cuadros...
+C 0xBF0F ...la paleta 0x0F o la 0x0D (el destello)
+C 0xBF25 con GOGGL...
+C 0xBF2B ...sin la alarma...
+C 0xBF30 ...en las salas 0x18, 0x19 y 0x48
+C 0xBF3D los rayos (0xC609)
+C 0xBF41 un rayo
+C 0xBF44 apagado: nada
+C 0xBF48 +3: la Y
+C 0xBF4C +5: la X
+C 0xBF4E +0x15: el largo
+C 0xBF54 +0x16: horizontal
+C 0xBF57 en el color 8
+C 0xBF5A vertical: una linea vertical
+C 0xBF61 horizontal
+C 0xBF66 el actor siguiente
+C 0xBF71 los rayos (0xC609)
+C 0xBF75 un rayo
+C 0xBF78 apagado: nada
+C 0xBF7C +3: la Y
+C 0xBF80 +5: la X
+C 0xBF82 +0x13, +0x14: donde se guardo el fondo
+C 0xBF87 +0x16 y +0x15
+C 0xBF8F 2 de grueso
+C 0xBF92 horizontal: B x 2
+C 0xBF95 vertical: 2 x B
+C 0xBF98 de la pagina 1 a la 0
+C 0xBF9F el actor siguiente
+C 0xBAAB la Y (fila 5, bit 6): de nuevo
+C 0xBACE la N (fila 4, bit 3): deja la cinta
+C 0xBB75 la Y: de nuevo (paso 2)
+C 0xBB93 la N: deja la cinta
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0xA000 0xA5B0 metafichas_juego_5_cola  las 96 metafichas del juego 5, 4 x 4 numeros de ficha (16 bytes) cada una; el numero de la sala es 1-96 (p00:4CC3 resta 1); lo que las salas de ese juego usan como mucho (sigue del banco 14); lo leen p00:4CC3 (1456 bytes)

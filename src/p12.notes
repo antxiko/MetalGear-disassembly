@@ -1,6 +1,14 @@
 # notas del banco 12
 
 # --- A MANO: comentarios, nombres y bloques ---
+C 0xBC12 con 0xC623 (Metal Gear ya destruido)...
+C 0xBC16 ...p00:413B
+C 0xBC19 (ix+0x1B, 0x1C) = 0xC623: su bandera
+C 0xBC22 choca con Snake y los proyectiles
+C 0xBC29 el primer actor es Metal Gear (0x11)...
+C 0xBC2C ...el paso 0...
+C 0xBC30 ...y su dibujo en (0x20, 0x60)
+C 0xBC36 el suelo en (0x20, 0x60)
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0xA000 0xA132 patrones_9F43_cola  patrones de sprite comprimidos (n < 0x80 repite el byte siguiente n veces, n == 0x80 trae otro destino, n > 0x80 copia n & 0x7F bytes, 0 acaba; L_4DD5): juego 4, patron 96 (sigue del banco 11); lo leen p00:4DD5 (306 bytes)

@@ -5,6 +5,210 @@ D 0xB050 0xB05C pasos_de_la_intro_b050  12 bytes, uno por paso de la intro (0xC9
 D 0xB58A 0xB5AD rotulo_del_titulo  rotulo con posicion (L_510C: [X][Y] y caracteres, 0xFE otra posicion, 0xFF acaba): ":" (la ficha 10 de la fuente, el (C)) en (0x4E,0x60), "KONAMI 1987" en (0x58,0x60) y "PUSH SPACE KEY" en (0x48,0x88); p09:B579 lo carga en HL para escribirlo
 D 0xB5F7 0xB602 once_bytes_b5f7  11 bytes de 0x20 a 0xC0 de 0x10 en 0x10, entre el `ret` de 0xB5F6 y la paleta de 0xB602; ninguna instruccion de los 16 bancos los nombra (grep de 0xB5F7 en los listados: solo p00:44AC, que es el bloque de fichas del banco 15). SIN LECTOR A LA VISTA
 D 0xA5A1 0xA661 resto_del_pozo  192 bytes detras del mapa del pozo (acaba en el 0xFF de 0xA5A0) y delante de los dibujos del final: parecen dibujos de 1 bit por punto (filas 0xFF, 0xC0, 0xFB...), pero ninguna instruccion de los 16 bancos nombra una direccion de 0xA5A1-0xA660 (grep en los listados) y p00:4A87 solo lee el mapa de 0xA559. SIN LECTOR A LA VISTA: queda para una lectura medida en openMSX
+C 0xAD69 el paso del ascensor
+C 0xAD6D paso 1: sale
+C 0xAD6F el modo 0
+C 0xAD76 izquierda o derecha mantenidas...
+C 0xAD7A ...izquierda (3) o derecha (4)
+C 0xAD84 0xC18C = la direccion de las teclas
+C 0xAD85 paso 2: llego a la parada
+C 0xAD87 el lado de 0xC195...
+C 0xAD8D ...y el modo 1: cambio de sala
+C 0xAD93 paso 0: la cabina se mueve (p01:6205: el choque)
+C 0xAD99 B = la sala
+C 0xAD9D D = las teclas
+C 0xAD9E hacia arriba (1) o hacia abajo
+C 0xADA4 hacia arriba:
+C 0xADAA Snake sube 1...
+C 0xADAE ...y la cabina tambien
+C 0xADB0 por encima de 0x18: fuera por arriba
+C 0xADB4 C = la Y de la cabina
+C 0xADB9 en los ascensores 0xF8, 0xF9 y 0xFA...
+C 0xADC5 ...con arriba pulsada no para
+C 0xADC9 la parada 0x38
+C 0xADCE en el 0xF7...
+C 0xADD3 ...con arriba pulsada no para
+C 0xADD7 las paradas 0x78 y 0xB8
+C 0xADE0 en marcha: solo los sprites
+C 0xADE2 hacia abajo:
+C 0xADE5 Snake baja 1...
+C 0xADE9 ...y la cabina tambien
+C 0xADEB por debajo de 0xD0: fuera por abajo
+C 0xADEF C = la Y de la cabina
+C 0xADF0 en los ascensores 0xF7, 0xF8 y 0xF9...
+C 0xADFD ...con abajo pulsada no para
+C 0xAE02 la parada 0xB8
+C 0xAE07 en el 0xFA...
+C 0xAE0C ...con arriba pulsada no para
+C 0xAE10 las paradas 0x78 y 0x38
+C 0xAE19 en marcha: solo los sprites
+C 0xAE1B en una parada: los sprites y al paso 1
+C 0xAE23 fuera de la sala: al paso 2
+C 0xAE28 los 12 sprites de la cabina (0xAE5F)
+C 0xAE2B en 0xEA50 (los huecos 0x14-0x1F)
+C 0xAE2E B = 12, C = 0xFF para ldi
+C 0xAE31 la y + la Y de la cabina (0xC193)
+C 0xAE38 la x + su X (0xC194)
+C 0xAE3F el patron
+C 0xAE41 el color se salta
+C 0xAE45 los colores en 0xE940
+C 0xAE4B 12 sprites
+C 0xAE4D el color del primero
+C 0xAE50 el color...
+C 0xAE51 ...en sus 16 lineas
+C 0xAE57 el del sprite siguiente
+C 0xAE8F el paso de la llegada (0xC920)
+C 0xAE92 la tabla de saltos 0xAE98
+C 0xAEB2 paso: andar a la izquierda 0x40 cuadros
+C 0xAEB8 sin teclas nuevas...
+C 0xAEBC ...mirando a la izquierda...
+C 0xAEC1 ...con izquierda pulsada
+C 0xAEC6 Snake se mueve
+C 0xAEC9 al acabar: el modo de pose 2...
+C 0xAECE ...mirando arriba...
+C 0xAED2 ...0x30 cuadros
+C 0xAEDA paso: quieto
+C 0xAEE0 sin teclas
+C 0xAEEA al acabar: 0x50 cuadros...
+C 0xAEEF ...el modo de pose 4...
+C 0xAEF4 ...mirando a la izquierda
+C 0xAEFB paso: andar a la izquierda
+C 0xAF01 izquierda pulsada
+C 0xAF0D al acabar, 0x20 cuadros
+C 0xAF14 paso: subir
+C 0xAF1A arriba pulsada, mirando arriba
+C 0xAF2A al acabar: el modo de pose 2...
+C 0xAF2F ...mirando a la derecha...
+C 0xAF34 ...0x40 cuadros
+C 0xAF3B paso: la llamada
+C 0xAF41 a 0x20 del final...
+C 0xAF45 ...0xC15F = 1 (llamando)...
+C 0xAF49 ...con el sonido 0x22
+C 0xAF4E al acabar: 0xC0F1 = 1...
+C 0xAF53 ...el sonido 0x59...
+C 0xAF58 ...y el transceptor
+C 0xAF5B la senal cada 0x10 cuadros
+C 0xAF60 la barra y el paso del transceptor a cero
+C 0xAF69 paso: la barra de senal sube...
+C 0xAF6F ...hasta el paso 1
+C 0xAF73 paso: el texto 2 con el sonido 0x5C
+C 0xAF80 paso: sale del transceptor
+C 0xAF83 0x28 cuadros
+C 0xAF88 a 2 puntos por cuadro
+C 0xAF8E el paso siguiente
+C 0xAF95 paso: andar a la derecha
+C 0xAF9B derecha pulsada, mirando a la derecha
+C 0xAFB4 al acabar, 0x30 cuadros
+C 0xAFBB paso: subir
+C 0xAFC1 arriba pulsada, mirando arriba
+C 0xAFCE al acabar: Y = 0x88...
+C 0xAFD4 ...a 1 punto...
+C 0xAFDD ...el modo de pose 5...
+C 0xAFE2 ...0x1C cuadros
+C 0xAFE9 paso: subir
+C 0xAFEF arriba pulsada
+C 0xAFFF al acabar: Y = 0x66...
+C 0xB005 ...el modo de pose 0, mirando arriba, quieto...
+C 0xB010 ...0x0C cuadros
+C 0xB018 paso: quieto, con un salto cada 2 cuadros
+C 0xB01F sin teclas, mirando arriba
+C 0xB02A cuadros impares:
+C 0xB030 el desplazamiento Y de 0xB050
+C 0xB03C sumado a la Y
+C 0xB043 el ultimo: estado 0...
+C 0xB047 ...a 2 puntos por cuadro
+C 0xB05C 0xFAF6 = 1 mientras se carga
+C 0xB064 la fuente: 0x6C caracteres en el color 0x0E desde (0, 0x40)
+C 0xB070 los digitos grandes: 0x0D en el color 8 desde (0x98, 0x58)
+C 0xB07C la estrella: 1 en el color 6 en (0x58, 0x40)
+C 0xB088 los 4 colores de las fichas (0xB0AE)
+C 0xB093 6 fichas de 2 planos (0xB47A) en (0x60, 0x58)
+C 0xB09E 0xFAF6 a cero
+C 0xB0A3 desde (0, 0)...
+C 0xB0A6 ...0x18 x 8...
+C 0xB0A9 ...de la pagina 1, a negro
+C 0xB4DD la pagina 1 a negro
+C 0xB4E5 R#7 = 0: el borde negro
+C 0xB4F1 0xC119 = 0x60 cuadros
+C 0xB4F6 el paso 0 del titulo
+C 0xB4FD la paleta del titulo (0xB602)
+C 0xB506 el paso del titulo
+C 0xB509 la tabla de saltos 0xB515
+C 0xB50C 2 x A
+C 0xB510 la direccion...
+C 0xB514 ...y alli
+C 0xB51F el sonido 0x47
+C 0xB524 0x0C cuadros
+C 0xB529 el paso siguiente
+C 0xB52E la cuenta...
+C 0xB534 la altura de esta cuenta (0xB5F7)
+C 0xB53F la primera parte, en (0x20, y)...
+C 0xB542 ...de (0x20, 0x68) de la pagina 1...
+C 0xB545 ...0x68 x 0x20...
+C 0xB548 ...con TIMP
+C 0xB54E la segunda, 8 lineas mas abajo...
+C 0xB552 ...en X = 0x88...
+C 0xB554 ...de (0x88, 0x68), 0x48 x 0x20
+C 0xB562 con la cuenta 1 (la ultima altura)
+C 0xB56A la cuenta a cero
+C 0xB571 espera...
+C 0xB579 el rotulo 0xB58A: (C) KONAMI 1987
+C 0xB582 el sonido 0x4A
+C 0xB5B5 los 8 colores del titulo (0xB5AD)...
+C 0xB5BB ...a 0xE700
+C 0xB5C0 70 fichas de 3 planos (0xB8B9)...
+C 0xB5C3 ...en (8, 0) de la pagina 1
+C 0xB5CB el montaje 0xB618: 13 x 4 en (0x20, 0x68)
+C 0xB5D7 el montaje 0xB64C: 9 x 4 en (0x88, 0x70)
+C 0xB5E0 una fila
+C 0xB5E2 la ficha...
+C 0xB5E6 ...8 puntos a la derecha
+C 0xB5EB B fichas
+C 0xB5EF la fila siguiente, 8 lineas mas abajo
+C 0xB5F4 C filas
+C 0xB673 el sonido 0x5C
+C 0xB67B la paleta del logotipo (0xB6A6)
+C 0xB681 R#7 = 0x0F: el borde
+C 0xB688 (0x40, 0x28)...
+C 0xB68B ...0x48 x 0xA8...
+C 0xB68F ...de la pagina 1, a negro
+C 0xB69D 0xC130 = 0x3C (la cuenta de cuadros)...
+C 0xB6A0 ...0xC131 = 0x31 (las lineas)...
+C 0xB6A3 ...0xC132 = 0 (sin acabar)
+C 0xB6B9 cada 2 cuadros...
+C 0xB6BF ...una linea menos
+C 0xB6C2 al acabar, 0xC132 = 1
+C 0xB6C8 las lineas descubiertas: 0x31 - cuenta
+C 0xB6CC 0xA8 de ancho
+C 0xB6CE desde (0x40, 0x28)...
+C 0xB6D3 ...de la pagina 1 a la 0
+C 0xBF4C las 6 salas de 0xBF60
+C 0xBF52 busca la sala
+C 0xBF55 0x90 cuadros
+C 0xBF5A el modo 5
+C 0xBF66 la cuenta del camion
+C 0xBF6A al acabar, baja
+C 0xBF6D a 0x8E...
+C 0xBF71 ...la primera vez (0xCEE1)...
+C 0xBF7B ...el texto 0x5B
+C 0xBF80 a 0x8D, el sonido 0x1F
+C 0xBF8A por debajo de 0x80...
+C 0xBF8D ...cada 2 cuadros...
+C 0xBF90 ...el desplazamiento de 0xBF99 (la sacudida)
+C 0xBFA1 el sonido 0x28
+C 0xBFA6 el modo 0 y sin desplazamiento
+C 0xBFAB R#23: el desplazamiento vertical
+C 0xBFB3 C = la sala
+C 0xBFB4 la sala 0x85...
+C 0xBFB8 ...sin 0xC660...
+C 0xBFBD ...2 cuadros y el modo 12
+C 0xBFC8 la sala 0x6F...
+C 0xBFCC ...0xC664 = 1
+C 0xBFD1 la cuenta
+C 0xBFD5 al acabar, el texto 0x59
+C 0xBFDA con 1, nada
+C 0xBFDD el modo 0...
+C 0xBFE1 ...y 0xC660 = 1
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0xA000 0xA559 fichas_juego_6_9E99_cola  72 fichas de 8 x 8 en 3 planos (24 bytes por ficha) del juego 6, desde la ficha 161 de la VRAM: p00:49C6 (L_524C) las pasa a 4 bits por punto con la tabla de colores de 0xE700 (sigue del banco 8); lo leen p00:49C6 (1369 bytes)

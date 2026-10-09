@@ -2949,70 +2949,70 @@ DATA_indice_de_llamadas_de_radio:
 
 
 cambia_tabla_de_sprites:		; alterna las tablas de atributos (0xF600/0xF400 y 0xF200/0xF000) con R#5
-	ld hl,(0c114h)		;b8bc
-	bit 2,h		;b8bf
-	ld hl,0f600h		;b8c1
+	ld hl,(0c114h)		;b8bc   ; la tabla de 0xC114 (la de colores)...
+	bit 2,h		;b8bf   ; ...si era la de 0xF000, ahora la de 0xF400:
+	ld hl,0f600h		;b8c1   ; atributos en 0xF600, colores en 0xF400...
 	ld de,0f400h		;b8c4
-	ld bc,0e705h		;b8c7
+	ld bc,0e705h		;b8c7   ; ...R#5 = 0xE7 (y C = 5)
 	jr z,L_B8D4		;b8ca
-	ld hl,0f200h		;b8cc
+	ld hl,0f200h		;b8cc   ; si no: atributos en 0xF200, colores en 0xF000...
 	ld de,0f000h		;b8cf
-	ld b,0efh		;b8d2
+	ld b,0efh		;b8d2   ; ...R#5 = 0xEF
 L_B8D4:
-	ld (0c116h),hl		;b8d4
-	ld (0c114h),de		;b8d7
+	ld (0c116h),hl		;b8d4   ; 0xC116 = la tabla de atributos que se va a escribir
+	ld (0c114h),de		;b8d7   ; 0xC114 = la de colores
 	jp 00047h		;b8db   ; BIOS WRTVDP - Writes data in the VDP-register
 sprites_a_vram:		; atributos y colores a la tabla de 0xC114, empezando cada cuadro por otro grupo (0xC00F)
-	ld hl,0c00fh		;b8de
+	ld hl,0c00fh		;b8de   ; 0xC00F: por que grupo de sprites se empieza...
 	ld a,(hl)			;b8e1
-	add a,068h		;b8e2
+	add a,068h		;b8e2   ; ...avanza 0x68 cada cuadro (de 8 en 8, 16 grupos)
 	and 078h		;b8e4
 	ld (hl),a			;b8e6
-	ld a,(00007h)		;b8e7
+	ld a,(00007h)		;b8e7   ; el puerto de datos del VDP
 	ld c,a			;b8ea
-	ld hl,(0c114h)		;b8eb
+	ld hl,(0c114h)		;b8eb   ; los colores a la tabla de 0xC114
 	call 040c3h		;b8ee   ; vram_para_escribir_y_vuelve: llama a vram_para_escribir (p00:4D93) y deja otra vez los bancos 1-2 y el de zona
 	ld a,(0c00fh)		;b8f1
-	ld d,010h		;b8f4
+	ld d,010h		;b8f4   ; 16 grupos de 2 sprites
 	add a,a			;b8f6
 L_B8F7:
-	ld h,074h		;b8f7
+	ld h,074h		;b8f7   ; los colores del grupo: (0x7400 + A) x 2 = 0xE800 + 2 x A
 	ld l,a			;b8f9
 	add hl,hl			;b8fa
-	ld b,020h		;b8fb
+	ld b,020h		;b8fb   ; 2 sprites x 16 lineas
 	otir		;b8fd
-	add a,090h		;b8ff
+	add a,090h		;b8ff   ; el grupo siguiente, en otro orden
 	dec d			;b901
 	jr nz,L_B8F7		;b902
-	ld a,(0c00fh)		;b904
+	ld a,(0c00fh)		;b904   ; los atributos, en el mismo orden
 	ld d,010h		;b907
-	ld h,0eah		;b909
+	ld h,0eah		;b909   ; de 0xEA00
 L_B90B:
-	ld l,a			;b90b
+	ld l,a			;b90b   ; el grupo: 2 sprites x 4 bytes
 	ld b,008h		;b90c
 	otir		;b90e
-	add a,048h		;b910
+	add a,048h		;b910   ; el siguiente
 	and 078h		;b912
 	dec d			;b914
 	jr nz,L_B90B		;b915
 	ret			;b917
 colores_a_vram:		; 0x280 bytes de colores de 0xE800 a la tabla de 0xC114
-	ld hl,0e800h		;b918
+	ld hl,0e800h		;b918   ; los colores de 0xE800...
 	ld de,(0c114h)		;b91b
-	ld bc,00280h		;b91f
+	ld bc,00280h		;b91f   ; ...0x280 bytes
 	jr L_B945		;b922
 colores_de_actores_a_vram:		; los colores de 0xE840 y los atributos de 0xEA10 a las tablas
-	ld hl,0e840h		;b924
+	ld hl,0e840h		;b924   ; los colores de los actores (0xE840)...
 	ld de,(0c114h)		;b927
-	ld a,040h		;b92b
+	ld a,040h		;b92b   ; ...desde el sprite 4 de la tabla
 	call 04055h		;b92d   ; de_mas_a_y_vuelve: llama a de_mas_a (p00:41E5) y deja otra vez los bancos 1-2 y el de zona
-	ld bc,001c0h		;b930
+	ld bc,001c0h		;b930   ; ...0x1C0 bytes
 	call 040c8h		;b933   ; escribe_vram_y_vuelve: llama a escribe_vram (p00:4D59) y deja otra vez los bancos 1-2 y el de zona
-	ld hl,0ea10h		;b936
+	ld hl,0ea10h		;b936   ; los atributos desde 0xEA10...
 	ld de,(0c116h)		;b939
-	ld a,010h		;b93d
+	ld a,010h		;b93d   ; ...desde el sprite 4...
 	call 04055h		;b93f   ; de_mas_a_y_vuelve: llama a de_mas_a (p00:41E5) y deja otra vez los bancos 1-2 y el de zona
-	ld bc,00070h		;b942
+	ld bc,00070h		;b942   ; ...0x70 bytes
 L_B945:
 	jp 040c8h		;b945   ; escribe_vram_y_vuelve: llama a escribe_vram (p00:4D59) y deja otra vez los bancos 1-2 y el de zona
 cinta:		; carga (0xC6A0 = 1) o graba (2) la partida en cinta, por pasos (0xC6A1)
@@ -3184,122 +3184,122 @@ L_BA85:
 	bit 3,(hl)		;ba86
 	ret z			;ba88
 L_BA89:
-	ld de,0c011h		;ba89
+	ld de,0c011h		;ba89   ; los canales de sonido a cero (0xC010-0xC0EF)
 	ld hl,0c010h		;ba8c
 	ld bc,000dfh		;ba8f
 	ld (hl),000h		;ba92
 	ldir		;ba94
-	ld hl,0c165h		;ba96
+	ld hl,0c165h		;ba96   ; 0xC165 a cero
 	ld (hl),000h		;ba99
 	ld a,(0c6a0h)		;ba9b   ; lee la cinta (1 carga, 2 graba)
-	dec a			;ba9e
+	dec a			;ba9e   ; tras grabar (2), la musica de la sala
 	jp nz,040e1h		;ba9f   ; musica_de_nuevo_y_vuelve: llama a musica_de_nuevo (p01:6DD9) y deja otra vez los bancos 1-2 y el de zona
-	ld a,(0c167h)		;baa2
+	ld a,(0c167h)		;baa2   ; tras cargar mal, tambien
 	or a			;baa5
 	jp nz,040e1h		;baa6   ; musica_de_nuevo_y_vuelve: llama a musica_de_nuevo (p01:6DD9) y deja otra vez los bancos 1-2 y el de zona
-	inc (hl)			;baa9
+	inc (hl)			;baa9   ; 0xC165 = 1: la cinta acabo
 	ret			;baaa
 L_BAAB:
-	ld hl,0e50fh		;baab
+	ld hl,0e50fh		;baab   ; la Y (fila 5, bit 6): de nuevo
 	bit 6,(hl)		;baae
 	jr z,L_BACE		;bab0
-	ld hl,0bd11h		;bab2
+	ld hl,0bd11h		;bab2   ; borra los rotulos...
 	call 040dch		;bab5   ; borra_rotulo_y_vuelve: llama a borra_rotulo (p00:5110) y deja otra vez los bancos 1-2 y el de zona
 	ld hl,0bd25h		;bab8
 	call 040dch		;babb   ; borra_rotulo_y_vuelve: llama a borra_rotulo (p00:5110) y deja otra vez los bancos 1-2 y el de zona
 	ld hl,0bcf1h		;babe
 	call 040dch		;bac1   ; borra_rotulo_y_vuelve: llama a borra_rotulo (p00:5110) y deja otra vez los bancos 1-2 y el de zona
-	ld a,001h		;bac4
+	ld a,001h		;bac4   ; ...y al paso 1
 	ld (0c6a1h),a		;bac6
 	jp L_B975		;bac9
 L_BACC:
 	jr L_BB47		;bacc
 L_BACE:
-	inc hl			;bace
+	inc hl			;bace   ; la N (fila 4, bit 3): deja la cinta
 	bit 3,(hl)		;bacf
 	ret z			;bad1
-	ld a,001h		;bad2
+	ld a,001h		;bad2   ; 0xC167 = 1
 	ld (0c167h),a		;bad4
 	jr L_BA89		;bad7
 L_BAD9:
-	ld a,(hl)			;bad9
+	ld a,(hl)			;bad9   ; cargar, por pasos (0xC6A1):
 	ld b,a			;bada
 	inc b			;badb
-	djnz L_BAED		;badc
+	djnz L_BAED		;badc   ; paso 0: la pantalla y el rotulo 0xBCBD
 	call pantalla_de_cinta		;bade   ; pantalla_de_cinta: el recuadro, y 0xFBF0 (40) y el nombre a cero
 	ld hl,0bcbdh		;bae1
 	call 040afh		;bae4   ; rotulo_y_vuelve: llama a rotulo (p00:510C) y deja otra vez los bancos 1-2 y el de zona
 	call borra_c6ae		;bae7   ; borra_c6ae: 0xC6AE-0xC6BB a cero
 	jp L_B9EC		;baea
 L_BAED:
-	djnz L_BB09		;baed
+	djnz L_BB09		;baed   ; paso 1: el nombre
 	call teclea_nombre		;baef   ; teclea_nombre: una tecla (CHGET) para el nombre 0xC6A8: ESC acarreo, RET 0x0D, BS borra
-	jr nc,L_BAFB		;baf2
+	jr nc,L_BAFB		;baf2   ; ESC: deja la cinta
 	ld a,001h		;baf4
 	ld (0c167h),a		;baf6
 	jr L_BA89		;baf9
 L_BAFB:
-	push af			;bafb
+	push af			;bafb   ; otra tecla
 	ld hl,0bd52h		;bafc
 	call 040dch		;baff   ; borra_rotulo_y_vuelve: llama a borra_rotulo (p00:5110) y deja otra vez los bancos 1-2 y el de zona
 	pop af			;bb02
-	cp 00dh		;bb03
+	cp 00dh		;bb03   ; RETURN: al paso siguiente
 	ret nz			;bb05
 	jp L_B9EC		;bb06
 L_BB09:
-	djnz L_BB75		;bb09
+	djnz L_BB75		;bb09   ; paso 2: lee
 	call busca_en_cinta		;bb0b   ; busca_en_cinta: busca la cabecera (10 x 0xEA) y el nombre de 6 letras
-	ld de,0d800h		;bb0e
+	ld de,0d800h		;bb0e   ; 0x300 bytes a 0xD800
 	ld bc,00300h		;bb11
 L_BB14:
-	push de			;bb14
+	push de			;bb14   ; un byte de la cinta
 	push bc			;bb15
 	call 000e4h		;bb16   ; BIOS TAPIN - Reads data from the tape
 	pop bc			;bb19
 	pop de			;bb1a
-	jr c,L_BB47		;bb1b
-	ld (de),a			;bb1d
+	jr c,L_BB47		;bb1b   ; error: fallo
+	ld (de),a			;bb1d   ; a 0xD800
 	inc de			;bb1e
 	dec bc			;bb1f
 	ld a,b			;bb20
 	or c			;bb21
 	jr nz,L_BB14		;bb22
 	call 000e4h		;bb24   ; BIOS TAPIN - Reads data from the tape
-	jr c,L_BB47		;bb27
+	jr c,L_BB47		;bb27   ; y la suma de control
 	ld (0c166h),a		;bb29
 	call 000e7h		;bb2c   ; BIOS TAPIOF - Stops reading from the tape
 	call suma_de_control		;bb2f   ; suma_de_control: A = la suma de los 0x300 bytes de 0xCA00; HL = 0xC166
 	cp (hl)			;bb32
 	jr nz,L_BB47		;bb33
-	ld de,0ca00h		;bb35
+	ld de,0ca00h		;bb35   ; bien: la partida leida pasa a 0xCA00
 	ld hl,0d800h		;bb38
 	ld bc,00300h		;bb3b
 	ldir		;bb3e
-	xor a			;bb40
+	xor a			;bb40   ; 0xC167 a cero
 	ld (0c167h),a		;bb41
 	jp L_BA89		;bb44
 L_BB47:
-	call 000e7h		;bb47   ; BIOS TAPIOF - Stops reading from the tape
-	ld a,001h		;bb4a
+	call 000e7h		;bb47   ; BIOS TAPIOF - Stops reading from the tape | fallo: el motor parado...
+	ld a,001h		;bb4a   ; ...0xC167 = 1...
 	ld (0c167h),a		;bb4c
-	ld hl,0bd52h		;bb4f
+	ld hl,0bd52h		;bb4f   ; ...el rotulo 0xBD52 y al paso 3 (cargando)...
 	ld b,003h		;bb52
 	ld a,(0c6a0h)		;bb54   ; lee la cinta (1 carga, 2 graba)
 	dec a			;bb57
 	jr z,L_BB5F		;bb58
-	ld hl,0bcf1h		;bb5a
+	ld hl,0bcf1h		;bb5a   ; ...o 0xBCF1 y al paso 6 (grabando)
 	ld b,006h		;bb5d
 L_BB5F:
 	ld a,b			;bb5f
 	ld (0c6a1h),a		;bb60
 	call 040afh		;bb63   ; rotulo_y_vuelve: llama a rotulo (p00:510C) y deja otra vez los bancos 1-2 y el de zona
-	ld hl,0bd11h		;bb66
+	ld hl,0bd11h		;bb66   ; y los rotulos 0xBD11 y 0xBD25
 	call 040afh		;bb69   ; rotulo_y_vuelve: llama a rotulo (p00:510C) y deja otra vez los bancos 1-2 y el de zona
 	ld hl,0bd25h		;bb6c
 	call 040afh		;bb6f   ; rotulo_y_vuelve: llama a rotulo (p00:510C) y deja otra vez los bancos 1-2 y el de zona
 	jp borra_c6ae		;bb72   ; borra_c6ae: 0xC6AE-0xC6BB a cero
 L_BB75:
-	ld hl,0e50fh		;bb75
+	ld hl,0e50fh		;bb75   ; la Y: de nuevo (paso 2)
 	bit 6,(hl)		;bb78
 	jr z,L_BB93		;bb7a
 	ld a,002h		;bb7c
@@ -3311,27 +3311,27 @@ L_BB75:
 	ld hl,0bd1ah		;bb8d
 	jp 040dch		;bb90   ; borra_rotulo_y_vuelve: llama a borra_rotulo (p00:5110) y deja otra vez los bancos 1-2 y el de zona
 L_BB93:
-	inc hl			;bb93
+	inc hl			;bb93   ; la N: deja la cinta
 	bit 3,(hl)		;bb94
 	ret z			;bb96
 	jp L_BA89		;bb97
 busca_en_cinta:		; busca la cabecera (10 x 0xEA) y el nombre de 6 letras
 	call 000e1h		;bb9a   ; BIOS TAPION - Reads the header block after turning the cassette motor on
-	jr c,L_BB47		;bb9d
-	ld b,00ah		;bb9f
+	jr c,L_BB47		;bb9d   ; sin cabecera: fallo
+	ld b,00ah		;bb9f   ; 10 bytes 0xEA
 L_BBA1:
 	push bc			;bba1
 	call 000e4h		;bba2   ; BIOS TAPIN - Reads data from the tape
 	pop bc			;bba5
 L_BBA6:
-	jr c,L_BB47		;bba6
-	cp 0eah		;bba8
+	jr c,L_BB47		;bba6   ; error: fallo
+	cp 0eah		;bba8   ; otro byte: busca otra cabecera
 	jr nz,busca_en_cinta		;bbaa
 	djnz L_BBA1		;bbac
-	ld b,006h		;bbae
-	ld hl,0c6a2h		;bbb0
+	ld b,006h		;bbae   ; el nombre de 6 letras...
+	ld hl,0c6a2h		;bbb0   ; ...a 0xC6A2
 L_BBB3:
-	push bc			;bbb3
+	push bc			;bbb3   ; un byte
 	push hl			;bbb4
 	call 000e4h		;bbb5   ; BIOS TAPIN - Reads data from the tape
 	pop hl			;bbb8
@@ -3339,24 +3339,24 @@ L_BBB3:
 	ld (hl),a			;bbba
 	inc hl			;bbbb
 	djnz L_BBB3		;bbbc
-	ld hl,0c6a2h		;bbbe
+	ld hl,0c6a2h		;bbbe   ; comparado con el tecleado (0xC6A8)
 	ld de,0c6a8h		;bbc1
 	ld b,006h		;bbc4
 L_BBC6:
-	ld a,(de)			;bbc6
+	ld a,(de)			;bbc6   ; letra a letra
 	cp (hl)			;bbc7
 	jr nz,L_BBDD		;bbc8
 	inc hl			;bbca
 	inc de			;bbcb
 	djnz L_BBC6		;bbcc
-	ld hl,0bd48h		;bbce
+	ld hl,0bd48h		;bbce   ; casa: el rotulo 0xBD48 (encontrado)...
 	call 040afh		;bbd1   ; rotulo_y_vuelve: llama a rotulo (p00:510C) y deja otra vez los bancos 1-2 y el de zona
 	call pinta_nombre_leido		;bbd4   ; pinta_nombre_leido: el nombre de 0xC6A2 en (0x58, 0x60)
 	call 000e1h		;bbd7   ; BIOS TAPION - Reads the header block after turning the cassette motor on
-	jr c,L_BBA6		;bbda
+	jr c,L_BBA6		;bbda   ; ...y los datos detras
 	ret			;bbdc
 L_BBDD:
-	pop hl			;bbdd
+	pop hl			;bbdd   ; otro nombre: el rotulo 0xBD41 (saltado)...
 	call 000e1h		;bbde   ; BIOS TAPION - Reads the header block after turning the cassette motor on
 	ld hl,0bd41h		;bbe1
 	call 040afh		;bbe4   ; rotulo_y_vuelve: llama a rotulo (p00:510C) y deja otra vez los bancos 1-2 y el de zona
@@ -3365,117 +3365,117 @@ pinta_nombre_leido:		; el nombre de 0xC6A2 en (0x58, 0x60)
 	ld hl,0c6a2h		;bbea
 	jr seis_caracteres		;bbed
 teclea_nombre:		; una tecla (CHGET) para el nombre 0xC6A8: ESC acarreo, RET 0x0D, BS borra
-	xor a			;bbef
+	xor a			;bbef   ; sin la tecla de antes (REPCNT)
 	ld (0fcach),a		;bbf0
 	call 0009fh		;bbf3   ; BIOS CHGET - One character input (waiting)
-	ld c,a			;bbf6
-	ld hl,0c6aeh		;bbf7
+	ld c,a			;bbf6   ; C = la tecla
+	ld hl,0c6aeh		;bbf7   ; 0xC6AE: cuantas letras
 	ld de,0c6a8h		;bbfa
-	ld a,(hl)			;bbfd
+	ld a,(hl)			;bbfd   ; donde va la letra
 	call 04055h		;bbfe   ; de_mas_a_y_vuelve: llama a de_mas_a (p00:41E5) y deja otra vez los bancos 1-2 y el de zona
 	ld a,c			;bc01
-	cp 01bh		;bc02
+	cp 01bh		;bc02   ; ESC: acarreo
 	jr z,L_BC2E		;bc04
-	cp 00dh		;bc06
+	cp 00dh		;bc06   ; RETURN: 0x0D
 	jr z,L_BC30		;bc08
-	cp 008h		;bc0a
+	cp 008h		;bc0a   ; BS: borra
 	jr z,L_BC36		;bc0c
-	sub 030h		;bc0e
+	sub 030h		;bc0e   ; '0'-'9'...
 	cp 00ah		;bc10
 	jr c,L_BC23		;bc12
-	sub 011h		;bc14
+	sub 011h		;bc14   ; ...'A'-'Z'...
 	cp 01ah		;bc16
 	jr c,L_BC23		;bc18
-	sub 020h		;bc1a
+	sub 020h		;bc1a   ; ...'a'-'z' en mayusculas...
 	cp 01ah		;bc1c
-	ret nc			;bc1e
+	ret nc			;bc1e   ; ...las demas no valen
 	ld a,c			;bc1f
 	sub 020h		;bc20
 	ld c,a			;bc22
 L_BC23:
-	ld a,c			;bc23
+	ld a,c			;bc23   ; la letra
 	ld (de),a			;bc24
-	ld a,(hl)			;bc25
+	ld a,(hl)			;bc25   ; hasta 6
 	inc a			;bc26
 	cp 006h		;bc27
 	jr nc,pinta_nombre		;bc29
 	ld (hl),a			;bc2b
 	jr pinta_nombre		;bc2c
 L_BC2E:
-	scf			;bc2e
+	scf			;bc2e   ; acarreo: ESC
 	ret			;bc2f
 L_BC30:
 	call pinta_nombre		;bc30   ; pinta_nombre: el nombre de 0xC6A8 en (0x30, 0x50)
-	ld a,00dh		;bc33
+	ld a,00dh		;bc33   ; 0x0D: RETURN
 	ret			;bc35
 L_BC36:
-	ex de,hl			;bc36
+	ex de,hl			;bc36   ; BS: la letra de ahora a cero
 	ld c,(hl)			;bc37
 	ld (hl),000h		;bc38
-	ld a,(de)			;bc3a
+	ld a,(de)			;bc3a   ; una menos (no por debajo de 0)
 	dec a			;bc3b
 	jp m,pinta_nombre		;bc3c   ; pinta_nombre: el nombre de 0xC6A8 en (0x30, 0x50)
 	ld (de),a			;bc3f
-	ld a,c			;bc40
+	ld a,c			;bc40   ; si estaba vacia...
 	and a			;bc41
 	jr nz,L_BC48		;bc42
-	dec hl			;bc44
+	dec hl			;bc44   ; ...borra la de antes
 	ld (hl),a			;bc45
 	jr pinta_nombre		;bc46
 L_BC48:
-	ex de,hl			;bc48
+	ex de,hl			;bc48   ; si no, se queda en el mismo sitio
 	inc (hl)			;bc49
 pinta_nombre:		; el nombre de 0xC6A8 en (0x30, 0x50)
-	ld de,03050h		;bc4a
+	ld de,03050h		;bc4a   ; en (0x50, 0x30)
 	ld hl,0c6a8h		;bc4d
 seis_caracteres:		; 6 caracteres de HL desde (D, E)
-	ld c,001h		;bc50
-	ld b,006h		;bc52
+	ld c,001h		;bc50   ; el caracter de verdad
+	ld b,006h		;bc52   ; 6 letras
 L_BC54:
-	ld a,(hl)			;bc54
+	ld a,(hl)			;bc54   ; una letra
 	inc hl			;bc55
 	call 040e6h		;bc56   ; caracter_y_vuelve: llama a caracter (p00:5135) y deja otra vez los bancos 1-2 y el de zona
-	ld a,d			;bc59
+	ld a,d			;bc59   ; 8 puntos a la derecha
 	add a,008h		;bc5a
 	ld d,a			;bc5c
 	djnz L_BC54		;bc5d
-	xor a			;bc5f
+	xor a			;bc5f   ; A = 0
 	ret			;bc60
 pantalla_de_cinta:		; el recuadro, y 0xFBF0 (40) y el nombre a cero
-	ld hl,00808h		;bc61
-	ld bc,0a0a0h		;bc64
-	xor a			;bc67
+	ld hl,00808h		;bc61   ; desde (8, 8)...
+	ld bc,0a0a0h		;bc64   ; ...0xA0 x 0xA0 a negro
+	xor a			;bc67   ; 0xC165 y 0xC167 a cero
 	ld (0c165h),a		;bc68
 	ld (0c167h),a		;bc6b
 	ld d,a			;bc6e
 	call 04096h		;bc6f   ; rellena_y_vuelve: llama a rellena (p00:4F91) y deja otra vez los bancos 1-2 y el de zona
-	ld hl,0fbf0h		;bc72
+	ld hl,0fbf0h		;bc72   ; 0xFBF0 (40 bytes, el bufer de teclado de la BIOS) a cero
 	ld b,028h		;bc75
 	call ceros		;bc77   ; ceros: B ceros desde HL
-	ld hl,0c6a8h		;bc7a
+	ld hl,0c6a8h		;bc7a   ; y el nombre
 	ld b,006h		;bc7d
 	jr ceros		;bc7f
 borra_c6ae:		; 0xC6AE-0xC6BB a cero
-	ld hl,0c6aeh		;bc81
+	ld hl,0c6aeh		;bc81   ; 0xC6AE-0xC6BB
 	ld b,00eh		;bc84
 ceros:		; B ceros desde HL
-	ld (hl),000h		;bc86
+	ld (hl),000h		;bc86   ; a cero
 	inc hl			;bc88
 	djnz ceros		;bc89
 	ret			;bc8b
 suma_de_control:		; A = la suma de los 0x300 bytes de 0xCA00; HL = 0xC166
-	ld hl,0ca00h		;bc8c
-	ld bc,002ffh		;bc8f
+	ld hl,0ca00h		;bc8c   ; la partida guardada...
+	ld bc,002ffh		;bc8f   ; ...0x300 bytes
 	ld a,(hl)			;bc92
 	inc hl			;bc93
 L_BC94:
-	add a,(hl)			;bc94
+	add a,(hl)			;bc94   ; los suma
 	inc hl			;bc95
 	dec bc			;bc96
 	ld a,c			;bc97
 	or b			;bc98
 	jr nz,L_BC94		;bc99
-	ld hl,0c166h		;bc9b
+	ld hl,0c166h		;bc9b   ; HL = 0xC166, la suma de la cinta
 	ret			;bc9e
 
 ; ----------------------------------------------------------------------
@@ -3587,25 +3587,25 @@ final_prepara:		; sala 0xFB, cuenta 0x200, modo 4, Snake en (0x80, 0x80) y la fr
 	ld (0c138h),a		;bd8c   ; guarda la frecuencia del transceptor (BCD)
 	jp 040aah		;bd8f   ; enciende_la_pantalla_y_vuelve: llama a enciende_la_pantalla (p00:4E01) y deja otra vez los bancos 1-2 y el de zona
 final_paso:		; un paso del final (0xC922): Snake corre, transceptor, textos, fundido y la cuenta 0xC13D
-	ld a,(0c922h)		;bd92
+	ld a,(0c922h)		;bd92   ; el paso del final
 	ld b,a			;bd95
-	djnz L_BDBA		;bd96
+	djnz L_BDBA		;bd96   ; paso 1: Snake corre...
 	call snake_corre		;bd98   ; snake_corre: pose 4/5 alternas y Snake 8 puntos a la izquierda
-	ld hl,0c923h		;bd9b
+	ld hl,0c923h		;bd9b   ; ...0x80 cuadros
 	dec (hl)			;bd9e
 	jp nz,final_dibujos		;bd9f   ; final_dibujos: por la cuenta (HL): el sonido 0x56 y los dibujos 0xB31F, 0xB325 y 0xB33F o la paleta
-	ld a,080h		;bda2
+	ld a,080h		;bda2   ; luego 0x80 de espera...
 	ld (0c923h),a		;bda4
-	xor a			;bda7
+	xor a			;bda7   ; ...la pose 0...
 	ld (0c18ah),a		;bda8   ; guarda la pose de Snake
 	call sprites_de_snake_2		;bdab   ; sprites_de_snake_2: atributos y patrones de Snake
-	ld hl,08040h		;bdae
+	ld hl,08040h		;bdae   ; ...y borra (0x40, 0x80) 0x40 x 0x28
 	ld bc,04028h		;bdb1
 	ld d,a			;bdb4
 	call 04096h		;bdb5   ; rellena_y_vuelve: llama a rellena (p00:4F91) y deja otra vez los bancos 1-2 y el de zona
 	jr final_paso_siguiente		;bdb8
 L_BDBA:
-	djnz L_BDC7		;bdba
+	djnz L_BDC7		;bdba   ; paso 2: espera
 	ld hl,0c923h		;bdbc
 	dec (hl)			;bdbf
 	ret nz			;bdc0
@@ -3613,74 +3613,74 @@ L_BDBA:
 	ld (0c923h),a		;bdc2
 	jr final_paso_siguiente		;bdc5
 L_BDC7:
-	djnz L_BDD2		;bdc7
+	djnz L_BDD2		;bdc7   ; paso 3: Snake corre otra vez
 	ld hl,0c923h		;bdc9
 	dec (hl)			;bdcc
 	jp nz,final_dibujos		;bdcd   ; final_dibujos: por la cuenta (HL): el sonido 0x56 y los dibujos 0xB31F, 0xB325 y 0xB33F o la paleta
 	jr final_paso_siguiente		;bdd0
 L_BDD2:
-	djnz L_BDE9		;bdd2
+	djnz L_BDE9		;bdd2   ; paso 4: tras la musica (canal 2)...
 	ld a,(0c032h)		;bdd4
 	and a			;bdd7
 	ret nz			;bdd8
 	call 040ebh		;bdd9   ; esconde_los_sprites_y_vuelve: llama a esconde_los_sprites (p00:4E2C) y deja otra vez los bancos 1-2 y el de zona
 	call 04190h		;bddc   ; esconde_los_sprites_ram_y_vuelve: llama a esconde_los_sprites_ram (p00:4E42) y deja otra vez los bancos 1-2 y el de zona
 	call 0407dh		;bddf   ; transceptor_abre_y_vuelve: llama a transceptor_abre (p01:6912) y deja otra vez los bancos 1-2 y el de zona
-	ld a,040h		;bde2
+	ld a,040h		;bde2   ; ...el transceptor y 0x40 cuadros
 	ld (0c923h),a		;bde4
 	jr final_paso_siguiente		;bde7
 L_BDE9:
-	djnz L_BDF7		;bde9
+	djnz L_BDF7		;bde9   ; paso 5: al acabar la espera...
 	ld hl,0c923h		;bdeb
 	dec (hl)			;bdee
 	ret nz			;bdef
 	call 04154h		;bdf0   ; pon_send_y_vuelve: llama a pon_send (p01:69EF) y deja otra vez los bancos 1-2 y el de zona
-	ld a,09bh		;bdf3
+	ld a,09bh		;bdf3   ; ...el texto 0x9B
 	jr L_BE42		;bdf5
 L_BDF7:
-	djnz L_BE07		;bdf7
+	djnz L_BE07		;bdf7   ; paso 6: tras el texto...
 	call ventana_y_modo		;bdf9   ; ventana_y_modo: un paso de la ventana de texto; Z si el modo es el 4
 	ret nz			;bdfc
 	call 0414fh		;bdfd   ; pon_recv_y_vuelve: llama a pon_recv (p01:69E7) y deja otra vez los bancos 1-2 y el de zona
-	ld a,050h		;be00
+	ld a,050h		;be00   ; ...el sonido 0x50
 	call 0405ah		;be02   ; sonido_si_hay_y_vuelve: llama a sonido_si_hay (p00:427C) y deja otra vez los bancos 1-2 y el de zona
 	jr final_paso_siguiente		;be05
 L_BE07:
-	djnz L_BE31		;be07
+	djnz L_BE31		;be07   ; paso 7: la frecuencia sube...
 	ld a,(0c003h)		;be09   ; lee la cuenta de cuadros
-	and 003h		;be0c
+	and 003h		;be0c   ; ...cada 4 cuadros...
 	ret nz			;be0e
 	ld hl,0c138h		;be0f   ; apunta a la frecuencia del transceptor (BCD)
 	ld a,(hl)			;be12
 	add a,001h		;be13
 	daa			;be15
 	ld (hl),a			;be16
-	call 04181h		;be17
+	call 04181h		;be17   ; ...y se pinta...
 	ld a,(0c138h)		;be1a   ; lee la frecuencia del transceptor (BCD)
-	cp 077h		;be1d
+	cp 077h		;be1d   ; ...hasta 0x77
 	ret nz			;be1f
-	ld a,010h		;be20
+	ld a,010h		;be20   ; la barra de senal...
 	ld (0c802h),a		;be22
 	xor a			;be25
 	ld (0c801h),a		;be26   ; guarda la barra de senal del transceptor (0-12)
 	ld (0c153h),a		;be29   ; guarda el paso del modo
 final_paso_siguiente:		; sube 0xC922
-	ld hl,0c922h		;be2c
+	ld hl,0c922h		;be2c   ; el paso siguiente
 	inc (hl)			;be2f
 	ret			;be30
 L_BE31:
-	djnz L_BE44		;be31
+	djnz L_BE44		;be31   ; paso 8: la barra sube...
 	call 04082h		;be33   ; transceptor_senal_y_vuelve: llama a transceptor_senal (p01:699F) y deja otra vez los bancos 1-2 y el de zona
 	ld a,(0c153h)		;be36   ; lee el paso del modo
 	dec a			;be39
 	ret nz			;be3a
-	ld a,05ch		;be3b
+	ld a,05ch		;be3b   ; ...el sonido 0x5C y el texto 0x1F
 	call 0405ah		;be3d   ; sonido_si_hay_y_vuelve: llama a sonido_si_hay (p00:427C) y deja otra vez los bancos 1-2 y el de zona
 	ld a,01fh		;be40
 L_BE42:
 	jr L_BE51		;be42
 L_BE44:
-	djnz L_BE53		;be44
+	djnz L_BE53		;be44   ; paso 9: tras el texto, el sonido 0x41 y el texto 0x2D
 	call ventana_y_modo		;be46   ; ventana_y_modo: un paso de la ventana de texto; Z si el modo es el 4
 	ret nz			;be49
 	ld a,041h		;be4a
@@ -3689,7 +3689,7 @@ L_BE44:
 L_BE51:
 	jr L_BE89		;be51
 L_BE53:
-	djnz L_BE63		;be53
+	djnz L_BE63		;be53   ; paso 10: tras el texto, la musica 0x5C tras el fundido...
 	call ventana_y_modo		;be55   ; ventana_y_modo: un paso de la ventana de texto; Z si el modo es el 4
 	ret nz			;be58
 	ld a,05ch		;be59
@@ -3697,7 +3697,7 @@ L_BE53:
 	call 04177h		;be5e   ; guarda_paleta_y_vuelve: llama a guarda_paleta (p01:6D11) y deja otra vez los bancos 1-2 y el de zona
 	jr final_paso_siguiente		;be61
 L_BE63:
-	djnz L_BE73		;be63
+	djnz L_BE73		;be63   ; paso 11: funde la paleta...
 	call 0417ch		;be65   ; funde_paleta_y_vuelve: llama a funde_paleta (p01:6D2E) y deja otra vez los bancos 1-2 y el de zona
 	ret nc			;be68
 	call 0409bh		;be69   ; pantalla_limpia_y_vuelve: llama a pantalla_limpia (p00:4DF8) y deja otra vez los bancos 1-2 y el de zona
@@ -3705,21 +3705,21 @@ L_BE63:
 	ld (0c923h),a		;be6e
 	jr final_paso_siguiente		;be71
 L_BE73:
-	djnz L_BE8F		;be73
+	djnz L_BE8F		;be73   ; paso 12: al acabar la espera...
 	ld hl,0c923h		;be75
 	dec (hl)			;be78
 	ret nz			;be79
-	ld a,05ch		;be7a
+	ld a,05ch		;be7a   ; ...el sonido 0x5C...
 	call 0405ah		;be7c   ; sonido_si_hay_y_vuelve: llama a sonido_si_hay (p00:427C) y deja otra vez los bancos 1-2 y el de zona
-	ld a,00eh		;be7f
+	ld a,00eh		;be7f   ; ...el color 14 blanco...
 	ld de,07707h		;be81
 	call 040cdh		;be84   ; color_y_vuelve: llama a color (p00:4E66) y deja otra vez los bancos 1-2 y el de zona
-	ld a,00fh		;be87
+	ld a,00fh		;be87   ; ...y el texto 0x0F
 L_BE89:
 	call final_paso_siguiente		;be89   ; final_paso_siguiente: sube 0xC922
 	jp 04127h		;be8c   ; ventana_de_texto_2_y_vuelve: llama a ventana_de_texto_2 (p00:5CD9) y deja otra vez los bancos 1-2 y el de zona
 L_BE8F:
-	djnz L_BE9A		;be8f
+	djnz L_BE9A		;be8f   ; paso 13: tras el texto, la pantalla
 	call ventana_y_modo		;be91   ; ventana_y_modo: un paso de la ventana de texto; Z si el modo es el 4
 	ret nz			;be94
 	call 040aah		;be95   ; enciende_la_pantalla_y_vuelve: llama a enciende_la_pantalla (p00:4E01) y deja otra vez los bancos 1-2 y el de zona
@@ -3729,9 +3729,9 @@ L_BE9A:
 	ld hl,0c13eh		;be9d
 	ld a,(hl)			;bea0
 	dec hl			;bea1
-	or (hl)			;bea2
+	or (hl)			;bea2   ; a cero...
 	jr z,L_BEB1		;bea3
-	ld a,(hl)			;bea5
+	ld a,(hl)			;bea5   ; ...si no, baja 1 (BCD)...
 	sub 001h		;bea6
 	daa			;bea8
 	ld (hl),a			;bea9
@@ -3739,9 +3739,9 @@ L_BE9A:
 	inc hl			;beac
 	dec (hl)			;bead
 L_BEAE:
-	jp 0412ch		;beae
+	jp 0412ch		;beae   ; ...y se pinta (p00:412C)
 L_BEB1:
-	xor a			;beb1
+	xor a			;beb1   ; a cero: borra los digitos (0xC0, 0x70) 0x20 x 0x10
 	ld (0c923h),a		;beb2
 	ld hl,070c0h		;beb5
 	ld bc,02010h		;beb8
@@ -3751,45 +3751,45 @@ L_BEB1:
 ventana_y_modo:		; un paso de la ventana de texto; Z si el modo es el 4
 	call 0414ah		;bec2   ; ventana_paso_y_vuelve: llama a ventana_paso (p00:5D03) y deja otra vez los bancos 1-2 y el de zona
 	ld a,(0c151h)		;bec5   ; lee el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
-	cp 004h		;bec8
+	cp 004h		;bec8   ; Z: el transceptor (modo 4)
 	ret			;beca
 snake_corre:		; pose 4/5 alternas y Snake 8 puntos a la izquierda
 	ld a,(0c003h)		;becb   ; lee la cuenta de cuadros
-	bit 3,a		;bece
-	ld a,004h		;bed0
+	bit 3,a		;bece   ; cada 8 cuadros...
+	ld a,004h		;bed0   ; ...la pose 4 o 5
 	jr z,L_BED5		;bed2
 	inc a			;bed4
 L_BED5:
 	ld (0c18ah),a		;bed5   ; guarda la pose de Snake
 	ld hl,(0c183h)		;bed8   ; lee la X de Snake (16 bits)
-	ld de,0fff8h		;bedb
+	ld de,0fff8h		;bedb   ; X - 8
 	add hl,de			;bede
 	ld (0c183h),hl		;bedf   ; guarda la X de Snake (16 bits)
 sprites_de_snake_2:		; atributos y patrones de Snake
 	call 04186h		;bee2   ; atributos_de_snake_y_vuelve: llama a atributos_de_snake (p00:5318) y deja otra vez los bancos 1-2 y el de zona
 	jp 0418bh		;bee5   ; patrones_de_snake_y_vuelve: llama a patrones_de_snake (p00:53AB) y deja otra vez los bancos 1-2 y el de zona
 final_dibujos:		; por la cuenta (HL): el sonido 0x56 y los dibujos 0xB31F, 0xB325 y 0xB33F o la paleta
-	ld a,(hl)			;bee8
-	cp 0e8h		;bee9
+	ld a,(hl)			;bee8   ; por la cuenta:
+	cp 0e8h		;bee9   ; 0xE8: el sonido 0x56
 	ld c,a			;beeb
 	ld a,056h		;beec
 	jp z,0405ah		;beee   ; sonido_si_hay_y_vuelve: llama a sonido_si_hay (p00:427C) y deja otra vez los bancos 1-2 y el de zona
 	ld a,c			;bef1
-	cp 0e0h		;bef2
+	cp 0e0h		;bef2   ; 0xE0: el dibujo 0xB31F en (0x60, 0x90)
 	ld de,09060h		;bef4
 	ld hl,0b31fh		;bef7
 	jr z,L_BF1F		;befa
-	cp 0d0h		;befc
+	cp 0d0h		;befc   ; 0xD0: el dibujo 0xB325 en (0x50, 0x80)
 	ld de,08050h		;befe
 	ld hl,0b325h		;bf01
 	jr z,L_BF1F		;bf04
-	cp 0c0h		;bf06
+	cp 0c0h		;bf06   ; 0xC0: el dibujo 0xB33F en (0x40, 0x80)
 	jr z,L_BF1A		;bf08
 	ret nc			;bf0a
-	ld c,a			;bf0b
+	ld c,a			;bf0b   ; por debajo, cada 8 cuadros...
 	and 007h		;bf0c
 	ret nz			;bf0e
-	bit 4,c		;bf0f
+	bit 4,c		;bf0f   ; ...la paleta 0x0F o la 0x0D (el destello)
 	ld a,00fh		;bf11
 	jr nz,L_BF17		;bf13
 	ld a,00dh		;bf15
@@ -3802,13 +3802,13 @@ L_BF1F:
 	jp 04104h		;bf1f   ; pone_dibujo_y_vuelve: llama a pone_dibujo (p00:44AF) y deja otra vez los bancos 1-2 y el de zona
 rayos_con_goggl:		; con GOGGL (objeto 4), sin 0xC602, en las salas 0x18, 0x19 y 0x48: pinta los rayos de los actores
 	ld a,(0c135h)		;bf22   ; lee el objeto elegido (p06:B8F6: 3 LIGHT, 4 GOGGL, 6 CIGAL, 0x0E-0x15 CARD1-8, 0x16 RATIO, 0x19 BOX...)
-	cp 004h		;bf25
+	cp 004h		;bf25   ; con GOGGL...
 	ret nz			;bf27
 	ld a,(0c602h)		;bf28   ; lee la bandera 0xC602 (refuerzos y musica)
-	and a			;bf2b
+	and a			;bf2b   ; ...sin la alarma...
 	ret nz			;bf2c
 	ld a,(0c130h)		;bf2d   ; lee la sala
-	sub 018h		;bf30
+	sub 018h		;bf30   ; ...en las salas 0x18, 0x19 y 0x48
 	jr z,L_BF3A		;bf32
 	dec a			;bf34
 	jr z,L_BF3A		;bf35
@@ -3816,29 +3816,29 @@ rayos_con_goggl:		; con GOGGL (objeto 4), sin 0xC602, en las salas 0x18, 0x19 y 
 	ret nz			;bf39
 L_BF3A:
 	ld hl,0d000h		;bf3a   ; apunta a los 16 actores (fichas de 0x80)
-	ld a,(0c609h)		;bf3d
+	ld a,(0c609h)		;bf3d   ; los rayos (0xC609)
 	ld b,a			;bf40
 L_BF41:
-	push bc			;bf41
+	push bc			;bf41   ; un rayo
 	push hl			;bf42
 	inc hl			;bf43
-	bit 0,(hl)		;bf44
+	bit 0,(hl)		;bf44   ; apagado: nada
 	jr z,L_BF64		;bf46
-	inc hl			;bf48
+	inc hl			;bf48   ; +3: la Y
 	inc hl			;bf49
 	ld e,(hl)			;bf4a
 	inc hl			;bf4b
-	inc hl			;bf4c
+	inc hl			;bf4c   ; +5: la X
 	ld d,(hl)			;bf4d
-	ld a,010h		;bf4e
+	ld a,010h		;bf4e   ; +0x15: el largo
 	call 04050h		;bf50   ; hl_mas_a_y_vuelve: llama a hl_mas_a (p00:41E0) y deja otra vez los bancos 1-2 y el de zona
 	ld b,(hl)			;bf53
-	inc hl			;bf54
+	inc hl			;bf54   ; +0x16: horizontal
 	ld a,(hl)			;bf55
 	and a			;bf56
-	ld c,008h		;bf57
+	ld c,008h		;bf57   ; en el color 8
 	ex de,hl			;bf59
-	jr nz,L_BF61		;bf5a
+	jr nz,L_BF61		;bf5a   ; vertical: una linea vertical
 	call 04131h		;bf5c   ; linea_vertical_y_vuelve: llama a linea_vertical (p00:4F2F) y deja otra vez los bancos 1-2 y el de zona
 	jr L_BF64		;bf5f
 L_BF61:
@@ -3846,29 +3846,29 @@ L_BF61:
 L_BF64:
 	pop hl			;bf64
 	pop bc			;bf65
-	ld a,080h		;bf66
+	ld a,080h		;bf66   ; el actor siguiente
 	call 04050h		;bf68   ; hl_mas_a_y_vuelve: llama a hl_mas_a (p00:41E0) y deja otra vez los bancos 1-2 y el de zona
 	djnz L_BF41		;bf6b
 	ret			;bf6d
 borra_rayos:		; tapa los rayos copiando de la pagina 1
 	ld hl,0d000h		;bf6e   ; apunta a los 16 actores (fichas de 0x80)
-	ld a,(0c609h)		;bf71
+	ld a,(0c609h)		;bf71   ; los rayos (0xC609)
 	ld b,a			;bf74
 L_BF75:
-	push bc			;bf75
+	push bc			;bf75   ; un rayo
 	push hl			;bf76
 	inc hl			;bf77
-	bit 0,(hl)		;bf78
+	bit 0,(hl)		;bf78   ; apagado: nada
 	jr z,L_BF9D		;bf7a
-	inc hl			;bf7c
+	inc hl			;bf7c   ; +3: la Y
 	inc hl			;bf7d
 	ld e,(hl)			;bf7e
 	inc hl			;bf7f
-	inc hl			;bf80
+	inc hl			;bf80   ; +5: la X
 	ld d,(hl)			;bf81
-	ld a,011h		;bf82
+	ld a,011h		;bf82   ; +0x13, +0x14: donde se guardo el fondo
 	call 04050h		;bf84   ; hl_mas_a_y_vuelve: llama a hl_mas_a (p00:41E0) y deja otra vez los bancos 1-2 y el de zona
-	ld c,(hl)			;bf87
+	ld c,(hl)			;bf87   ; +0x16 y +0x15
 	dec hl			;bf88
 	ld b,(hl)			;bf89
 	dec hl			;bf8a
@@ -3876,20 +3876,20 @@ L_BF75:
 	dec hl			;bf8c
 	ld l,(hl)			;bf8d
 	ld h,a			;bf8e
-	ld a,c			;bf8f
+	ld a,c			;bf8f   ; 2 de grueso
 	ld c,002h		;bf90
-	rra			;bf92
+	rra			;bf92   ; horizontal: B x 2
 	jr c,L_BF98		;bf93
-	ld a,b			;bf95
+	ld a,b			;bf95   ; vertical: 2 x B
 	ld b,c			;bf96
 	ld c,a			;bf97
 L_BF98:
-	ld a,001h		;bf98
+	ld a,001h		;bf98   ; de la pagina 1 a la 0
 	call 04122h		;bf9a   ; copia_vram_y_vuelve: llama a copia_vram (p00:4FCD) y deja otra vez los bancos 1-2 y el de zona
 L_BF9D:
 	pop hl			;bf9d
 	pop bc			;bf9e
-	ld a,080h		;bf9f
+	ld a,080h		;bf9f   ; el actor siguiente
 	call 04050h		;bfa1   ; hl_mas_a_y_vuelve: llama a hl_mas_a (p00:41E0) y deja otra vez los bancos 1-2 y el de zona
 	djnz L_BF75		;bfa4
 	ret			;bfa6

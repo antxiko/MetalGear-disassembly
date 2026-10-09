@@ -1,6 +1,190 @@
 # notas del banco 04
 
 # --- A MANO: comentarios, nombres y bloques ---
+C 0x6000 con la musica guardada (0xC0F2) no...
+C 0x6006 ...si la ultima pedida fue la 0x53...
+C 0x600D ...y su canal 2 ya acabo...
+C 0x6013 ...se olvida...
+C 0x6017 ...y suena la 0x3B
+C 0x601F el mezclador al PSG
+C 0x6026 B' = 4 canales, DE' = 0x20 por canal
+C 0x602C 0xC0F3 a cero
+C 0x6030 con 0xC0F1 (volver de la pausa o del transceptor)...
+C 0x6037 ...la musica guardada en 0xC090 vuelve a 0xC010
+C 0x6040 0xC0F2 a cero
+C 0x6045 0xC0F3 = 1: refrescar periodos y volumenes
+C 0x604A sin musica guardada...
+C 0x6050 ...y con un sonido esperando (0xC0F4), el fundido
+C 0x6057 C = 1: el registro de tono del canal A
+C 0x6059 el primer canal
+C 0x605E un canal
+C 0x6062 suena algo: un cuadro de su lista
+C 0x6068 callado...
+C 0x606A ...(salvo el cuarto) se apaga
+C 0x6070 el registro del canal siguiente (de 2 en 2)
+C 0x6073 la ficha siguiente
+C 0x6082 el sonido 0x50 (la senal del transceptor)...
+C 0x6089 ...suena mas grave cuanto mas baja la frecuencia:
+C 0x6093 las decenas + 1...
+C 0x6098 ...restan 6 a las unidades...
+C 0x609E ...en 0xC0F9
+C 0x60A5 en el formato 1, a L_617A
+C 0x60AB la nota sigue: el resto del cuadro
+C 0x60B1 la nota siguiente
+C 0x60B8 0xFE: una orden; 0xFF: el fin
+C 0x60C5 el formato 1 se lee en L_6212
+C 0x60C8 0x2x: [tipo][duracion]
+C 0x60D2 la duracion
+C 0x60E4 0x20: un silencio
+C 0x60ED con el bit 3 (envolvente) y no el 2...
+C 0x60F5 ...el periodo de la envolvente al PSG...
+C 0x60F7 ...R#12...
+C 0x60FF ...y R#11
+C 0x6105 0x1x: el ruido
+C 0x610C el periodo del ruido x 2
+C 0x6111 en el canal C...
+C 0x6116 ...si suena un efecto, el ruido es suyo
+C 0x611C R#6: el periodo del ruido
+C 0x6122 el nibble alto: el volumen; el bajo: el periodo alto
+C 0x6126 D = el periodo alto
+C 0x612D en el tipo 1 (solo ruido) no hay periodo bajo
+C 0x6133 E = el periodo bajo
+C 0x6139 con instrumento, L_633D
+C 0x613F HL = el periodo
+C 0x6140 el sonido 0x50 en el canal 1...
+C 0x6147 ...baja el periodo (sube el tono) lo de 0xC0F9
+C 0x6159 el volumen: el nibble alto
+C 0x6164 sin instrumento...
+C 0x6171 la cuenta = la duracion
+C 0x617D al acabar la nota, la siguiente
+C 0x6180 en pausa (0xC0F8), nada mas
+C 0x6189 con instrumento, L_632B
+C 0x618C con vibrato
+C 0x6193 la bajada de volumen...
+C 0x61AE el volumen baja 1 (hasta 0)
+C 0x61BF el vibrato empieza tras 10 cuadros
+C 0x61D0 cada (nibble alto de (ix+0x1C)) cuadros...
+C 0x61E1 ...el periodo sube o baja...
+C 0x61E7 ...lo del nibble bajo
+C 0x61ED el sentido cambia cada vez
+C 0x61F8 + B
+C 0x61FF - B
+C 0x620E la cuenta
+C 0x6212 formato 1: 0xDx = la unidad de duracion
+C 0x6221 0xFx = el volumen + 1...
+C 0x622C ...y un byte de dos nibbles
+C 0x623E 0xEx: una orden
+C 0x6244 0xE0-0xE7: la octava
+C 0x6248 0xE8: el periodo + 1 (bit 3)
+C 0x624A 0xEC: vibrato con el byte siguiente
+C 0x624E 0xEF: sin instrumento ni banderas
+C 0x6252 0xE9-0xEE (salvo 0xEC): el instrumento del byte siguiente
+C 0x6259 0xEF
+C 0x6261 en pausa...
+C 0x6267 ...el canal callado
+C 0x6275 0xEC: el bit 2 (vibrato)...
+C 0x627A ...y sus parametros
+C 0x6281 0xE8: el bit 3
+C 0x6289 la octava
+C 0x628E [nota][duracion]: la duracion en unidades
+C 0x6296 x la unidad
+C 0x629E la nota (el nibble alto)
+C 0x62AF la nota 0x0C: silencio
+C 0x62B5 el volumen de partida
+C 0x62BE el vibrato de cero
+C 0x62C9 la cuenta = la duracion
+C 0x62CF en pausa, nada mas
+C 0x62D4 la bajada de volumen empieza en (ix+0x0C) + duracion
+C 0x62DB el periodo de la nota (0x63FD)...
+C 0x62E7 ...por 2 elevado a la octava
+C 0x62FD el instrumento: 0x6529 + 2 x n...
+C 0x6306 ...HL = su tabla de 12 notas
+C 0x6311 en pausa, nada mas
+C 0x6316 la nota B de la tabla
+C 0x631D (ix+0x11, 0x12) = su lista
+C 0x6327 y se lee como el formato 0
+C 0x632B la cuenta del instrumento
+C 0x6336 0xFF: el instrumento acabo
+C 0x633D el instrumento sigue por aqui
+C 0x6347 callado
+C 0x6351 la nota 0x0C: silencio
+C 0x6367 al acabar la lista...
+C 0x636D ...vuelve de la llamada (0xFE 0xFF)
+C 0x637A la nota siguiente ya
+C 0x6381 el canal callado
+C 0x639A en el cuarto canal (C = 7)...
+C 0x63A0 ...el tercero (0xC050) vuelve a sonar con volumen 5
+C 0x63B0 con 0xC0F3, refresca
+C 0x63BB el efecto (0xC072) en marcha...
+C 0x63BF los canales A y B siempre
+C 0x63C4 el C (5) solo sin efecto
+C 0x63CB el cuarto (7) solo con efecto...
+C 0x63CE ...y en el registro del C
+C 0x63DC con el bit 3, el periodo + 1
+C 0x63E3 el periodo alto al registro C
+C 0x63E8 el bajo al registro C - 1
+C 0x63F3 en el formato 1 sin instrumento, el tipo 2
+C 0x6409 0xC0F5: la cuenta del fundido
+C 0x640D con la musica 0x41, cada 0x0E cuadros...
+C 0x641A ...con las demas, cada 3
+C 0x641E 0xC0F6: lo que baja el volumen
+C 0x6423 hasta 0x0B
+C 0x6426 al acabar, a cero...
+C 0x6430 ...y el sonido que esperaba
+C 0x6434 el efecto (0xC072) en marcha...
+C 0x6438 los canales A y B siempre
+C 0x643D el C (5) solo sin efecto
+C 0x6444 el cuarto (7) solo con efecto, en el registro del C
+C 0x644C el registro de volumen: 8 + C / 2
+C 0x6454 sin musica guardada...
+C 0x645D ...en el formato 1...
+C 0x6460 ...con fundido...
+C 0x6467 ...el volumen baja (sin pasar de cero)...
+C 0x646F ...y sin envolvente
+C 0x6474 con envolvente (bit 3)...
+C 0x647B ...el volumen como forma de la envolvente (R#13)...
+C 0x6481 ...y el volumen 0x10 (envolvente)
+C 0x6484 al registro de volumen
+C 0x6489 3 canales
+C 0x648E C = A
+C 0x648F 0xC0F1 a cero
+C 0x6495 0xFE 0: cambia el formato
+C 0x6499 0xFE 0xFF: llama a otra lista
+C 0x649F 0xFE n: repite n veces...
+C 0x64A0 ...desde la direccion que sigue
+C 0x64AA la direccion
+C 0x64B6 hechas: sigue detras
+C 0x64BF la nota siguiente ya
+C 0x64C8 el formato 1 pasa al 0...
+C 0x64D0 ...y el 0 al 1
+C 0x64D5 la lista llamada
+C 0x64DF la vuelta en (ix+0x18, 0x19)
+C 0x64E7 y sigue alli
+C 0x67FD C = el sonido
+C 0x67FE la 0x53: se apunta en 0xC0FB
+C 0x6805 los sonidos 0x4D y 0x59...
+C 0x680F ...guardan la musica en 0xC090...
+C 0x6819 ...y 0xC0F2 = 1
+C 0x681E el primer canal, uno
+C 0x6824 menos de 0x29: un efecto
+C 0x6828 0x29-0x5B: musica de 3 canales
+C 0x682C 0x5C en adelante: de 4
+C 0x682F sin musica guardada, sin fundido
+C 0x683F si no es la 0x59, el efecto se corta
+C 0x684A el efecto, en el cuarto canal (0xC070)
+C 0x684C con 0x59 o mas en el tercero, no
+C 0x6852 ni si suena un efecto de numero mayor
+C 0x6857 la lista del sonido: 0x6890 + 2 x n
+C 0x6864 HL = la ficha del canal
+C 0x6866 +0: la cuenta a 1
+C 0x686A +2: el sonido
+C 0x686C +3, +4: la lista
+C 0x6872 +0x0B: sin repeticiones
+C 0x6878 +0x0E = 1: el formato 1
+C 0x687F +0x0F y +0x10 a cero
+C 0x6884 +0x19 a cero
+C 0x688A la ficha siguiente
+C 0x688E la lista del canal siguiente
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0x6078 0x607F codigo_sin_entrada_6078  7 bytes de codigo al que no llega nadie (`ld h,0 / call 0x6434 / jr 0x6070`): entre el `ret` de 0x6077 y la rutina de 0x607F; lo leen nadie (7 bytes)
@@ -121,40 +305,174 @@ C 0x601C pide_sonido: el sonido A (indice 0x6892): < 0x29 efecto en 0xC070 si ma
 C 0x6022 pon_mezclador: 0xC0F0 = A y al registro 7 del PSG
 C 0x603D copia_canales: copia 0x60 bytes de HL a DE (guarda o devuelve tres canales)
 C 0x6054 fundido: baja el volumen (0xC0F5, 0xC0F6) y, al acabar, pide el sonido de 0xC0F4
+C 0x605F lee el sonido del canal
 C 0x6064 canal: un cuadro del canal IX (C = su registro de tono del PSG)
 C 0x606D fin_de_lista: 0xFF: vuelve a la lista guardada (ix+0x18, 0x19) o calla el canal
+C 0x607F lee el sonido del canal
 C 0x6086 lee la frecuencia del transceptor (BCD)
 C 0x6095 lee la frecuencia del transceptor (BCD)
+C 0x60A1 lee el formato de la lista (0xFE 0 lo cambia)
+C 0x60A8 guarda el instrumento
+C 0x60AB baja la cuenta de la nota
 C 0x60AE refresca_canal: con 0xC0F3 vuelve a mandar el periodo y el volumen
+C 0x60B1 lee por donde va la lista
+C 0x60B4 lee por donde va la lista (alta)
 C 0x60BA orden_fe: 0xFE n: repite n veces; 0xFE 0: cambia de modo; 0xFE 0xFF: llama a otra lista
 C 0x60BD fin_de_lista: 0xFF: vuelve a la lista guardada (ix+0x18, 0x19) o calla el canal
+C 0x60C0 lee el formato de la lista (0xFE 0 lo cambia)
+C 0x60CF guarda el tipo de nota (bits 0-1 tono/ruido, 3 envolvente)
+C 0x60D3 lee el instrumento
+C 0x60DA guarda la duracion de la nota
+C 0x60DD guarda la duracion de la nota del instrumento
+C 0x60E1 lee el tipo de nota (bits 0-1 tono/ruido, 3 envolvente)
+C 0x612A lee el tipo de nota (bits 0-1 tono/ruido, 3 envolvente)
+C 0x6135 lee el instrumento
 C 0x613C avanza_lista: (ix+3, ix+4) = HL + 1
+C 0x6150 guarda el periodo
+C 0x6153 guarda el periodo (alto)
 C 0x6156 periodo_al_psg: manda el periodo del canal al PSG (el canal 5/7 cede al efecto de 0xC072)
+C 0x615E guarda el volumen
+C 0x6161 lee el instrumento
+C 0x6168 lee la duracion de la nota del instrumento
+C 0x616B guarda la cuenta del instrumento
 C 0x616E volumen_al_psg: manda el volumen del canal al PSG (el canal 5/7 cede al efecto)
+C 0x6171 lee la duracion de la nota
+C 0x6174 guarda la cuenta de la nota
 C 0x6177 volumen_al_psg: manda el volumen del canal al PSG (el canal 5/7 cede al efecto)
+C 0x617A baja la cuenta de la nota
+C 0x6185 lee el instrumento
+C 0x618C mira el bit 2 de las banderas del canal (bit 0 y 2 vibrato, 3 periodo + 1)
 C 0x6190 vibrato: con el bit 2 de (ix+0x0F): sube y baja el periodo segun (ix+0x1C) [cada][cuanto]
+C 0x6193 baja la cuenta de la bajada de volumen
+C 0x6196 lee la cuenta de la bajada de volumen
+C 0x6199 compara con la cuenta de la nota
+C 0x619F lee el nibble bajo tras Fx
 C 0x61A5 refresca_canal: con 0xC0F3 vuelve a mandar el periodo y el volumen
+C 0x61A8 baja la cuenta de la bajada de volumen
+C 0x61AB lee el volumen que va bajando
 C 0x61AF refresca_canal: con 0xC0F3 vuelve a mandar el periodo y el volumen
+C 0x61B2 guarda el volumen que va bajando
+C 0x61B5 guarda el volumen
 C 0x61B8 volumen_al_psg: manda el volumen del canal al PSG (el canal 5/7 cede al efecto)
+C 0x61BB mira el bit 0 de las banderas del canal (bit 0 y 2 vibrato, 3 periodo + 1)
+C 0x61C1 lee la cuenta del vibrato
+C 0x61C9 sube las banderas del canal (bit 0 y 2 vibrato, 3 periodo + 1)
+C 0x61D0 lee el vibrato ([cada][cuanto])
+C 0x61DA lee la cuenta del vibrato
+C 0x61E1 lee el periodo
+C 0x61E4 lee el periodo (alto)
+C 0x61E7 lee el vibrato ([cada][cuanto])
+C 0x61ED lee el sentido del vibrato
+C 0x61F1 guarda el sentido del vibrato
+C 0x6204 guarda el periodo
+C 0x6207 guarda el periodo (alto)
 C 0x620A periodo_al_psg: manda el periodo del canal al PSG (el canal 5/7 cede al efecto de 0xC072)
+C 0x620E guarda la cuenta del vibrato
+C 0x621C guarda la unidad de duracion (Dx)
+C 0x6228 guarda el volumen de la nota (Fx)
+C 0x6233 guarda el nibble alto tras Fx
+C 0x6239 guarda el nibble bajo tras Fx
+C 0x6254 guarda el instrumento
+C 0x625A guarda las banderas del canal (bit 0 y 2 vibrato, 3 periodo + 1)
+C 0x625D guarda el instrumento
+C 0x6268 guarda el tipo de nota (bits 0-1 tono/ruido, 3 envolvente)
+C 0x626B guarda el volumen
 C 0x626F volumen_al_psg: manda el volumen del canal al PSG (el canal 5/7 cede al efecto)
+C 0x6275 pone a uno el bit 2 de las banderas del canal (bit 0 y 2 vibrato, 3 periodo + 1)
+C 0x627B guarda el vibrato ([cada][cuanto])
+C 0x6281 pone a uno el bit 3 de las banderas del canal (bit 0 y 2 vibrato, 3 periodo + 1)
+C 0x6289 guarda la octava (E0-E7)
+C 0x6291 lee la unidad de duracion (Dx)
+C 0x6296 le suma la unidad de duracion (Dx)
+C 0x629B guarda la duracion de la nota
 C 0x629F avanza_lista: (ix+3, ix+4) = HL + 1
+C 0x62A9 lee el instrumento
+C 0x62B5 lee el volumen de la nota (Fx)
+C 0x62B8 guarda el volumen que va bajando
+C 0x62BB guarda el volumen
+C 0x62BE pone a cero el bit 0 de las banderas del canal (bit 0 y 2 vibrato, 3 periodo + 1)
+C 0x62C3 guarda la cuenta del vibrato
+C 0x62C6 guarda el sentido del vibrato
+C 0x62C9 lee la duracion de la nota
+C 0x62CC guarda la cuenta de la nota
+C 0x62D4 lee el nibble alto tras Fx
+C 0x62D8 guarda la cuenta de la bajada de volumen
+C 0x62E7 lee la octava (E0-E7)
+C 0x62F1 guarda el periodo
+C 0x62F4 guarda el periodo (alto)
 C 0x62F7 periodo_al_psg: manda el periodo del canal al PSG (el canal 5/7 cede al efecto de 0xC072)
 C 0x62FA volumen_al_psg: manda el volumen del canal al PSG (el canal 5/7 cede al efecto)
+C 0x630B lee la duracion de la nota
+C 0x630E guarda la cuenta de la nota
+C 0x631E guarda la nota del instrumento
+C 0x6323 guarda la nota del instrumento (alta)
+C 0x632B baja la cuenta del instrumento
+C 0x632F lee la nota del instrumento
+C 0x6332 lee la nota del instrumento (alta)
+C 0x633E guarda la nota del instrumento
+C 0x6341 guarda la nota del instrumento (alta)
+C 0x6348 guarda el tipo de nota (bits 0-1 tono/ruido, 3 envolvente)
+C 0x634B guarda el volumen
 C 0x634E volumen_al_psg: manda el volumen del canal al PSG (el canal 5/7 cede al efecto)
+C 0x6352 guarda el periodo
+C 0x6355 guarda el periodo (alto)
+C 0x6358 guarda el volumen
+C 0x635B lee la duracion de la nota
+C 0x635E guarda la cuenta de la nota
 C 0x6361 periodo_al_psg: manda el periodo del canal al PSG (el canal 5/7 cede al efecto de 0xC072)
 C 0x6364 volumen_al_psg: manda el volumen del canal al PSG (el canal 5/7 cede al efecto)
+C 0x6367 lee la vuelta de la llamada (alta)
+C 0x636D guarda por donde va la lista (alta)
+C 0x6370 lee la vuelta de la llamada (0xFE 0xFF)
+C 0x6373 guarda por donde va la lista
+C 0x6376 la vuelta de la llamada (alta) = 0x00
+C 0x637A la cuenta de la nota = 0x01
 C 0x637E canal: un cuadro del canal IX (C = su registro de tono del PSG)
+C 0x6382 guarda el sonido del canal
+C 0x6385 guarda el tipo de nota (bits 0-1 tono/ruido, 3 envolvente)
+C 0x6388 guarda la cuenta de repeticiones (0xFE n)
+C 0x638B guarda el instrumento
+C 0x638E guarda el periodo
+C 0x6391 guarda el periodo (alto)
+C 0x6394 guarda el volumen
+C 0x6397 guarda el sentido del vibrato
 C 0x639D volumen_al_psg: manda el volumen del canal al PSG (el canal 5/7 cede al efecto)
+C 0x63A6 el volumen = 0x05
 C 0x63AA periodo: el periodo (ix+0x15, 0x16) a los registros C y C - 1 del PSG
 C 0x63AD volumen: el volumen (ix+0x17) menos el fundido 0xC0F6 al registro 8 + C/2, o la envolvente
 C 0x63B5 periodo_al_psg: manda el periodo del canal al PSG (el canal 5/7 cede al efecto de 0xC072)
 C 0x63B8 volumen_al_psg: manda el volumen del canal al PSG (el canal 5/7 cede al efecto)
 C 0x63D0 periodo: el periodo (ix+0x15, 0x16) a los registros C y C - 1 del PSG
+C 0x63D6 lee el periodo
+C 0x63D9 lee el periodo (alto)
+C 0x63DC mira el bit 3 de las banderas del canal (bit 0 y 2 vibrato, 3 periodo + 1)
+C 0x63EE lee el instrumento
+C 0x63F3 lee el formato de la lista (0xFE 0 lo cambia)
+C 0x63F8 el tipo de nota (bits 0-1 tono/ruido, 3 envolvente) = 0x02
 C 0x6431 pide_sonido: el sonido A (indice 0x6892): < 0x29 efecto en 0xC070 si manda mas, si no musica de 3 o 4 canales; 0x4D/0x59 guardan la musica
 C 0x6449 mezclador: tono y ruido del canal por (ix+5) bits 0-1, al registro 7 del PSG
+C 0x6451 lee el volumen
+C 0x645A lee el formato de la lista (0xFE 0 lo cambia)
+C 0x646B mira el bit 3 de el tipo de nota (bits 0-1 tono/ruido, 3 envolvente)
+C 0x6471 lee el tipo de nota (bits 0-1 tono/ruido, 3 envolvente)
+C 0x649C lee la cuenta de repeticiones (0xFE n)
+C 0x64A7 guarda la cuenta de repeticiones (0xFE n)
+C 0x64AC guarda por donde va la lista
+C 0x64B1 guarda por donde va la lista (alta)
+C 0x64B9 guarda la cuenta de repeticiones (0xFE n)
 C 0x64BC avanza_lista: (ix+3, ix+4) = HL + 1
+C 0x64BF sube la cuenta de la nota
 C 0x64C2 canal: un cuadro del canal IX (C = su registro de tono del PSG)
+C 0x64C5 lee el formato de la lista (0xFE 0 lo cambia)
+C 0x64CB baja el formato de la lista (0xFE 0 lo cambia)
+C 0x64D0 sube el formato de la lista (0xFE 0 lo cambia)
+C 0x64D7 guarda por donde va la lista
+C 0x64DC guarda por donde va la lista (alta)
+C 0x64E0 guarda la vuelta de la llamada (0xFE 0xFF)
+C 0x64E3 guarda la vuelta de la llamada (alta)
+C 0x64EB guarda por donde va la lista
+C 0x64EE guarda por donde va la lista (alta)
+C 0x64F6 lee el tipo de nota (bits 0-1 tono/ruido, 3 envolvente)
 C 0x6505 pon_bits: E = E OR A
 C 0x650A quita_bits: E = E AND NOT A
 C 0x6513 pon_bits: E = E OR A

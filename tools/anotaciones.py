@@ -911,10 +911,49 @@ CAMPOS_PROYECTIL = {
     0x20: "cuantos sprites tiene el proyectil",
 }
 
+# Los canales de sonido: 4 fichas de 0x20 desde 0xC010 (p04:6057-6075), y
+# 0xC090 la copia de la musica (p04:6489). Campos leidos en p04:607F-652A.
+FICHAS_IX_CANAL = (0xC010, 0xC050)
+IX_CANAL_POR_DEFECTO = {
+    4: ((0x607F, 0x652B),),
+}
+CAMPOS_CANAL = {
+    0x00: "la cuenta de la nota",
+    0x01: "la duracion de la nota",
+    0x02: "el sonido del canal",
+    0x03: "por donde va la lista",
+    0x04: "por donde va la lista (alta)",
+    0x05: "el tipo de nota (bits 0-1 tono/ruido, 3 envolvente)",
+    0x06: "la unidad de duracion (Dx)",
+    0x07: "el volumen de la nota (Fx)",
+    0x08: "el volumen que va bajando",
+    0x09: "la octava (E0-E7)",
+    0x0A: "la cuenta de la bajada de volumen",
+    0x0B: "la cuenta de repeticiones (0xFE n)",
+    0x0C: "el nibble alto tras Fx",
+    0x0D: "el nibble bajo tras Fx",
+    0x0E: "el formato de la lista (0xFE 0 lo cambia)",
+    0x0F: "las banderas del canal (bit 0 y 2 vibrato, 3 periodo + 1)",
+    0x10: "el instrumento",
+    0x11: "la nota del instrumento",
+    0x12: "la nota del instrumento (alta)",
+    0x13: "la cuenta del instrumento",
+    0x14: "la duracion de la nota del instrumento",
+    0x15: "el periodo",
+    0x16: "el periodo (alto)",
+    0x17: "el volumen",
+    0x18: "la vuelta de la llamada (0xFE 0xFF)",
+    0x19: "la vuelta de la llamada (alta)",
+    0x1A: "la cuenta del vibrato",
+    0x1B: "el sentido del vibrato",
+    0x1C: "el vibrato ([cada][cuanto])",
+}
+
 # (cargas de IX, tramos por banco, campos): la primera que vale manda.
 FICHAS = (
     (FICHAS_IX, IX_FICHA_POR_DEFECTO, CAMPOS),
     (FICHAS_IX_PROYECTIL, IX_PROYECTIL_POR_DEFECTO, CAMPOS_PROYECTIL),
+    (FICHAS_IX_CANAL, IX_CANAL_POR_DEFECTO, CAMPOS_CANAL),
 )
 
 # --- los manejadores por tipo de actor ---

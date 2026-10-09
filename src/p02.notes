@@ -1637,7 +1637,6 @@ C 0x950F teclas_a_cero: 0xC191 y 0xC192 a cero
 C 0x9515 guarda la X de Snake (16 bits)
 C 0x951A lee la sala
 C 0x952C guarda la Y de Snake (16 bits)
-C 0x9530 teclas_a_cero: 0xC191 y 0xC192 a cero
 C 0x9533 guarda el estado de Snake
 C 0x9536 guarda el modo de la pose de Snake
 C 0x953C guarda la pose de Snake
@@ -1729,12 +1728,8 @@ C 0x988A lee la X del actor
 C 0x9899 lee la Y del actor
 C 0x98AE guarda_fondo_16: copia 16 x 16 de HL a (0x60, 0x80) de la pagina 1
 C 0x98C1 guarda la cuenta de los refuerzos
-C 0x98CF pon_dibujo_16: copia 16 x 16 de HL a DE con TIMP
-C 0x98D2 alarma: pon_c602 y 0xC60F = la sala, 0xC669 = 0x10
 C 0x98D5 lee el tipo del actor
-C 0x98DB reaparece: crea en IX el actor de p06:A445 de la sala (salas < 0xBC)
 C 0x98F5 lee la X de Snake
-C 0x9900 lee el tipo del actor
 C 0x9911 lee la Y de Snake
 C 0x991C lee el tipo del actor
 C 0x9922 lee las marcas del actor (bits 0-4 el arma que le dio, 6 golpe, 7 contacto)
@@ -1754,7 +1749,6 @@ C 0x998E paso_siguiente: sube el paso del actor (ix+1)
 C 0x9991 lee la direccion del actor
 C 0x999D suma_velocidad_x: la velocidad X del actor (ix+9, ix+0x0A) += DE
 C 0x99A0 lee la X del actor
-C 0x99BA guarda la X del actor
 C 0x99BD guarda la direccion del actor
 C 0x99C0 velocidad_x: la velocidad X del actor (ix+9, ix+0x0A) = DE
 C 0x99C5 sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)

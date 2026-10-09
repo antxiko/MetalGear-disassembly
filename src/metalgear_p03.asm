@@ -81,21 +81,21 @@ L_A049:
 	ret			;a049
 crea_tipo_54:		; la creacion del tipo 54
 	ld a,(0c130h)		;a04a   ; lee la sala
-	cp 06fh		;a04d
+	cp 06fh		;a04d   ; en la sala 0x6F...
 	jr nz,L_A061		;a04f
-	push ix		;a051
+	push ix		;a051   ; ...3 sprites...
 	pop hl			;a053
 	set 5,l		;a054
 	ld (hl),003h		;a056
-	ld b,007h		;a058
+	ld b,007h		;a058   ; ...y los 7 huecos de sprite de antes se devuelven
 	ld de,00010h		;a05a
 	add hl,de			;a05d
 	call 05703h		;a05e
 L_A061:
 	ld (ix+00bh),061h		;a061   ; el cuadro del actor = 0x61
-	ld (ix+058h),00bh		;a065
-	ld (ix+059h),001h		;a069
-	ld a,004h		;a06d
+	ld (ix+058h),00bh		;a065   ; (ix+0x58) = 0x0B: los sprites que faltan
+	ld (ix+059h),001h		;a069   ; (ix+0x59) = 1: la cuenta
+	ld a,004h		;a06d   ; el sonido 4
 	jp 0427ch		;a06f   ; sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
 cuadro_tipo_54:		; lo de cada cuadro del tipo 54
 	ld a,(ix+001h)		;a072   ; lee el paso del actor
@@ -114,32 +114,32 @@ DATA_tabla_A078:
 
 
 L_A07E:
-	dec (ix+059h)		;a07e
+	dec (ix+059h)		;a07e   ; paso 0: cada (ix+0x59) cuadros...
 	ret nz			;a081
 	ld (ix+059h),001h		;a082
-	dec (ix+058h)		;a086
+	dec (ix+058h)		;a086   ; ...un sprite mas se enciende
 	jr nz,color_del_sprite_b		;a089
-	ld (ix+058h),00bh		;a08b
+	ld (ix+058h),00bh		;a08b   ; al acabar, al paso 1
 	ld (ix+059h),001h		;a08f
 	jp 05ba2h		;a093   ; paso_siguiente: sube el paso del actor (ix+1)
 color_del_sprite_b:		; el sprite 11 - (ix+0x58) del actor toma el color C
-	ld a,00bh		;a096
+	ld a,00bh		;a096   ; el sprite 11 - (ix+0x58)...
 	sub (ix+058h)		;a098
 	ld b,a			;a09b
-	ld c,008h		;a09c
+	ld c,008h		;a09c   ; ...en el color 8
 L_A09E:
-	push ix		;a09e
+	push ix		;a09e   ; HL = la ficha + 0x20
 	pop hl			;a0a0
 	ld de,00020h		;a0a1
 	add hl,de			;a0a4
 	ld de,00005h		;a0a5
 L_A0A8:
-	add hl,de			;a0a8
+	add hl,de			;a0a8   ; + 5 x B: el color del sprite B
 	djnz L_A0A8		;a0a9
-	ld (hl),c			;a0ab
+	ld (hl),c			;a0ab   ; = C
 	ret			;a0ac
 L_A0AD:
-	ld a,(ix+059h)		;a0ad
+	ld a,(ix+059h)		;a0ad   ; paso 1: el color 14 o 8 cada 4 cuadros
 	rra			;a0b0
 	rra			;a0b1
 	ld c,00eh		;a0b2
@@ -147,20 +147,20 @@ L_A0AD:
 	ld c,008h		;a0b6
 L_A0B8:
 	call color_del_sprite_b		;a0b8   ; color_del_sprite_b: el sprite 11 - (ix+0x58) del actor toma el color C
-	dec (ix+059h)		;a0bb
+	dec (ix+059h)		;a0bb   ; cada (ix+0x59) cuadros...
 	ret nz			;a0be
 	ld (ix+059h),001h		;a0bf
-	dec (ix+058h)		;a0c3
+	dec (ix+058h)		;a0c3   ; ...un sprite se apaga
 	jr nz,L_A0CB		;a0c6
-	jp 07371h		;a0c8
+	jp 07371h		;a0c8   ; al acabar, se quita
 L_A0CB:
-	ld a,00bh		;a0cb
+	ld a,00bh		;a0cb   ; el sprite 11 - (ix+0x58)...
 	sub (ix+058h)		;a0cd
 	ld b,a			;a0d0
-	ld c,000h		;a0d1
+	ld c,000h		;a0d1   ; ...en el color 0
 	jr L_A09E		;a0d3
 L_A0D5:
-	ret			;a0d5
+	ret			;a0d5   ; paso 2: nada
 crea_tipo_64:		; la creacion del tipo 64
 	ld a,r		;a0d6
 	ld (ix+00ch),a		;a0d8   ; guarda la cuenta de cuadros del actor
@@ -356,13 +356,13 @@ L_A230:
 	ld a,b			;a230
 	jp 04e66h		;a231   ; color: el color A de la paleta = DE ([RB][G]), y su copia en 0xF680
 rebota_color:		; da la vuelta al recorrido de colores del tipo 44
-	inc a			;a234
-	ld b,006h		;a235
+	inc a			;a234   ; al pasar de 7...
+	ld b,006h		;a235   ; ...vuelve al 6...
 	jr nz,L_A23B		;a237
-	ld b,001h		;a239
+	ld b,001h		;a239   ; ...o, al pasar de 0, al 1
 L_A23B:
 	ld (ix+013h),b		;a23b
-	ld a,(ix+014h)		;a23e
+	ld a,(ix+014h)		;a23e   ; y el sentido cambia
 	ld b,0ffh		;a241
 	dec a			;a243
 	jr z,L_A248		;a244
@@ -394,31 +394,31 @@ L_A25E:
 	ld a,06ch		;a265
 	jp 05cddh		;a267   ; ventana_de_texto_1: abre la ventana del texto A en el modo 1 (0xCEE0)
 L_A26A:
-	ld hl,0d000h		;a26a   ; apunta a los 16 actores (fichas de 0x80)
+	ld hl,0d000h		;a26a   ; busca los actores del tipo 0x25 (las llamas)
 	ld de,00080h		;a26d
 	ld bc,01000h		;a270
-	ld a,025h		;a273
+	ld a,025h		;a273   ; el tipo 0x25
 L_A275:
-	cp (hl)			;a275
+	cp (hl)			;a275   ; uno mas, y su ficha a la pila
 	jr nz,L_A27A		;a276
 	inc c			;a278
 	push hl			;a279
 L_A27A:
-	add hl,de			;a27a
+	add hl,de			;a27a   ; la ficha siguiente
 	djnz L_A275		;a27b
-	ld a,c			;a27d
+	ld a,c			;a27d   ; ninguna: nada
 	or a			;a27e
 	jr z,L_A292		;a27f
-	push ix		;a281
+	push ix		;a281   ; (ix+0x3F) = cuantas...
 	pop hl			;a283
 	ld a,03fh		;a284
 	or l			;a286
 	ld l,a			;a287
 	ld b,c			;a288
 	ld (hl),b			;a289
-	inc l			;a28a
+	inc l			;a28a   ; ...y sus fichas detras
 L_A28B:
-	pop de			;a28b
+	pop de			;a28b   ; una ficha de la pila
 	ld (hl),e			;a28c
 	inc l			;a28d
 	ld (hl),d			;a28e
@@ -426,40 +426,40 @@ L_A28B:
 	djnz L_A28B		;a290
 L_A292:
 	call hacia_snake_de_lado		;a292   ; hacia_snake_de_lado: velocidad X de 2 hacia Snake y cuadro 0x2C/0x28
-	jp L_A323		;a295
+	jp L_A323		;a295   ; al paso siguiente
 hacia_snake_de_lado:		; velocidad X de 2 hacia Snake y cuadro 0x2C/0x28
 	ld (ix+006h),001h		;a298   ; si el actor se mueve (p01:7336) = 0x01
 	ld a,(0c184h)		;a29c   ; lee la X de Snake
 	cp (ix+005h)		;a29f   ; compara con la X del actor
-	ld b,02ch		;a2a2
+	ld b,02ch		;a2a2   ; Snake a la derecha: cuadro 0x2C y X + 2
 	ld de,00200h		;a2a4
 	jr nc,L_A2AE		;a2a7
-	ld b,028h		;a2a9
+	ld b,028h		;a2a9   ; a la izquierda: cuadro 0x28 y X - 2
 	ld de,0fe00h		;a2ab
 L_A2AE:
 	ld (ix+00bh),b		;a2ae   ; guarda el cuadro del actor
 	jp 05b5dh		;a2b1   ; velocidad_x: la velocidad X del actor (ix+9, ix+0x0A) = DE
 L_A2B4:
-	ld b,003h		;a2b4
+	ld b,003h		;a2b4   ; paso 2: alterna el cuadro cada 4
 	call 05b6ah		;a2b6   ; alterna_cuadro: si (ix+0x0C) AND B es 0, cambia el bit 0 del cuadro
 	ld a,(ix+005h)		;a2b9   ; lee la X del actor
-	ld b,080h		;a2bc
+	ld b,080h		;a2bc   ; hasta la X 0x80...
 	cp b			;a2be
 	jr nc,L_A2C5		;a2bf
-	ld b,060h		;a2c1
+	ld b,060h		;a2c1   ; ...o la 0x60
 	cp b			;a2c3
 	ret nc			;a2c4
 L_A2C5:
-	ld (ix+005h),b		;a2c5   ; guarda la X del actor
+	ld (ix+005h),b		;a2c5   ; queda justo ahi
 	ld e,(ix+003h)		;a2c8   ; lee la Y del actor
-	ld (ix+017h),e		;a2cb
+	ld (ix+017h),e		;a2cb   ; (ix+0x17) = su Y, (ix+0x19) = su X
 	ld (ix+019h),b		;a2ce
 	ld (ix+00bh),02fh		;a2d1   ; el cuadro del actor = 0x2F
-	ld a,e			;a2d5
+	ld a,e			;a2d5   ; las llamas, 0x0B por debajo...
 	add a,00bh		;a2d6
-	ld c,b			;a2d8
+	ld c,b			;a2d8   ; ...y en su X
 	ld b,(ix+03fh)		;a2d9
-	ld hl,0d083h		;a2dc
+	ld hl,0d083h		;a2dc   ; +3 y +5 de los actores 1, 2... (0xD083, de 0x80 en 0x80)
 	ld de,0007eh		;a2df
 L_A2E2:
 	ld (hl),a			;a2e2
@@ -468,17 +468,17 @@ L_A2E2:
 	ld (hl),c			;a2e5
 	add hl,de			;a2e6
 	djnz L_A2E2		;a2e7
-	ld de,00000h		;a2e9
+	ld de,00000h		;a2e9   ; quieto
 	ld h,d			;a2ec
 	ld l,e			;a2ed
 	call 05b64h		;a2ee   ; velocidades: la velocidad X del actor = DE y la Y = HL
-	ld c,03eh		;a2f1
+	ld c,03eh		;a2f1   ; cada llama de la lista:
 	ld b,(ix+03fh)		;a2f3
 	push ix		;a2f6
 	pop hl			;a2f8
 	ld (0ec00h),hl		;a2f9   ; guarda la casilla de trabajo 0xEC00 y el byte siguiente (16 bits)
 L_A2FC:
-	ld a,b			;a2fc
+	ld a,b			;a2fc   ; +0x3E + 2 x n: su ficha
 	sla a		;a2fd
 	add a,c			;a2ff
 	ld hl,(0ec00h)		;a300   ; lee la casilla de trabajo 0xEC00 y el byte siguiente (16 bits)
@@ -487,93 +487,93 @@ L_A2FC:
 	inc l			;a307
 	ld d,(hl)			;a308
 	push de			;a309
-	pop ix		;a30a
-	ld (ix+072h),000h		;a30c
+	pop ix		;a30a   ; IX = la llama
+	ld (ix+072h),000h		;a30c   ; (ix+0x72) = 0 y choca con todo
 	ld (ix+00eh),003h		;a310
-	push bc			;a314
+	push bc			;a314   ; colores 8 y 0x46
 	call colores_8_46		;a315   ; colores_8_46: A = 8, C = 0x46 y pone los colores
 	pop bc			;a318
-	djnz L_A2FC		;a319
-	ld ix,(0ec00h)		;a31b   ; lee la casilla de trabajo 0xEC00 y el byte siguiente (16 bits)
-	ld (ix+013h),010h		;a31f
+	djnz L_A2FC		;a319   ; la siguiente
+	ld ix,(0ec00h)		;a31b   ; IX = el tipo 36 otra vez
+	ld (ix+013h),010h		;a31f   ; 0x10 cuadros
 L_A323:
-	inc (ix+001h)		;a323
+	inc (ix+001h)		;a323   ; el paso siguiente
 	ret			;a326
 L_A327:
-	dec (ix+013h)		;a327
+	dec (ix+013h)		;a327   ; paso 3: la llama crece 0x10 cuadros
 	jr nz,L_A332		;a32a
-	ld (ix+013h),050h		;a32c
+	ld (ix+013h),050h		;a32c   ; luego 0x50 cuadros del paso 4
 	jr L_A323		;a330
 L_A332:
-	ld a,(ix+013h)		;a332
+	ld a,(ix+013h)		;a332   ; el largo: 0x10 - la cuenta
 	neg		;a335
 	add a,010h		;a337
 	ld c,a			;a339
-	push ix		;a33a
+	push ix		;a33a   ; los desplazamientos de cada llama en (ix+0x50)...
 	pop de			;a33c
 	ld a,050h		;a33d
 	add a,e			;a33f
 	ld e,a			;a340
 	ld b,(ix+03fh)		;a341
-	xor a			;a344
+	xor a			;a344   ; ...de C en C
 	ex de,hl			;a345
 L_A346:
-	add a,c			;a346
+	add a,c			;a346   ; [dy] = n x C, [dx] = 0
 	ld (hl),a			;a347
 	inc l			;a348
 	ld (hl),000h		;a349
 	inc l			;a34b
 	djnz L_A346		;a34c
-	jp L_A3FC		;a34e
+	jp L_A3FC		;a34e   ; las llamas a su sitio
 L_A351:
-	dec (ix+013h)		;a351
+	dec (ix+013h)		;a351   ; paso 4: la llama ondea
 	jr nz,L_A35F		;a354
-	ld a,(ix+03fh)		;a356
+	ld a,(ix+03fh)		;a356   ; luego (ix+0x3F) + 1 cuadros del paso 5
 	inc a			;a359
 	ld (ix+013h),a		;a35a
 	jr L_A323		;a35d
 L_A35F:
-	ld d,(ix+01ah)		;a35f
+	ld d,(ix+01ah)		;a35f   ; el angulo (ix+0x14) avanza (ix+0x1A)
 	ld a,d			;a362
 	add a,(ix+014h)		;a363
 	ld (ix+014h),a		;a366
-	ld c,018h		;a369
+	ld c,018h		;a369   ; entre 0x18...
 	cp c			;a36b
 	jr c,L_A373		;a36c
-	ld c,03fh		;a36e
+	ld c,03fh		;a36e   ; ...y 0x3F
 	cp c			;a370
 	jr c,L_A385		;a371
 L_A373:
-	ld (ix+014h),c		;a373
+	ld (ix+014h),c		;a373   ; al salir, rebota...
 	ld a,d			;a376
 	neg		;a377
 	ld (ix+01ah),a		;a379
-	ld a,(ix+015h)		;a37c
+	ld a,(ix+015h)		;a37c   ; ...y el cuarto (ix+0x15) siguiente
 	inc a			;a37f
 	and 003h		;a380
 	ld (ix+015h),a		;a382
 L_A385:
-	ld c,02fh		;a385
+	ld c,02fh		;a385   ; el cuadro por el angulo: 0x2F...
 	ld a,(ix+014h)		;a387
 	cp 02ch		;a38a
 	jr nc,L_A39B		;a38c
-	ld c,02eh		;a38e
+	ld c,02eh		;a38e   ; ...0x2E en los cuartos 1 y 2...
 	ld a,(ix+015h)		;a390
 	dec a			;a393
 	jr z,L_A39B		;a394
 	dec a			;a396
 	jr z,L_A39B		;a397
-	ld c,030h		;a399
+	ld c,030h		;a399   ; ...0x30 en los otros
 L_A39B:
 	ld (ix+00bh),c		;a39b   ; guarda el cuadro del actor
 	call 05bdfh		;a39e   ; pareja_del_angulo: C y B = los bytes (ix+0x14) y 63 - (ix+0x14) de la tabla p06:A6B9
-	ld a,b			;a3a1
+	ld a,b			;a3a1   ; el coseno / 16: el paso X
 	srl a		;a3a2
 	srl a		;a3a4
 	srl a		;a3a6
 	srl a		;a3a8
 	ld b,a			;a3aa
-	ld a,(ix+015h)		;a3ab
+	ld a,(ix+015h)		;a3ab   ; en los cuartos 1 y 2, hacia el otro lado
 	dec a			;a3ae
 	jr z,L_A3B5		;a3af
 	dec a			;a3b1
@@ -584,8 +584,8 @@ L_A3B5:
 	neg		;a3b6
 	ld b,a			;a3b8
 L_A3B9:
-	ld (ix+051h),b		;a3b9
-	ld a,c			;a3bc
+	ld (ix+051h),b		;a3b9   ; (ix+0x51) = el paso X
+	ld a,c			;a3bc   ; el seno / 16: el paso Y
 	srl a		;a3bd
 	srl a		;a3bf
 	srl a		;a3c1
@@ -595,49 +595,49 @@ L_A3B9:
 	sub 002h		;a3c9
 	jr c,L_A3CD		;a3cb
 L_A3CD:
-	ld (ix+050h),c		;a3cd
-	ld h,(ix+03fh)		;a3d0
+	ld (ix+050h),c		;a3cd   ; (ix+0x50) = el paso Y
+	ld h,(ix+03fh)		;a3d0   ; H = cuantas llamas
 	push ix		;a3d3
 	pop de			;a3d5
-	ld a,050h		;a3d6
+	ld a,050h		;a3d6   ; los desplazamientos (ix+0x50)
 	add a,e			;a3d8
 	ld e,a			;a3d9
-	ld a,(de)			;a3da
+	ld a,(de)			;a3da   ; C = el paso Y
 	ld c,a			;a3db
 	inc e			;a3dc
 	inc e			;a3dd
 	ld a,c			;a3de
 	ld b,h			;a3df
 L_A3E0:
-	add a,c			;a3e0
+	add a,c			;a3e0   ; [dy] de cada llama = n x paso
 	ld (de),a			;a3e1
 	inc e			;a3e2
 	inc e			;a3e3
 	djnz L_A3E0		;a3e4
-	ld b,(ix+03fh)		;a3e6
+	ld b,(ix+03fh)		;a3e6   ; vuelve al primero
 	ld a,b			;a3e9
 	sla a		;a3ea
 	neg		;a3ec
 	add a,e			;a3ee
 	ld e,a			;a3ef
 	inc e			;a3f0
-	ld c,(ix+051h)		;a3f1
+	ld c,(ix+051h)		;a3f1   ; C = el paso X
 	ld a,c			;a3f4
 	ld b,h			;a3f5
 L_A3F6:
-	add a,c			;a3f6
+	add a,c			;a3f6   ; [dx] de cada llama = n x paso
 	ld (de),a			;a3f7
 	inc e			;a3f8
 	inc e			;a3f9
 	djnz L_A3F6		;a3fa
 L_A3FC:
-	push ix		;a3fc
+	push ix		;a3fc   ; HL = (ix+0x50): los desplazamientos
 	pop hl			;a3fe
 	ld a,050h		;a3ff
 	or l			;a401
 	ld l,a			;a402
 	push hl			;a403
-	ld a,0efh		;a404
+	ld a,0efh		;a404   ; (ix+0x3F): cuantas llamas
 	add a,l			;a406
 	ld l,a			;a407
 	ld b,(hl)			;a408
@@ -646,46 +646,46 @@ L_A3FC:
 	exx			;a40b
 	pop bc			;a40c
 L_A40D:
-	exx			;a40d
+	exx			;a40d   ; la ficha de la llama
 	ld e,(hl)			;a40e
 	inc l			;a40f
 	ld d,(hl)			;a410
 	inc l			;a411
 	ex de,hl			;a412
-	push hl			;a413
+	push hl			;a413   ; IY = la llama
 	pop iy		;a414
 	ld b,d			;a416
 	ld c,e			;a417
-	inc l			;a418
+	inc l			;a418   ; +3: su Y
 	inc l			;a419
 	inc l			;a41a
 	pop de			;a41b
-	ld a,(de)			;a41c
+	ld a,(de)			;a41c   ; [dy] tambien en (iy+0x50)
 	ld (iy+050h),a		;a41d
 	inc e			;a420
-	add a,(ix+017h)		;a421
+	add a,(ix+017h)		;a421   ; la Y = (ix+0x17) + dy
 	ld (hl),a			;a424
 	inc l			;a425
-	inc l			;a426
-	ld a,(de)			;a427
+	inc l			;a426   ; +5: su X
+	ld a,(de)			;a427   ; [dx] tambien en (iy+0x51)
 	ld (iy+051h),a		;a428
 	inc e			;a42b
 	push de			;a42c
-	add a,(ix+019h)		;a42d
+	add a,(ix+019h)		;a42d   ; la X = (ix+0x19) + dx
 	ld (hl),a			;a430
 	ld h,b			;a431
 	ld l,c			;a432
 	exx			;a433
-	djnz L_A40D		;a434
+	djnz L_A40D		;a434   ; la siguiente
 	exx			;a436
 	pop de			;a437
 	ret			;a438
 L_A439:
-	dec (ix+013h)		;a439
+	dec (ix+013h)		;a439   ; paso 5: las llamas se apagan una a una
 	jr z,L_A463		;a43c
-	ld a,(ix+013h)		;a43e
+	ld a,(ix+013h)		;a43e   ; la llama n - 1...
 	dec a			;a441
-	sla a		;a442
+	sla a		;a442   ; ...+0x40 + 2 x n: su ficha
 	add a,040h		;a444
 	push ix		;a446
 	pop hl			;a448
@@ -695,178 +695,178 @@ L_A439:
 	inc l			;a44e
 	ld d,(hl)			;a44f
 	push de			;a450
-	pop ix		;a451
-	ld (ix+072h),001h		;a453
-	ld (ix+00eh),000h		;a457
-	xor a			;a45b
+	pop ix		;a451   ; IX = la llama
+	ld (ix+072h),001h		;a453   ; (ix+0x72) = 1: apagada...
+	ld (ix+00eh),000h		;a457   ; ...no choca...
+	xor a			;a45b   ; ...y transparente
 	ld c,a			;a45c
 	call 05bc3h		;a45d
-	pop ix		;a460
+	pop ix		;a460   ; IX = el tipo 36
 	ret			;a462
 L_A463:
-	call tipo_36_empieza		;a463   ; tipo_36_empieza: los valores de partida del tipo 36 y velocidad X de -2
+	call tipo_36_empieza		;a463   ; al acabar: otra vez desde el principio
 	call hacia_snake_de_lado		;a466   ; hacia_snake_de_lado: velocidad X de 2 hacia Snake y cuadro 0x2C/0x28
-	ld a,001h		;a469
+	ld a,001h		;a469   ; al paso 1
 	jp 05babh		;a46b   ; paso_a: el paso del actor (ix+1) = A
 L_A46E:
-	ld b,002h		;a46e
+	ld b,002h		;a46e   ; la Y y la X (16 bits) de (ix+0x16)...
 	push ix		;a470
 L_A472:
 	ld e,(ix+007h)		;a472   ; lee la velocidad Y del actor
 	ld d,(ix+008h)		;a475   ; lee la velocidad Y del actor (alta)
 	ld l,(ix+016h)		;a478
 	ld h,(ix+017h)		;a47b
-	add hl,de			;a47e
+	add hl,de			;a47e   ; ...mas las velocidades
 	ld (ix+016h),l		;a47f
 	ld (ix+017h),h		;a482
-	inc ix		;a485
+	inc ix		;a485   ; de la Y a la X
 	inc ix		;a487
 	djnz L_A472		;a489
 	pop ix		;a48b
-	ld a,(ix+019h)		;a48d
+	ld a,(ix+019h)		;a48d   ; al pasar la X 0x80, hacia la izquierda...
 	cp 080h		;a490
 	jr c,L_A499		;a492
 	ld de,0fe00h		;a494
 	jr L_A49F		;a497
 L_A499:
-	cp 060h		;a499
+	cp 060h		;a499   ; ...al bajar de 0x60, hacia la derecha
 	ret nc			;a49b
 	ld de,00200h		;a49c
 L_A49F:
 	jp 05b5dh		;a49f   ; velocidad_x: la velocidad X del actor (ix+9, ix+0x0A) = DE
 crea_tipo_36:		; la creacion del tipo 36
-	ld a,(0c627h)		;a4a2
+	ld a,(0c627h)		;a4a2   ; con 0xC627 no aparece
 	or a			;a4a5
 	jr nz,L_A4E1		;a4a6
-	ld (ix+073h),002h		;a4a8
-	ld a,033h		;a4ac
+	ld (ix+073h),002h		;a4a8   ; (ix+0x73) = 2 cuadros
+	ld a,033h		;a4ac   ; hasta 2 del tipo 0x33
 	call 05bafh		;a4ae   ; cuenta_tipo: A = cuantos actores del tipo A hay
 	cp 002h		;a4b1
 	jp nc,07371h		;a4b3
 	call musica_3e		;a4b6   ; musica_3e: la musica 0x3E (salvo en el modo 8)
 tipo_36_empieza:		; los valores de partida del tipo 36 y velocidad X de -2
-	ld (ix+01ah),004h		;a4b9
-	ld (ix+014h),03fh		;a4bd
-	ld (ix+015h),002h		;a4c1
+	ld (ix+01ah),004h		;a4b9   ; el angulo sube de 4 en 4...
+	ld (ix+014h),03fh		;a4bd   ; ...desde 0x3F...
+	ld (ix+015h),002h		;a4c1   ; ...en el cuarto 2
 	ld (ix+00bh),02ch		;a4c5   ; el cuadro del actor = 0x2C
 	ld e,(ix+003h)		;a4c9   ; lee la Y del actor
 	ld d,(ix+005h)		;a4cc   ; lee la X del actor
-	ld (ix+017h),e		;a4cf
+	ld (ix+017h),e		;a4cf   ; (ix+0x17) = su Y, (ix+0x19) = su X
 	ld (ix+019h),d		;a4d2
-	ld de,0fe00h		;a4d5
+	ld de,0fe00h		;a4d5   ; hacia la izquierda a 2 puntos
 	ld hl,00000h		;a4d8
 	jr L_A4FF		;a4db
 crea_tipo_37:		; la creacion del tipo 37
-	ld a,(0c628h)		;a4dd
+	ld a,(0c628h)		;a4dd   ; con 0xC628 no aparece
 	or a			;a4e0
 L_A4E1:
 	jp nz,07371h		;a4e1
-	ld a,034h		;a4e4
+	ld a,034h		;a4e4   ; hasta 5 del tipo 0x34
 	call 05bafh		;a4e6   ; cuenta_tipo: A = cuantos actores del tipo A hay
 	cp 005h		;a4e9
 	jp nc,07371h		;a4eb
 	ld (ix+00bh),010h		;a4ee   ; el cuadro del actor = 0x10
-	ld a,r		;a4f2
+	ld a,r		;a4f2   ; la cuenta al azar
 	ld (ix+00ch),a		;a4f4   ; guarda la cuenta de cuadros del actor
 	inc (ix+006h)		;a4f7   ; sube si el actor se mueve (p01:7336)
-	ld hl,00000h		;a4fa
+	ld hl,00000h		;a4fa   ; quieto
 	ld d,h			;a4fd
 	ld e,l			;a4fe
 L_A4FF:
 	jp 05b64h		;a4ff   ; velocidades: la velocidad X del actor = DE y la Y = HL
 cuadro_tipo_37:		; lo de cada cuadro del tipo 37
-	ld a,(0c627h)		;a502
+	ld a,(0c627h)		;a502   ; con 0xC627, se borra
 	or a			;a505
 	jp nz,0740ch		;a506   ; borra_actor: el tipo y (ix+0x0E) a cero y sus sprites escondidos
-	ld a,024h		;a509
+	ld a,024h		;a509   ; sin tipo 0x24, se quita
 	call 05bafh		;a50b   ; cuenta_tipo: A = cuantos actores del tipo A hay
 	or a			;a50e
 	jp z,07371h		;a50f
-	ld b,007h		;a512
+	ld b,007h		;a512   ; alterna el cuadro cada 8
 	call 05b6ah		;a514   ; alterna_cuadro: si (ix+0x0C) AND B es 0, cambia el bit 0 del cuadro
-	ld a,(ix+025h)		;a517
+	ld a,(ix+025h)		;a517   ; con color, nada mas
 	or a			;a51a
 	ret nz			;a51b
-	ld a,(ix+070h)		;a51c
+	ld a,(ix+070h)		;a51c   ; (ix+0x70): a que lado mira
 	or a			;a51f
 	ld a,(ix+005h)		;a520   ; lee la X del actor
-	jr nz,L_A52A		;a523
+	jr nz,L_A52A		;a523   ; 0: se enciende en la mitad derecha...
 	cp 080h		;a525
 	ret c			;a527
 	jr L_A52D		;a528
 L_A52A:
-	cp 080h		;a52a
+	cp 080h		;a52a   ; ...1: en la izquierda
 	ret nc			;a52c
 L_A52D:
-	ld a,(ix+072h)		;a52d
+	ld a,(ix+072h)		;a52d   ; apagada (ix+0x72): nada
 	or a			;a530
 	ret nz			;a531
 colores_8_46:		; A = 8, C = 0x46 y pone los colores
-	ld a,008h		;a532
+	ld a,008h		;a532   ; colores 8 y 0x46
 	ld c,046h		;a534
 	jr L_A546		;a536
 L_A538:
-	ld a,(ix+051h)		;a538
+	ld a,(ix+051h)		;a538   ; (ix+0x70) = el signo de (ix+0x51)
 	ld d,000h		;a53b
 	rla			;a53d
 	rl d		;a53e
 	ld a,d			;a540
 	ld (ix+070h),a		;a541
-	xor a			;a544
+	xor a			;a544   ; colores 0: transparente
 	ld c,a			;a545
 L_A546:
 	jp 05bc3h		;a546
 cuadro_tipo_1:		; lo de cada cuadro del tipo 1
 	ld a,(ix+001h)		;a549   ; lee el paso del actor
-	dec a			;a54c
+	dec a			;a54c   ; paso 1: el vaiven
 	jp z,L_A5B0		;a54d
-	ld hl,0d000h		;a550   ; apunta a los 16 actores (fichas de 0x80)
+	ld hl,0d000h		;a550   ; paso 0: busca los actores del tipo 2
 	ld de,00080h		;a553
 	ld bc,01000h		;a556
-	ld a,002h		;a559
+	ld a,002h		;a559   ; el tipo 2
 L_A55B:
-	cp (hl)			;a55b
+	cp (hl)			;a55b   ; uno mas, y su ficha a la pila
 	jr nz,L_A560		;a55c
 	inc c			;a55e
 	push hl			;a55f
 L_A560:
-	add hl,de			;a560
+	add hl,de			;a560   ; la ficha siguiente
 	djnz L_A55B		;a561
-	ld a,c			;a563
+	ld a,c			;a563   ; ninguno: al paso 1
 	or a			;a564
 	jr z,L_A5AD		;a565
-	push ix		;a567
+	push ix		;a567   ; (ix+0x30) = cuantos...
 	pop hl			;a569
 	ld a,030h		;a56a
 	or l			;a56c
 	ld l,a			;a56d
 	ld b,c			;a56e
 	ld (hl),b			;a56f
-	inc l			;a570
+	inc l			;a570   ; ...y sus fichas detras
 L_A571:
-	pop de			;a571
+	pop de			;a571   ; una ficha de la pila
 	ld (hl),e			;a572
 	inc l			;a573
 	ld (hl),d			;a574
 	inc l			;a575
 	djnz L_A571		;a576
-	ld de,0a5e4h		;a578
-	ld c,(ix+030h)		;a57b
+	ld de,0a5e4h		;a578   ; las velocidades de 0xA5E4
+	ld c,(ix+030h)		;a57b   ; C = cuantos
 	push ix		;a57e
 	pop hl			;a580
 	ld a,031h		;a581
 	add a,l			;a583
 	ld l,a			;a584
 L_A585:
-	push de			;a585
+	push de			;a585   ; la ficha del tipo 2
 	ld e,(hl)			;a586
 	inc l			;a587
 	ld d,(hl)			;a588
 	inc l			;a589
-	ld (ix+013h),l		;a58a
+	ld (ix+013h),l		;a58a   ; (ix+0x13, 0x14) = por donde va la lista
 	ld (ix+014h),h		;a58d
 	ex de,hl			;a590
-	ld a,007h		;a591
+	ld a,007h		;a591   ; +7, +8: la velocidad Y a cero
 	add a,l			;a593
 	ld l,a			;a594
 	ld (hl),000h		;a595
@@ -874,48 +874,48 @@ L_A585:
 	ld (hl),000h		;a598
 	inc l			;a59a
 	pop de			;a59b
-	ld b,002h		;a59c
+	ld b,002h		;a59c   ; +9, +0x0A: la velocidad X de la tabla
 L_A59E:
 	ld a,(de)			;a59e
 	inc de			;a59f
 	ld (hl),a			;a5a0
 	inc l			;a5a1
 	djnz L_A59E		;a5a2
-	ld l,(ix+013h)		;a5a4
+	ld l,(ix+013h)		;a5a4   ; el siguiente
 	ld h,(ix+014h)		;a5a7
 	dec c			;a5aa
 	jr nz,L_A585		;a5ab
 L_A5AD:
 	jp 05ba2h		;a5ad   ; paso_siguiente: sube el paso del actor (ix+1)
 L_A5B0:
-	dec (ix+015h)		;a5b0
+	dec (ix+015h)		;a5b0   ; cada 0x20 cuadros...
 	ret nz			;a5b3
 	ld (ix+015h),020h		;a5b4
-	ld c,(ix+030h)		;a5b8
+	ld c,(ix+030h)		;a5b8   ; ...a cada uno del tipo 2...
 	push ix		;a5bb
 	pop hl			;a5bd
 	ld a,031h		;a5be
 	add a,l			;a5c0
 	ld l,a			;a5c1
 L_A5C2:
-	ld e,(hl)			;a5c2
+	ld e,(hl)			;a5c2   ; la ficha
 	inc l			;a5c3
 	ld d,(hl)			;a5c4
 	inc l			;a5c5
 	ld (ix+013h),l		;a5c6
 	ld (ix+014h),h		;a5c9
 	ex de,hl			;a5cc
-	ld a,009h		;a5cd
+	ld a,009h		;a5cd   ; +9: la velocidad X...
 	add a,l			;a5cf
 	ld l,a			;a5d0
 	ld e,(hl)			;a5d1
 	inc l			;a5d2
 	ld d,(hl)			;a5d3
-	call 05bfbh		;a5d4   ; de_negado: DE = -DE
+	call 05bfbh		;a5d4   ; ...cambia de signo
 	ld (hl),d			;a5d7
 	dec l			;a5d8
 	ld (hl),e			;a5d9
-	ld l,(ix+013h)		;a5da
+	ld l,(ix+013h)		;a5da   ; el siguiente
 	ld h,(ix+014h)		;a5dd
 	dec c			;a5e0
 	jr nz,L_A5C2		;a5e1
@@ -960,14 +960,14 @@ cuadro_tipo_16:		; lo de cada cuadro del tipo 16
 L_A634:
 	jp 05ba2h		;a634   ; paso_siguiente: sube el paso del actor (ix+1)
 L_A637:
-	dec b			;a637
+	dec b			;a637   ; cada B cuadros
 	ret nz			;a638
-	ld a,(ix+015h)		;a639
+	ld a,(ix+015h)		;a639   ; el alto (ix+0x15) crece 2...
 	add a,002h		;a63c
 	ld (ix+015h),a		;a63e
-	cp 040h		;a641
+	cp 040h		;a641   ; ...hasta 0x40
 	jr c,L_A65B		;a643
-	ld (ix+016h),016h		;a645
+	ld (ix+016h),016h		;a645   ; abierta del todo: (ix+0x16) = 0x16, (ix+0x18) = 0x40, (ix+0x17) = 0xA0
 	ld (ix+018h),040h		;a649
 	ld (ix+017h),0a0h		;a64d
 	res 0,(ix+013h)		;a651
@@ -1131,10 +1131,10 @@ L_A772:
 	ld (ix+013h),a		;a794
 tipo_22_por_sala:		; valores del tipo 22 segun la sala (0xD8, 0xBB, 0x9A, 0x58-0x5C)
 	ld a,(0c130h)		;a797   ; lee la sala
-	ld hl,00000h		;a79a
-	cp 0d8h		;a79d
+	ld hl,00000h		;a79a   ; sin cuenta de refuerzos...
+	cp 0d8h		;a79d   ; ...en la sala 0xD8
 	jr z,L_A7B7		;a79f
-	cp 0bbh		;a7a1
+	cp 0bbh		;a7a1   ; en las 0xBB, 0x9A y 0x58-0x5C...
 	jr z,L_A7AE		;a7a3
 	cp 09ah		;a7a5
 	jr z,L_A7AE		;a7a7
@@ -1142,13 +1142,13 @@ tipo_22_por_sala:		; valores del tipo 22 segun la sala (0xD8, 0xBB, 0x9A, 0x58-0
 	cp 005h		;a7ab
 	ret nc			;a7ad
 L_A7AE:
-	ld h,00ah		;a7ae
+	ld h,00ah		;a7ae   ; ...0xC606 = 0x0A y la cuenta 0x10-0x1F al azar
 	ld a,r		;a7b0
 	and 00fh		;a7b2
 	add a,010h		;a7b4
 	ld l,a			;a7b6
 L_A7B7:
-	ld (0c605h),hl		;a7b7   ; guarda la cuenta de los refuerzos y el byte siguiente (16 bits)
+	ld (0c605h),hl		;a7b7   ; 0xC605 = la cuenta, 0xC606 = cuantos
 	ret			;a7ba
 cuadro_tipo_10:		; lo de cada cuadro del tipo 10
 	call ficha_del_tipo_10		;a7bb   ; ficha_del_tipo_10: las fichas bajo el actor: (ix+0x1B) segun la ficha que pisa
@@ -1927,19 +1927,19 @@ espera_azar_64:		; (ix+0x12) = 1-64 al azar
 	ld (ix+012h),a		;adfc   ; guarda la cuenta de espera del actor
 	ret			;adff
 crea_tipo_58:		; la creacion del tipo 58
-	ld hl,0ffc0h		;ae00
+	ld hl,0ffc0h		;ae00   ; la X al azar: -0x40 a +0x3F...
 	ld a,r		;ae03
 	and 07fh		;ae05
 	ld d,000h		;ae07
 	ld e,a			;ae09
 	add hl,de			;ae0a
 	bit 7,(ix+005h)		;ae0b   ; mira el bit 7 de la X del actor
-	ld de,0fb00h		;ae0f
+	ld de,0fb00h		;ae0f   ; ...la Y a 5 puntos hacia el centro
 	jp nz,L_AE32		;ae12
 	ld d,005h		;ae15
 	jp L_AE32		;ae17
 crea_tipo_59:		; la creacion del tipo 59
-	ld de,0ffc0h		;ae1a
+	ld de,0ffc0h		;ae1a   ; la Y al azar: -0x40 a +0x3F...
 	ld a,r		;ae1d
 	and 07fh		;ae1f
 	ld h,000h		;ae21
@@ -1947,7 +1947,7 @@ crea_tipo_59:		; la creacion del tipo 59
 	add hl,de			;ae24
 	ex de,hl			;ae25
 	bit 7,(ix+003h)		;ae26   ; mira el bit 7 de la Y del actor
-	ld hl,0fb00h		;ae2a
+	ld hl,0fb00h		;ae2a   ; ...la X a 5 puntos hacia el centro
 	jp nz,L_AE32		;ae2d
 	ld h,005h		;ae30
 L_AE32:
@@ -1955,7 +1955,7 @@ L_AE32:
 	ld (ix+006h),001h		;ae35   ; si el actor se mueve (p01:7336) = 0x01
 	ld (ix+00eh),001h		;ae39   ; con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x01
 	ld (ix+00bh),072h		;ae3d   ; el cuadro del actor = 0x72
-	ld a,005h		;ae41
+	ld a,005h		;ae41   ; el sonido 5
 	jp 0427ch		;ae43   ; sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
 crea_tipo_57:		; la creacion del tipo 57
 	ld a,(0c527h)		;ae46
@@ -2110,14 +2110,14 @@ punto_de_mina:		; copia 5 x 5 de (0x95, 0x65) de la pagina 1 a (Y - 3, X - 3) co
 	ld a,048h		;af87
 	jp 05011h		;af89   ; copia_logica: LMMM: copia B x C de (H, L) a (D, E); A = [pagina origen 7-6][pagina destino 5-4][operacion 3-0]
 sitio_de_mina:		; H, L - 8 y A = (ix+0x0F) x 16
-	ld a,h			;af8c
+	ld a,h			;af8c   ; H = la X - 8
 	sub 008h		;af8d
 	ld h,a			;af8f
-	ld a,l			;af90
+	ld a,l			;af90   ; L = la Y - 8
 	sub 008h		;af91
 	ld l,a			;af93
 	ld a,(ix+00fh)		;af94   ; lee el numero del actor entre los de su tipo
-	rlca			;af97
+	rlca			;af97   ; x 16
 	rlca			;af98
 	rlca			;af99
 	rlca			;af9a
@@ -2778,12 +2778,12 @@ L_B4B1:
 	jr nz,L_B4D4		;b4d0
 	ld a,002h		;b4d2
 L_B4D4:
-	ld (ix+017h),a		;b4d4
-	ld d,000h		;b4d7
+	ld (ix+017h),a		;b4d4   ; (ix+0x17) = A
+	ld d,000h		;b4d7   ; 0: los colores de 0xE7...
 	ld e,0e7h		;b4d9
 	or a			;b4db
 	jr z,L_B4EB		;b4dc
-	ld e,019h		;b4de
+	ld e,019h		;b4de   ; ...1: de 0x19
 	dec a			;b4e0
 	jr z,L_B4EB		;b4e1
 	ld de,0e700h		;b4e3   ; apunta a los colores de las fichas
@@ -2864,33 +2864,33 @@ alineado_con_snake:		; si Snake esta en linea con el actor por su direccion
 	jr nc,L_B55F		;b55b
 	neg		;b55d
 L_B55F:
-	cp 030h		;b55f
+	cp 030h		;b55f   ; Snake a menos de 0x30 en X...
 	ret nc			;b561
-	ld a,e			;b562
+	ld a,e			;b562   ; ...y en la franja Y 0x18 por arriba...
 	sub 018h		;b563
 	cp l			;b565
 	ret nc			;b566
 	add a,030h		;b567
 	cp l			;b569
 	ret c			;b56a
-	ld (ix+013h),018h		;b56b
+	ld (ix+013h),018h		;b56b   ; ...0x18 cuadros y al paso siguiente
 	jp 05ba2h		;b56f   ; paso_siguiente: sube el paso del actor (ix+1)
 L_B572:
-	ld a,e			;b572
+	ld a,e			;b572   ; |dy| a Snake
 	sub l			;b573
 	jr nc,L_B578		;b574
 	neg		;b576
 L_B578:
-	cp 030h		;b578
+	cp 030h		;b578   ; menos de 0x30...
 	ret nc			;b57a
-	ld a,d			;b57b
+	ld a,d			;b57b   ; ...y en la franja X 0x20 a cada lado...
 	sub 020h		;b57c
 	cp h			;b57e
 	ret nc			;b57f
 	add a,040h		;b580
 	cp h			;b582
 	ret c			;b583
-	ld (ix+013h),018h		;b584
+	ld (ix+013h),018h		;b584   ; ...0x18 cuadros y al paso siguiente
 	jp 05ba2h		;b588   ; paso_siguiente: sube el paso del actor (ix+1)
 crea_tipo_29:		; la creacion del tipo 29
 	call 05b45h		;b58b   ; sitio_de_snake: E = la Y de Snake, D = la X
@@ -2906,17 +2906,17 @@ L_B595:
 	ld (ix+00eh),000h		;b59f   ; con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x00
 	ret			;b5a3
 cuadro_tipo_29:		; lo de cada cuadro del tipo 29
-	dec (ix+013h)		;b5a4
+	dec (ix+013h)		;b5a4   ; cada (ix+0x13) cuadros...
 	ret nz			;b5a7
-	ld hl,0c62eh		;b5a8
+	ld hl,0c62eh		;b5a8   ; ...mientras queden del tipo 0x1B (0xC62E)...
 	ld a,(hl)			;b5ab
 	or a			;b5ac
 	jp z,07371h		;b5ad
-	dec (hl)			;b5b0
-	ld (ix+013h),030h		;b5b1
-	ld e,(ix+015h)		;b5b5
+	dec (hl)			;b5b0   ; ...uno menos...
+	ld (ix+013h),030h		;b5b1   ; ...0x30 cuadros...
+	ld e,(ix+015h)		;b5b5   ; ...en (ix+0x15, ix+0x16)...
 	ld d,(ix+016h)		;b5b8
-	ld c,01bh		;b5bb
+	ld c,01bh		;b5bb   ; ...crea uno del tipo 0x1B
 	jp 0569ah		;b5bd   ; crea_actor: crea un actor del tipo C en Y = E, X = D en la primera ficha libre de 0xD000; HL = la ficha, A = 0 si no cabe
 crea_tipo_33:		; la creacion del tipo 33
 	ld hl,0c631h		;b5c0
@@ -3264,14 +3264,14 @@ dibujo_si_hind_d:		; si el primer actor es el 0x26, el dibujo p15:B431 en (0x40,
 	ld hl,0b431h		;b86b
 	jp 044afh		;b86e   ; pone_dibujo: pone un dibujo del banco 15 ([filas][columnas] y fichas) en la sala, en D/E
 cuadro_tipo_38:		; lo de cada cuadro del tipo 38
-	inc (ix+016h)		;b871
+	inc (ix+016h)		;b871   ; el cuadro siguiente...
 	ld a,(ix+016h)		;b874
-	cp 003h		;b877
+	cp 003h		;b877   ; ...0, 1, 2 y vuelta...
 	jr c,L_B87F		;b879
 	xor a			;b87b
 	ld (ix+016h),a		;b87c
 L_B87F:
-	add a,086h		;b87f
+	add a,086h		;b87f   ; ...0x86-0x88
 	ld (ix+00bh),a		;b881   ; guarda el cuadro del actor
 	ld a,(ix+00ch)		;b884   ; lee la cuenta de cuadros del actor
 	and 003h		;b887
