@@ -20,7 +20,8 @@ puntos a la izquierda; el color 0 es transparente.
     o un byte 0x91-0xA5 que trae las parejas [y][x] del grupo p00:556F y
     deja en la lista solo los patrones (p00:5506-556C).
   - Paleta: la de arranque (p00:4EA4), la de Snake (p00:4AA3: colores 7 y
-    10), la de la sala (p05:8BBE) y encima la del juego de sprites
+    10), la del juego (p05:8B0B, L_4A92), la de la sala (p05:8BBE) y
+    encima la del juego de sprites
     (p05:8CB4), en ese orden (p01:6E6D-6E88).
 """
 import os
@@ -145,8 +146,9 @@ def juego_de_sala(r):
 
 def paleta_de_sala(r):
     """La paleta con la que se ve la sala r con sus sprites: arranque,
-    Snake, sala y juego de sprites, en el orden de p01:6E6D-6E88."""
-    pal = paleta_de_snake(S.paleta_de_arranque())
+    Snake, la del juego (L_4A92, p05:8B0B), sala y juego de sprites, en el
+    orden de p01:6E6D-6E88 (8B0B no toca el 7 ni el 10 de Snake)."""
+    pal = S.paleta_de_juego()          # ya lleva la de Snake
     pal = S.aplica_paleta(pal, 4, palabra(4, 0x8BBE + 2 * S.nibble(4, 0x8B40, r)))
     return paleta_de_sprites(pal, juego_de_sala(r))
 

@@ -76,5 +76,23 @@ class Salas(unittest.TestCase):
                     self.assertIn(sala, en_zona, "ascensor %02X, parada %d" % (r, sala))
 
 
+    def test_la_paleta_de_la_sala_pasa_por_8B0B_y_la_de_snake(self):
+        """p01:6E82 aplica p05:8B0B (L_4A92) antes de la paleta de la sala:
+        el 15 queda NEGRO (los bordes de las fichas), el 14 blanco, el 12
+        gris y el 8 rojo puro; y siguen el 7 y el 10 de Snake (p00:4AA3),
+        que ninguna paleta de sala ni de sprites toca."""
+        import salas as S
+        for r in (1, 5, 50, 181):
+            pal = S.paleta_de_sala(r)
+            self.assertEqual(pal[15], (0, 0, 0))
+            self.assertEqual(pal[14], (7, 7, 7))
+            self.assertEqual(pal[8], (7, 0, 0))
+            self.assertEqual(pal[7], (1, 2, 2))
+            self.assertEqual(pal[10], (6, 4, 3))
+        # la sala 5 por encima: 5 = tierra (3,2,1), 9 = hierba (0,2,0)
+        pal = S.paleta_de_sala(5)
+        self.assertEqual((pal[5], pal[9]), ((3, 2, 1), (0, 2, 0)))
+
+
 if __name__ == "__main__":
     unittest.main()

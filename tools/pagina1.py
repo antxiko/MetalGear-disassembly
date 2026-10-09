@@ -88,10 +88,18 @@ def pagina1():
 
 
 def copia(sx, sy, w, h, dx, dy):
-    """Lo que deja el copiador en la pagina 0: {(x, y): color} (el color 0
-    tambien se copia: el comando no es transparente)."""
+    """Lo que deja el copiador en la pagina 0: {(x, y): color}. Puertas
+    (p01:776C...) y objetos (p06:BC9F) llaman a L_5011 con A = 0x48: paginas
+    1 -> 0 (bits 7-6 y 5-4) y operacion 8 (bits 3-0, p00:5052-5059) = LMMM
+    con TIMP: el color 0 NO se copia, se ve el fondo."""
     p1 = pagina1()
-    return {(dx + i, dy + j): p1.get((sx + i, sy + j), 0) for j in range(h) for i in range(w)}
+    out = {}
+    for j in range(h):
+        for i in range(w):
+            c = p1.get((sx + i, sy + j), 0)
+            if c:
+                out[(dx + i, dy + j)] = c
+    return out
 
 
 # ---------------------------------------------------------------- objetos

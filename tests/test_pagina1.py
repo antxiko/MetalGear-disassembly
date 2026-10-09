@@ -60,5 +60,18 @@ class Pagina1(unittest.TestCase):
         self.assertTrue(any(p1[(192 + i, 160 + j)] for i in range(32) for j in range(32)))
 
 
+    def test_la_copia_es_transparente(self):
+        """L_5011 con A = 0x48 es LMMM con TIMP: el color 0 de la pagina 1
+        no se copia. Un objeto no tapa el fondo con negro."""
+        import pagina1 as P1
+        p1 = P1.pagina1()
+        sx, sy = 0, 96
+        ceros = sum(1 for j in range(16) for i in range(32) if p1.get((sx + i, sy + j), 0) == 0)
+        hecho = P1.copia(sx, sy, 32, 16, 0, 0)
+        self.assertGreater(ceros, 0)
+        self.assertEqual(len(hecho), 32 * 16 - ceros)
+        self.assertNotIn(0, hecho.values())
+
+
 if __name__ == "__main__":
     unittest.main()

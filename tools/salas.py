@@ -11,8 +11,9 @@ nada se supone. Las tablas estan declaradas en src/pNN.notes (bloques.py).
     p07:6000, descriptores en p07:608E, p00:495E-49DF): cada ficha son 24
     bytes, 3 planos de bits, y el indice de 3 bits pasa por la tabla de
     colores 0x4B13 (L_42C4 -> 0xE700) para dar el color de la paleta.
-  - La paleta: la de arranque (p00:4EA4, 16 parejas [RB][G]) y encima la de
-    la sala (nibble en p05:8B40, indice p05:8BBE, ternas hasta 0xFF).
+  - La paleta: la de arranque (p00:4EA4, 16 parejas [RB][G]), encima la
+    del juego (p05:8B0B, L_4A92 desde p01:6E82) y encima la de la sala
+    (nibble en p05:8B40, indice p05:8BBE, ternas hasta 0xFF).
   - Las vecinas: 4 bytes por sala en p05:8E0E (p00:42E6), con la sala a la
     que se sale por cada lado.
   - Los ascensores (salas 0xF0-0xFA): indice p05:8DA8 y fichas con las
@@ -180,11 +181,23 @@ def aplica_paleta(pal, trio, a):
     return pal
 
 
+def paleta_de_juego():
+    """L_4A92 (p01:6E82, en cada entrada a una sala, antes de la de la
+    sala): las ternas de p05:8B0B encima de la de arranque. Cambia 0, 6
+    (amarillo), 8 (rojo 7,0,0), 12 (gris 3,3,3), 14 (blanco) y 15 (NEGRO):
+    sin este paso los bordes de las fichas salian blancos. Debajo, la de
+    Snake (p00:4AA3, colores 7 y 10, por L_4A9D desde p01:6BB6): ninguna
+    paleta de sala ni de sprites toca esos dos, asi que siguen en la sala
+    (el 7 es el verde azulado de los objetos)."""
+    return aplica_paleta(aplica_paleta(paleta_de_arranque(), 0, 0x4AA3), 4, 0x8B0B)
+
+
 def paleta_de_sala(r):
     """p00:4ACB: el nibble de p05:8B40 elige la paleta de p05:8BBE (sin las
-    gafas ni el foco, que son los casos 0xB y 0xA)."""
+    gafas ni el foco, que son los casos 0xB y 0xA), encima de la del juego
+    (p01:6E82 -> 6E85)."""
     k = nibble(4, 0x8B40, r)
-    return aplica_paleta(paleta_de_arranque(), 4, palabra(4, 0x8BBE + 2 * k))
+    return aplica_paleta(paleta_de_juego(), 4, palabra(4, 0x8BBE + 2 * k))
 
 
 def rgb(c):

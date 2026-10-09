@@ -140,7 +140,7 @@ def tipos_png(directorio, escala):
 
 
 def snake_png(ruta, escala):
-    pal = [S.rgb(c) for c in SP.paleta_de_snake(S.paleta_de_arranque())]
+    pal = [S.rgb(c) for c in SP.paleta_de_snake(S.paleta_de_juego())]
     imgs, rots = [], []
     for k in range(SP.N_JUEGOS_SNAKE):
         vram = SP.patrones_de_snake(k)
@@ -164,7 +164,7 @@ def cuadros_png(directorio, escala):
             if all((p & ~3) in cargados for (_, _, p) in sprites):
                 cols = [0x02, 0x4D] * ((n + 1) // 2)
                 lista = [(128 + SP.con_signo(dy), 128 + SP.con_signo(dx), p, cols[i]) for i, (dy, dx, p) in enumerate(sprites)]
-                imgs.append(recorte(lista, vram, [S.rgb(x) for x in SP.paleta_de_snake(S.paleta_de_arranque())], escala))
+                imgs.append(recorte(lista, vram, [S.rgb(x) for x in SP.paleta_de_snake(S.paleta_de_juego())], escala))
                 rots.append("j%d" % j)
         if imgs:
             tira(imgs, rots, "cuadro %d: %d sprites (%s)" % (c, n, " ".join("%02X" % p for (_, _, p) in sprites)), escala).save(
