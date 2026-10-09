@@ -637,7 +637,9 @@ C 0xBDCD final_dibujos: por la cuenta (HL): el sonido 0x56 y los dibujos 0xB31F,
 C 0xBDD9 esconde_los_sprites_y_vuelve: llama a esconde_los_sprites (p00:4E2C) y deja otra vez los bancos 1-2 y el de zona
 C 0xBDDC esconde_los_sprites_ram_y_vuelve: llama a esconde_los_sprites_ram (p00:4E42) y deja otra vez los bancos 1-2 y el de zona
 C 0xBDDF transceptor_abre_y_vuelve: llama a transceptor_abre (p01:6912) y deja otra vez los bancos 1-2 y el de zona
+C 0xBDF0 pon_send_y_vuelve: llama a pon_send (p01:69EF) y deja otra vez los bancos 1-2 y el de zona
 C 0xBDF9 ventana_y_modo: un paso de la ventana de texto; Z si el modo es el 4
+C 0xBDFD pon_recv_y_vuelve: llama a pon_recv (p01:69E7) y deja otra vez los bancos 1-2 y el de zona
 C 0xBE02 sonido_si_hay_y_vuelve: llama a sonido_si_hay (p00:427C) y deja otra vez los bancos 1-2 y el de zona
 C 0xBE09 lee la cuenta de cuadros
 C 0xBE0F apunta a la frecuencia del transceptor (BCD)

@@ -3634,14 +3634,14 @@ L_BDE9:
 	ld hl,0c923h		;bdeb
 	dec (hl)			;bdee
 	ret nz			;bdef
-	call 04154h		;bdf0
+	call 04154h		;bdf0   ; pon_send_y_vuelve: llama a pon_send (p01:69EF) y deja otra vez los bancos 1-2 y el de zona
 	ld a,09bh		;bdf3
 	jr L_BE42		;bdf5
 L_BDF7:
 	djnz L_BE07		;bdf7
 	call ventana_y_modo		;bdf9   ; ventana_y_modo: un paso de la ventana de texto; Z si el modo es el 4
 	ret nz			;bdfc
-	call 0414fh		;bdfd
+	call 0414fh		;bdfd   ; pon_recv_y_vuelve: llama a pon_recv (p01:69E7) y deja otra vez los bancos 1-2 y el de zona
 	ld a,050h		;be00
 	call 0405ah		;be02   ; sonido_si_hay_y_vuelve: llama a sonido_si_hay (p00:427C) y deja otra vez los bancos 1-2 y el de zona
 	jr final_paso_siguiente		;be05

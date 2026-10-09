@@ -1240,6 +1240,8 @@ L 0x4136 linea_horizontal_y_vuelve llama a linea_horizontal (p00:4EFC) y deja ot
 L 0x4140 sonido_y_vuelve llama a sonido (p00:4284) y deja otra vez los bancos 1-2 y el de zona
 L 0x4145 paleta_a_y_vuelve llama a paleta_a (p00:4B03) y deja otra vez los bancos 1-2 y el de zona
 L 0x414A ventana_paso_y_vuelve llama a ventana_paso (p00:5D03) y deja otra vez los bancos 1-2 y el de zona
+L 0x414F pon_recv_y_vuelve llama a pon_recv (p01:69E7) y deja otra vez los bancos 1-2 y el de zona
+L 0x4154 pon_send_y_vuelve llama a pon_send (p01:69EF) y deja otra vez los bancos 1-2 y el de zona
 L 0x4163 borra_la_pagina_d_y_vuelve llama a borra_la_pagina_d (p00:4E1D) y deja otra vez los bancos 1-2 y el de zona
 L 0x4168 fichas_3_planos_y_vuelve llama a fichas_3_planos (p00:524C) y deja otra vez los bancos 1-2 y el de zona
 L 0x416D paleta_del_juego_y_vuelve llama a paleta_del_juego (p00:4A92) y deja otra vez los bancos 1-2 y el de zona
@@ -1285,9 +1287,12 @@ L 0x4396 dano A = el byte A de la tabla de dano de 0xEC00
 L 0x43A3 byte_del_banco_5 A = el byte A - 1 de la tabla HL, con los bancos 4-5-6
 L 0x43A9 suma_de_objeto A = el byte A de p05:8AE8 (lo que suma cada objeto)
 L 0x43B4 caja_de_choque copia la caja A (p05:8A55 + 4 x (A - 1)) a 0xC928; HL = 0xC928
+L 0x43CA marca_de_arma 0xC155 = donde va la marca del hueco 0xC154 en la ventana de armas (p06:B8B0)
+L 0x43CF marca_de_objeto 0xC155 = donde va la marca del hueco 0xC154 en la ventana de equipo (p06:B9BB)
 L 0x43E1 busca_objeto busca A en los 25 objetos de 0xC530 (fichas de 4): C = el sitio, Z si esta, acarreo si no
 L 0x43E8 busca_arma busca A en las 7 armas de 0xC500 (fichas de 4): C = el sitio, Z si esta, acarreo si no
 L 0x43FA carga_las_puertas copia las puertas de la sala (p15:A7C0) a 0xC3D0 con su estado (0xC450) y cuenta en 0xC4FF
+L 0x449E pone_dibujo_hl pone el dibujo de HL ([filas][columnas] y fichas) en (D, E), de la mitad de la pagina 1 que diga 0xC168
 L 0x44A7 dibujo_de_metal_gear pone el dibujo p15:B595 (Metal Gear) con L_44AF
 L 0x44AC dibujo_b5f7 pone el dibujo p15:B5F7 con L_44AF
 L 0x44AF pone_dibujo pone un dibujo del banco 15 ([filas][columnas] y fichas) en la sala, en D/E
@@ -1318,6 +1323,8 @@ L 0x49F4 fichas_de_las_puertas copia las fichas de las puertas (p07:61C9-6749) a
 L 0x4A33 bloque_de_fichas copia C filas de B fichas de 32 bytes de HL a la VRAM DE (0x400 por fila)
 L 0x4A44 sprites_de_la_sala carga los patrones del juego de sprites de la sala (p10:6185, p10:6280) en 0xF800
 L 0x4A69 patrones_de_terna descomprime una terna [patron][origen] a 0xF800 + 8 x patron
+L 0x4A7C montaje_a559 el montaje p09:A559 de fichas del bloque en (0x40, 0xA0) de la pagina 1
+L 0x4A81 fichas_y_montaje_a559 B fichas de 2 planos de HL a la VRAM DE y el montaje p09:A559
 L 0x4A92 paleta_del_juego manda al VDP la paleta p05:8B0B
 L 0x4A9D paleta_de_snake manda al VDP los colores 7 y 10 (0x4AA3)
 L 0x4AAA paleta_del_transceptor manda al VDP la paleta p05:8B1E
@@ -1330,6 +1337,7 @@ L 0x4BBC fichas_del_interruptor carga las fichas p15:B2BF en 0x9048 (VRAM)
 L 0x4BCF fichas_de_las_cajas carga las fichas p09:9509 en 0x9400 y 0x9840 (VRAM)
 L 0x4BEC patrones_del_arma carga los patrones del arma elegida (p10:6392) y los de su explosion
 L 0x4C2E patrones_del_cohete carga los patrones del proyectil por la direccion (ix+0x0C) en 0xF880
+L 0x4C40 patrones_a6f9 los patrones de p06:A6F9 (con su destino)
 L 0x4C4B graficos_del_logotipo_konami carga los tres bloques de 1 bit del logotipo de Konami (p09:B719, B781, B7E9) y pinta su montaje p09:B6D8
 L 0x4C9A metafichas pone 8 metafichas de 4 x 4 de la lista HL en 0xEC00.. (filas de 32)
 L 0x4CF0 monta_la_sala monta la sala (p13:6000) en 0xE000 y la pinta en la VRAM
@@ -1414,10 +1422,12 @@ L 0x57EC colores_de_tabla copia los colores del tipo (ix+0) de la tabla DE a la 
 L 0x580B apunta_hueco el sprite E del actor (0xEC04) usa el hueco D de 0xEA28
 L 0x581B refuerzos con 0xC602 puesto, cada 0xC605 cuadros crea un actor de p06:A445 (sala x 3) si hay pocos de ese tipo
 L 0x5877 mira_c602 quita 0xC602 (y lo que sigue) segun la sala, la cuenta 0xC605 y los actores que quedan
+L 0x58C9 quita_c602 la bandera 0xC602 y 0xC603-0xC607 a cero y, si se juega, la musica de la sala
 L 0x58E4 reaparece_ya 0xC605 = 1 y crea en IX el actor de p06:A445 de la sala
 L 0x58E9 reaparece crea en IX el actor de p06:A445 de la sala (salas < 0xBC)
 L 0x58FD pon_tipo pone el tipo A en IX y lo prepara (p03:B3F8, p02:8334, p03:A923, colores)
 L 0x5927 tres_a HL = 3 x A
+L 0x592F punto_siguiente el punto de DE como el siguiente del camino
 L 0x5935 crea_tipo_30 la creacion del tipo 30
 L 0x5939 crea_tipo_5 la creacion del tipo 5
 L 0x593D crea_tipo_4 la creacion del tipo 4
@@ -1515,6 +1525,8 @@ C 0x4136 linea_horizontal: LINE de B puntos desde (H, L) en el color C
 C 0x4140 sonido: pide el sonido A al controlador del banco 4 (0x67FD) con los bancos 4 y 5
 C 0x4145 paleta_a: manda al VDP la paleta A de la tabla p05:8BBE
 C 0x414A ventana_paso: un paso de la ventana de texto (0xCEF2, tabla 0x5D1D)
+C 0x414F pon_recv: borra SEND y escribe RECV
+C 0x4154 pon_send: borra RECV y escribe SEND
 C 0x4163 borra_la_pagina_d: llena la pagina de D de color 0 y pone R#23 a cero
 C 0x4168 fichas_3_planos: B fichas de 3 planos (24 bytes) de HL a la VRAM DE con los colores de 0xE700
 C 0x416D paleta_del_juego: manda al VDP la paleta p05:8B0B
@@ -2164,6 +2176,7 @@ C 0x5DBD lee la cuenta de cuadros
 C 0x5DE3 caracter: copia el caracter A de la pagina 1 a (D, E); con A = 0 o C = 0, el blanco
 C 0x5DFF sonido: pide el sonido A al controlador del banco 4 (0x67FD) con los bancos 4 y 5
 C 0x5E0D lee el texto de la ventana
+C 0x5E3F pone_dibujo_hl: pone el dibujo de HL ([filas][columnas] y fichas) en (D, E), de la mitad de la pagina 1 que diga 0xC168
 C 0x5E42 retrato_b41f: pone el retrato p15:B41F en la ventana (modo 4)
 C 0x5E4A ventana_paso_siguiente: sube el paso de la ventana de texto 0xCEF2
 C 0x5E63 retrato_b41f: pone el retrato p15:B41F en la ventana (modo 4)

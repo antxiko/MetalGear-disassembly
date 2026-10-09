@@ -23,6 +23,1034 @@ D 0x7C56 0x7C5C parejas_7c56  3 parejas ([0xFF][0x21], [0x24][0xFF], [0x0D][0x21
 F 0x7C56 2
 D 0x7CA2 0x7CAA registros_del_vdp  4 parejas [registro][valor] que p01:7C83 escribe en el VDP al arrancar: R1 = 0x62, R5 = 0xEF, R6 = 0x1F y R11 = 1
 F 0x7CA2 2
+C 0x6016 con un MISSILE en vuelo (primer proyectil 7), Snake no se mueve
+C 0x6022 estado 3 (muerto): solo la pose
+C 0x602D estado 5: solo la pose
+C 0x603E los modos de pose 1, 2 y 4 se quedan
+C 0x6048 con la BOX (objeto 0x19), el modo 7...
+C 0x6051 ...si no, el 0
+C 0x606A si va a moverse el ascensor (modo 6), la pose de quieto
+C 0x6078 el modo de pose 0
+C 0x6082 la velocidad Y: 1 punto por cuadro hacia abajo
+C 0x608B la X: hacia un lado o al otro cada 16 cuadros
+C 0x6094 el modo de pose 3
+C 0x60A0 sube 3 puntos por cuadro hasta la Y 0x30...
+C 0x60A8 ...y vuelve al estado 0
+C 0x60BC si paso al estado 7, nada mas
+C 0x60BF el modo de pose 0
+C 0x60D5 si paso al estado 6, nada mas
+C 0x60D8 el modo de pose 5
+C 0x60E6 p09:AE8F: un paso de la llegada
+C 0x60EF mientras dura, nada mas
+C 0x60F4 al acabar, p06:BDF8: el punto de control
+C 0x60FA arriba y abajo
+C 0x60FE izquierda y derecha
+C 0x6102 las cuatro
+C 0x6107 hay una nueva: manda la nueva
+C 0x610A la ultima direccion (0xC191) sigue pulsada: se queda
+C 0x6116 si se solto, vuelve a la de antes (0xC192) si sigue pulsada
+C 0x6121 la de antes pasa a ser la ultima
+C 0x6126 la ultima pasa a ser la de antes
+C 0x6130 la nueva, por orden: arriba, abajo, izquierda, derecha
+C 0x6142 0xC191 = la direccion que manda (bit)
+C 0x6145 del bit (1, 2, 4, 8) a la direccion (1-4)
+C 0x6161 0xC1A0 a cero
+C 0x6167 solo arriba o abajo
+C 0x6174 solo izquierda o derecha
+C 0x617D en el estado 1 (golpe), nada
+C 0x6183 las cuatro
+C 0x6187 sin teclas: 0xC18E = 1 (quieto)
+C 0x618D con teclas: andando...
+C 0x6195 ...y la direccion nueva
+C 0x619D HL = DE = el modulo de la velocidad
+C 0x61A3 quieto: velocidad 0
+C 0x61A9 1 arriba: Y negativa
+C 0x61AC 2 abajo: Y positiva
+C 0x61AF 3 izquierda: X negativa
+C 0x61B1 4 derecha: X positiva, sin Y
+C 0x61BB HL = -modulo
+C 0x61BE sin X
+C 0x61C3 DE = -modulo
+C 0x61C6 sin Y
+C 0x61D0 con 0xC1A0 (la sala 0x35), sin velocidad Y
+C 0x61E1 la tecla 0x20 nueva...
+C 0x61E5 ...salvo en los modos de pose 2, 4 y 7
+C 0x61EE 8 cuadros de golpe
+C 0x61F3 el modo de pose 1 y el estado 1
+C 0x6208 golpeando: mira la pared de delante
+C 0x620B la Y a la que va...
+C 0x6213 ...en L
+C 0x6214 la X a la que va, en H
+C 0x621D B = 0: la caja pequena; C = la direccion
+C 0x622A choca: quieto
+C 0x622F en la sala 0x4E tambien con la caja grande
+C 0x623E arriba: 2 puntos menos de Y
+C 0x6245 abajo: 2 mas
+C 0x624A izquierda: 2 puntos menos de X
+C 0x6251 derecha: 2 mas
+C 0x6253 la Y de delante
+C 0x6258 la X de delante
+C 0x625D la caja pequena
+C 0x6266 pared: el sonido 9
+C 0x626F al acabar la cuenta...
+C 0x6271 ...el estado y el modo de pose 0
+C 0x627C solo en la mitad izquierda de la cabina (X < 0x78)
+C 0x627F C = 3: arriba y abajo
+C 0x6284 en los ascensores 0xF3-0xF6...
+C 0x628C ...0xF3 y 0xF4 solo arriba...
+C 0x6292 ...0xF5 y 0xF6 solo abajo
+C 0x6297 sin tecla, nada
+C 0x6298 0xC193: la parada de la cabina
+C 0x629B abajo: C = 2, el segundo byte del ascensor
+C 0x62A5 arriba: C = 1, el primer byte
+C 0x62AA si ya esta ahi, nada
+C 0x62AC 0xC195 = hacia donde va
+C 0x62B0 el paso 0 del ascensor
+C 0x62B5 el modo 6: el ascensor
+C 0x62BE las 10 salas de 0x6342
+C 0x62C3 la sala esta en la lista
+C 0x62C9 en las demas: el modo 0 (salvo la BOX, 7)
+C 0x62D4 H y L = las dos fichas bajo Snake
+C 0x62D7 las fichas 0x6F-0x72: modo 4 o 2 segun la sala
+C 0x62DC 0x73-0x74: modo 2
+C 0x62E0 0x75-0x76: modo 4
+C 0x62E8 lo mismo con la otra ficha
+C 0x62F9 la ficha 0x6D: modo 2
+C 0x6303 si no, el modo 0 (7 con la BOX)
+C 0x630F las 6 primeras salas de la lista: modo 2
+C 0x6317 busca la sala
+C 0x631D las demas: modo 4
+C 0x6326 si cambia el modo...
+C 0x632C ...la animacion empieza de cero
+C 0x6334 en el modo 4...
+C 0x633A ...sin BOMBE (objeto 0x0A)...
+C 0x633D ...dano cada 8 cuadros (p02:8C1C)
+C 0x634D 0xC1A0 a cero
+C 0x6353 solo en la sala 0x35...
+C 0x6359 ...sin SUIT (objeto 2)...
+C 0x635F ...y en el recuadro Y 0x50-0x5F...
+C 0x6368 ...X 0x48-0xBF
+C 0x6371 bajando: 0xC1A0 = 1 (sin velocidad Y)
+C 0x637B si no, el estado 5 (sube solo)...
+C 0x6380 ...con el sonido 0x11
+C 0x6385 H = la ficha bajo Snake
+C 0x6389 la ficha 8...
+C 0x638F ...con arriba nueva
+C 0x6391 Y = 0x99
+C 0x6396 estado 7
+C 0x639B el modo de pose 5
+C 0x63A0 las teclas y la animacion a cero
+C 0x63AB mirando arriba, 1 punto por cuadro
+C 0x63BB solo en la sala 0xE0...
+C 0x63C1 ...con la Y 0x99...
+C 0x63C7 ...y una tecla de lado nueva
+C 0x63CC derecha: direccion 4
+C 0x63D1 izquierda: direccion 3
+C 0x63DC Y = 0x9E
+C 0x63E1 estado 6
+C 0x63E6 2 puntos por cuadro
+C 0x63EC el modo de pose 0 y las teclas a cero
+C 0x63FF H = la X nueva
+C 0x6400 X < 0x0C: sale por la izquierda (3)
+C 0x6407 X >= 0xF4: por la derecha (4)
+C 0x6410 H = la Y nueva
+C 0x6411 Y < 0x10: sale por arriba (1)
+C 0x6417 Y >= 0xBA: por abajo (2)
+C 0x6420 en el ascensor la X no baja de 0x68
+C 0x642B X >= 0xF4: sale por la derecha
+C 0x643A en la sala 0xE2...
+C 0x643F ...saliendo por arriba: 0xC124 = 1 (el final)
+C 0x6445 en la sala 0xE0 la Y no pasa de 0x99
+C 0x6454 Y < 0x10: sale por arriba
+C 0x645B Y >= 0xBA: por abajo
+C 0x6465 el modo 1: cambio de sala
+C 0x646B 0xC124 = 1: juego_estado_5 pasa al 8
+C 0x6489 guarda 0xC64D...
+C 0x648C ...y 0xC640-0xC651 a cero
+C 0x649B 0xC13A (la cuenta de cinco) a cero
+C 0x64A3 CLASS 0: nada mas
+C 0x64A5 una estrella menos...
+C 0x64A6 ...con el sonido 0x27
+C 0x64AB la vida de antes
+C 0x64AF el maximo nuevo (y la vida al maximo)
+C 0x64B7 la vida de antes se queda si cabe...
+C 0x64BA ...si no, el maximo
+C 0x64C2 p02:8F2E: recorta la municion a los maximos
+C 0x64C8 0xC13A cuenta hasta 5
+C 0x64D6 CLASS 3 es el tope
+C 0x64D9 una estrella mas...
+C 0x64DA ...con el sonido 0x26
+C 0x64E0 p02:90AA: pinta las estrellas
+C 0x64E4 C = la CLASS
+C 0x64E6 1: vida 0x20
+C 0x64EB 2: 0x28
+C 0x64F0 3: 0x30
+C 0x64F4 0: 0x18
+C 0x64F6 el maximo y la vida al maximo
+C 0x64FC p02:9067: la barra de vida
+C 0x64FF p02:9101: los maximos de municion
+C 0x651B quieto: la animacion a cero
+C 0x6527 andando: cada 6 cuadros...
+C 0x6532 ...el paso siguiente (0xC18F)
+C 0x6536 el paso va 1, 2, 1, 2...
+C 0x6540 3 x (direccion - 1)
+C 0x6548 con arma (salvo la P.BOMB y la L.MINE)...
+C 0x6556 ...las poses con el arma, 0x0C mas alla
+C 0x655A + el paso
+C 0x6561 la pose 0x18 + direccion - 1: golpe
+C 0x656F la pose 0x1C + direccion - 1 (0x20 con arma)
+C 0x657B cada 8 cuadros, 0x11 mas alla
+C 0x6589 la pose 0x24
+C 0x658E cada 4 cuadros...
+C 0x659C ...las poses 0x25 y 0x26 alternas
+C 0x65A5 quieto: sin cambiar
+C 0x65B1 andando: cada 6 cuadros...
+C 0x65BF ...las poses 0x27 y 0x28 alternas
+C 0x65CA por la cuenta 0xC19D de la muerte:
+C 0x65CF menos de 0x40: la pose 0x2B
+C 0x65D3 menos de 0x70: la 0x29
+C 0x65D9 si no, cambia cada 4 cuadros
+C 0x65E4 dentro de la BOX: quieto, la pose 0x2A...
+C 0x65EC ...andando, 0x2A y 0x2C alternas cada 8 cuadros
+C 0x65FE en la sala 0xCC no
+C 0x6604 solo con la GRENADE
+C 0x660A dentro de la BOX, escondido
+C 0x6611 en los ascensores (0xE0+), escondido
+C 0x6615 16 lineas de color 14...
+C 0x6619 ...para el sprite de 0xE890
+C 0x6620 L = C = la Y de Snake
+C 0x6625 H = B = la X
+C 0x662A por la direccion...
+C 0x662E ...el desplazamiento de 0x666A
+C 0x6635 la Y del sprite
+C 0x6639 la X
+C 0x663C en la copia de atributos (0xEA24)
+C 0x663F el patron 0x18
+C 0x6644 si cae fuera de la sala, escondido:
+C 0x6650 derecha: X >= 0xC0
+C 0x6655 arriba: Y < 0x38
+C 0x665A abajo: Y >= 0x80
+C 0x6660 izquierda: X < 0x50
+C 0x6664 Y = 0xE1: escondido
+C 0x6675 un cuadro mas
+C 0x6676 C = el estado, B = el paso
+C 0x667B en los estados 0-2 (el titulo)...
+C 0x667F ...las teclas del titulo despues
+C 0x6683 por el estado (tabla 0x6686); el paso, en B, para los djnz
+C 0x6698 paso 0: el logotipo de Konami baja...
+C 0x66A6 ...hasta que 0xC132 se pone
+C 0x66AE 0 cuadros de espera y al paso 1
+C 0x66B2 paso 1: la espera...
+C 0x66BF ...y el titulo (p09:B4DA)
+C 0x66C7 paso 2: el titulo paso a paso (p09:B506)...
+C 0x66D5 ...hasta su paso 4
+C 0x66DB al estado siguiente con 0 cuadros de espera
+C 0x66DF paso 3: pantalla limpia y el logotipo de Konami (p09:B670)
+C 0x66F0 las teclas de funcion, viejas en 0xF0F9 y nuevas en 0xF0F8
+C 0x66F6 F5 nueva...
+C 0x66F9 ...cambia 0xF0F7
+C 0x6704 la espera
+C 0x670C paso 1 en adelante: la demo
+C 0x6711 p06:BD6D: las teclas del guion
+C 0x6714 p06:BD3F: un cuadro de la demo
+C 0x671A mientras dure (0xC123)...
+C 0x671F ...despues, al estado 0
+C 0x6723 0x20 cuadros de espera
+C 0x672A paso 0: pantalla limpia y el guion siguiente (p06:BCAE)
+C 0x673B el paso siguiente
+C 0x6740 paso 0: PLAY START parpadeando
+C 0x6748 cada 4 cuadros...
+C 0x674A ...p02:9282 (PLAY START) o el blanco
+C 0x6753 paso 1: p02:8FB0, la partida a cero
+C 0x675A paso 2: 0x50 cuadros de espera
+C 0x6761 la partida desde el principio
+C 0x6764 0xC123 = 1: en marcha
+C 0x6769 0x20 cuadros de espera
+C 0x676E el estado siguiente
+C 0x6773 el paso 0
+C 0x6777 0xC0F1 a cero (el sonido normal)
+C 0x677E 0xC008 = 1 (F1): la pausa
+C 0x6785 con 0xC124 (la salida de la sala 0xE2), al estado 8: el final
+C 0x678E mientras se juega, sigue
+C 0x6793 Snake murio: al estado 6
+C 0x6798 0xE500-0xE51D (la clave tecleada) a cero
+C 0x67A5 0xC0F1 = 1: guarda la musica
+C 0x67A9 el sonido 0x4D
+C 0x67AE al estado 7: la pausa
+C 0x67B3 guarda 0x28 x 8 de (0x98, 0xD8)...
+C 0x67B6 ...en (0x58, 0x6C) de la pagina 1
+C 0x67C5 lo borra
+C 0x67CA y escribe PAUSE (p00:5C1D)
+C 0x67D0 paso 0: GAME OVER
+C 0x67D2 sin elegir continuar, mira F5
+C 0x67D9 espera a que acabe la musica (0xC012)
+C 0x67DE con F5, al estado 4 (sigue desde el punto de control)
+C 0x67E7 si no, deja de jugar (bit 6 de 0xC002)...
+C 0x67EB ...y al estado 0 (el titulo)
+C 0x67F4 F5 (de las teclas que hay)
+C 0x67FA borra CONTINUE F5 (p02:92A0)
+C 0x6804 0xC125 = 1: continua
+C 0x6809 paso 1: pantalla limpia y GAME OVER CONTINUE F5 (p02:9293)
+C 0x681C sin cinta: las teclas de la pausa
+C 0x6822 p06:BEA8: lee el teclado
+C 0x682B p15:B948: la cinta
+C 0x6831 hasta que acabe (0xC165)
+C 0x6836 fuera la pausa y la cinta
+C 0x6840 0xC0F1 = 1 y 0xC125 = 1: continua
+C 0x684D F1: sigue el juego
+C 0x6857 p06:BEA2: mete la tecla en la clave
+C 0x685E F4: la cinta 1 (cargar)
+C 0x6865 F5: la cinta 2 (grabar)
+C 0x686C el paso 0 de la cinta
+C 0x6876 p06:BF2F: si la clave tecleada vale
+C 0x687C fuera la pausa
+C 0x6880 0xC0F1 = 1
+C 0x6884 devuelve el fondo de PAUSE
+C 0x6892 al estado 5: el juego
+C 0x6897 paso 1 en adelante:
+C 0x689C p15:B8BC: la tabla de sprites
+C 0x689F p15:BD92: un paso del final
+C 0x68A2 p15:B8DE: los sprites a la VRAM
+C 0x68A8 hasta el paso 0x0E...
+C 0x68AF ...y luego deja de jugar y al titulo
+C 0x68B3 paso 0: p15:BD62, prepara el final
+C 0x68C2 las teclas del titulo (nuevas en 0xC110)
+C 0x68C9 ninguna: nada
+C 0x68CD la espera a cero
+C 0x68D3 en el estado 1 (la espera tras el logotipo)...
+C 0x68D5 ...con espacio o el boton...
+C 0x68D8 ...se juega (bit 6 de 0xC002)...
+C 0x68DD ...estado 3 (PLAY START), paso 0
+C 0x68E2 en los demas, al estado 1...
+C 0x68E4 ...con el sonido 0x28...
+C 0x68EC ...y el titulo de una vez (paso 4)
+C 0x68FD F4: sale del transceptor
+C 0x691E sin la llamada pendiente (0xC15F = 2)
+C 0x6924 0xC168 = 1: las fichas de la segunda mitad de la pagina 1
+C 0x6927 el marco p15:B369 en (0x18, 0x30)
+C 0x6930 el retrato p15:B40D en (0x28, 0xC8)
+C 0x6939 0xC800-0xC810 a cero
+C 0x6952 si no es el final (0xC922)...
+C 0x6956 ...el sonido 0x50
+C 0x695E 0xC800: estaba en SEND
+C 0x6968 el sonido 0x50 otra vez
+C 0x696D RECV
+C 0x6979 arriba nueva: SEND
+C 0x697D 0xC800 a cero
+C 0x6986 0xC800 y 0xC806 = 1: enviando
+C 0x698C SEND
+C 0x6995 el sonido 0x5C
+C 0x699A y el texto 0x0A
+C 0x69A2 cada 2 cuadros...
+C 0x69A9 ...la barra sube un tramo
+C 0x69AF hasta 12
+C 0x69BB al paso 4 tras el texto
+C 0x69C2 la llamada de 0xC803...
+C 0x69C5 ...+3: su texto
+C 0x69CC 0xC806 y la barra a cero
+C 0x69D3 0xC805 = 1 (la llamada ya oida) y al paso 1
+C 0x69DF el sonido 0x50
+C 0x69F7 DE: el rotulo que se borra
+C 0x69FB HL: el que se escribe
+C 0x6A05 izquierda o derecha nueva...
+C 0x6A0C ...o mantenida, cada 2 cuadros (tras 8 de espera)
+C 0x6A18 una nueva: 0xC805 y 0xC806 a cero...
+C 0x6A20 ...y 8 cuadros hasta repetir
+C 0x6A25 bit 2 (izquierda): baja
+C 0x6A2E 99 es el tope
+C 0x6A31 sube 1 en BCD
+C 0x6A3A 00 es el minimo
+C 0x6A3C baja 1 en BCD
+C 0x6A47 la sala no tiene llamadas
+C 0x6A51 una llamada con la frecuencia de ahora
+C 0x6A56 la ficha siguiente (0x20 bytes)
+C 0x6A5E +2: las banderas
+C 0x6A63 bit 0: solo se oye enviando (0xC806)
+C 0x6A6F las otras: no si ya se oyo (0xC805)
+C 0x6A79 callada: nada
+C 0x6A7A 0xC803 = la llamada
+C 0x6A7D al paso 2: la barra de senal
+C 0x6A82 cada 0x10 cuadros
+C 0x6A8B C = el texto (+3)
+C 0x6A8F con el nibble 5+ de p12:A2FF, sin 0xC5A7, callada
+C 0x6A9C las frecuencias 0x85 y 0x13...
+C 0x6AA5 ...con 0xC664: el texto 0x88
+C 0x6AB2 las frecuencias 0x85 y 0x13...
+C 0x6ABB ...con 0xC5B6 (y no el nibble 4): el texto 0x32
+C 0x6AD0 las frecuencias 0x79 y 0x26...
+C 0x6AD9 ...callada con 0xC662
+C 0x6AE2 la 0x48...
+C 0x6AE6 ...solo con CLASS 3 y sin 0xC657
+C 0x6AF5 el texto 0x0F...
+C 0x6AFA ...callado con 0xC660
+C 0x6B00 se oye: sin acarreo
+C 0x6B02 callada: acarreo
+C 0x6B04 el caracter de verdad
+C 0x6B06 en (0x98, 0x21)
+C 0x6B0C el digito de las decenas
+C 0x6B13 el de las unidades
+C 0x6B16 dos caracteres por digito (0x6B34)
+C 0x6B1E el de arriba
+C 0x6B22 8 lineas mas abajo
+C 0x6B27 el de abajo
+C 0x6B2B arriba otra vez...
+C 0x6B2F ...y 8 puntos a la derecha
+C 0x6B56 desde (0x40, 0x20)
+C 0x6B5C los tramos llenos: senal / 2
+C 0x6B62 con la ficha (0x18, 0x90)
+C 0x6B6B senal impar: medio tramo
+C 0x6B70 con la ficha (0x10, 0x90)
+C 0x6B79 con 11 o mas, sin tramos vacios
+C 0x6B7C los vacios: 6 - los llenos - el medio
+C 0x6B8A con la ficha (0x08, 0x90)
+C 0x6B90 8 x 8
+C 0x6B93 de la pagina 1 a la 0
+C 0x6B9B la misma ficha 8 lineas mas abajo
+C 0x6BA4 arriba otra vez...
+C 0x6BA8 ...y 8 puntos a la derecha
+C 0x6BB3 0xC0F1 = 1
+C 0x6BBF F2: cierra la ventana
+C 0x6BC7 paso 1: elegir
+C 0x6BCB paso 0: la pantalla de armas
+C 0x6BDB aprieta la lista de armas
+C 0x6BF3 una tecla de direccion nueva...
+C 0x6BFA ...o mantenida cada 8 cuadros
+C 0x6C05 8 cuadros hasta repetir
+C 0x6C07 arriba
+C 0x6C0A abajo
+C 0x6C0D izquierda
+C 0x6C10 derecha: de la columna 1-4 a la 5-8
+C 0x6C1B arriba: uno menos (no desde el 1 ni el 5)
+C 0x6C28 abajo: uno mas (no desde el 4 ni el 7)
+C 0x6C35 izquierda: de la 5-8 a la 1-4
+C 0x6C3E el sonido 0x20
+C 0x6C46 el hueco nuevo
+C 0x6C53 capturado: sin arma
+C 0x6C59 el arma del hueco
+C 0x6C67 tambien en 0xC142 (la de las cajas de choque)
+C 0x6C6D al modo 0
+C 0x6C7A los 24 bytes de atributos de los proyectiles (0xEA10)...
+C 0x6C7F ...fuera de la pantalla
+C 0x6C85 los proyectiles a cero
+C 0x6C92 0xC60B a cero
+C 0x6CA2 tras la llegada (0xC920 >= 0x0C)...
+C 0x6CAC p06:BC47: los objetos de la sala
+C 0x6CB5 p15:BF22: los rayos con GOGGL
+C 0x6CBE p12:BC26: Metal Gear
+C 0x6CC4 p03:AF9C: las minas con DETEC
+C 0x6CC7 p03:B862: el Hind D
+C 0x6CCA p03:A6FB: las trampas abiertas
+C 0x6CCD p03:A1D3: las camaras
+C 0x6CDC 7 huecos
+C 0x6CE3 sin arma elegida: el primer hueco vacio
+C 0x6CEB el hueco del arma
+C 0x6CEE el siguiente
+C 0x6CF8 el primer hueco vacio
+C 0x6D00 ninguno: el 1
+C 0x6D04 el blanco
+C 0x6D08 la marca (0x3C)
+C 0x6D0A en 0xC155
+C 0x6D11 [color][RB][G] desde 0xC1CF
+C 0x6D17 16 colores desde el 0
+C 0x6D1A el numero del color
+C 0x6D1F los 2 bytes de la copia de la paleta en la VRAM
+C 0x6D2A 0xFF acaba la lista
+C 0x6D31 manda la paleta apagada
+C 0x6D37 si queda algun componente...
+C 0x6D44 ...sin acarreo
+C 0x6D46 todo negro: acarreo
+C 0x6D4B cada 4 cuadros
+C 0x6D51 16 colores
+C 0x6D53 el rojo (nibble alto) baja 1
+C 0x6D5C el azul (nibble bajo) baja 1
+C 0x6D62 el verde baja 1
+C 0x6D6A el color siguiente
+C 0x6D72 el modo 0
+C 0x6D76 con 0xC125 (continua), desde el punto de control
+C 0x6D80 0xC4FC a cero
+C 0x6D84 lleva el objeto 6 (CIGAL)...
+C 0x6D89 ...elegido
+C 0x6D8C 0xC5A5 = 1 (el CIGAL ya cogido) y la cantidad 1
+C 0x6D97 jugando, la sala 0x79 (en la demo, la del guion)
+C 0x6DA3 ningun juego de fichas cargado
+C 0x6DA8 la frecuencia 120.85
+C 0x6DAD 0xC13F y 0xC140 = 0x28: los golpes de las puertas de clase 15
+C 0x6DB5 la musica 0x2C
+C 0x6DBA el sonido 0x29
+C 0x6DCB a las llamadas y puertas de la sala
+C 0x6DD0 p06:BE17: la partida guardada
+C 0x6DD9 ninguna musica sonando...
+C 0x6DDD ...asi que se pide la de la sala
+C 0x6DE0 la sala: su nibble de p12:A2FF, sus llamadas y sus puertas
+C 0x6DEB la clave tecleada a cero
+C 0x6DF8 p02:92DB: la sala nueva
+C 0x6E04 Snake muerto (modo 9): sin cambio de musica
+C 0x6E0B jugando: la musica de la sala
+C 0x6E13 p02:941B: Snake en su sitio de entrada
+C 0x6E19 p06:BDF8: el punto de control
+C 0x6E25 p09:BF49: el camion
+C 0x6E28 p09:BFB0: las salas 0x85 y 0x6F
+C 0x6E2E 0xC150, 0xC4FC, 0xC616, 0xC5C0, 0xCEE1 y 0xC610 a cero
+C 0x6E41 los proyectiles a cero
+C 0x6E50 fuera de los ascensores...
+C 0x6E54 ...los sprites de los proyectiles fuera
+C 0x6E79 p06:BBDD: los objetos de la sala
+C 0x6E7C p06:BC47: los pinta
+C 0x6E8E con la cinta en marcha no hay actores nuevos
+C 0x6E94 ni con 0xC167
+C 0x6E9E p15:BF22: los rayos con GOGGL
+C 0x6EA4 tras cargar de cinta (0xC6A0)...
+C 0x6EAD p12:BC26: Metal Gear
+C 0x6EB3 p03:B862: el Hind D
+C 0x6EB6 p03:A6FB: las trampas abiertas
+C 0x6EB9 p03:A1D3: las camaras
+C 0x6EBC p03:AF9C: las minas con DETEC
+C 0x6EC8 en la demo, el banco de zona 6
+C 0x6ED4 en los ascensores (0xF0+)...
+C 0x6ED8 p02:9598: los sprites del ascensor
+C 0x6EDE p09:AE28: la cabina
+C 0x6EE4 tras cargar de cinta, los sprites y la pausa otra vez
+C 0x6EFA p15:B8DE, B8BC y B8DE: los sprites a las dos tablas
+C 0x6F03 la cinta y 0xC167 a cero
+C 0x6F0D el texto de Metal Gear (0xC623 = 1 o 2) cambia la tabla de sprites
+C 0x6F1B en el modo 0...
+C 0x6F1E ...el 10 (la ventana de texto)...
+C 0x6F22 ...y los 5 y mas...
+C 0x6F26 ...durante la llegada (0xC920 0-4 y 8+)...
+C 0x6F34 ...p15:B8BC: la tabla de sprites cambia cada cuadro
+C 0x6F3D en el modo 8 (telescopio) sin marcador ni Snake
+C 0x6F41 p02:9067: la barra de vida
+C 0x6F44 p02:90AA: CLASS
+C 0x6F4A en las ventanas de armas y equipo...
+C 0x6F52 ...no; si no, p02:8FD0: la llamada o la cuenta atras
+C 0x6F55 los sprites de Snake
+C 0x6F61 p02:8176: los de los proyectiles
+C 0x6F67 fuera de los ascensores, los de los actores
+C 0x6F74 por el modo de la partida (tabla 0x6F7A)
+C 0x6F97 en el estado 8 de Snake (la llegada)...
+C 0x6F9E ...en los ascensores...
+C 0x6FA2 ...y en la sala 0xCC, sin teclas de funcion
+C 0x6FA9 F1: la pausa
+C 0x6FB2 F2: el modo 2 (armas)
+C 0x6FB8 F3: el modo 3 (equipo)
+C 0x6FBD F4: el modo 4 (transceptor)
+C 0x6FC2 F5: 0xC008 = 2
+C 0x6FCE la cuenta de herido baja
+C 0x6FD6 p02:91E9: la cuenta de la llamada
+C 0x6FD9 p02:9209: la cuenta atras
+C 0x6FDF Snake muerto (modo 9): solo los colores
+C 0x6FE4 con Metal Gear (el primer actor 0x11) vivo y sin el bit 7...
+C 0x6FF4 ...Snake no se mueve
+C 0x6FFB p02:80A3: los disparos
+C 0x6FFE p02:8147: los proyectiles
+C 0x7004 p02:88EF: los choques
+C 0x700A con la BOX
+C 0x7012 cada 64 cuadros...
+C 0x7017 ...con el veneno (0xC139)...
+C 0x701D ...1 de dano
+C 0x7027 p09:BF66: el camion
+C 0x7032 p09:AD69: el ascensor
+C 0x704E en el paso 1 (mirando)...
+C 0x7054 ...F3 vuelve: al modo 3
+C 0x7063 baja la cuenta de la muerte
+C 0x7066 la pose de muerto
+C 0x706B al acabar, 0xC123 = 0: la partida acabo
+C 0x7073 el texto 0x96 (Metal Gear destruido)...
+C 0x707B ...tres veces (0xC623)
+C 0x709C en las salas 0x2D y 0x2E...
+C 0x70A4 ...y en los ascensores, solo los colores
+C 0x70B3 p15:B924: colores y atributos de los actores
+C 0x70BB p15:B8DE: todos los sprites a la VRAM
+C 0x70C5 los actores de la sala de Snake, de su copia en 0xD800
+C 0x70D0 y lo guardado antes de mirar
+C 0x70E2 los atributos de 0xEA0E en adelante fuera
+C 0x70F3 en los ascensores, nada
+C 0x70F6 el modo C
+C 0x70FA el transceptor (4)...
+C 0x70FE ...0xC0F1 = 1 y el sonido 0x59
+C 0x7108 el paso 0 del modo
+C 0x710D paso 0: elegir hacia donde
+C 0x7116 sin tecla, nada
+C 0x7119 arriba: C = 2 (al volver, 2 = abajo)...
+C 0x711E abajo: 3...
+C 0x7122 izquierda: 4; derecha: 5
+C 0x7127 0x80 cuadros mirando
+C 0x712C el lado
+C 0x7130 pasos 2-5: mirando...
+C 0x7132 ...al volver, el lado contrario
+C 0x7146 al acabar la cuenta...
+C 0x714B ...el paso 1 (volver)
+C 0x714D 0xC133 = el lado
+C 0x7155 sin vecina por ahi, nada
+C 0x7158 la sala vecina (o la de vuelta)
+C 0x715B 0xC19B = el paso siguiente
+C 0x715F el paso 0: montarla
+C 0x718B los actores a cero
+C 0x7198 sus sprites fuera
+C 0x71A5 los de la sala vecina
+C 0x71A8 de vuelta (paso 1)...
+C 0x71AE ...sin sprites de actores
+C 0x71BB TELESCOPE MODE (p02:92BE)
+C 0x71C1 el paso
+C 0x71C7 una flecha por el lado (0x71DA)...
+C 0x71CF ...en (0xC4, 0xC0)
+C 0x71E9 los 16 actores
+C 0x71EE hueco vacio: el siguiente
+C 0x71F5 sin la cuenta del golpe...
+C 0x71FB con ella, solo la sacudida
+C 0x7200 un cuadro del actor, se mueve y mira si sale
+C 0x720A la ficha siguiente
+C 0x7218 sin aguante: muere
+C 0x721F bit 7 del tipo: muriendo
+C 0x7224 del tipo 1-n al indice
+C 0x72B4 la cuenta del aviso
+C 0x72B7 al acabar...
+C 0x72BC ...si Snake sigue en la sala del aviso (0xC60F)...
+C 0x72C2 ...y no lo vio una camara (0xC668)...
+C 0x72CA ...devuelve el fondo guardado en (0x60, 0x80) de la pagina 1 a 0xC60C
+C 0x72D3 16 x 16
+C 0x72D6 de la pagina 1 a la 0
+C 0x72DE en los cuadros 0x3F y 0x3D...
+C 0x72E0 ...4 puntos arriba
+C 0x72E8 en los 0x3B y 0x39...
+C 0x72EA ...4 abajo
+C 0x72F4 la sacudida
+C 0x72F9 un golpe mas
+C 0x72FF al tercero...
+C 0x7303 si no, 0x40 cuadros de golpe
+C 0x730B los guardias (4, 5, 0x0E, 0x1E)...
+C 0x731E ...a veces sueltan un objeto (C = 0 o 1) un poco por encima
+C 0x7327 C al azar (0-3)
+C 0x732D solo 0 y 1
+C 0x733A muriendo: no se mueve
+C 0x733F (ix+6) a cero: no se mueve
+C 0x7340 dos coordenadas: la Y y la X
+C 0x7344 la posicion (16 bits) + la velocidad
+C 0x7357 de la Y a la X
+C 0x7363 Y >= 0xC1: fuera por abajo
+C 0x736A X >= 0xFF: fuera por la derecha
+C 0x736E X < 7: fuera por la izquierda
+C 0x7374 el tipo sin el bit 7
+C 0x7376 el 0x25 tiene lo suyo (p03:A538)
+C 0x737E el 0x20 muerto (0xA0): 0xC610 y el bit 0 de 0xC637
+C 0x7392 el 0x1A muerto (0x9A): baja 0xC626...
+C 0x739C ...y al llegar a cero suelta el objeto 2 en (0x30, 0x30)
+C 0x73A6 el 0x29 muerto (0xA9): el objeto 3 en (0x70, 0x38)
+C 0x73B4 el 0x24 muerto (0xA4): 0xC627
+C 0x73C2 el 0x21 muerto (0xA1): el bit 0 de 0xC631
+C 0x73D0 el 0x22 muerto (0xA2): el bit 0 de 0xC630
+C 0x73DE el 0x39 muerto (0xB9): baja 0xC638...
+C 0x73E8 ...y al llegar a cero el objeto 4 en (0x24, 0x62)
+C 0x73F2 el 0x12...
+C 0x73FC el 0x2C se queda (sin el bit 7)
+C 0x7405 y sigue
+C 0x740C el tipo a cero
+C 0x7413 +0x20: cuantos sprites
+C 0x741B sin sprites, listo
+C 0x741C +0x21: el primer hueco
+C 0x7421 el hueco del sprite en 0xEA28...
+C 0x7426 ...fuera de la pantalla
+C 0x7429 y la y del sprite en la ficha tambien
+C 0x742C el sprite siguiente (5 bytes)
+C 0x7434 A = el objeto que suelta
+C 0x744C H = la X del dibujo, L = 0xA0
+C 0x7450 16 x 16
+C 0x7453 de la pagina 1 a la 0, sin TIMP
+C 0x745C los 16 actores
+C 0x7462 hueco vacio: nada
+C 0x7466 la ficha siguiente
+C 0x7472 D = el tipo
+C 0x7473 los tipos 0x0A, 0x0B, 0x0D, 0x14, 0x15 y 0x16...
+C 0x7489 ...bajan 0xC606 (sin pasar de cero)
+C 0x7494 el tipo 7 deja su sitio tapado
+C 0x7499 el 0x40 no pasa por la explosion
+C 0x749D la cuenta de cuadros y (ix+0x0E) a cero...
+C 0x74A8 ...y aguante 1
+C 0x74AC el sonido 0x16
+C 0x74B4 el tipo sin el bit 7...
+C 0x74B7 ...elige como muere en la tabla de nibbles 0x74D0
+C 0x74F4 en la sala 0xC1...
+C 0x74FB ...el actor numero 3...
+C 0x74FF ...pone 0xC657 y 0xC64D
+C 0x750A muerto en su primer cuadro: una estrella menos
+C 0x7517 el tipo 0x20...
+C 0x751B ...pone 0xC4BA a cero
+C 0x7521 los colores de la explosion
+C 0x7527 cuadros 0-4: el 0x7A...
+C 0x752D ...5-9: el 0x7B...
+C 0x7532 ...el 0x10: se quita; si no, el 0x7C
+C 0x7538 6 sprites
+C 0x753C los colores de la explosion
+C 0x7542 cuadros 0-4: el 0x6A...
+C 0x7548 ...5-9: el 0x6B...
+C 0x754D ...el 0x10: se quita; si no, el 0x6C
+C 0x7553 2 sprites
+C 0x7558 DE = el color del primer sprite (+0x25)
+C 0x7562 (ix+0x1B, 0x1C): la bandera del actor
+C 0x7569 la primera vez...
+C 0x756C ...la pone y la musica de la sala
+C 0x7574 Metal Gear (0x11):
+C 0x757A la cuenta atras en marcha...
+C 0x757E ...desde 3000 (BCD)
+C 0x7584 0xC4B2 a cero
+C 0x7588 el sonido 0x53
+C 0x7590 Metal Gear: lo suyo
+C 0x7599 cuadros 0-4: el 0x7F
+C 0x75A2 el 0x10: muriendo_7
+C 0x75A8 5-9: el 0x80; si no, el 0x81 (con otros colores)
+C 0x75B6 en el cuadro 0x0A, 0xC610 = 1
+C 0x75BE DE = el color del primer sprite (+0x25)
+C 0x75C6 18 sprites...
+C 0x75CB ...los tipos 9 y 0x12...
+C 0x75D5 ...los demas, 8
+C 0x75D7 un color por sprite
+C 0x75DA cada 5 bytes
+C 0x75E5 cada 2 cuadros el color 15...
+C 0x75E7 ...negro...
+C 0x75EC ...o blanco (0x77, 0x07)
+C 0x75EF el color 15
+C 0x75F7 por la cuenta, los cuadros 0x89-0x8E con sus colores
+C 0x7628 en el 0x21, muriendo_7 y los colores 0x764D
+C 0x762A en el 0x22, 0xC610 = 1
+C 0x7637 despues, el texto 0x96
+C 0x7687 el tipo sin el bit 7
+C 0x7689 9 y 0x12: se quitan
+C 0x7693 el Hind D (0x26): p03:B8C6
+C 0x7698 Metal Gear (0x11): el suelo sin el
+C 0x769C los demas, salvo el 0x2C, nada
+C 0x769F el 0x2C: 0xC616 y el tipo a cero
+C 0x76A6 0xC63B = la Y - 8...
+C 0x76AF ...y la X - 4
+C 0x76BC 0xC63B: donde van las dos fichas
+C 0x76C2 a cero: nada
+C 0x76C8 en la sala 0x28, las de 0x7705...
+C 0x76CF ...en las demas, las de 0x7703
+C 0x76DA sin sitio, nada
+C 0x76DD con 0xC616, nada
+C 0x76E4 la primera ficha: X de la lista, Y 0x10 de la pagina 1
+C 0x76E8 8 x 8
+C 0x76EF de la pagina 1 a la 0
+C 0x76F6 la segunda, 8 lineas mas abajo
+C 0x76FB X de la lista, Y 0x10
+C 0x76FE de la pagina 1 a la 0
+C 0x7714 sin puertas, nada
+C 0x7719 una puerta (ficha de 0x10)
+C 0x771C +1: el estado; 0 = abierta, no se pinta
+C 0x7722 +3: el tipo
+C 0x7725 +5, +6: la Y y la X
+C 0x7730 la ficha siguiente
+C 0x7738 del tipo 1-n al indice
+C 0x7766 0x20 x 8 de (0xE0, 0xC0)
+C 0x776C de la pagina 1 a la 0 con TIMP
+C 0x7771 el marco: 4 x 1 fichas
+C 0x7778 las fichas del marco de p15:A700
+C 0x777E 8 tiras
+C 0x7784 desde (0xA0, 0xE0)
+C 0x778A 1 x 0x20
+C 0x778D de la pagina 1 a la 0 con TIMP
+C 0x7794 la tira siguiente: 4 lineas mas abajo...
+C 0x7798 ...y un punto a la derecha
+C 0x77A1 el marco 8 puntos a la izquierda
+C 0x77A7 8 tiras
+C 0x77AD desde 0x1C lineas mas abajo...
+C 0x77B1 ...de (0xA0, 0xE8)
+C 0x77B7 1 x 0x20
+C 0x77BA de la pagina 1 a la 0 con TIMP
+C 0x77C1 la siguiente: 4 lineas mas arriba...
+C 0x77C5 ...y un punto a la derecha
+C 0x77CE el marco: 2 x 4 fichas...
+C 0x77D1 ...0x20 lineas mas abajo
+C 0x77DC de (0xA0, 0xC4)
+C 0x77DF 0x18 x 0x20
+C 0x77E2 de la pagina 1 a la 0 con TIMP
+C 0x77E7 el marco: 4 x 4 fichas...
+C 0x77EE ...4 puntos a la izquierda
+C 0x77F7 de (0xC0, 0xC4)
+C 0x77FA 0x18 x 0x20
+C 0x77FD de la pagina 1 a la 0 con TIMP
+C 0x7802 el marco: 4 x 4 fichas...
+C 0x7809 ...4 puntos a la izquierda
+C 0x780F tipo 7: p15:B0E2
+C 0x7814 tipo 8: p15:B0FC
+C 0x7819 tipo 9: p15:B102
+C 0x781E tipo 10: p15:B12B
+C 0x7823 tipo 11: p15:B16E
+C 0x7828 tipo 12: p15:B1AC
+C 0x782D tipo 13: p15:B1AC (el mismo)
+C 0x7832 tipo 14: p15:B1B2
+C 0x7837 tipo 15: p15:B1DB
+C 0x783C tipo 16: p15:B1F5
+C 0x7841 tipo 17: p15:B247
+C 0x7846 tipo 18: p15:B261
+C 0x784B tipo 19: p15:B29F
+C 0x7851 el sitio...
+C 0x7852 ...y el dibujo
+C 0x7856 HL = el dibujo, DE = el sitio
+C 0x785E C = el numero de puerta en la sala
+C 0x7864 sin puertas, nada
+C 0x7866 una puerta
+C 0x7868 +0: el numero
+C 0x786D +1: el estado
+C 0x7870 abierta: mira el paso
+C 0x7872 con 0xC623 (el texto de Metal Gear)...
+C 0x787B ...la puerta 0x62 no se abre
+C 0x7882 cerrada y no se abre: la siguiente
+C 0x7886 0xC4FE = la puerta que se abre
+C 0x788A el modo 7: abrir la puerta
+C 0x788F el paso 0
+C 0x7899 las puertas 0x40 y 0x6C no se cruzan
+C 0x78A1 +2: la clase
+C 0x78A4 las clases 15 y 16 abiertas...
+C 0x78AC ...solo con el bit 5
+C 0x78B1 +0x0B: la caja del paso
+C 0x78B8 Snake fuera: la siguiente
+C 0x78BF la ficha de la puerta C...
+C 0x78C6 ...su numero en 0xC4FC
+C 0x78CE el modo 1: cambio de sala
+C 0x78D5 la ficha siguiente
+C 0x78D9 el numero siguiente
+C 0x78DC 0xC4FC a cero: ninguna
+C 0x78E4 dentro de la BOX ninguna se abre
+C 0x78EA la clase (bits 0-4)
+C 0x78EE BC = +3 (el tipo y lo que sigue)
+C 0x78F0 de la clase 1-n al indice
+C 0x7914 +3: el tipo
+C 0x7917 el tipo 5 se abre mirando arriba...
+C 0x791E ...los demas, mirando a la derecha
+C 0x7925 mirando arriba
+C 0x792C y en su caja
+C 0x792F la CARD1 (0x0E)
+C 0x7933 la CARD2
+C 0x7937 la CARD3
+C 0x793B la CARD4
+C 0x793F la CARD5
+C 0x7943 la CARD6
+C 0x7947 la CARD7
+C 0x794B la CARD8 (0x15)
+C 0x7952 la tarjeta elegida
+C 0x7959 mirando hacia la puerta (+3)
+C 0x7965 mirando hacia la puerta...
+C 0x796C ...y golpeando (estado 1)
+C 0x7978 una P.BOMB (arma 5)...
+C 0x797C ...explotando (paso 2)...
+C 0x7983 ...dentro de la caja del paso
+C 0x798D si no, golpeando...
+C 0x7994 ...mirando hacia ella...
+C 0x799B ...en su caja...
+C 0x799F ...en el primer cuadro del golpe
+C 0x79AC en la sala 0x49...
+C 0x79B3 ...mirando abajo y en su caja
+C 0x79BB en las demas, con 0xC62C (que se gasta)
+C 0x79CB con 0xC663 (lo pone el texto 0x76)...
+C 0x79D2 ...que se gasta
+C 0x79DB con 0xC610...
+C 0x79E2 ...que se gasta
+C 0x79EB +3: el tipo de puerta
+C 0x79EC del 7 en adelante...
+C 0x79EE ...la direccion para golpearla (0x7A50)
+C 0x79F9 mirando hacia ella
+C 0x79FF golpeando
+C 0x7A05 en su caja
+C 0x7A09 la puerta 0x0C cuenta en 0xC140...
+C 0x7A10 ...las demas en 0xC13F
+C 0x7A13 un golpe menos; al llegar a cero se abre
+C 0x7A1D una P.BOMB (arma 5)...
+C 0x7A21 ...explotando...
+C 0x7A28 ...en la caja del paso
+C 0x7A2E si no, golpeando mirando hacia ella
+C 0x7A49 el sonido 0x0A (no se abre)
+C 0x7A4E sin acarreo
+C 0x7A5E +4: la caja ([Y][alto][X][ancho])
+C 0x7A65 D = la X de Snake, A = su Y
+C 0x7A69 Y - la Y de la caja...
+C 0x7A6B ...menor que el alto
+C 0x7A71 X - la X de la caja...
+C 0x7A74 ...menor que el ancho
+C 0x7A77 fuera: sin acarreo
+C 0x7A79 dentro: acarreo
+C 0x7A7B la X y la Y del primer proyectil
+C 0x7A84 el paso es el tipo de puerta (tabla 0x7A8A)
+C 0x7ABE +3: el tipo
+C 0x7AC3 el byte de 0x7C56 por el tipo...
+C 0x7ACA ...a +4 (la cuenta del borrado)
+C 0x7ACD el paso siguiente = el tipo
+C 0x7AD1 el sonido por el tipo: 0x19 o 0x1B (0x7AE3)...
+C 0x7AD5 ...0x1E del 7 en adelante
+C 0x7AEC +4: la cuenta
+C 0x7AF0 una linea mas...
+C 0x7AF2 ...hasta 0x18
+C 0x7AF7 +5, +6: la Y y la X
+C 0x7AFC la linea: X + cuenta
+C 0x7AFF 0x20 de alto en negro
+C 0x7B09 +4: la cuenta
+C 0x7B0D una menos
+C 0x7B12 la X: X + cuenta - 1
+C 0x7B19 8 de alto en negro
+C 0x7B23 +4: la cuenta
+C 0x7B27 una menos
+C 0x7B2B la Y: Y + cuenta
+C 0x7B33 8 puntos en diagonal
+C 0x7B35 un punto negro
+C 0x7B3E 4 lineas mas abajo...
+C 0x7B43 ...y uno a la derecha
+C 0x7B4B +4: la cuenta
+C 0x7B4F una mas...
+C 0x7B51 ...hasta 0x23
+C 0x7B5A la Y: Y + cuenta + 0x1C
+C 0x7B5F 8 puntos en la otra diagonal
+C 0x7B61 un punto negro
+C 0x7B6A 4 lineas mas arriba...
+C 0x7B6F ...y uno a la derecha
+C 0x7B77 +4: la cuenta
+C 0x7B7B una menos
+C 0x7B7F la X: X + cuenta - 1
+C 0x7B87 0x20 de alto en negro
+C 0x7B8E la otra mitad, al otro lado
+C 0x7B9D 0x20 de alto en negro
+C 0x7BA5 tipo 7: 4 x 6 fichas
+C 0x7BAA tipo 8: 4 x 1
+C 0x7BAF tipos 9 y 15: 3 x 0x0D
+C 0x7BB4 tipo 10: 5 x 0x0D
+C 0x7BB9 tipos 11 y 19: 5 x 0x0C
+C 0x7BBE tipo 14: 4 x 1
+C 0x7BC3 tipos 16 y 18: 2 x 0x0C
+C 0x7BC8 tipo 17: 8 x 0x0A
+C 0x7BCD tipo 20: 6 x 5
+C 0x7BD3 +5: la Y y la X
+C 0x7BDF el dibujo de la puerta abierta (0xE600) en su sitio
+C 0x7BE4 +4 a cero
+C 0x7BE7 C = +3, el tipo
+C 0x7BE9 A = +2, la clase
+C 0x7BEB +1 (el estado) a cero: abierta
+C 0x7BEE las clases con los bits 7-6 no se apuntan
+C 0x7BF2 +0: el numero de puerta...
+C 0x7BFA ...queda abierta en 0xC450
+C 0x7BFC los tipos 7, 10 y 11...
+C 0x7C0B ...pierden el numero (+0 a cero)
+C 0x7C0D +5: la Y y la X
+C 0x7C15 el tipo 3, 8 puntos a la izquierda
+C 0x7C1E el modo 0
+C 0x7C23 del 7 en adelante, nada mas
+C 0x7C26 el marco abierto por el tipo: 1 y 5, 4 x 4...
+C 0x7C2C ...2, 4 x 1...
+C 0x7C32 ...3 y 4, 2 x 4 0x20 mas abajo
+C 0x7C44 las fichas del marco abierto (p15:A710)
+C 0x7C50 la ficha de la puerta: 0xC3D0 + 0x10 x numero
+C 0x7C5C R#7 del PSG: sin sonido (y su copia en 0xC0F0)
+C 0x7C6A SCREEN 5
+C 0x7C75 la pagina 1 tambien
+C 0x7C7D 4 registros del VDP de 0x7CA2: R#1, R#5, R#6 y R#11
+C 0x7C82 [registro][valor]
+C 0x7C8F 0xF880-0xF91F (patrones 0x10-0x23) a cero
+C 0x7CAD solo si se juega
+C 0x7CBF C = las que habia
+C 0x7CC0 las que hay ahora
+C 0x7CC1 las que cambiaron...
+C 0x7CC2 ...y estan pulsadas: las nuevas
+C 0x7CC6 R#15 del PSG = 0x8F: la palanca del puerto 1
+C 0x7CCD R#14: los botones de la palanca
+C 0x7CD4 pulsado = 1
+C 0x7CD5 arriba, abajo, izquierda, derecha, botones 1 y 2
+C 0x7CD8 la fila 4 del teclado
+C 0x7CDD el bit 2 (M)...
+C 0x7CE4 ...o el 3 (N): 0x20
+C 0x7CE9 la fila 8: cursores y espacio
+C 0x7CEE pulsado = 1
+C 0x7CF2 el bit 4 (izquierda) a 4
+C 0x7CFA el 7 (derecha) a 8 y el 0 (espacio) a 0x10
+C 0x7CFF el 5 (arriba) a 1 y el 6 (abajo) a 2
+C 0x7D03 con la palanca
+C 0x7D06 la fila 6: F1, F2 y F3 en los bits 5-7
+C 0x7D0C a los bits 0-2
+C 0x7D12 la fila 7: F4 y F5 en los bits 0-1, RETURN en el 7
+C 0x7D19 F4 y F5 a los bits 3-4
+C 0x7D20 RETURN al bit 5
+C 0x7D2A la bandera puesta
+C 0x7D2F tambien en 0xC632
+C 0x7D35 0xC604 = la sala
+C 0x7D38 en la sala 0xD8, 0xC606 = 0
+C 0x7D3E si no, el ultimo bit 0 puesto de 0xC5AD-0xC5B4...
+C 0x7D4A ...+ 3: cuantos refuerzos
+C 0x7D53 con la cuenta atras, sin musica nueva
+C 0x7D55 con el sonido 0x44 sonando, tampoco
+C 0x7D5B la camara (6) y el tipo 0x23: la musica 0x2F
+C 0x7D66 los demas: la 0x32
+C 0x7D6F en la demo, solo con 0xF0F7
+C 0x7D94 el paso siguiente
+C 0x7D95 el tipo 0x2D...
+C 0x7D9A ...en la Y de Snake...
+C 0x7D9B ...y en X = 0xF0
+C 0x7DA3 el paso siguiente
+C 0x7DA7 0x3C cuadros
+C 0x7DA9 la musica 0x5C tras el fundido
+C 0x7DB3 al acabar...
+C 0x7DB5 ...el paso siguiente
+C 0x7DBC hasta que este todo negro
+C 0x7DC2 0x10 cuadros
+C 0x7DC9 al acabar:
+C 0x7DCD capturado
+C 0x7DDF la sala 0xA5
+C 0x7DE4 la parada 8
+C 0x7DE9 Y = 0x50
+C 0x7DEE X = 0x80
+C 0x7DFC el modo 0
+C 0x7E01 el cuadro 0x0A
+C 0x7E05 no choca con nada
+C 0x7E09 2 cuadros
+C 0x7E0E por el paso (tabla 0x7E14)
+C 0x7E22 espera...
+C 0x7E26 ...y el paso siguiente
+C 0x7E2A el paso 6
+C 0x7E2E el sonido 6
+C 0x7E33 otro tipo 0x2D...
+C 0x7E38 ...en Y = 0xB0 o 0x88 segun la Y de Snake
+C 0x7E40 X = 0xF0
+C 0x7E47 el nuevo...
+C 0x7E4A ...en el paso 2, moviendose, hacia la izquierda
+C 0x7E66 al llegar a X = 0xB8...
+C 0x7E69 ...el paso siguiente
+C 0x7E6F hacia arriba o abajo segun la Y
+C 0x7E83 al llegar a la Y de Snake...
+C 0x7E89 ...se para
+C 0x7E90 el cuadro 0x0B
+C 0x7E99 espera...
+C 0x7EA0 ...0x1E cuadros
+C 0x7EA4 el sonido 7
+C 0x7EA9 espera...
+C 0x7EB3 ...y el paso siguiente de 0xC900
+C 0x7EB8 F3: cierra la ventana
+C 0x7EC0 paso 1: elegir
+C 0x7ED3 paso 0: la pantalla de equipo
+C 0x7EDD 25 huecos
+C 0x7EF4 la tecla 0x10: usar el objeto
+C 0x7EF9 una tecla de direccion nueva...
+C 0x7F00 ...o mantenida cada 8 cuadros
+C 0x7F08 8 cuadros hasta repetir
+C 0x7F0D arriba
+C 0x7F10 abajo
+C 0x7F13 izquierda
+C 0x7F19 derecha: 9 huecos mas alla (salvo la ultima columna)
+C 0x7F21 arriba: uno menos (no desde 1, 0x0A ni 0x13)
+C 0x7F31 abajo: uno mas (no desde 9, 0x12 ni 0x19)
+C 0x7F41 izquierda: 9 huecos menos
+C 0x7F4A el sonido 0x20
+C 0x7F5F capturado: sin objeto
+C 0x7F65 el objeto del hueco
+C 0x7F79 sin objeto, nada
+C 0x7F81 GOGGL: nada
+C 0x7F85 RATIO (0x16): se gasta una...
+C 0x7F8A ...y la vida al maximo
+C 0x7F9B el objeto 0x17: se gasta...
+C 0x7FA5 ...y 0xC5B6 a cero
+C 0x7FAB ANTID (0x0D): fuera el veneno
+C 0x7FB5 CIGAL (6):
+C 0x7FBD se gasta uno...
+C 0x7FC3 ...y 0xC13E sube 0x20 (BCD)
+C 0x7FCE el sonido 0x21
+C 0x7FDD SCOPE (9):
+C 0x7FE2 el modo 8 (telescopio)
+C 0x7FE7 paso 0, vuelta 1
+C 0x7FF5 los actores a 0xD800
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
 D 0x6001 0x6013 tabla_6001  9 destinos del despachador p00:41EA (call en p01:5FFE, el indice en A): 6013, 605B, 6064, 6061, 6082, 609C, 60AD, 60C6, 60E3; lo leen p01:5FFE (18 bytes)
@@ -123,6 +1151,8 @@ L 0x699F transceptor_senal paso 2: sube la barra de senal 0xC801 hasta 12
 L 0x69B3 siguiente_paso_c153 sube 0xC153
 L 0x69B8 transceptor_texto paso 3: el texto de la llamada ((0xC803) + 3) con el sonido 0x5C
 L 0x69CC transceptor_vuelve paso 4: vuelve al paso 1 con la barra a cero
+L 0x69E7 pon_recv borra SEND y escribe RECV
+L 0x69EF pon_send borra RECV y escribe SEND
 L 0x69F7 cambia_rotulo borra el rotulo DE y escribe el HL
 L 0x6A02 cambia_frecuencia con izquierda/derecha sube o baja la frecuencia 0xC138 (BCD, 00-99)
 L 0x6A41 busca_llamada busca en 0xC880 una llamada con la frecuencia 0xC138 que se oiga; paso 2
@@ -247,7 +1277,6 @@ C 0x6032 golpe: con la tecla 0x20 nueva: estado 1, pose 1, 0xC190 = 8 y Snake qu
 C 0x6035 velocidad_de_snake: 0xC185 y la velocidad de Snake (0xC186 Y, 0xC188 X) con el modulo 0xC143
 C 0x6038 choque_de_snake: mira con p02:8298 el sitio al que va Snake y la para si choca
 C 0x603B lee el modo de la pose de Snake
-C 0x6048 lee el objeto elegido (p06:B8F6: 3 LIGHT, 4 GOGGL, 6 CIGAL, 0x0E-0x15 CARD1-8, 0x16 RATIO, 0x19 BOX...)
 C 0x6052 guarda el modo de la pose de Snake
 C 0x6055 pose_de_snake: elige la pose 0xC18A por el modo 0xC18B (tabla 0x6508)
 C 0x6058 mueve_snake: suma las velocidades a Snake y mira los cuatro bordes (0xC133 y el modo 1)
@@ -283,11 +1312,9 @@ C 0x60DA guarda el modo de la pose de Snake
 C 0x60DD pose_de_snake: elige la pose 0xC18A por el modo 0xC18B (tabla 0x6508)
 C 0x60E0 mueve_snake_y: suma la velocidad Y y mira los bordes de arriba/abajo (con los casos de 0xE0 y 0xE2)
 C 0x60E3 zona_banco_9: pone el banco 9 en 0xA000 y lo apunta en 0xF0F3 y 0xF0F6
-C 0x60E6 intro_paso: un paso de la entrada de Snake (0xC920, tabla 0xAE98)
 C 0x60E9 bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 C 0x60EC lee el estado de Snake
 C 0x60F1 zona_banco_6: pone el banco 6 en 0xA000 y lo apunta en 0xF0F3 y 0xF0F6
-C 0x60F4 punto_de_control: si (sala, parada) esta en 0xBE64 (31 parejas), guarda la partida en 0xCA00
 C 0x60F7 bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 C 0x6104 lee las teclas nuevas (1 arriba, 2 abajo, 4 izq., 8 der., 0x10, 0x20)
 C 0x610D lee las teclas que hay
@@ -303,8 +1330,6 @@ C 0x6191 lee la direccion de las teclas
 C 0x6197 guarda la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
 C 0x619A lee el modulo de la velocidad de Snake y el byte siguiente (16 bits)
 C 0x61A5 lee la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
-C 0x61BB hl_negado: HL = -HL
-C 0x61C3 de_negado: DE = -DE
 C 0x61C9 guarda la velocidad Y de Snake y el byte siguiente (16 bits)
 C 0x61CC guarda la velocidad X de Snake y el byte siguiente (16 bits)
 C 0x61D8 guarda la velocidad Y de Snake y el byte siguiente (16 bits)
@@ -316,17 +1341,13 @@ C 0x61F8 guarda el estado de Snake
 C 0x61FE guarda la velocidad Y de Snake y el byte siguiente (16 bits)
 C 0x6201 guarda la velocidad X de Snake y el byte siguiente (16 bits)
 C 0x6205 lee el estado de Snake
-C 0x620B lee la Y de Snake (16 bits)
 C 0x620E lee la velocidad Y de Snake y el byte siguiente (16 bits)
-C 0x6214 lee la X de Snake (16 bits)
 C 0x6217 lee la velocidad X de Snake y el byte siguiente (16 bits)
 C 0x621F lee la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
 C 0x6225 choca: acarreo si alguno de los 2 puntos de la caja B (0x82CB) hacia C, desde Y = L, X = H, pisa una ficha con choque (0xC700 bit 0)
 C 0x622C lee la sala
 C 0x6234 choca: acarreo si alguno de los 2 puntos de la caja B (0x82CB) hacia C, desde Y = L, X = H, pisa una ficha con choque (0xC700 bit 0)
 C 0x623A lee la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
-C 0x6253 lee la Y de Snake (16 bits)
-C 0x6258 lee la X de Snake (16 bits)
 C 0x625F lee la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
 C 0x6263 choca: acarreo si alguno de los 2 puntos de la caja B (0x82CB) hacia C, desde Y = L, X = H, pisa una ficha con choque (0xC700 bit 0)
 C 0x6268 sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
@@ -340,11 +1361,7 @@ C 0x62A0 lee el segundo byte del ascensor
 C 0x62A7 lee el primer byte del ascensor
 C 0x62B7 guarda el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
 C 0x62BB lee la sala
-C 0x62C9 lee el modo de la pose de Snake
 C 0x62D0 guarda el modo de la pose de Snake
-C 0x62D4 fichas_de_snake: H y L = las dos fichas de la sala bajo Snake
-C 0x6303 lee el objeto elegido (p06:B8F6: 3 LIGHT, 4 GOGGL, 6 CIGAL, 0x0E-0x15 CARD1-8, 0x16 RATIO, 0x19 BOX...)
-C 0x630F lee la sala
 C 0x6323 apunta a el modo de la pose de Snake
 C 0x6327 guarda el modo de la pose de Snake
 C 0x6337 lee el objeto elegido (p06:B8F6: 3 LIGHT, 4 GOGGL, 6 CIGAL, 0x0E-0x15 CARD1-8, 0x16 RATIO, 0x19 BOX...)
@@ -356,7 +1373,6 @@ C 0x6365 lee la X de Snake
 C 0x636E lee las teclas que hay
 C 0x637D guarda el estado de Snake
 C 0x6382 sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
-C 0x6385 fichas_de_snake: H y L = las dos fichas de la sala bajo Snake
 C 0x638C lee las teclas nuevas (1 arriba, 2 abajo, 4 izq., 8 der., 0x10, 0x20)
 C 0x6393 guarda la Y de Snake
 C 0x6398 guarda el estado de Snake
@@ -392,95 +1408,64 @@ C 0x6481 lee la Y de Snake (16 bits)
 C 0x6485 guarda la Y de Snake (16 bits)
 C 0x649F apunta a la CLASS (0-3 estrellas)
 C 0x64A8 sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
-C 0x64AB lee la vida (LIFE)
-C 0x64AF maximo_c137: 0xC137 = 0x20, 0x28, 0x30 o 0x18 segun 0xC132 (1, 2, 3, 0) y lo pinta
 C 0x64B4 lee la vida maxima
-C 0x64BA lee la vida maxima
 C 0x64BF guarda la vida (LIFE)
 C 0x64C5 marcador_arma: pinta en el marcador el arma elegida (0xC134) y su municion
 C 0x64D2 apunta a la CLASS (0-3 estrellas)
 C 0x64DC sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
-C 0x64E0 estrellas: CLASS y las estrellas de 0xC132
-C 0x64F6 guarda la vida maxima
 C 0x64F9 guarda la vida (LIFE)
-C 0x64FC barra_de_vida: LIFE y la barra 0xC131 sobre el maximo 0xC137
-C 0x64FF maximos: los maximos de municion y de raciones por CLASS (0x918A-0x91BA) en 0xC380
 C 0x6502 lee el modo de la pose de Snake
 C 0x6505 despacha: salta a la palabra A de la tabla que va pegada detras del `call`
-C 0x6540 lee la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
-C 0x6548 lee el arma elegida (p06:B865: 1 HAND GUN, 2 SMG, 3 GRENADE, 4 ROCKET, 5 P.BOMB, 6 L.MINE, 7 MISSILE, 8 SILENCER)
 C 0x655E pon_pose: 0xC18A = A
-C 0x6561 lee la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
 C 0x6567 pon_pose: 0xC18A = A
 C 0x656A lee la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
-C 0x656F lee el arma elegida (p06:B865: 1 HAND GUN, 2 SMG, 3 GRENADE, 4 ROCKET, 5 P.BOMB, 6 L.MINE, 7 MISSILE, 8 SILENCER)
-C 0x657B lee la cuenta de cuadros
 C 0x6586 pon_pose: 0xC18A = A
 C 0x658B pon_pose: 0xC18A = A
 C 0x65A2 pon_pose: 0xC18A = A
 C 0x65C7 pon_pose: 0xC18A = A
 C 0x65E1 pon_pose: 0xC18A = A
-C 0x65EC lee la cuenta de cuadros
 C 0x65F7 guarda la pose de Snake
 C 0x65FB lee la sala
 C 0x6601 lee el arma elegida (p06:B865: 1 HAND GUN, 2 SMG, 3 GRENADE, 4 ROCKET, 5 P.BOMB, 6 L.MINE, 7 MISSILE, 8 SILENCER)
 C 0x6607 lee el modo de la pose de Snake
 C 0x660E lee la sala
-C 0x6620 lee la Y de Snake
-C 0x6625 lee la X de Snake
-C 0x662A lee la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
 C 0x6632 de_mas_a: DE = DE + A
-C 0x6644 lee la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
 C 0x6672 apunta a la cuenta de cuadros
-C 0x6676 lee el estado del juego y el byte siguiente (16 bits)
-C 0x6683 despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 C 0x669A teclas_f_y_f0f7: lee las teclas de funcion en 0xF0F9 y, con la 0x10 nueva, cambia 0xF0F7
 C 0x669D zona_banco_9: pone el banco 9 en 0xA000 y lo apunta en 0xF0F3 y 0xF0F6
 C 0x66A0 logotipo_konami_baja: descubre el logotipo de Konami linea a linea; al acabar 0xC132 = 1
 C 0x66A3 bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
-C 0x66A6 lee la CLASS (0-3 estrellas)
 C 0x66AB nada: solo ret
 C 0x66B4 teclas_f_y_f0f7: lee las teclas de funcion en 0xF0F9 y, con la 0x10 nueva, cambia 0xF0F7
 C 0x66B7 apunta a la espera del estado, en cuadros
 C 0x66BC zona_banco_9: pone el banco 9 en 0xA000 y lo apunta en 0xF0F3 y 0xF0F6
-C 0x66BF titulo_prepara: pantalla limpia, fuente, titulo, paleta 0xB602 y la enciende
 C 0x66C2 bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 C 0x66C9 teclas_f_y_f0f7: lee las teclas de funcion en 0xF0F9 y, con la 0x10 nueva, cambia 0xF0F7
 C 0x66CC zona_banco_9: pone el banco 9 en 0xA000 y lo apunta en 0xF0F3 y 0xF0F6
 C 0x66CF titulo_paso: un paso del titulo (0xC118, tabla 0xB515)
 C 0x66D2 bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
-C 0x66DF pantalla_limpia: esconde los sprites, apaga la pantalla, borra la pagina 0 y la enciende
 C 0x66E2 zona_banco_9: pone el banco 9 en 0xA000 y lo apunta en 0xF0F3 y 0xF0F6
 C 0x66E5 logotipo_konami: el logotipo de Konami: paleta 0xB6A6, sus graficos y la cuenta en 0xC130/0xC131
 C 0x66E8 bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 C 0x66ED teclas_de_funcion: A = F1 (1), F2 (2), F3 (4), F4 (8), F5 (0x10) y RETURN (0x20)
 C 0x66F3 guarda_teclas: (HL) = A y (HL - 1) = las que no estaban
 C 0x6701 teclas_f_y_f0f7: lee las teclas de funcion en 0xF0F9 y, con la 0x10 nueva, cambia 0xF0F7
-C 0x6704 apunta a la espera del estado, en cuadros
 C 0x6709 al_estado_siguiente: al estado siguiente con 0x20 cuadros de espera
 C 0x670E zona_banco_6: pone el banco 6 en 0xA000 y lo apunta en 0xF0F3 y 0xF0F6
-C 0x6711 demo_teclas: la pareja [cuadros][teclas] siguiente del guion; 0xFF acaba (0xC123 = 0)
-C 0x6714 demo_cuadro: un cuadro de la demo (transceptor y ventana de texto en el guion 0)
 C 0x6717 bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 C 0x6720 guarda el estado del juego
 C 0x6725 guarda la espera del estado, en cuadros
-C 0x672A pantalla_limpia: esconde los sprites, apaga la pantalla, borra la pagina 0 y la enciende
 C 0x672D zona_banco_6: pone el banco 6 en 0xA000 y lo apunta en 0xF0F3 y 0xF0F6
 C 0x6730 demo_empieza: el guion siguiente de la demo (0xC00C, 0xBD8F): sala, arma, transceptor y Snake
 C 0x6733 bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 C 0x6738 guarda la espera del estado, en cuadros
-C 0x673B apunta a el paso del estado del juego
 C 0x6742 apunta a la espera del estado, en cuadros
 C 0x674D rotulo: escribe el rotulo de HL ([X][Y], caracteres, 0xFE otra posicion, 0xFF acaba)
 C 0x6750 borra_rotulo: lo mismo que rotulo, con el caracter en blanco
 C 0x6755 borra_la_partida: 0xC120-0xEC8F a cero y 0xC008 = 0
 C 0x675E pantalla_limpia: esconde los sprites, apaga la pantalla, borra la pagina 0 y la enciende
-C 0x6761 empieza_la_partida: la partida desde el principio: puertas, objeto 6, sala 0x79 (si se juega), frecuencia 120.85, Snake
 C 0x676B guarda la espera del estado, en cuadros
-C 0x676E apunta a el estado del juego
-C 0x6773 guarda el paso del estado del juego
 C 0x677B partida: un cuadro de partida: Snake, actores y el modo 0xC151 (tabla 0x6F7A)
-C 0x677E lee la pausa (1) o F5 (2)
 C 0x678B al_estado_a: estado A con 0x20 cuadros de espera y el paso 0
 C 0x6795 rotulo_pause: guarda el fondo y escribe PAUSE (0x5C1D)
 C 0x67AB sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
@@ -490,42 +1475,30 @@ C 0x67C7 rellena: HMMV: llena B x C desde (H, L) de la pagina D con el byte A
 C 0x67CD rotulo: escribe el rotulo de HL ([X][Y], caracteres, 0xFE otra posicion, 0xFF acaba)
 C 0x67D6 borra_game_over: con F5 borra el rotulo 0x92A0 y pone 0xC125 = 1
 C 0x67E4 al_estado_a: estado A con 0x20 cuadros de espera y el paso 0
-C 0x67E7 apunta a las banderas del juego (bit 6: se juega; en la demo no)
 C 0x67EE al_estado_0: estado 0 con 0x20 cuadros de espera
 C 0x67F1 lee_teclas: si se juega, las teclas de funcion en 0xC113/0xC112 y las del juego en 0xC007/0xC006
-C 0x67F4 lee las teclas de funcion que hay
 C 0x67FD borra_rotulo: lo mismo que rotulo, con el caracter en blanco
 C 0x6801 guarda la cinta (1 carga, 2 graba)
-C 0x6809 pantalla_limpia: esconde los sprites, apaga la pantalla, borra la pagina 0 y la enciende
 C 0x680F rotulo: escribe el rotulo de HL ([X][Y], caracteres, 0xFE otra posicion, 0xFF acaba)
 C 0x6819 lee la cinta (1 carga, 2 graba)
 C 0x681F zona_banco_6: pone el banco 6 en 0xA000 y lo apunta en 0xF0F3 y 0xF0F6
-C 0x6822 lee_matriz: las 9 filas del teclado: las que hay en 0xE515 y las nuevas en 0xE50C
 C 0x6825 bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 C 0x6828 zona_banco_15: pone el banco 15 en 0xA000 y lo apunta en 0xF0F3 y 0xF0F6
-C 0x682B cinta: carga (0xC6A0 = 1) o graba (2) la partida en cinta, por pasos (0xC6A1)
 C 0x682E bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 C 0x6837 guarda la pausa (1) o F5 (2)
 C 0x683D guarda la cinta (1 carga, 2 graba)
 C 0x684A lee_teclas: si se juega, las teclas de funcion en 0xC113/0xC112 y las del juego en 0xC007/0xC006
-C 0x684D lee las teclas de funcion nuevas (F1 1, F2 2, F3 4, F4 8, F5 0x10)
 C 0x6854 zona_banco_6: pone el banco 6 en 0xA000 y lo apunta en 0xF0F3 y 0xF0F6
-C 0x6857 teclea_clave: lee el teclado y mete la tecla nueva en la clave (0xE500, 12 teclas)
 C 0x685A bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 C 0x6869 guarda la cinta (1 carga, 2 graba)
 C 0x6870 esconde_los_sprites: llena de 0xE0 las dos tablas de atributos de la VRAM (0xF600 y 0xF200)
 C 0x6873 zona_banco_6: pone el banco 6 en 0xA000 y lo apunta en 0xF0F3 y 0xF0F6
-C 0x6876 claves: las 5 claves (0xBEF1, BEF6, BF03, BF0C, BF16): CLASS +1, CLASS +3, municion 999, raciones 999, las CARD1-8
 C 0x6879 bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 C 0x687D guarda la pausa (1) o F5 (2)
 C 0x688F copia_vram: HMMM: copia B x C de (H, L) a (D, E); A = paginas (bits 0-1 origen, 2-3 destino)
 C 0x6894 al_estado_a: estado A con 0x20 cuadros de espera y el paso 0
 C 0x6899 zona_banco_15: pone el banco 15 en 0xA000 y lo apunta en 0xF0F3 y 0xF0F6
-C 0x689C cambia_tabla_de_sprites: alterna las tablas de atributos (0xF600/0xF400 y 0xF200/0xF000) con R#5
-C 0x689F final_paso: un paso del final (0xC922): Snake corre, transceptor, textos, fundido y la cuenta 0xC13D
-C 0x68A2 sprites_a_vram: atributos y colores a la tabla de 0xC114, empezando cada cuadro por otro grupo (0xC00F)
 C 0x68A5 bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
-C 0x68B3 zona_banco_15: pone el banco 15 en 0xA000 y lo apunta en 0xF0F3 y 0xF0F6
 C 0x68B6 final_prepara: sala 0xFB, cuenta 0x200, modo 4, Snake en (0x80, 0x80) y la frecuencia 0x13
 C 0x68B9 bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 C 0x68BF teclas: A = palanca y cursores: 1 arriba, 2 abajo, 4 izquierda, 8 derecha, 0x10 espacio/boton 1, 0x20 M, N o boton 2
@@ -535,7 +1508,6 @@ C 0x68CF apunta a el estado del juego
 C 0x68DA guarda las banderas del juego (bit 6: se juega; en la demo no)
 C 0x68E6 sonido: pide el sonido A al controlador del banco 4 (0x67FD) con los bancos 4 y 5
 C 0x68E9 zona_banco_9: pone el banco 9 en 0xA000 y lo apunta en 0xF0F3 y 0xF0F6
-C 0x68EC titulo_prepara: pantalla limpia, fuente, titulo, paleta 0xB602 y la enciende
 C 0x68F4 titulo_paso: un paso del titulo (0xC118, tabla 0xB515)
 C 0x68F7 bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 C 0x68FA lee las teclas de funcion nuevas (F1 1, F2 2, F3 4, F4 8, F5 0x10)
@@ -547,6 +1519,8 @@ C 0x6915 esconde_los_sprites: llena de 0xE0 las dos tablas de atributos de la VR
 C 0x6918 borra_la_pagina_0: llena la pagina 0 de color 0 y pone R#23 a cero
 C 0x691B paleta_del_transceptor: manda al VDP la paleta p05:8B1E
 C 0x6920 guarda la llamada del transceptor (0 pendiente, 1 llamando, 2 ninguna)
+C 0x692D pone_dibujo_hl: pone el dibujo de HL ([filas][columnas] y fichas) en (D, E), de la mitad de la pagina 1 que diga 0xC168
+C 0x6936 pone_dibujo_hl: pone el dibujo de HL ([filas][columnas] y fichas) en (D, E), de la mitad de la pagina 1 que diga 0xC168
 C 0x693C apunta a la barra de senal del transceptor (0-12)
 C 0x6946 rotulo_b833: escribe el rotulo p06:B833
 C 0x6949 digitos_de_frecuencia: los dos digitos de 0xC138 en (0x98, 0x21), dos caracteres cada uno (0x6B34)
@@ -616,6 +1590,7 @@ C 0x6BD7 apunta a el paso del modo
 C 0x6BDB aprieta_armas: quita los huecos de la lista de armas 0xC500
 C 0x6BDE ventana_de_armas: pinta la ventana de las armas que se llevan (0xC500): dibujo, nombre y municion
 C 0x6BE1 hueco_del_arma: 0xC154 = el hueco de 0xC500 del arma elegida (1 si no esta)
+C 0x6BE4 marca_de_arma: 0xC155 = donde va la marca del hueco 0xC154 en la ventana de armas (p06:B8B0)
 C 0x6BE7 pon_marca: el caracter 0x3C en 0xC155
 C 0x6BEA marcador: LIFE, CLASS, la llamada, el arma y el objeto
 C 0x6BED enciende_la_pantalla: pone el bit 6 de R#1 y enciende los sprites (R#8)
@@ -628,6 +1603,7 @@ C 0x6C35 lee el hueco elegido en la ventana de armas
 C 0x6C40 sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
 C 0x6C43 borra_marca: el caracter 0 en 0xC155
 C 0x6C47 guarda el hueco elegido en la ventana de armas
+C 0x6C4A marca_de_arma: 0xC155 = donde va la marca del hueco 0xC154 en la ventana de armas (p06:B8B0)
 C 0x6C4D pon_marca: el caracter 0x3C en 0xC155
 C 0x6C50 lee la bandera de capturado (sin armas ni objetos)
 C 0x6C59 lee el hueco elegido en la ventana de armas
@@ -688,6 +1664,7 @@ C 0x6DC8 maximos: los maximos de municion y de raciones por CLASS (0x918A-0x91BA
 C 0x6DCD zona_banco_6: pone el banco 6 en 0xA000 y lo apunta en 0xF0F3 y 0xF0F6
 C 0x6DD0 vuelve_al_punto: devuelve la partida guardada en 0xCA00
 C 0x6DD3 bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
+C 0x6DD6 quita_c602: la bandera 0xC602 y 0xC603-0xC607 a cero y, si se juega, la musica de la sala
 C 0x6DDA guarda la musica que suena
 C 0x6DE0 nibble_a2ff_de_la_sala: 0xC161 = el nibble de la sala en p12:A2FF
 C 0x6DE3 llamadas_de_la_sala: carga las llamadas de radio de la sala (p15:B6C6) en 0xC880 (fichas de 0x1D) y cuantas en 0xC87F
@@ -1151,6 +2128,7 @@ C 0x7ED7 ventana_de_equipo: pinta la ventana de los objetos que se llevan (0xC53
 C 0x7EDA apunta a el objeto elegido (p06:B8F6: 3 LIGHT, 4 GOGGL, 6 CIGAL, 0x0E-0x15 CARD1-8, 0x16 RATIO, 0x19 BOX...)
 C 0x7EDF apunta a los objetos que se llevan (fichas de 4)
 C 0x7EE2 busca_hueco_c: C = el hueco de la lista DE (de 4 en 4) donde esta (HL)
+C 0x7EE5 marca_de_objeto: 0xC155 = donde va la marca del hueco 0xC154 en la ventana de equipo (p06:B9BB)
 C 0x7EE8 pon_marca: el caracter 0x3C en 0xC155
 C 0x7EEB marcador: LIFE, CLASS, la llamada, el arma y el objeto
 C 0x7EEE enciende_la_pantalla: pone el bit 6 de R#1 y enciende los sprites (R#8)
@@ -1163,6 +2141,7 @@ C 0x7F41 lee el hueco elegido en la ventana de armas
 C 0x7F4C sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
 C 0x7F4F borra_marca: el caracter 0 en 0xC155
 C 0x7F53 guarda el hueco elegido en la ventana de armas
+C 0x7F56 marca_de_objeto: 0xC155 = donde va la marca del hueco 0xC154 en la ventana de equipo (p06:B9BB)
 C 0x7F59 pon_marca: el caracter 0x3C en 0xC155
 C 0x7F5C lee la bandera de capturado (sin armas ni objetos)
 C 0x7F65 lee el hueco elegido en la ventana de armas

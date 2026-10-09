@@ -42,7 +42,7 @@ guarda_para_el_telescopio:		; guarda 0xC639, 0xC15F y 0xC632, los sprites de 0x8
 	ld bc,0003fh		;802d
 	ld (hl),00eh		;8030
 	ldir		;8032
-	jp 04c40h		;8034
+	jp 04c40h		;8034   ; patrones_a6f9: los patrones de p06:A6F9 (con su destino)
 
 ; ----------------------------------------------------------------------
 ; DATOS sprites_8037: 24 bytes, 6 fichas [y][x][patron][color], que p02:801C
@@ -359,7 +359,7 @@ L_822E:
 	inc de			;823c
 	djnz L_822E		;823d
 	ret			;823f
-L_8240:
+ventana_crece:		; el recuadro de la ventana crece un paso (0xC528); acarreo al acabar
 	ld hl,0c528h		;8240
 	dec (hl)			;8243
 	jr z,L_8290		;8244
@@ -2185,10 +2185,10 @@ suma_a:		; suma A (BCD) a (HL) y recorta cada municion a su maximo (0xC380)
 	add a,(hl)			;8f27
 	daa			;8f28
 	ld (hl),a			;8f29
-	jr nc,L_8F2E		;8f2a
+	jr nc,recorta_municion		;8f2a
 	inc hl			;8f2c
 	inc (hl)			;8f2d
-L_8F2E:
+recorta_municion:		; cada municion y las raciones, a su maximo (0xC380)
 	ld a,001h		;8f2e
 	call 043e8h		;8f30   ; busca_arma: busca A en las 7 armas de 0xC500 (fichas de 4): C = el sitio, Z si esta, acarreo si no
 	ld bc,(0c380h)		;8f33
@@ -2797,7 +2797,7 @@ cae_por_la_trampilla:		; con PARAC (objeto 0x0C) a la sala 0xCC; si no, dano 0xF
 	ld (0c136h),a		;93cc   ; guarda la parada del ascensor
 	ld a,002h		;93cf
 	ld (0c15bh),a		;93d1
-	call 058c9h		;93d4
+	call 058c9h		;93d4   ; quita_c602: la bandera 0xC602 y 0xC603-0xC607 a cero y, si se juega, la musica de la sala
 	jp L_931B		;93d7
 L_93DA:
 	call sale_de_cc		;93da   ; sale_de_cc: la sala 5, 6 o 0x0A segun 0xC162
@@ -3722,7 +3722,7 @@ L_9A13:
 	call crea_tipo_8		;9a1f   ; crea_tipo_8: la creacion del tipo 8
 	jp 05ba6h		;9a22   ; paso_cero: el paso del actor (ix+1) a cero
 crea_tipo_46:		; la creacion del tipo 46
-	call 058c9h		;9a25
+	call 058c9h		;9a25   ; quita_c602: la bandera 0xC602 y 0xC603-0xC607 a cero y, si se juega, la musica de la sala
 	ld a,(0c136h)		;9a28   ; lee la parada del ascensor
 	cp 049h		;9a2b
 	jp z,0740ch		;9a2d   ; borra_actor: el tipo y (ix+0x0E) a cero y sus sprites escondidos

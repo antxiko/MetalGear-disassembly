@@ -207,11 +207,11 @@ paleta_a_y_vuelve:		; llama a paleta_a (p00:4B03) y deja otra vez los bancos 1-2
 ventana_paso_y_vuelve:		; llama a ventana_paso (p00:5D03) y deja otra vez los bancos 1-2 y el de zona
 	call ventana_paso		;414a   ; ventana_paso: un paso de la ventana de texto (0xCEF2, tabla 0x5D1D)
 	jr L_4193		;414d
-L_414F:
-	call 069e7h		;414f
+pon_recv_y_vuelve:		; llama a pon_recv (p01:69E7) y deja otra vez los bancos 1-2 y el de zona
+	call 069e7h		;414f   ; pon_recv: borra SEND y escribe RECV
 	jr L_4193		;4152
-L_4154:
-	call 069efh		;4154
+pon_send_y_vuelve:		; llama a pon_send (p01:69EF) y deja otra vez los bancos 1-2 y el de zona
+	call 069efh		;4154   ; pon_send: borra RECV y escribe SEND
 	jr L_4193		;4157
 L_4159:
 	call 06d6fh		;4159
@@ -607,10 +607,10 @@ caja_de_choque:		; copia la caja A (p05:8A55 + 4 x (A - 1)) a 0xC928; HL = 0xC92
 	ldir		;43c5
 	pop hl			;43c7   ; HL = 0xC928, la caja copiada
 	jr L_43A0		;43c8
-L_43CA:
+marca_de_arma:		; 0xC155 = donde va la marca del hueco 0xC154 en la ventana de armas (p06:B8B0)
 	ld de,0b8b0h		;43ca   ; p06:B8B0: los sitios de la marca en la ventana de armas
 	jr L_43D2		;43cd
-L_43CF:
+marca_de_objeto:		; 0xC155 = donde va la marca del hueco 0xC154 en la ventana de equipo (p06:B9BB)
 	ld de,0b9bbh		;43cf   ; p06:B9BB: los sitios de la marca en la ventana de equipo
 L_43D2:
 	call bancos_4_5_6		;43d2   ; bancos_4_5_6: pone los bancos 4, 5 y 6 (y sus copias en 0xF0F1-0xF0F3)
@@ -746,7 +746,7 @@ L_444A:
 	inc hl			;4499
 	inc de			;449a
 	jp L_441A		;449b   ; siguiente puerta (fichas de 0x10)
-L_449E:
+pone_dibujo_hl:		; pone el dibujo de HL ([filas][columnas] y fichas) en (D, E), de la mitad de la pagina 1 que diga 0xC168
 	call bancos_13_14_15		;449e   ; bancos_13_14_15: pone los bancos 13, 14 y 15 (y sus copias en 0xF0F1-0xF0F3)
 	ld c,(hl)			;44a1   ; C = filas y B = columnas, del propio dibujo
 	inc hl			;44a2
@@ -1619,10 +1619,10 @@ patrones_de_terna:		; descomprime una terna [patron][origen] a 0xF800 + 8 x patr
 	ld d,a			;4a77   ; DE = el origen
 	ld e,c			;4a78
 	jp patrones		;4a79   ; patrones: descomprime DE a la VRAM HL (n < 0x80 repite, n > 0x80 copia, 0x80 otro destino, 0 acaba)
-L_4A7C:
+montaje_a559:		; el montaje p09:A559 de fichas del bloque en (0x40, 0xA0) de la pagina 1
 	call bancos_7_8_9		;4a7c   ; bancos_7_8_9: pone los bancos 7, 8 y 9 (y sus copias en 0xF0F1-0xF0F3)
 	jr L_4A87		;4a7f
-L_4A81:
+fichas_y_montaje_a559:		; B fichas de 2 planos de HL a la VRAM DE y el montaje p09:A559
 	call bancos_7_8_9		;4a81   ; bancos_7_8_9: pone los bancos 7, 8 y 9 (y sus copias en 0xF0F1-0xF0F3)
 	call fichas_2_planos		;4a84   ; fichas_2_planos: B fichas de 2 planos (16 bytes) de HL a la VRAM DE con los colores de 0xE700
 L_4A87:
@@ -1866,7 +1866,7 @@ patrones_del_cohete:		; carga los patrones del proyectil por la direccion (ix+0x
 	ld hl,0f880h		;4c38   ; en el patron 0x10
 	call patrones		;4c3b   ; patrones: descomprime DE a la VRAM HL (n < 0x80 repite, n > 0x80 copia, 0x80 otro destino, 0 acaba)
 	jr L_4BEA		;4c3e
-L_4C40:
+patrones_a6f9:		; los patrones de p06:A6F9 (con su destino)
 	call bancos_4_5_6		;4c40   ; bancos_4_5_6: pone los bancos 4, 5 y 6 (y sus copias en 0xF0F1-0xF0F3)
 	ld de,0a6f9h		;4c43   ; p06:A6F9: patrones con su destino
 	call patrones_con_destino		;4c46   ; patrones_con_destino: lee la direccion VRAM de DE y descomprime detras
@@ -3863,7 +3863,7 @@ mira_c602:		; quita 0xC602 (y lo que sigue) segun la sala, la cuenta 0xC605 y lo
 	ret z			;5880   ; sin la bandera, nada
 	ld a,(0c130h)		;5881   ; lee la sala
 	cp 0f0h		;5884   ; en los ascensores (0xF0+) la bandera se quita
-	jr nc,L_58C9		;5886
+	jr nc,quita_c602		;5886
 	ld hl,0c605h		;5888   ; apunta a la cuenta de los refuerzos
 	ld a,(hl)			;588b   ; mientras corre la cuenta de los refuerzos...
 	or a			;588c
@@ -3880,14 +3880,14 @@ L_589D:
 	ld a,(0c130h)		;589d   ; lee la sala
 	ld hl,0c604h		;58a0
 	cp (hl)			;58a3   ; si Snake ya no esta en esa sala, se quita
-	jr nz,L_58C9		;58a4
+	jr nz,quita_c602		;58a4
 	ld b,a			;58a6
 	cp 0d8h		;58a7   ; en la sala 0xD8 los refuerzos son del tipo 0x0B
 	ld a,00bh		;58a9
 	jr z,L_58C0		;58ab
 	ld a,b			;58ad
 	cp 0bch		;58ae   ; las salas 0xBC y siguientes la quitan
-	jr nc,L_58C9		;58b0
+	jr nc,quita_c602		;58b0
 	call tres_a		;58b2   ; tres_a: HL = 3 x A
 	call bancos_4_5_6		;58b5   ; bancos_4_5_6: pone los bancos 4, 5 y 6 (y sus copias en 0xF0F1-0xF0F3)
 	ld de,0a445h		;58b8   ; p06:A445: el tipo de los refuerzos de la sala
@@ -3897,10 +3897,10 @@ L_589D:
 L_58C0:
 	call cuenta_tipo		;58c0   ; cuenta_tipo: A = cuantos actores del tipo A hay
 	cp 010h		;58c3   ; con 16 de ese tipo (todos los huecos) se quita
-	jr z,L_58C9		;58c5
+	jr z,quita_c602		;58c5
 	or a			;58c7   ; si queda alguno, sigue
 	ret nz			;58c8
-L_58C9:
+quita_c602:		; la bandera 0xC602 y 0xC603-0xC607 a cero y, si se juega, la musica de la sala
 	ld hl,0c602h		;58c9   ; apunta a la bandera 0xC602 (refuerzos y musica)
 	ld (hl),000h		;58cc   ; la bandera a cero...
 	ld de,0c603h		;58ce   ; ...y 0xC603-0xC607 tambien (copia el cero en cadena)
@@ -3947,7 +3947,7 @@ tres_a:		; HL = 3 x A
 	add hl,hl			;592c   ; ...x 3
 	add hl,de			;592d
 	ret			;592e
-L_592F:
+punto_siguiente:		; el punto de DE como el siguiente del camino
 	call bancos_4_5_6		;592f   ; bancos_4_5_6: pone los bancos 4, 5 y 6 (y sus copias en 0xF0F1-0xF0F3)
 	jp L_59F5		;5932   ; el punto siguiente del camino de DE
 crea_tipo_30:		; la creacion del tipo 30
@@ -4721,7 +4721,7 @@ L_5E2B:
 	ld a,001h		;5e37   ; de la segunda mitad de la pagina 1
 	ld (0c168h),a		;5e39
 	ld de,0d030h		;5e3c   ; en (0xD0, 0x30)
-	jp L_449E		;5e3f
+	jp pone_dibujo_hl		;5e3f   ; pone_dibujo_hl: pone el dibujo de HL ([filas][columnas] y fichas) en (D, E), de la mitad de la pagina 1 que diga 0xC168
 L_5E42:
 	call retrato_b41f		;5e42   ; retrato_b41f: pone el retrato p15:B41F en la ventana (modo 4)
 	ld a,060h		;5e45   ; 0x60 cuadros de espera al acabar el trozo

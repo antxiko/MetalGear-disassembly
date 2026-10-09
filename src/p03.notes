@@ -315,6 +315,7 @@ C 0xA695 copia_vram: HMMM: copia B x C de (H, L) a (D, E); A = paginas (bits 0-1
 C 0xA698 lee_recuadro: D, E = (ix+0x14), (ix+0x13); H, L = (ix+0x18), (ix+0x17)
 C 0xA6AC copia_vram: HMMM: copia B x C de (H, L) a (D, E); A = paginas (bits 0-1 origen, 2-3 destino)
 C 0xA6C1 c_colores: copia C colores de HL a 0xE700
+C 0xA6CC fichas_y_montaje_a559: B fichas de 2 planos de HL a la VRAM DE y el montaje p09:A559
 C 0xA6CF con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x05
 C 0xA6D3 lee la sala
 C 0xA6D9 el paso del actor = 0x02
@@ -324,6 +325,7 @@ C 0xA6FC guarda la casilla de trabajo 0xEC00
 C 0xA701 apunta a los 16 actores (fichas de 0x80)
 C 0xA708 trampa_abierta: la trampa HL: colores la primera vez (p00:4A7C) y su dibujo si (ix+0x19)
 C 0xA714 apunta a la casilla de trabajo 0xEC00
+C 0xA71A montaje_a559: el montaje p09:A559 de fichas del bloque en (0x40, 0xA0) de la pagina 1
 C 0xA727 dibujo_de_trampa: el recuadro de la trampa con el alto (ix+0x15), hasta 0x3F
 C 0xA72C lee_recuadro: D, E = (ix+0x14), (ix+0x13); H, L = (ix+0x18), (ix+0x17)
 C 0xA746 copia_vram: HMMM: copia B x C de (H, L) a (D, E); A = paginas (bits 0-1 origen, 2-3 destino)
@@ -455,6 +457,7 @@ C 0xAA54 lee el numero del actor entre los de su tipo
 C 0xAA67 colores_del_tipo: copia los colores del tipo A (p05:975A) a la ficha IX, uno cada 5 bytes desde (ix+0x25)
 C 0xAA6A con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x03
 C 0xAA74 velocidades: la velocidad X del actor = DE y la Y = HL
+C 0xAA8E punto_siguiente: el punto de DE como el siguiente del camino
 C 0xAA91 sube el paso del actor
 C 0xAA97 cuadro_tipo_4: lo de cada cuadro del tipo 4
 C 0xAA9A lee la bandera 0xC602 (refuerzos y musica)

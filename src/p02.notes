@@ -115,6 +115,7 @@ L 0x81F9 choca_proyectil acarreo si el proyectil (ix+4, ix+6) choca con una pare
 L 0x81FE choca_suelo acarreo si el suelo del proyectil (ix+0x0E, ix+6) choca con una pared
 L 0x820C proyectil_fuera si el proyectil sale (Y >= 0xB8, X >= 0xF8 o < 9) lo quita
 L 0x821F quita_proyectil el arma del proyectil a cero y sus sprites escondidos
+L 0x8240 ventana_crece el recuadro de la ventana crece un paso (0xC528); acarreo al acabar
 L 0x8283 marco_de_ventana el recuadro 0xC529 de 0xC52D en el color C
 L 0x8292 choca_actor choca con H = (ix+5), L = (ix+3)
 L 0x8298 choca acarreo si alguno de los 2 puntos de la caja B (0x82CB) hacia C, desde Y = L, X = H, pisa una ficha con choque (0xC700 bit 0)
@@ -171,6 +172,7 @@ L 0x8E9F coge_municion 0x20 balas de HAND GUN y SMG, 6 GRENADE y 2 ROCKET a las 
 L 0x8ED9 borra_objeto tapa el objeto (copia de la pagina 1), sonido 0x24 y el texto de p05:8AC5 si es 0x3E
 L 0x8F1F suma_objeto suma a (HL + 1) lo de p05:8AE8 del objeto y recorta a los maximos
 L 0x8F27 suma_a suma A (BCD) a (HL) y recorta cada municion a su maximo (0xC380)
+L 0x8F2E recorta_municion cada municion y las raciones, a su maximo (0xC380)
 L 0x8F8F marca_cogido marca el arma (0xC520) o el objeto (0xC5A0) como cogido
 L 0x8FB0 borra_la_partida 0xC120-0xEC8F a cero y 0xC008 = 0
 L 0x8FC1 marcador LIFE, CLASS, la llamada, el arma y el objeto
@@ -263,6 +265,7 @@ L 0x9F6E camara_avisa parpadea (colores 2/0x4D y 4/0x4B) hasta acabar (ix+0x12)
 L 0x9F8E cuadro_tipo_53 lo de cada cuadro del tipo 53
 L 0x9F9D bajo_la_camara si Snake pasa por debajo: paso 1 y crea el tipo 0x36; A = 0xFF
 C 0x8003 lee la llamada del transceptor (0 pendiente, 1 llamando, 2 ninguna) y el byte siguiente (16 bits)
+C 0x8034 patrones_a6f9: los patrones de p06:A6F9 (con su destino)
 C 0x804F lee los 3 bits bajos de p12:A204 de la sala
 C 0x8055 lee la sala
 C 0x8062 lee la bandera 0xC602 (refuerzos y musica)
@@ -731,6 +734,7 @@ C 0x93B9 sprites_del_ascensor: los sprites del ascensor (0x95B7) en 0xEA00 y col
 C 0x93BF lee el objeto elegido (p06:B8F6: 3 LIGHT, 4 GOGGL, 6 CIGAL, 0x0E-0x15 CARD1-8, 0x16 RATIO, 0x19 BOX...)
 C 0x93C8 guarda la sala
 C 0x93CC guarda la parada del ascensor
+C 0x93D4 quita_c602: la bandera 0xC602 y 0xC603-0xC607 a cero y, si se juega, la musica de la sala
 C 0x93DA sale_de_cc: la sala 5, 6 o 0x0A segun 0xC162
 C 0x93DE guarda la parada del ascensor
 C 0x93E8 dano_a_snake: resta B a la vida 0xC131; al llegar a cero, Snake muere (estado 3, modo 9, sonido 0x44)
@@ -896,6 +900,7 @@ C 0x9A15 alterna_cuadro: si (ix+0x0C) AND B es 0, cambia el bit 0 del cuadro
 C 0x9A1C colores_a_cero: escribe A y C alternos cada 5 bytes desde (ix+0x25)
 C 0x9A1F crea_tipo_8: la creacion del tipo 8
 C 0x9A22 paso_cero: el paso del actor (ix+1) a cero
+C 0x9A25 quita_c602: la bandera 0xC602 y 0xC603-0xC607 a cero y, si se juega, la musica de la sala
 C 0x9A28 lee la parada del ascensor
 C 0x9A2D borra_actor: el tipo y (ix+0x0E) a cero y sus sprites escondidos
 C 0x9A34 con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x00

@@ -1030,7 +1030,7 @@ crea_tipo_16:		; la creacion del tipo 16
 	ld hl,0a5a1h		;a6c4
 	ld de,0cc20h		;a6c7
 	ld b,00ch		;a6ca
-	call 04a81h		;a6cc
+	call 04a81h		;a6cc   ; fichas_y_montaje_a559: B fichas de 2 planos de HL a la VRAM DE y el montaje p09:A559
 	ld (ix+00eh),005h		;a6cf   ; con que choca el actor (bit 0 Snake, bit 1 proyectiles) = 0x05
 	ld a,(0c130h)		;a6d3   ; lee la sala
 	cp 0beh		;a6d6
@@ -1067,7 +1067,7 @@ trampa_abierta:		; la trampa HL: colores la primera vez (p00:4A7C) y su dibujo s
 	ld a,(hl)			;a717
 	inc (hl)			;a718
 	or a			;a719
-	call z,04a7ch		;a71a
+	call z,04a7ch		;a71a   ; montaje_a559: el montaje p09:A559 de fichas del bloque en (0x40, 0xA0) de la pagina 1
 	pop hl			;a71d
 	push hl			;a71e
 	pop ix		;a71f
@@ -1518,7 +1518,7 @@ L_AA79:
 	ld e,(ix+017h)		;aa87
 	ld d,(ix+018h)		;aa8a
 	inc de			;aa8d
-	call 0592fh		;aa8e
+	call 0592fh		;aa8e   ; punto_siguiente: el punto de DE como el siguiente del camino
 L_AA91:
 	inc (ix+001h)		;aa91   ; sube el paso del actor
 	ret			;aa94
