@@ -108,21 +108,70 @@ def pixeles_de_dibujo_abajo(a, x, y):
     return px, faltan
 
 
-def pantalla_del_transceptor(rotulos=True):
+def pantalla_del_transceptor(rotulos=True, frecuencia=0x85, senal=0):
     """p01:6912: paleta p05:8B1E (L_4AAA) encima de la del juego, 0xC168 = 1
     y los dibujos p15:B369 en (0x30, 0x18) y p15:B40D (el retrato) en (0xC8,
-    0x28) con L_449E; luego el rotulo p06:B833 (p00:4BB1 -> L_510C).
+    0x28) con L_449E; luego el rotulo p06:B833 (p00:4BB1 -> L_510C), la
+    frecuencia (L_6B04) y la barra de senal (L_6B56, con 0xC801 = 0 por el
+    ldir de p01:6939). L_69B3 no pinta: sube 0xC153. La frecuencia vale
+    0x85 al empezar la partida (p01:6DA8) y al continuar (p06:BCDF).
     SUPOSICION: la fuente de la pagina 1 es la que cargo el titulo (las
-    fichas de sala y los objetos no pisan las lineas 64-95). Lo que pintan
-    L_6B04 y L_69B3 NO esta. Devuelve ({(x, y): color}, paleta, fichas sin
-    cargar)."""
+    fichas de sala y los objetos no pisan las lineas 64-95). Devuelve
+    ({(x, y): color}, paleta, fichas sin cargar)."""
     pal = S.aplica_paleta(S.paleta_de_juego(), 4, 0x8B1E)
     px, faltan = pixeles_de_dibujo_abajo(0xB369, 0x30, 0x18)
     p2, f2 = pixeles_de_dibujo_abajo(0xB40D, 0xC8, 0x28)
     px.update(p2)
     if rotulos:
         px.update(rotulo(4, 0xB833))
+        px.update(digitos_de_frecuencia(frecuencia))
+        px.update(barra_de_senal(senal))
     return px, pal, faltan | f2
+
+
+def _copia_8x8(px, p1, sx, sy, x, y):
+    """L_4FCD con A = 1: HMMM de 8 x 8 de la pagina 1 (sx, sy) a la 0, opaco."""
+    for j in range(8):
+        for i in range(8):
+            px[(x + i, y + j)] = p1.get((sx + i, sy + j), 0)
+
+
+def digitos_de_frecuencia(valor, p1=None):
+    """L_6B04: los dos digitos BCD de 0xC138 en (0x98, 0x21), el de las
+    decenas primero; cada digito son dos caracteres de p01:6B34 (arriba y
+    8 lineas mas abajo, L_6B16) que L_5135 copia como en rotulo() (C = 1:
+    el caracter c de la ficha c + 0x10, 0x30 lineas mas abajo); el
+    siguiente digito, 8 a la derecha."""
+    if p1 is None:
+        p1 = fuente()
+    px = {}
+    x, y = 0x98, 0x21
+    for n in (valor >> 4, valor & 0x0F):
+        for k in range(2):
+            t = (leer(1, 0x6B34 + 2 * n + k) + 0x10) & 0xFF
+            _copia_8x8(px, p1, 8 * (t % 32), 8 * (t // 32) + 0x30, x, y + 8 * k)
+        x += 8
+    return px
+
+
+def barra_de_senal(n):
+    """L_6B56: 0xC801 (0-12, p01:699F lo sube hasta 0x0C) en seis tramos
+    desde (0x40, 0x20): n / 2 llenos (pagina 1 (0x18, 0x90)), uno a medias
+    si n es impar ((0x10, 0x90)) y, con n < 11, los que quedan hasta 6
+    vacios ((0x08, 0x90)). Cada tramo (L_6B8D) copia la misma ficha arriba
+    y 8 lineas mas abajo y avanza 8."""
+    import pagina1 as P1
+    p1 = P1.pagina1()
+    px = {}
+    x, y = 0x40, 0x20
+    tramos = [0x18] * (n // 2) + [0x10] * (n & 1)
+    if n < 0x0B:
+        tramos += [0x08] * (6 - (n // 2 + (n & 1)))
+    for sx in tramos:
+        _copia_8x8(px, p1, sx, 0x90, x, y)
+        _copia_8x8(px, p1, sx, 0x90, x, y + 8)
+        x += 8
+    return px
 
 
 def fuente():

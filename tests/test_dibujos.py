@@ -81,6 +81,18 @@ class Dibujos(unittest.TestCase):
         self.assertTrue(all(0 <= x < 256 and 0 <= y < 192 for (x, y) in px))
         self.assertEqual(len(pal), 16)
 
+    def test_frecuencia_y_barra_del_transceptor(self):
+        """L_6B04: dos digitos de 8 x 16 desde (0x98, 0x21); L_6B56: seis
+        tramos de 8 x 16 desde (0x40, 0x20) para todo 0xC801 de 0 a 12."""
+        import dibujos as D
+        px = D.digitos_de_frecuencia(0x85)
+        self.assertEqual(set(px), {(0x98 + i, 0x21 + j) for i in range(16) for j in range(16)})
+        self.assertNotEqual(px, D.digitos_de_frecuencia(0x40))
+        for n in range(13):
+            b = D.barra_de_senal(n)
+            self.assertEqual(set(b), {(0x40 + i, 0x20 + j) for i in range(48) for j in range(16)}, n)
+        self.assertNotEqual(D.barra_de_senal(0), D.barra_de_senal(12))
+
     def test_el_titulo_cabe_y_usa_solo_colores_fijados(self):
         """El titulo (p09:B5B5 y B534) en su sitio final cae entre x 0x20 y
         0xD0 e y 0x20 y 0x48, y solo usa colores que fija p09:B602 (el 0 no

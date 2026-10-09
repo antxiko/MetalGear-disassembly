@@ -11,6 +11,10 @@ Uso: dibuja.py sala <sala> <png>            una sala (SCREEN 5, 256 x 192)
                                             con --actores, los enemigos donde
                                             los crea p00:564C (dibuja_sprites.py)
      dibuja.py zonas                        solo el reparto de salas por zona
+     dibuja.py transceptor <png> [frecuencia] [senal]
+                                            la pantalla del transceptor
+                                            (dibujos.pantalla_del_transceptor;
+                                            frecuencia en BCD, 0x85 = 120.85)
 Ninguna imagen es una captura: todo sale de las tablas del cartucho.
 """
 import os
@@ -196,6 +200,17 @@ def main(argv):
                 faltan = mapa_png(pos, tras, os.path.join(argv[2], "zona_%02d.png" % i), "--numeros" in argv, "--actores" in argv)
                 if faltan - {1, 2}:
                     print("   fichas sin cargar %s" % sorted(faltan))
+    elif argv[1] == "transceptor":
+        f = int(argv[3], 16) if len(argv) > 3 else 0x85
+        n = int(argv[4], 0) if len(argv) > 4 else 0
+        cuadro, pal, faltan = D.pantalla_del_transceptor(frecuencia=f, senal=n)
+        img = Image.new("RGB", (ANCHO, ALTO), S.rgb(pal[0]))
+        px = img.load()
+        for (x, y), c in cuadro.items():
+            if 0 <= x < ANCHO and 0 <= y < ALTO:
+                px[x, y] = S.rgb(pal[c])
+        img.save(argv[2])
+        print("%s: fichas sin cargar %s" % (argv[2], sorted(faltan)))
     else:
         sys.exit(__doc__)
 
