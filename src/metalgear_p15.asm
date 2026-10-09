@@ -211,18 +211,20 @@ DATA_indice_de_puertas_por_sala:
 	defw 0b03ah,0b045h,0b045h,0b040h	; a990  -> DATA_puertas_de_la_sala_232 0xb045 0xb045 DATA_puertas_de_la_sala_235
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_3: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_3: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xa998..0xa99e  (6 bytes)
 DATA_puertas_de_la_sala_3:
 	defb 002h,005h,000h,064h,0f0h	; a998
 	defb 0ffh	; a99d
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_5: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (26 bytes)
+; DATOS puertas_de_la_sala_5: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (26 bytes)
 ;   0xa99e..0xa9b8  (26 bytes)
 DATA_puertas_de_la_sala_5:
 	defb 065h,001h,044h,024h,07eh	; a99e
@@ -233,9 +235,10 @@ DATA_puertas_de_la_sala_5:
 	defb 0ffh	; a9b7
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_6: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (16 bytes)
+; DATOS puertas_de_la_sala_6: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (16 bytes)
 ;   0xa9b8..0xa9c8  (16 bytes)
 DATA_puertas_de_la_sala_6:
 	defb 003h,001h,040h,024h,081h	; a9b8
@@ -244,9 +247,10 @@ DATA_puertas_de_la_sala_6:
 	defb 0ffh	; a9c7
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_7: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (26 bytes)
+; DATOS puertas_de_la_sala_7: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (26 bytes)
 ;   0xa9c8..0xa9e2  (26 bytes)
 DATA_puertas_de_la_sala_7:
 	defb 004h,002h,0b8h,0c0h,006h	; a9c8
@@ -257,18 +261,20 @@ DATA_puertas_de_la_sala_7:
 	defb 0ffh	; a9e1
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_8: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_8: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xa9e2..0xa9e8  (6 bytes)
 DATA_puertas_de_la_sala_8:
 	defb 001h,001h,040h,044h,08ah	; a9e2
 	defb 0ffh	; a9e7
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_9: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (26 bytes)
+; DATOS puertas_de_la_sala_9: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (26 bytes)
 ;   0xa9e8..0xaa02  (26 bytes)
 DATA_puertas_de_la_sala_9:
 	defb 074h,001h,064h,0a4h,087h	; a9e8
@@ -279,18 +285,20 @@ DATA_puertas_de_la_sala_9:
 	defb 0ffh	; aa01
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_10: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_10: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaa02..0xaa08  (6 bytes)
 DATA_puertas_de_la_sala_10:
 	defb 007h,001h,040h,084h,085h	; aa02
 	defb 0ffh	; aa07
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_11: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+; DATOS puertas_de_la_sala_11: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (11 bytes)
 ;   0xaa08..0xaa13  (11 bytes)
 DATA_puertas_de_la_sala_11:
 	defb 005h,003h,060h,008h,007h	; aa08
@@ -298,9 +306,10 @@ DATA_puertas_de_la_sala_11:
 	defb 0ffh	; aa12
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_13: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+; DATOS puertas_de_la_sala_13: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (11 bytes)
 ;   0xaa13..0xaa1e  (11 bytes)
 DATA_puertas_de_la_sala_13:
 	defb 008h,003h,060h,028h,088h	; aa13
@@ -308,27 +317,30 @@ DATA_puertas_de_la_sala_13:
 	defb 0ffh	; aa1d
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_14: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_14: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaa1e..0xaa24  (6 bytes)
 DATA_puertas_de_la_sala_14:
 	defb 00ah,003h,040h,048h,086h	; aa1e
 	defb 0ffh	; aa23
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_15: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_15: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaa24..0xaa2a  (6 bytes)
 DATA_puertas_de_la_sala_15:
 	defb 00bh,005h,000h,084h,0f1h	; aa24
 	defb 0ffh	; aa29
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_16: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+; DATOS puertas_de_la_sala_16: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (11 bytes)
 ;   0xaa2a..0xaa35  (11 bytes)
 DATA_puertas_de_la_sala_16:
 	defb 015h,001h,060h,044h,08bh	; aa2a
@@ -336,9 +348,10 @@ DATA_puertas_de_la_sala_16:
 	defb 0ffh	; aa34
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_17: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+; DATOS puertas_de_la_sala_17: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (11 bytes)
 ;   0xaa35..0xaa40  (11 bytes)
 DATA_puertas_de_la_sala_17:
 	defb 017h,004h,040h,0d0h,0c3h	; aa35
@@ -346,18 +359,20 @@ DATA_puertas_de_la_sala_17:
 	defb 0ffh	; aa3f
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_19: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_19: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaa40..0xaa46  (6 bytes)
 DATA_puertas_de_la_sala_19:
 	defb 07ah,001h,040h,084h,08dh	; aa40
 	defb 0ffh	; aa45
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_20: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (16 bytes)
+; DATOS puertas_de_la_sala_20: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (16 bytes)
 ;   0xaa46..0xaa56  (16 bytes)
 DATA_puertas_de_la_sala_20:
 	defb 019h,004h,060h,0f0h,016h	; aa46
@@ -366,9 +381,10 @@ DATA_puertas_de_la_sala_20:
 	defb 0ffh	; aa55
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_21: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+; DATOS puertas_de_la_sala_21: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (11 bytes)
 ;   0xaa56..0xaa61  (11 bytes)
 DATA_puertas_de_la_sala_21:
 	defb 07ch,001h,060h,044h,08eh	; aa56
@@ -376,9 +392,10 @@ DATA_puertas_de_la_sala_21:
 	defb 0ffh	; aa60
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_22: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+; DATOS puertas_de_la_sala_22: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (11 bytes)
 ;   0xaa61..0xaa6c  (11 bytes)
 DATA_puertas_de_la_sala_22:
 	defb 019h,003h,060h,008h,014h	; aa61
@@ -386,36 +403,40 @@ DATA_puertas_de_la_sala_22:
 	defb 0ffh	; aa6b
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_23: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_23: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaa6c..0xaa72  (6 bytes)
 DATA_puertas_de_la_sala_23:
 	defb 018h,003h,040h,028h,08eh	; aa6c
 	defb 0ffh	; aa71
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_24: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_24: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaa72..0xaa78  (6 bytes)
 DATA_puertas_de_la_sala_24:
 	defb 01bh,001h,000h,044h,091h	; aa72
 	defb 0ffh	; aa77
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_27: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_27: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaa78..0xaa7e  (6 bytes)
 DATA_puertas_de_la_sala_27:
 	defb 01ch,005h,000h,084h,0f1h	; aa78
 	defb 0ffh	; aa7d
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_28: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (16 bytes)
+; DATOS puertas_de_la_sala_28: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (16 bytes)
 ;   0xaa7e..0xaa8e  (16 bytes)
 DATA_puertas_de_la_sala_28:
 	defb 01dh,003h,060h,028h,092h	; aa7e
@@ -424,9 +445,10 @@ DATA_puertas_de_la_sala_28:
 	defb 0ffh	; aa8d
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_29: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+; DATOS puertas_de_la_sala_29: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (11 bytes)
 ;   0xaa8e..0xaa99  (11 bytes)
 DATA_puertas_de_la_sala_29:
 	defb 01fh,002h,0b8h,0c0h,01ch	; aa8e
@@ -434,9 +456,10 @@ DATA_puertas_de_la_sala_29:
 	defb 0ffh	; aa98
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_30: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+; DATOS puertas_de_la_sala_30: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (11 bytes)
 ;   0xaa99..0xaaa4  (11 bytes)
 DATA_puertas_de_la_sala_30:
 	defb 021h,004h,040h,0d0h,098h	; aa99
@@ -444,18 +467,20 @@ DATA_puertas_de_la_sala_30:
 	defb 0ffh	; aaa3
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_31: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_31: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaaa4..0xaaaa  (6 bytes)
 DATA_puertas_de_la_sala_31:
 	defb 022h,005h,000h,064h,0f0h	; aaa4
 	defb 0ffh	; aaa9
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_32: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+; DATOS puertas_de_la_sala_32: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (11 bytes)
 ;   0xaaaa..0xaab5  (11 bytes)
 DATA_puertas_de_la_sala_32:
 	defb 07fh,001h,060h,024h,099h	; aaaa
@@ -463,9 +488,10 @@ DATA_puertas_de_la_sala_32:
 	defb 0ffh	; aab4
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_33: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+; DATOS puertas_de_la_sala_33: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (11 bytes)
 ;   0xaab5..0xaac0  (11 bytes)
 DATA_puertas_de_la_sala_33:
 	defb 023h,001h,080h,064h,096h	; aab5
@@ -473,9 +499,10 @@ DATA_puertas_de_la_sala_33:
 	defb 0ffh	; aabf
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_35: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+; DATOS puertas_de_la_sala_35: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (11 bytes)
 ;   0xaac0..0xaacb  (11 bytes)
 DATA_puertas_de_la_sala_35:
 	defb 026h,003h,060h,008h,021h	; aac0
@@ -483,9 +510,10 @@ DATA_puertas_de_la_sala_35:
 	defb 0ffh	; aaca
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_36: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+; DATOS puertas_de_la_sala_36: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (11 bytes)
 ;   0xaacb..0xaad6  (11 bytes)
 DATA_puertas_de_la_sala_36:
 	defb 028h,001h,040h,024h,09eh	; aacb
@@ -493,72 +521,80 @@ DATA_puertas_de_la_sala_36:
 	defb 0ffh	; aad5
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_38: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_38: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaad6..0xaadc  (6 bytes)
 DATA_puertas_de_la_sala_38:
 	defb 02ah,004h,040h,0d0h,09fh	; aad6
 	defb 0ffh	; aadb
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_39: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_39: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaadc..0xaae2  (6 bytes)
 DATA_puertas_de_la_sala_39:
 	defb 02bh,005h,000h,084h,0f2h	; aadc
 	defb 0ffh	; aae1
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_40: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_40: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaae2..0xaae8  (6 bytes)
 DATA_puertas_de_la_sala_40:
 	defb 02ch,001h,060h,024h,0a0h	; aae2
 	defb 0ffh	; aae7
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_41: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_41: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaae8..0xaaee  (6 bytes)
 DATA_puertas_de_la_sala_41:
 	defb 02dh,004h,040h,050h,0a1h	; aae8
 	defb 0ffh	; aaed
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_42: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_42: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaaee..0xaaf4  (6 bytes)
 DATA_puertas_de_la_sala_42:
 	defb 082h,004h,020h,090h,0a2h	; aaee
 	defb 0ffh	; aaf3
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_51: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_51: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaaf4..0xaafa  (6 bytes)
 DATA_puertas_de_la_sala_51:
 	defb 02eh,001h,040h,0c4h,0a3h	; aaf4
 	defb 0ffh	; aaf9
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_53: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_53: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaafa..0xab00  (6 bytes)
 DATA_puertas_de_la_sala_53:
 	defb 02fh,005h,000h,084h,0f2h	; aafa
 	defb 0ffh	; aaff
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_54: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+; DATOS puertas_de_la_sala_54: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (11 bytes)
 ;   0xab00..0xab0b  (11 bytes)
 DATA_puertas_de_la_sala_54:
 	defb 00ch,00ch,080h,060h,0a4h	; ab00
@@ -566,9 +602,10 @@ DATA_puertas_de_la_sala_54:
 	defb 0ffh	; ab0a
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_55: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+; DATOS puertas_de_la_sala_55: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (11 bytes)
 ;   0xab0b..0xab16  (11 bytes)
 DATA_puertas_de_la_sala_55:
 	defb 00dh,002h,0b8h,040h,036h	; ab0b
@@ -576,18 +613,20 @@ DATA_puertas_de_la_sala_55:
 	defb 0ffh	; ab15
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_56: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_56: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xab16..0xab1c  (6 bytes)
 DATA_puertas_de_la_sala_56:
 	defb 083h,001h,000h,0a4h,07bh	; ab16
 	defb 0ffh	; ab1b
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_57: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (16 bytes)
+; DATOS puertas_de_la_sala_57: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (16 bytes)
 ;   0xab1c..0xab2c  (16 bytes)
 DATA_puertas_de_la_sala_57:
 	defb 00fh,004h,040h,0f0h,03ah	; ab1c
@@ -596,9 +635,10 @@ DATA_puertas_de_la_sala_57:
 	defb 0ffh	; ab2b
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_58: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (16 bytes)
+; DATOS puertas_de_la_sala_58: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (16 bytes)
 ;   0xab2c..0xab3c  (16 bytes)
 DATA_puertas_de_la_sala_58:
 	defb 00fh,003h,040h,008h,039h	; ab2c
@@ -607,45 +647,50 @@ DATA_puertas_de_la_sala_58:
 	defb 0ffh	; ab3b
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_59: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_59: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xab3c..0xab42  (6 bytes)
 DATA_puertas_de_la_sala_59:
 	defb 010h,009h,020h,000h,0a9h	; ab3c
 	defb 0ffh	; ab41
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_60: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_60: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xab42..0xab48  (6 bytes)
 DATA_puertas_de_la_sala_60:
 	defb 08eh,007h,078h,0e0h,03ch	; ab42
 	defb 0ffh	; ab47
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_61: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_61: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xab48..0xab4e  (6 bytes)
 DATA_puertas_de_la_sala_61:
 	defb 012h,008h,0b8h,060h,0ach	; ab48
 	defb 0ffh	; ab4d
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_62: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_62: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xab4e..0xab54  (6 bytes)
 DATA_puertas_de_la_sala_62:
 	defb 013h,003h,040h,008h,0aah	; ab4e
 	defb 0ffh	; ab53
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_63: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+; DATOS puertas_de_la_sala_63: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (11 bytes)
 ;   0xab54..0xab5f  (11 bytes)
 DATA_puertas_de_la_sala_63:
 	defb 08dh,00bh,060h,070h,03fh	; ab54
@@ -653,9 +698,10 @@ DATA_puertas_de_la_sala_63:
 	defb 0ffh	; ab5e
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_64: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (16 bytes)
+; DATOS puertas_de_la_sala_64: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (16 bytes)
 ;   0xab5f..0xab6f  (16 bytes)
 DATA_puertas_de_la_sala_64:
 	defb 006h,002h,0b8h,060h,00bh	; ab5f
@@ -664,9 +710,10 @@ DATA_puertas_de_la_sala_64:
 	defb 0ffh	; ab6e
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_65: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (16 bytes)
+; DATOS puertas_de_la_sala_65: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (16 bytes)
 ;   0xab6f..0xab7f  (16 bytes)
 DATA_puertas_de_la_sala_65:
 	defb 086h,001h,064h,0c4h,0afh	; ab6f
@@ -675,18 +722,20 @@ DATA_puertas_de_la_sala_65:
 	defb 0ffh	; ab7e
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_69: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_69: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xab7f..0xab85  (6 bytes)
 DATA_puertas_de_la_sala_69:
 	defb 031h,001h,000h,084h,049h	; ab7f
 	defb 0ffh	; ab84
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_70: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (16 bytes)
+; DATOS puertas_de_la_sala_70: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (16 bytes)
 ;   0xab85..0xab95  (16 bytes)
 DATA_puertas_de_la_sala_70:
 	defb 032h,001h,000h,024h,0b1h	; ab85
@@ -695,9 +744,10 @@ DATA_puertas_de_la_sala_70:
 	defb 0ffh	; ab94
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_71: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+; DATOS puertas_de_la_sala_71: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (11 bytes)
 ;   0xab95..0xaba0  (11 bytes)
 DATA_puertas_de_la_sala_71:
 	defb 033h,002h,0b8h,060h,046h	; ab95
@@ -705,9 +755,10 @@ DATA_puertas_de_la_sala_71:
 	defb 0ffh	; ab9f
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_72: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+; DATOS puertas_de_la_sala_72: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (11 bytes)
 ;   0xaba0..0xabab  (11 bytes)
 DATA_puertas_de_la_sala_72:
 	defb 035h,002h,0b8h,060h,047h	; aba0
@@ -715,9 +766,10 @@ DATA_puertas_de_la_sala_72:
 	defb 0ffh	; abaa
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_73: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+; DATOS puertas_de_la_sala_73: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (11 bytes)
 ;   0xabab..0xabb6  (11 bytes)
 DATA_puertas_de_la_sala_73:
 	defb 031h,002h,0b8h,080h,045h	; abab
@@ -725,18 +777,20 @@ DATA_puertas_de_la_sala_73:
 	defb 0ffh	; abb5
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_74: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_74: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xabb6..0xabbc  (6 bytes)
 DATA_puertas_de_la_sala_74:
 	defb 037h,003h,060h,008h,0b2h	; abb6
 	defb 0ffh	; abbb
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_75: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+; DATOS puertas_de_la_sala_75: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (11 bytes)
 ;   0xabbc..0xabc7  (11 bytes)
 DATA_puertas_de_la_sala_75:
 	defb 039h,004h,080h,0b0h,0b3h	; abbc
@@ -744,9 +798,10 @@ DATA_puertas_de_la_sala_75:
 	defb 0ffh	; abc6
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_76: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+; DATOS puertas_de_la_sala_76: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (11 bytes)
 ;   0xabc7..0xabd2  (11 bytes)
 DATA_puertas_de_la_sala_76:
 	defb 03bh,001h,020h,084h,0ceh	; abc7
@@ -754,27 +809,30 @@ DATA_puertas_de_la_sala_76:
 	defb 0ffh	; abd1
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_78: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_78: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xabd2..0xabd8  (6 bytes)
 DATA_puertas_de_la_sala_78:
 	defb 03ch,004h,040h,0f0h,0b4h	; abd2
 	defb 0ffh	; abd7
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_79: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_79: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xabd8..0xabde  (6 bytes)
 DATA_puertas_de_la_sala_79:
 	defb 087h,001h,000h,024h,0b5h	; abd8
 	defb 0ffh	; abdd
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_81: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+; DATOS puertas_de_la_sala_81: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (11 bytes)
 ;   0xabde..0xabe9  (11 bytes)
 DATA_puertas_de_la_sala_81:
 	defb 03dh,001h,080h,084h,0b6h	; abde
@@ -782,9 +840,10 @@ DATA_puertas_de_la_sala_81:
 	defb 0ffh	; abe8
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_82: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (16 bytes)
+; DATOS puertas_de_la_sala_82: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (16 bytes)
 ;   0xabe9..0xabf9  (16 bytes)
 DATA_puertas_de_la_sala_82:
 	defb 041h,001h,000h,024h,053h	; abe9
@@ -793,9 +852,10 @@ DATA_puertas_de_la_sala_82:
 	defb 0ffh	; abf8
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_83: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (26 bytes)
+; DATOS puertas_de_la_sala_83: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (26 bytes)
 ;   0xabf9..0xac13  (26 bytes)
 DATA_puertas_de_la_sala_83:
 	defb 041h,002h,0b8h,020h,052h	; abf9
@@ -806,9 +866,10 @@ DATA_puertas_de_la_sala_83:
 	defb 0ffh	; ac12
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_84: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+; DATOS puertas_de_la_sala_84: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (11 bytes)
 ;   0xac13..0xac1e  (11 bytes)
 DATA_puertas_de_la_sala_84:
 	defb 042h,002h,0b8h,020h,053h	; ac13
@@ -816,18 +877,20 @@ DATA_puertas_de_la_sala_84:
 	defb 0ffh	; ac1d
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_85: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_85: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xac1e..0xac24  (6 bytes)
 DATA_puertas_de_la_sala_85:
 	defb 048h,001h,040h,084h,0cdh	; ac1e
 	defb 0ffh	; ac23
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_86: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (16 bytes)
+; DATOS puertas_de_la_sala_86: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (16 bytes)
 ;   0xac24..0xac34  (16 bytes)
 DATA_puertas_de_la_sala_86:
 	defb 045h,003h,060h,008h,053h	; ac24
@@ -836,9 +899,10 @@ DATA_puertas_de_la_sala_86:
 	defb 0ffh	; ac33
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_87: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+; DATOS puertas_de_la_sala_87: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (11 bytes)
 ;   0xac34..0xac3f  (11 bytes)
 DATA_puertas_de_la_sala_87:
 	defb 047h,001h,000h,024h,0b7h	; ac34
@@ -846,9 +910,10 @@ DATA_puertas_de_la_sala_87:
 	defb 0ffh	; ac3e
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_88: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+; DATOS puertas_de_la_sala_88: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (11 bytes)
 ;   0xac3f..0xac4a  (11 bytes)
 DATA_puertas_de_la_sala_88:
 	defb 04ch,005h,000h,064h,0f4h	; ac3f
@@ -856,27 +921,30 @@ DATA_puertas_de_la_sala_88:
 	defb 0ffh	; ac49
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_89: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_89: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xac4a..0xac50  (6 bytes)
 DATA_puertas_de_la_sala_89:
 	defb 04eh,001h,080h,0a4h,0bbh	; ac4a
 	defb 0ffh	; ac4f
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_92: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_92: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xac50..0xac56  (6 bytes)
 DATA_puertas_de_la_sala_92:
 	defb 025h,001h,000h,084h,09ah	; ac50
 	defb 0ffh	; ac55
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_93: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (16 bytes)
+; DATOS puertas_de_la_sala_93: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (16 bytes)
 ;   0xac56..0xac66  (16 bytes)
 DATA_puertas_de_la_sala_93:
 	defb 030h,002h,0b8h,060h,07dh	; ac56
@@ -885,18 +953,20 @@ DATA_puertas_de_la_sala_93:
 	defb 0ffh	; ac65
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_94: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_94: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xac66..0xac6c  (6 bytes)
 DATA_puertas_de_la_sala_94:
 	defb 050h,001h,080h,044h,0c5h	; ac66
 	defb 0ffh	; ac6b
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_95: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+; DATOS puertas_de_la_sala_95: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (11 bytes)
 ;   0xac6c..0xac77  (11 bytes)
 DATA_puertas_de_la_sala_95:
 	defb 051h,005h,000h,064h,0f3h	; ac6c
@@ -904,9 +974,10 @@ DATA_puertas_de_la_sala_95:
 	defb 0ffh	; ac76
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_96: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+; DATOS puertas_de_la_sala_96: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (11 bytes)
 ;   0xac77..0xac82  (11 bytes)
 DATA_puertas_de_la_sala_96:
 	defb 055h,004h,060h,0f0h,063h	; ac77
@@ -914,9 +985,10 @@ DATA_puertas_de_la_sala_96:
 	defb 0ffh	; ac81
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_98: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (16 bytes)
+; DATOS puertas_de_la_sala_98: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (16 bytes)
 ;   0xac82..0xac92  (16 bytes)
 DATA_puertas_de_la_sala_98:
 	defb 053h,001h,080h,044h,0bch	; ac82
@@ -925,9 +997,10 @@ DATA_puertas_de_la_sala_98:
 	defb 0ffh	; ac91
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_99: fichas de 5 bytes [puerta][tipo][x][y][e] hasta
-;   0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
-;   0xC450 y de 0xB046); lo leen p00:441A (21 bytes)
+; DATOS puertas_de_la_sala_99: fichas de 5 bytes [puerta][tipo][y][x][e] hasta
+;   0xFF (la Y primero, como en los actores: el tercer byte no pasa de 184):
+;   p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 y
+;   de 0xB046); lo leen p00:441A (21 bytes)
 ;   0xac92..0xaca7  (21 bytes)
 DATA_puertas_de_la_sala_99:
 	defb 055h,003h,060h,008h,060h	; ac92
@@ -937,9 +1010,10 @@ DATA_puertas_de_la_sala_99:
 	defb 0ffh	; aca6
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_100: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+; DATOS puertas_de_la_sala_100: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
 ;   0xaca7..0xacb2  (11 bytes)
 DATA_puertas_de_la_sala_100:
 	defb 058h,002h,0b8h,0c0h,063h	; aca7
@@ -947,9 +1021,10 @@ DATA_puertas_de_la_sala_100:
 	defb 0ffh	; acb1
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_101: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+; DATOS puertas_de_la_sala_101: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
 ;   0xacb2..0xacbd  (11 bytes)
 DATA_puertas_de_la_sala_101:
 	defb 089h,001h,060h,044h,0beh	; acb2
@@ -957,18 +1032,20 @@ DATA_puertas_de_la_sala_101:
 	defb 0ffh	; acbc
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_102: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_102: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xacbd..0xacc3  (6 bytes)
 DATA_puertas_de_la_sala_102:
 	defb 03ah,002h,0b8h,080h,04bh	; acbd
 	defb 0ffh	; acc2
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_104: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (41 bytes)
+; DATOS puertas_de_la_sala_104: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (41 bytes)
 ;   0xacc3..0xacec  (41 bytes)
 DATA_puertas_de_la_sala_104:
 	defb 059h,001h,000h,064h,06ch	; acc3
@@ -982,9 +1059,10 @@ DATA_puertas_de_la_sala_104:
 	defb 0ffh	; aceb
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_108: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (16 bytes)
+; DATOS puertas_de_la_sala_108: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (16 bytes)
 ;   0xacec..0xacfc  (16 bytes)
 DATA_puertas_de_la_sala_108:
 	defb 09ch,003h,060h,008h,0c9h	; acec
@@ -993,18 +1071,20 @@ DATA_puertas_de_la_sala_108:
 	defb 0ffh	; acfb
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_109: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_109: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xacfc..0xad02  (6 bytes)
 DATA_puertas_de_la_sala_109:
 	defb 05ah,005h,000h,064h,0f7h	; acfc
 	defb 0ffh	; ad01
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_110: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+; DATOS puertas_de_la_sala_110: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
 ;   0xad02..0xad0d  (11 bytes)
 DATA_puertas_de_la_sala_110:
 	defb 05ch,001h,000h,0c4h,0c1h	; ad02
@@ -1012,18 +1092,20 @@ DATA_puertas_de_la_sala_110:
 	defb 0ffh	; ad0c
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_111: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_111: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xad0d..0xad13  (6 bytes)
 DATA_puertas_de_la_sala_111:
 	defb 05fh,001h,000h,0c4h,070h	; ad0d
 	defb 0ffh	; ad12
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_112: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (16 bytes)
+; DATOS puertas_de_la_sala_112: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (16 bytes)
 ;   0xad13..0xad23  (16 bytes)
 DATA_puertas_de_la_sala_112:
 	defb 05fh,002h,0b8h,0c0h,06fh	; ad13
@@ -1032,9 +1114,10 @@ DATA_puertas_de_la_sala_112:
 	defb 0ffh	; ad22
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_113: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+; DATOS puertas_de_la_sala_113: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
 ;   0xad23..0xad2e  (11 bytes)
 DATA_puertas_de_la_sala_113:
 	defb 060h,002h,0b8h,0a0h,070h	; ad23
@@ -1042,9 +1125,10 @@ DATA_puertas_de_la_sala_113:
 	defb 0ffh	; ad2d
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_114: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+; DATOS puertas_de_la_sala_114: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
 ;   0xad2e..0xad39  (11 bytes)
 DATA_puertas_de_la_sala_114:
 	defb 062h,001h,000h,024h,074h	; ad2e
@@ -1052,9 +1136,10 @@ DATA_puertas_de_la_sala_114:
 	defb 0ffh	; ad38
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_115: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (16 bytes)
+; DATOS puertas_de_la_sala_115: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (16 bytes)
 ;   0xad39..0xad49  (16 bytes)
 DATA_puertas_de_la_sala_115:
 	defb 05dh,005h,000h,084h,0fah	; ad39
@@ -1063,36 +1148,40 @@ DATA_puertas_de_la_sala_115:
 	defb 0ffh	; ad48
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_116: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_116: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xad49..0xad4f  (6 bytes)
 DATA_puertas_de_la_sala_116:
 	defb 062h,002h,0b8h,020h,072h	; ad49
 	defb 0ffh	; ad4e
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_117: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_117: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xad4f..0xad55  (6 bytes)
 DATA_puertas_de_la_sala_117:
 	defb 091h,014h,080h,0e0h,0cch	; ad4f
 	defb 0ffh	; ad54
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_118: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_118: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xad55..0xad5b  (6 bytes)
 DATA_puertas_de_la_sala_118:
 	defb 063h,003h,040h,008h,077h	; ad55
 	defb 0ffh	; ad5a
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_119: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+; DATOS puertas_de_la_sala_119: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
 ;   0xad5b..0xad66  (11 bytes)
 DATA_puertas_de_la_sala_119:
 	defb 063h,004h,040h,0f0h,076h	; ad5b
@@ -1100,171 +1189,190 @@ DATA_puertas_de_la_sala_119:
 	defb 0ffh	; ad65
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_122: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_122: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xad66..0xad6c  (6 bytes)
 DATA_puertas_de_la_sala_122:
 	defb 04ah,001h,000h,064h,039h	; ad66
 	defb 0ffh	; ad6b
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_123: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_123: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xad6c..0xad72  (6 bytes)
 DATA_puertas_de_la_sala_123:
 	defb 083h,002h,0b8h,0a0h,038h	; ad6c
 	defb 0ffh	; ad71
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_125: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_125: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xad72..0xad78  (6 bytes)
 DATA_puertas_de_la_sala_125:
 	defb 030h,001h,000h,064h,05dh	; ad72
 	defb 0ffh	; ad77
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_126: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_126: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xad78..0xad7e  (6 bytes)
 DATA_puertas_de_la_sala_126:
 	defb 065h,004h,040h,0d0h,005h	; ad78
 	defb 0ffh	; ad7d
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_127: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_127: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xad7e..0xad84  (6 bytes)
 DATA_puertas_de_la_sala_127:
 	defb 06dh,004h,040h,0d0h,005h	; ad7e
 	defb 0ffh	; ad83
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_128: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_128: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xad84..0xad8a  (6 bytes)
 DATA_puertas_de_la_sala_128:
 	defb 071h,004h,040h,0d0h,005h	; ad84
 	defb 0ffh	; ad89
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_129: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_129: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xad8a..0xad90  (6 bytes)
 DATA_puertas_de_la_sala_129:
 	defb 003h,002h,0b8h,060h,006h	; ad8a
 	defb 0ffh	; ad8f
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_130: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_130: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xad90..0xad96  (6 bytes)
 DATA_puertas_de_la_sala_130:
 	defb 076h,004h,040h,0d0h,007h	; ad90
 	defb 0ffh	; ad95
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_131: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_131: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xad96..0xad9c  (6 bytes)
 DATA_puertas_de_la_sala_131:
 	defb 077h,004h,040h,0d0h,007h	; ad96
 	defb 0ffh	; ad9b
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_132: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_132: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xad9c..0xada2  (6 bytes)
 DATA_puertas_de_la_sala_132:
 	defb 078h,004h,040h,0d0h,007h	; ad9c
 	defb 0ffh	; ada1
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_133: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_133: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xada2..0xada8  (6 bytes)
 DATA_puertas_de_la_sala_133:
 	defb 007h,002h,0b8h,060h,00ah	; ada2
 	defb 0ffh	; ada7
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_134: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_134: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xada8..0xadae  (6 bytes)
 DATA_puertas_de_la_sala_134:
 	defb 00ah,004h,040h,0d0h,00eh	; ada8
 	defb 0ffh	; adad
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_135: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_135: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xadae..0xadb4  (6 bytes)
 DATA_puertas_de_la_sala_135:
 	defb 074h,004h,040h,0d0h,009h	; adae
 	defb 0ffh	; adb3
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_136: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_136: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xadb4..0xadba  (6 bytes)
 DATA_puertas_de_la_sala_136:
 	defb 008h,004h,040h,0d0h,00dh	; adb4
 	defb 0ffh	; adb9
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_137: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_137: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xadba..0xadc0  (6 bytes)
 DATA_puertas_de_la_sala_137:
 	defb 009h,003h,040h,028h,00dh	; adba
 	defb 0ffh	; adbf
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_138: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_138: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xadc0..0xadc6  (6 bytes)
 DATA_puertas_de_la_sala_138:
 	defb 001h,002h,0b8h,060h,008h	; adc0
 	defb 0ffh	; adc5
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_139: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_139: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xadc6..0xadcc  (6 bytes)
 DATA_puertas_de_la_sala_139:
 	defb 015h,002h,0b8h,060h,010h	; adc6
 	defb 0ffh	; adcb
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_140: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_140: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xadcc..0xadd2  (6 bytes)
 DATA_puertas_de_la_sala_140:
 	defb 079h,004h,040h,0d0h,011h	; adcc
 	defb 0ffh	; add1
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_141: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+; DATOS puertas_de_la_sala_141: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
 ;   0xadd2..0xaddd  (11 bytes)
 DATA_puertas_de_la_sala_141:
 	defb 07ah,002h,0b8h,060h,013h	; add2
@@ -1272,9 +1380,10 @@ DATA_puertas_de_la_sala_141:
 	defb 0ffh	; addc
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_142: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (21 bytes)
+; DATOS puertas_de_la_sala_142: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (21 bytes)
 ;   0xaddd..0xadf2  (21 bytes)
 DATA_puertas_de_la_sala_142:
 	defb 018h,004h,020h,0d0h,017h	; addd
@@ -1284,54 +1393,60 @@ DATA_puertas_de_la_sala_142:
 	defb 0ffh	; adf1
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_143: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_143: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xadf2..0xadf8  (6 bytes)
 DATA_puertas_de_la_sala_143:
 	defb 09bh,002h,0b8h,060h,014h	; adf2
 	defb 0ffh	; adf7
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_144: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_144: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xadf8..0xadfe  (6 bytes)
 DATA_puertas_de_la_sala_144:
 	defb 01ah,002h,0b8h,060h,016h	; adf8
 	defb 0ffh	; adfd
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_145: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_145: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xadfe..0xae04  (6 bytes)
 DATA_puertas_de_la_sala_145:
 	defb 01bh,002h,0b8h,060h,018h	; adfe
 	defb 0ffh	; ae03
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_146: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_146: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xae04..0xae0a  (6 bytes)
 DATA_puertas_de_la_sala_146:
 	defb 01dh,004h,040h,0d0h,01ch	; ae04
 	defb 0ffh	; ae09
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_147: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_147: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xae0a..0xae10  (6 bytes)
 DATA_puertas_de_la_sala_147:
 	defb 01eh,004h,040h,0d0h,01ch	; ae0a
 	defb 0ffh	; ae0f
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_148: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+; DATOS puertas_de_la_sala_148: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
 ;   0xae10..0xae1b  (11 bytes)
 DATA_puertas_de_la_sala_148:
 	defb 020h,004h,040h,0d0h,01dh	; ae10
@@ -1339,9 +1454,10 @@ DATA_puertas_de_la_sala_148:
 	defb 0ffh	; ae1a
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_149: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+; DATOS puertas_de_la_sala_149: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
 ;   0xae1b..0xae26  (11 bytes)
 DATA_puertas_de_la_sala_149:
 	defb 066h,002h,0b8h,060h,094h	; ae1b
@@ -1349,9 +1465,10 @@ DATA_puertas_de_la_sala_149:
 	defb 0ffh	; ae25
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_150: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+; DATOS puertas_de_la_sala_150: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
 ;   0xae26..0xae31  (11 bytes)
 DATA_puertas_de_la_sala_150:
 	defb 023h,002h,0b8h,060h,021h	; ae26
@@ -1359,27 +1476,30 @@ DATA_puertas_de_la_sala_150:
 	defb 0ffh	; ae30
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_151: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_151: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xae31..0xae37  (6 bytes)
 DATA_puertas_de_la_sala_151:
 	defb 024h,003h,040h,028h,096h	; ae31
 	defb 0ffh	; ae36
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_152: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_152: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xae37..0xae3d  (6 bytes)
 DATA_puertas_de_la_sala_152:
 	defb 021h,003h,040h,028h,01eh	; ae37
 	defb 0ffh	; ae3c
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_153: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+; DATOS puertas_de_la_sala_153: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
 ;   0xae3d..0xae48  (11 bytes)
 DATA_puertas_de_la_sala_153:
 	defb 080h,004h,040h,0d0h,020h	; ae3d
@@ -1387,9 +1507,10 @@ DATA_puertas_de_la_sala_153:
 	defb 0ffh	; ae47
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_154: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+; DATOS puertas_de_la_sala_154: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
 ;   0xae48..0xae53  (11 bytes)
 DATA_puertas_de_la_sala_154:
 	defb 04fh,005h,000h,084h,0f6h	; ae48
@@ -1397,81 +1518,90 @@ DATA_puertas_de_la_sala_154:
 	defb 0ffh	; ae52
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_156: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_156: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xae53..0xae59  (6 bytes)
 DATA_puertas_de_la_sala_156:
 	defb 027h,002h,0b8h,060h,023h	; ae53
 	defb 0ffh	; ae58
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_157: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_157: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xae59..0xae5f  (6 bytes)
 DATA_puertas_de_la_sala_157:
 	defb 029h,002h,0b8h,060h,024h	; ae59
 	defb 0ffh	; ae5e
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_158: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_158: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xae5f..0xae65  (6 bytes)
 DATA_puertas_de_la_sala_158:
 	defb 028h,002h,0b8h,060h,024h	; ae5f
 	defb 0ffh	; ae64
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_159: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_159: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xae65..0xae6b  (6 bytes)
 DATA_puertas_de_la_sala_159:
 	defb 02ah,003h,040h,028h,026h	; ae65
 	defb 0ffh	; ae6a
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_160: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_160: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xae6b..0xae71  (6 bytes)
 DATA_puertas_de_la_sala_160:
 	defb 02ch,002h,0b8h,060h,028h	; ae6b
 	defb 0ffh	; ae70
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_161: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_161: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xae71..0xae77  (6 bytes)
 DATA_puertas_de_la_sala_161:
 	defb 02dh,003h,040h,028h,029h	; ae71
 	defb 0ffh	; ae76
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_162: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_162: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xae77..0xae7d  (6 bytes)
 DATA_puertas_de_la_sala_162:
 	defb 082h,003h,040h,024h,02ah	; ae77
 	defb 0ffh	; ae7c
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_163: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_163: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xae7d..0xae83  (6 bytes)
 DATA_puertas_de_la_sala_163:
 	defb 02eh,002h,0b8h,060h,033h	; ae7d
 	defb 0ffh	; ae82
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_164: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+; DATOS puertas_de_la_sala_164: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
 ;   0xae83..0xae8e  (11 bytes)
 DATA_puertas_de_la_sala_164:
 	defb 00ch,00dh,098h,060h,036h	; ae83
@@ -1479,18 +1609,20 @@ DATA_puertas_de_la_sala_164:
 	defb 0ffh	; ae8d
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_165: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_165: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xae8e..0xae94  (6 bytes)
 DATA_puertas_de_la_sala_165:
 	defb 067h,00eh,020h,020h,0a4h	; ae8e
 	defb 0ffh	; ae93
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_166: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+; DATOS puertas_de_la_sala_166: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
 ;   0xae94..0xae9f  (11 bytes)
 DATA_puertas_de_la_sala_166:
 	defb 06ah,00fh,020h,0d0h,0a7h	; ae94
@@ -1498,198 +1630,220 @@ DATA_puertas_de_la_sala_166:
 	defb 0ffh	; ae9e
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_167: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_167: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xae9f..0xaea5  (6 bytes)
 DATA_puertas_de_la_sala_167:
 	defb 06ah,00eh,020h,020h,0a6h	; ae9f
 	defb 0ffh	; aea4
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_168: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_168: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaea5..0xaeab  (6 bytes)
 DATA_puertas_de_la_sala_168:
 	defb 09ah,001h,000h,064h,039h	; aea5
 	defb 0ffh	; aeaa
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_169: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_169: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaeab..0xaeb1  (6 bytes)
 DATA_puertas_de_la_sala_169:
 	defb 010h,011h,040h,0d0h,03bh	; aeab
 	defb 0ffh	; aeb0
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_170: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_170: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaeb1..0xaeb7  (6 bytes)
 DATA_puertas_de_la_sala_170:
 	defb 013h,004h,040h,0d0h,03eh	; aeb1
 	defb 0ffh	; aeb6
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_171: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_171: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaeb7..0xaebd  (6 bytes)
 DATA_puertas_de_la_sala_171:
 	defb 011h,001h,000h,064h,03ah	; aeb7
 	defb 0ffh	; aebc
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_172: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_172: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaebd..0xaec3  (6 bytes)
 DATA_puertas_de_la_sala_172:
 	defb 012h,00ch,000h,064h,03dh	; aebd
 	defb 0ffh	; aec2
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_173: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_173: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaec3..0xaec9  (6 bytes)
 DATA_puertas_de_la_sala_173:
 	defb 085h,004h,040h,0d0h,009h	; aec3
 	defb 0ffh	; aec8
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_174: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_174: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaec9..0xaecf  (6 bytes)
 DATA_puertas_de_la_sala_174:
 	defb 084h,004h,040h,0d0h,040h	; aec9
 	defb 0ffh	; aece
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_175: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_175: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaecf..0xaed5  (6 bytes)
 DATA_puertas_de_la_sala_175:
 	defb 086h,004h,040h,0d0h,041h	; aecf
 	defb 0ffh	; aed4
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_176: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_176: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaed5..0xaedb  (6 bytes)
 DATA_puertas_de_la_sala_176:
 	defb 034h,002h,0b8h,060h,046h	; aed5
 	defb 0ffh	; aeda
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_177: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_177: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaedb..0xaee1  (6 bytes)
 DATA_puertas_de_la_sala_177:
 	defb 032h,002h,0b8h,060h,046h	; aedb
 	defb 0ffh	; aee0
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_178: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_178: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaee1..0xaee7  (6 bytes)
 DATA_puertas_de_la_sala_178:
 	defb 037h,004h,040h,0d0h,04ah	; aee1
 	defb 0ffh	; aee6
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_179: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_179: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaee7..0xaeed  (6 bytes)
 DATA_puertas_de_la_sala_179:
 	defb 039h,003h,040h,028h,04bh	; aee7
 	defb 0ffh	; aeec
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_180: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_180: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaeed..0xaef3  (6 bytes)
 DATA_puertas_de_la_sala_180:
 	defb 03ch,003h,040h,028h,04eh	; aeed
 	defb 0ffh	; aef2
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_181: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_181: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaef3..0xaef9  (6 bytes)
 DATA_puertas_de_la_sala_181:
 	defb 087h,002h,0b8h,060h,04fh	; aef3
 	defb 0ffh	; aef8
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_182: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_182: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaef9..0xaeff  (6 bytes)
 DATA_puertas_de_la_sala_182:
 	defb 03dh,002h,0b8h,060h,051h	; aef9
 	defb 0ffh	; aefe
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_183: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_183: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaeff..0xaf05  (6 bytes)
 DATA_puertas_de_la_sala_183:
 	defb 047h,002h,0b8h,060h,057h	; aeff
 	defb 0ffh	; af04
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_184: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_184: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaf05..0xaf0b  (6 bytes)
 DATA_puertas_de_la_sala_184:
 	defb 04bh,002h,0b8h,060h,057h	; af05
 	defb 0ffh	; af0a
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_185: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_185: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaf0b..0xaf11  (6 bytes)
 DATA_puertas_de_la_sala_185:
 	defb 049h,002h,0b8h,060h,056h	; af0b
 	defb 0ffh	; af10
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_186: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_186: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaf11..0xaf17  (6 bytes)
 DATA_puertas_de_la_sala_186:
 	defb 04dh,002h,0b8h,060h,058h	; af11
 	defb 0ffh	; af16
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_187: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_187: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaf17..0xaf1d  (6 bytes)
 DATA_puertas_de_la_sala_187:
 	defb 04eh,002h,0b8h,060h,059h	; af17
 	defb 0ffh	; af1c
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_188: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+; DATOS puertas_de_la_sala_188: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
 ;   0xaf1d..0xaf28  (11 bytes)
 DATA_puertas_de_la_sala_188:
 	defb 053h,002h,0b8h,060h,062h	; af1d
@@ -1697,9 +1851,10 @@ DATA_puertas_de_la_sala_188:
 	defb 0ffh	; af27
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_189: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+; DATOS puertas_de_la_sala_189: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
 ;   0xaf28..0xaf33  (11 bytes)
 DATA_puertas_de_la_sala_189:
 	defb 054h,002h,0b8h,060h,062h	; af28
@@ -1707,135 +1862,150 @@ DATA_puertas_de_la_sala_189:
 	defb 0ffh	; af32
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_190: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_190: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaf33..0xaf39  (6 bytes)
 DATA_puertas_de_la_sala_190:
 	defb 089h,002h,0b8h,060h,065h	; af33
 	defb 0ffh	; af38
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_191: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_191: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaf39..0xaf3f  (6 bytes)
 DATA_puertas_de_la_sala_191:
 	defb 08ah,002h,0b8h,060h,065h	; af39
 	defb 0ffh	; af3e
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_192: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_192: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaf3f..0xaf45  (6 bytes)
 DATA_puertas_de_la_sala_192:
 	defb 08bh,002h,0b8h,060h,06eh	; af3f
 	defb 0ffh	; af44
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_193: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_193: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaf45..0xaf4b  (6 bytes)
 DATA_puertas_de_la_sala_193:
 	defb 05ch,002h,0b8h,060h,06eh	; af45
 	defb 0ffh	; af4a
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_194: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_194: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaf4b..0xaf51  (6 bytes)
 DATA_puertas_de_la_sala_194:
 	defb 05eh,003h,040h,028h,073h	; af4b
 	defb 0ffh	; af50
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_195: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_195: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaf51..0xaf57  (6 bytes)
 DATA_puertas_de_la_sala_195:
 	defb 017h,003h,040h,028h,011h	; af51
 	defb 0ffh	; af56
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_196: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_196: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaf57..0xaf5d  (6 bytes)
 DATA_puertas_de_la_sala_196:
 	defb 088h,002h,0b8h,060h,05dh	; af57
 	defb 0ffh	; af5c
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_197: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_197: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaf5d..0xaf63  (6 bytes)
 DATA_puertas_de_la_sala_197:
 	defb 050h,002h,0b8h,060h,05eh	; af5d
 	defb 0ffh	; af62
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_198: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_198: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaf63..0xaf69  (6 bytes)
 DATA_puertas_de_la_sala_198:
 	defb 046h,002h,0b8h,060h,056h	; af63
 	defb 0ffh	; af68
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_199: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_199: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaf69..0xaf6f  (6 bytes)
 DATA_puertas_de_la_sala_199:
 	defb 075h,004h,040h,0d0h,005h	; af69
 	defb 0ffh	; af6e
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_200: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_200: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaf6f..0xaf75  (6 bytes)
 DATA_puertas_de_la_sala_200:
 	defb 073h,00ch,000h,060h,073h	; af6f
 	defb 0ffh	; af74
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_201: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_201: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaf75..0xaf7b  (6 bytes)
 DATA_puertas_de_la_sala_201:
 	defb 09ch,004h,040h,0d0h,06ch	; af75
 	defb 0ffh	; af7a
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_202: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_202: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaf7b..0xaf81  (6 bytes)
 DATA_puertas_de_la_sala_202:
 	defb 072h,002h,0b8h,060h,052h	; af7b
 	defb 0ffh	; af80
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_203: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_203: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xaf81..0xaf87  (6 bytes)
 DATA_puertas_de_la_sala_203:
 	defb 056h,002h,0b8h,060h,063h	; af81
 	defb 0ffh	; af86
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_204: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (16 bytes)
+; DATOS puertas_de_la_sala_204: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (16 bytes)
 ;   0xaf87..0xaf97  (16 bytes)
 DATA_puertas_de_la_sala_204:
 	defb 091h,002h,000h,080h,075h	; af87
@@ -1844,9 +2014,10 @@ DATA_puertas_de_la_sala_204:
 	defb 0ffh	; af96
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_205: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+; DATOS puertas_de_la_sala_205: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
 ;   0xaf97..0xafa2  (11 bytes)
 DATA_puertas_de_la_sala_205:
 	defb 048h,002h,0b8h,060h,055h	; af97
@@ -1854,9 +2025,10 @@ DATA_puertas_de_la_sala_205:
 	defb 0ffh	; afa1
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_206: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+; DATOS puertas_de_la_sala_206: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
 ;   0xafa2..0xafad  (11 bytes)
 DATA_puertas_de_la_sala_206:
 	defb 03bh,002h,0b8h,060h,04ch	; afa2
@@ -1864,9 +2036,10 @@ DATA_puertas_de_la_sala_206:
 	defb 0ffh	; afac
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_207: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+; DATOS puertas_de_la_sala_207: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
 ;   0xafad..0xafb8  (11 bytes)
 DATA_puertas_de_la_sala_207:
 	defb 057h,002h,0b8h,060h,063h	; afad
@@ -1874,81 +2047,90 @@ DATA_puertas_de_la_sala_207:
 	defb 0ffh	; afb7
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_213: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_213: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xafb8..0xafbe  (6 bytes)
 DATA_puertas_de_la_sala_213:
 	defb 092h,004h,040h,0d0h,009h	; afb8
 	defb 0ffh	; afbd
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_214: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_214: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xafbe..0xafc4  (6 bytes)
 DATA_puertas_de_la_sala_214:
 	defb 093h,004h,040h,0d0h,068h	; afbe
 	defb 0ffh	; afc3
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_215: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_215: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xafc4..0xafca  (6 bytes)
 DATA_puertas_de_la_sala_215:
 	defb 094h,004h,040h,0d0h,041h	; afc4
 	defb 0ffh	; afc9
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_216: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_216: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xafca..0xafd0  (6 bytes)
 DATA_puertas_de_la_sala_216:
 	defb 095h,004h,040h,0d0h,068h	; afca
 	defb 0ffh	; afcf
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_217: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_217: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xafd0..0xafd6  (6 bytes)
 DATA_puertas_de_la_sala_217:
 	defb 096h,004h,040h,0d0h,041h	; afd0
 	defb 0ffh	; afd5
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_218: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_218: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xafd6..0xafdc  (6 bytes)
 DATA_puertas_de_la_sala_218:
 	defb 097h,004h,040h,0d0h,068h	; afd6
 	defb 0ffh	; afdb
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_219: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_219: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xafdc..0xafe2  (6 bytes)
 DATA_puertas_de_la_sala_219:
 	defb 098h,004h,040h,0d0h,009h	; afdc
 	defb 0ffh	; afe1
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_224: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_224: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xafe2..0xafe8  (6 bytes)
 DATA_puertas_de_la_sala_224:
 	defb 06bh,006h,080h,0e8h,077h	; afe2
 	defb 0ffh	; afe7
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_225: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+; DATOS puertas_de_la_sala_225: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
 ;   0xafe8..0xaff3  (11 bytes)
 DATA_puertas_de_la_sala_225:
 	defb 002h,006h,098h,0e0h,003h	; afe8
@@ -1956,9 +2138,10 @@ DATA_puertas_de_la_sala_225:
 	defb 0ffh	; aff2
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_226: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (16 bytes)
+; DATOS puertas_de_la_sala_226: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (16 bytes)
 ;   0xaff3..0xb003  (16 bytes)
 DATA_puertas_de_la_sala_226:
 	defb 00bh,006h,058h,0e0h,00fh	; aff3
@@ -1967,9 +2150,10 @@ DATA_puertas_de_la_sala_226:
 	defb 0ffh	; b002
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_227: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
+; DATOS puertas_de_la_sala_227: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (11 bytes)
 ;   0xb003..0xb00e  (11 bytes)
 DATA_puertas_de_la_sala_227:
 	defb 02bh,006h,098h,0e0h,027h	; b003
@@ -1977,9 +2161,10 @@ DATA_puertas_de_la_sala_227:
 	defb 0ffh	; b00d
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_228: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (16 bytes)
+; DATOS puertas_de_la_sala_228: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (16 bytes)
 ;   0xb00e..0xb01e  (16 bytes)
 DATA_puertas_de_la_sala_228:
 	defb 036h,006h,058h,0e0h,048h	; b00e
@@ -1988,18 +2173,20 @@ DATA_puertas_de_la_sala_228:
 	defb 0ffh	; b01d
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_229: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_229: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xb01e..0xb024  (6 bytes)
 DATA_puertas_de_la_sala_229:
 	defb 04ch,006h,098h,0e0h,058h	; b01e
 	defb 0ffh	; b023
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_230: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (16 bytes)
+; DATOS puertas_de_la_sala_230: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (16 bytes)
 ;   0xb024..0xb034  (16 bytes)
 DATA_puertas_de_la_sala_230:
 	defb 06eh,006h,058h,0e0h,0ceh	; b024
@@ -2008,27 +2195,30 @@ DATA_puertas_de_la_sala_230:
 	defb 0ffh	; b033
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_231: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_231: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xb034..0xb03a  (6 bytes)
 DATA_puertas_de_la_sala_231:
 	defb 04fh,006h,098h,0e0h,09ah	; b034
 	defb 0ffh	; b039
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_232: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
+; DATOS puertas_de_la_sala_232: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); lo leen p00:441A (6 bytes)
 ;   0xb03a..0xb040  (6 bytes)
 DATA_puertas_de_la_sala_232:
 	defb 05ah,006h,018h,0e0h,06dh	; b03a
 	defb 0ffh	; b03f
 
 ; ----------------------------------------------------------------------
-; DATOS puertas_de_la_sala_235: fichas de 5 bytes [puerta][tipo][x][y][e]
-;   hasta 0xFF: p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale
-;   de 0xC450 y de 0xB046); se solapan 2 bloques: (puertas_de_la_sala_0
+; DATOS puertas_de_la_sala_235: fichas de 5 bytes [puerta][tipo][y][x][e]
+;   hasta 0xFF (la Y primero, como en los actores: el tercer byte no pasa de
+;   184): p00:441A monta una ficha en 0xC3D0 por puerta (el cerrojo sale de
+;   0xC450 y de 0xB046); se solapan 2 bloques: (puertas_de_la_sala_0
 ;   B045-B046); lo leen p00:441A (6 bytes)
 ;   0xb040..0xb046  (6 bytes)
 DATA_puertas_de_la_sala_235:

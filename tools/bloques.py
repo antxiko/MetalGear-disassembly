@@ -754,8 +754,10 @@ def banco5():
         vistos.add(d)
         c = leer(T, d) & 0x0F
         declara(T, d, d + 1 + 3 * c, "actores_de_la_sala_%d" % s,
-                "[cuantos (nibble bajo)] y %d ternas [tipo][x][y]: p00:5660 crea "
-                "un actor por terna (L_569A)" % c, "p00:5660", F="1,3")
+                "[cuantos (nibble bajo)] y %d ternas [tipo][y][x]: p00:5660 crea "
+                "un actor por terna (L_569A; la Y va a (ix+3) y la X a (ix+5), "
+                "p00:5727/572B, y p00:5526 suma (ix+3) a la Y del sprite)" % c,
+                "p00:5660", F="1,3")
     declara(T, 0x971C, 0x975A, "sprites_por_tipo_de_actor",
             "un byte por tipo de actor (1-62): cuantos sprites lleva, que "
             "p00:56CA pone en (ix+0x20); el byte del tipo 0 es el alto del "
@@ -779,13 +781,24 @@ def banco5():
             "%d punteros, uno por cuadro ((ix+0x0B)), a los atributos de sus "
             "sprites (p00:5518 -> L_42B4)" % n, "p00:5518", F="w8")
     ptrs = sorted({palabra(T, 0x9890 + 2 * k) for k in range(n)})
-    fin_atr = caminos()
-    declara(T, ptrs[0], fin_atr, "atributos_por_cuadro",
+    fin_caminos = caminos()
+    # los grupos de posiciones: 21 punteros en p00:556F (p00:554A), parejas
+    # [y][x] que p00:5552 va leyendo (tantas como sprites queden); van justo
+    # detras de la ultima lista de atributos y hasta los caminos
+    grupos = sorted({palabra(T, 0x556F + 2 * k) for k in range(21)})
+    declara(T, ptrs[0], grupos[0], "atributos_por_cuadro",
             "las listas de atributos de los actores, una por cuadro: por sprite "
-            "[y][x][patron] (p00:5526), o un byte 0x91-0xA5 que trae un grupo "
-            "de la tabla p00:556F (p00:5549); cuantos sprites lo dice "
-            "(ix+0x20), por eso no llevan cuenta; la ultima lista empieza en "
-            "0x%04X y acaba donde empiezan los caminos" % ptrs[-1], "p00:5526", F=3)
+            "[y][x][patron] (p00:5526), o un byte 0x91-0xA5 que trae las "
+            "posiciones del grupo p00:556F[n - 0x91] y deja solo los patrones "
+            "(p00:5549); cuantos sprites lo dice (ix+0x20), por eso no llevan "
+            "cuenta; la ultima lista empieza en 0x%04X y acaba donde empiezan "
+            "los grupos" % ptrs[-1], "p00:5526", F=3)
+    declara(T, grupos[0], fin_caminos, "grupos_de_posiciones",
+            "%d grupos de parejas [y][x] (los punteros en p00:556F) que p00:5552 "
+            "suma a la posicion del actor, una pareja por sprite que quede en "
+            "el cuadro; el largo de cada grupo lo da el cuadro que lo usa, por "
+            "eso se solapan unos con otros; de 0x%04X al principio de los "
+            "caminos" % (len(grupos), grupos[0]), "p00:5552", F=2)
 
 
 def caminos():
@@ -825,8 +838,9 @@ def caminos():
             quien = registros[a]
             declara(T, a, z, "camino_%04X" % a,
                     "el camino del actor %d de la sala %d%s: [byte para (ix+0x13)] "
-                    "y parejas [x][y] de puntos de paso que p00:59F5 va cargando "
-                    "en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente)" % (
+                    "y parejas [y][x] de puntos de paso que p00:59F5 va cargando "
+                    "en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, "
+                    "para sacar la direccion al siguiente)" % (
                         quien[0][1], quien[0][0], " y %d mas" % (len(quien) - 1) if len(quien) > 1 else ""),
                     "p00:59F5", F=2)
     declara(T, 0xA445, 0xA679, "reaparicion_por_sala",
@@ -952,7 +966,8 @@ def banco15():
         while leer(T, a) != 0xFF:
             a += 5
         declara(T, d, a + 1, "puertas_de_la_sala_%d" % s,
-                "fichas de 5 bytes [puerta][tipo][x][y][e] hasta 0xFF: p00:441A "
+                "fichas de 5 bytes [puerta][tipo][y][x][e] hasta 0xFF (la Y primero, "
+                "como en los actores: el tercer byte no pasa de 184): p00:441A "
                 "monta una ficha en 0xC3D0 por puerta (el cerrojo sale de 0xC450 "
                 "y de 0xB046)", "p00:441A", F=5)
     declara(T, 0xB046, 0xB0E6, "cerrojo_de_cada_puerta",

@@ -226,8 +226,9 @@ def vecinas(r):
 
 def puertas(r):
     """p00:43FA/441A: las puertas de la sala, fichas de 5 bytes
-    [puerta][tipo][x][y][sala de destino] (p15:A7C0; las salas 0xF0-0xFA
-    restan 0xF)."""
+    [puerta][tipo][y][x][sala de destino] (p15:A7C0; las salas 0xF0-0xFA
+    restan 0xF). Primero la Y: el tercer byte nunca pasa de 184 y el cuarto
+    llega a 240, como en los actores (p05:9560) y los caminos (p06:A2DF)."""
     if 0xE1 <= r < 0xF0:
         return []
     k = r - 0xF if r >= 0xF0 else r
@@ -250,7 +251,7 @@ def lado_de_puerta(x, y):
 
 def vecinas_por_puertas(r):
     """[(sala de destino, lado)] por cada puerta de la sala."""
-    return [(e, lado_de_puerta(x, y)) for (_p, _t, x, y, e) in puertas(r)]
+    return [(e, lado_de_puerta(x, y)) for (_p, _t, y, x, e) in puertas(r)]
 
 
 def ascensor(r):

@@ -3,11 +3,13 @@
 
 Uso: dibuja.py sala <sala> <png>            una sala (SCREEN 5, 256 x 192)
      dibuja.py salas <directorio>            las 251, sala_NNN.png
-     dibuja.py mapas <directorio> [--numeros]
+     dibuja.py mapas <directorio> [--numeros] [--actores]
                                             un PNG por zona: las salas colocadas
                                             por sus salidas (p05:8E0E, BFS por
                                             los lados) y, debajo, las salas a las
-                                            que solo se entra por una puerta
+                                            que solo se entra por una puerta;
+                                            con --actores, los enemigos donde
+                                            los crea p00:564C (dibuja_sprites.py)
      dibuja.py zonas                        solo el reparto de salas por zona
 Ninguna imagen es una captura: todo sale de las tablas del cartucho.
 """
@@ -87,7 +89,7 @@ def zonas():
         vistas = set(pos)
         while cola:
             r = cola.popleft()
-            for (p, _t, _x, _y, e) in S.puertas(r):
+            for (p, _t, _y, _x, e) in S.puertas(r):
                 if e >= 0xF0 or e in colocadas or e in vistas or not S.es_sala(e):
                     continue
                 vistas.add(e)
@@ -101,7 +103,9 @@ def etiqueta(d, x, y, texto, color=(255, 255, 0)):
     d.text((x + 5, y + 3), texto, fill=color)
 
 
-def mapa_png(pos, tras, ruta, numeros=False):
+def mapa_png(pos, tras, ruta, numeros=False, actores=False):
+    if actores:
+        import dibuja_sprites        # los sprites, aparte: tools/sprites.py
     xs = [p[0] for p in pos.values()]
     ys = [p[1] for p in pos.values()]
     mx, my = min(xs), min(ys)
@@ -116,6 +120,8 @@ def mapa_png(pos, tras, ruta, numeros=False):
     for r, (x, y) in pos.items():
         _, f = pinta_sala(r, img, (x - mx) * ANCHO, (y - my) * ALTO)
         faltan |= f
+        if actores:
+            dibuja_sprites.actores_en_sala(img, r, (x - mx) * ANCHO, (y - my) * ALTO)
         if numeros:
             etiqueta(d, (x - mx) * ANCHO, (y - my) * ALTO, "%d" % r)
             asc = [v for v in S.vecinas(r) if v is not None and v >= 0xF0]
@@ -131,6 +137,8 @@ def mapa_png(pos, tras, ruta, numeros=False):
             x, y = (i % por_fila) * ANCHO, y0 + (i // por_fila) * ALTO
             _, f = pinta_sala(r, img, x, y)
             faltan |= f
+            if actores:
+                dibuja_sprites.actores_en_sala(img, r, x, y)
             if numeros:
                 etiqueta(d, x, y, "%d <- %d, puerta %d" % (r, desde, p), (0, 255, 0))
     img.save(ruta)
@@ -162,7 +170,7 @@ def main(argv):
                 max(xs) - min(xs) + 1, max(ys) - min(ys) + 1, len(tras),
                 "; CHOQUES %d: %s" % (len(choques), choques[:3]) if choques else ""))
             if argv[1] == "mapas":
-                faltan = mapa_png(pos, tras, os.path.join(argv[2], "zona_%02d.png" % i), "--numeros" in argv)
+                faltan = mapa_png(pos, tras, os.path.join(argv[2], "zona_%02d.png" % i), "--numeros" in argv, "--actores" in argv)
                 if faltan - {1, 2}:
                     print("   fichas sin cargar %s" % sorted(faltan))
     else:

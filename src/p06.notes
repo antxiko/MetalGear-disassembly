@@ -3,139 +3,139 @@
 # --- A MANO: comentarios, nombres y bloques ---
 
 # --- BLOQUES QUE LEE EL CODIGO (seccion que reescribe tools/bloques.py; no editar a mano) ---
-D 0xA000 0xA00C camino_9FFF_cola  el camino del actor 1 de la sala 33: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente) (sigue del banco 5); lo leen p00:59F5 (12 bytes)
+D 0xA000 0xA00C camino_9FFF_cola  el camino del actor 1 de la sala 33: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente) (sigue del banco 5); lo leen p00:59F5 (12 bytes)
 F 0xA000 2
-D 0xA00C 0xA019 camino_A00C  el camino del actor 2 de la sala 33: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (13 bytes)
+D 0xA00C 0xA019 camino_A00C  el camino del actor 2 de la sala 33: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (13 bytes)
 F 0xA00C 2
-D 0xA019 0xA024 camino_A019  el camino del actor 1 de la sala 34: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (11 bytes)
+D 0xA019 0xA024 camino_A019  el camino del actor 1 de la sala 34: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (11 bytes)
 F 0xA019 2
-D 0xA024 0xA02F camino_A024  el camino del actor 2 de la sala 34: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (11 bytes)
+D 0xA024 0xA02F camino_A024  el camino del actor 2 de la sala 34: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (11 bytes)
 F 0xA024 2
-D 0xA02F 0xA034 camino_A02F  el camino del actor 1 de la sala 35: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+D 0xA02F 0xA034 camino_A02F  el camino del actor 1 de la sala 35: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (5 bytes)
 F 0xA02F 2
-D 0xA034 0xA039 camino_A034  el camino del actor 2 de la sala 35: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+D 0xA034 0xA039 camino_A034  el camino del actor 2 de la sala 35: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (5 bytes)
 F 0xA034 2
-D 0xA039 0xA03E camino_A039  el camino del actor 3 de la sala 35: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+D 0xA039 0xA03E camino_A039  el camino del actor 3 de la sala 35: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (5 bytes)
 F 0xA039 2
-D 0xA03E 0xA043 camino_A03E  el camino del actor 1 de la sala 36: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+D 0xA03E 0xA043 camino_A03E  el camino del actor 1 de la sala 36: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (5 bytes)
 F 0xA03E 2
-D 0xA043 0xA048 camino_A043  el camino del actor 2 de la sala 36: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+D 0xA043 0xA048 camino_A043  el camino del actor 2 de la sala 36: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (5 bytes)
 F 0xA043 2
-D 0xA048 0xA055 camino_A048  el camino del actor 3 de la sala 36: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (13 bytes)
+D 0xA048 0xA055 camino_A048  el camino del actor 3 de la sala 36: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (13 bytes)
 F 0xA048 2
-D 0xA055 0xA05E camino_A055  el camino del actor 1 de la sala 37: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (9 bytes)
+D 0xA055 0xA05E camino_A055  el camino del actor 1 de la sala 37: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (9 bytes)
 F 0xA055 2
-D 0xA05E 0xA067 camino_A05E  el camino del actor 2 de la sala 37: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (9 bytes)
+D 0xA05E 0xA067 camino_A05E  el camino del actor 2 de la sala 37: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (9 bytes)
 F 0xA05E 2
-D 0xA067 0xA070 camino_A067  el camino del actor 1 de la sala 40: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (9 bytes)
+D 0xA067 0xA070 camino_A067  el camino del actor 1 de la sala 40: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (9 bytes)
 F 0xA067 2
-D 0xA070 0xA079 camino_A070  el camino del actor 1 de la sala 43: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (9 bytes)
+D 0xA070 0xA079 camino_A070  el camino del actor 1 de la sala 43: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (9 bytes)
 F 0xA070 2
-D 0xA079 0xA082 camino_A079  el camino del actor 2 de la sala 43: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (9 bytes)
+D 0xA079 0xA082 camino_A079  el camino del actor 2 de la sala 43: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (9 bytes)
 F 0xA079 2
-D 0xA082 0xA093 camino_A082  el camino del actor 1 de la sala 44: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (17 bytes)
+D 0xA082 0xA093 camino_A082  el camino del actor 1 de la sala 44: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (17 bytes)
 F 0xA082 2
-D 0xA093 0xA0A6 camino_A093  el camino del actor 2 de la sala 44: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (19 bytes)
+D 0xA093 0xA0A6 camino_A093  el camino del actor 2 de la sala 44: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (19 bytes)
 F 0xA093 2
-D 0xA0A6 0xA0AB camino_A0A6  el camino del actor 3 de la sala 44 y 1 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+D 0xA0A6 0xA0AB camino_A0A6  el camino del actor 3 de la sala 44 y 1 mas: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (5 bytes)
 F 0xA0A6 2
-D 0xA0AB 0xA0B0 camino_A0AB  el camino del actor 4 de la sala 44 y 1 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+D 0xA0AB 0xA0B0 camino_A0AB  el camino del actor 4 de la sala 44 y 1 mas: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (5 bytes)
 F 0xA0AB 2
-D 0xA0B0 0xA0B5 camino_A0B0  el camino del actor 5 de la sala 44 y 1 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+D 0xA0B0 0xA0B5 camino_A0B0  el camino del actor 5 de la sala 44 y 1 mas: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (5 bytes)
 F 0xA0B0 2
-D 0xA0B5 0xA0C2 camino_A0B5  el camino del actor 6 de la sala 44 y 1 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (13 bytes)
+D 0xA0B5 0xA0C2 camino_A0B5  el camino del actor 6 de la sala 44 y 1 mas: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (13 bytes)
 F 0xA0B5 2
-D 0xA0C2 0xA0CB camino_A0C2  el camino del actor 7 de la sala 44 y 1 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (9 bytes)
+D 0xA0C2 0xA0CB camino_A0C2  el camino del actor 7 de la sala 44 y 1 mas: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (9 bytes)
 F 0xA0C2 2
-D 0xA0CB 0xA0D6 camino_A0CB  el camino del actor 8 de la sala 44 y 1 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (11 bytes)
+D 0xA0CB 0xA0D6 camino_A0CB  el camino del actor 8 de la sala 44 y 1 mas: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (11 bytes)
 F 0xA0CB 2
-D 0xA0D6 0xA0DB camino_A0D6  el camino del actor 5 de la sala 53 y 1 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+D 0xA0D6 0xA0DB camino_A0D6  el camino del actor 5 de la sala 53 y 1 mas: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (5 bytes)
 F 0xA0D6 2
-D 0xA0DB 0xA0E0 camino_A0DB  el camino del actor 6 de la sala 53 y 1 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+D 0xA0DB 0xA0E0 camino_A0DB  el camino del actor 6 de la sala 53 y 1 mas: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (5 bytes)
 F 0xA0DB 2
-D 0xA0E0 0xA0E5 camino_A0E0  el camino del actor 7 de la sala 53 y 1 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+D 0xA0E0 0xA0E5 camino_A0E0  el camino del actor 7 de la sala 53 y 1 mas: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (5 bytes)
 F 0xA0E0 2
-D 0xA0E5 0xA0EA camino_A0E5  el camino del actor 8 de la sala 53 y 1 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+D 0xA0E5 0xA0EA camino_A0E5  el camino del actor 8 de la sala 53 y 1 mas: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (5 bytes)
 F 0xA0E5 2
-D 0xA0EA 0xA0EF camino_A0EA  el camino del actor 9 de la sala 53 y 1 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+D 0xA0EA 0xA0EF camino_A0EA  el camino del actor 9 de la sala 53 y 1 mas: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (5 bytes)
 F 0xA0EA 2
-D 0xA0EF 0xA0F4 camino_A0EF  el camino del actor 2 de la sala 75: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+D 0xA0EF 0xA0F4 camino_A0EF  el camino del actor 2 de la sala 75: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (5 bytes)
 F 0xA0EF 2
-D 0xA0F4 0xA0F9 camino_A0F4  el camino del actor 3 de la sala 75: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+D 0xA0F4 0xA0F9 camino_A0F4  el camino del actor 3 de la sala 75: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (5 bytes)
 F 0xA0F4 2
-D 0xA0F9 0xA102 camino_A0F9  el camino del actor 1 de la sala 78: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (9 bytes)
+D 0xA0F9 0xA102 camino_A0F9  el camino del actor 1 de la sala 78: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (9 bytes)
 F 0xA0F9 2
-D 0xA102 0xA107 camino_A102  el camino del actor 2 de la sala 78: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+D 0xA102 0xA107 camino_A102  el camino del actor 2 de la sala 78: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (5 bytes)
 F 0xA102 2
-D 0xA107 0xA10E camino_A107  el camino del actor 3 de la sala 78: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (7 bytes)
+D 0xA107 0xA10E camino_A107  el camino del actor 3 de la sala 78: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (7 bytes)
 F 0xA107 2
-D 0xA10E 0xA115 camino_A10E  el camino del actor 4 de la sala 78: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (7 bytes)
+D 0xA10E 0xA115 camino_A10E  el camino del actor 4 de la sala 78: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (7 bytes)
 F 0xA10E 2
-D 0xA115 0xA11A camino_A115  el camino del actor 1 de la sala 81: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+D 0xA115 0xA11A camino_A115  el camino del actor 1 de la sala 81: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (5 bytes)
 F 0xA115 2
-D 0xA11A 0xA123 camino_A11A  el camino del actor 2 de la sala 81: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (9 bytes)
+D 0xA11A 0xA123 camino_A11A  el camino del actor 2 de la sala 81: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (9 bytes)
 F 0xA11A 2
-D 0xA123 0xA12C camino_A123  el camino del actor 3 de la sala 81: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (9 bytes)
+D 0xA123 0xA12C camino_A123  el camino del actor 3 de la sala 81: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (9 bytes)
 F 0xA123 2
-D 0xA12C 0xA133 camino_A12C  el camino del actor 4 de la sala 81: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (7 bytes)
+D 0xA12C 0xA133 camino_A12C  el camino del actor 4 de la sala 81: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (7 bytes)
 F 0xA12C 2
-D 0xA133 0xA13C camino_A133  el camino del actor 1 de la sala 83: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (9 bytes)
+D 0xA133 0xA13C camino_A133  el camino del actor 1 de la sala 83: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (9 bytes)
 F 0xA133 2
-D 0xA13C 0xA143 camino_A13C  el camino del actor 2 de la sala 83: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (7 bytes)
+D 0xA13C 0xA143 camino_A13C  el camino del actor 2 de la sala 83: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (7 bytes)
 F 0xA13C 2
-D 0xA143 0xA148 camino_A143  el camino del actor 3 de la sala 83: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+D 0xA143 0xA148 camino_A143  el camino del actor 3 de la sala 83: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (5 bytes)
 F 0xA143 2
-D 0xA148 0xA151 camino_A148  el camino del actor 4 de la sala 83: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (9 bytes)
+D 0xA148 0xA151 camino_A148  el camino del actor 4 de la sala 83: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (9 bytes)
 F 0xA148 2
-D 0xA151 0xA15C camino_A151  el camino del actor 1 de la sala 85: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (11 bytes)
+D 0xA151 0xA15C camino_A151  el camino del actor 1 de la sala 85: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (11 bytes)
 F 0xA151 2
-D 0xA15C 0xA161 camino_A15C  el camino del actor 2 de la sala 86: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+D 0xA15C 0xA161 camino_A15C  el camino del actor 2 de la sala 86: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (5 bytes)
 F 0xA15C 2
-D 0xA161 0xA166 camino_A161  el camino del actor 3 de la sala 86: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+D 0xA161 0xA166 camino_A161  el camino del actor 3 de la sala 86: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (5 bytes)
 F 0xA161 2
-D 0xA166 0xA16F camino_A166  el camino del actor 1 de la sala 88: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (9 bytes)
+D 0xA166 0xA16F camino_A166  el camino del actor 1 de la sala 88: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (9 bytes)
 F 0xA166 2
-D 0xA16F 0xA178 camino_A16F  el camino del actor 2 de la sala 88: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (9 bytes)
+D 0xA16F 0xA178 camino_A16F  el camino del actor 2 de la sala 88: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (9 bytes)
 F 0xA16F 2
-D 0xA178 0xA17D camino_A178  el camino del actor 3 de la sala 88: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+D 0xA178 0xA17D camino_A178  el camino del actor 3 de la sala 88: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (5 bytes)
 F 0xA178 2
-D 0xA17D 0xA182 camino_A17D  el camino del actor 4 de la sala 88: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+D 0xA17D 0xA182 camino_A17D  el camino del actor 4 de la sala 88: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (5 bytes)
 F 0xA17D 2
-D 0xA182 0xA187 camino_A182  el camino del actor 5 de la sala 88 y 1 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+D 0xA182 0xA187 camino_A182  el camino del actor 5 de la sala 88 y 1 mas: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (5 bytes)
 F 0xA182 2
-D 0xA187 0xA18C camino_A187  el camino del actor 6 de la sala 88 y 1 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+D 0xA187 0xA18C camino_A187  el camino del actor 6 de la sala 88 y 1 mas: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (5 bytes)
 F 0xA187 2
-D 0xA18C 0xA191 camino_A18C  el camino del actor 7 de la sala 88 y 2 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+D 0xA18C 0xA191 camino_A18C  el camino del actor 7 de la sala 88 y 2 mas: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (5 bytes)
 F 0xA18C 2
-D 0xA191 0xA196 camino_A191  el camino del actor 8 de la sala 88 y 1 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+D 0xA191 0xA196 camino_A191  el camino del actor 8 de la sala 88 y 1 mas: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (5 bytes)
 F 0xA191 2
-D 0xA196 0xA19B camino_A196  el camino del actor 9 de la sala 88 y 2 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+D 0xA196 0xA19B camino_A196  el camino del actor 9 de la sala 88 y 2 mas: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (5 bytes)
 F 0xA196 2
-D 0xA19B 0xA1A0 camino_A19B  el camino del actor 4 de la sala 112 y 1 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+D 0xA19B 0xA1A0 camino_A19B  el camino del actor 4 de la sala 112 y 1 mas: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (5 bytes)
 F 0xA19B 2
-D 0xA1A0 0xA1A5 camino_A1A0  el camino del actor 5 de la sala 112 y 2 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+D 0xA1A0 0xA1A5 camino_A1A0  el camino del actor 5 de la sala 112 y 2 mas: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (5 bytes)
 F 0xA1A0 2
-D 0xA1A5 0xA1AE camino_A1A5  el camino del actor 1 de la sala 141: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (9 bytes)
+D 0xA1A5 0xA1AE camino_A1A5  el camino del actor 1 de la sala 141: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (9 bytes)
 F 0xA1A5 2
-D 0xA1AE 0xA1B1 camino_A1AE  el camino del actor 1 de la sala 39 y 1 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (3 bytes)
+D 0xA1AE 0xA1B1 camino_A1AE  el camino del actor 1 de la sala 39 y 1 mas: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (3 bytes)
 F 0xA1AE 2
-D 0xA1B1 0xA1B4 camino_A1B1  el camino del actor 3 de la sala 8 y 4 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (3 bytes)
+D 0xA1B1 0xA1B4 camino_A1B1  el camino del actor 3 de la sala 8 y 4 mas: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (3 bytes)
 F 0xA1B1 2
-D 0xA1B4 0xA1B7 camino_A1B4  el camino del actor 3 de la sala 82 y 1 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (3 bytes)
+D 0xA1B4 0xA1B7 camino_A1B4  el camino del actor 3 de la sala 82 y 1 mas: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (3 bytes)
 F 0xA1B4 2
-D 0xA1B7 0xA1BB camino_A1B7  el camino del actor 9 de la sala 44 y 5 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (4 bytes)
+D 0xA1B7 0xA1BB camino_A1B7  el camino del actor 9 de la sala 44 y 5 mas: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (4 bytes)
 F 0xA1B7 2
-D 0xA1BB 0xA1C0 camino_A1BB  el camino del actor 2 de la sala 53 y 1 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+D 0xA1BB 0xA1C0 camino_A1BB  el camino del actor 2 de la sala 53 y 1 mas: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (5 bytes)
 F 0xA1BB 2
-D 0xA1C0 0xA1C5 camino_A1C0  el camino del actor 1 de la sala 75 y 2 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (5 bytes)
+D 0xA1C0 0xA1C5 camino_A1C0  el camino del actor 1 de la sala 75 y 2 mas: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (5 bytes)
 F 0xA1C0 2
-D 0xA1C5 0xA1C9 camino_A1C5  el camino del actor 1 de la sala 8 y 4 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (4 bytes)
+D 0xA1C5 0xA1C9 camino_A1C5  el camino del actor 1 de la sala 8 y 4 mas: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (4 bytes)
 F 0xA1C5 2
-D 0xA1C9 0xA1CB camino_A1C9  el camino del actor 6 de la sala 112 y 12 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (2 bytes)
+D 0xA1C9 0xA1CB camino_A1C9  el camino del actor 6 de la sala 112 y 12 mas: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (2 bytes)
 F 0xA1C9 2
-D 0xA1CB 0xA1CD camino_A1CB  el camino del actor 8 de la sala 112 y 3 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (2 bytes)
+D 0xA1CB 0xA1CD camino_A1CB  el camino del actor 8 de la sala 112 y 3 mas: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (2 bytes)
 F 0xA1CB 2
-D 0xA1CD 0xA1CF camino_A1CD  el camino del actor 10 de la sala 112 y 2 mas: [byte para (ix+0x13)] y parejas [x][y] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 saca la direccion al siguiente); lo leen p00:59F5 (2 bytes)
+D 0xA1CD 0xA1CF camino_A1CD  el camino del actor 10 de la sala 112 y 2 mas: [byte para (ix+0x13)] y parejas [y][x] de puntos de paso que p00:59F5 va cargando en (ix+0x15)/(ix+0x16) (p00:5A02 los resta de (ix+3)/(ix+5), Y y X, para sacar la direccion al siguiente); lo leen p00:59F5 (2 bytes)
 F 0xA1CD 2
 D 0xA1CF 0xA1D5 caminos_de_la_sala_0  la tabla de caminos de la sala 0, 1: una palabra por actor (3 actores en 0x9560), al registro de su camino; lo leen p00:59E4 (6 bytes)
 F 0xA1CF w4
