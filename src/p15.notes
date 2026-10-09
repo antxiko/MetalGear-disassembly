@@ -533,3 +533,28 @@ D 0xBD52 0xBD62 rotulo_BD52  rotulo con posicion de la pantalla de guardar y car
 D 0xBFA7 0xC000 relleno_ff  89 bytes a 0xFF hasta el final del banco: relleno; lo leen nadie (89 bytes)
 F 0xBFA7 16
 # --- fin de los bloques de bloques.py ---
+
+# --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---
+C 0xBD6A guarda la sala
+C 0xBD7F guarda el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
+C 0xBD84 guarda la X de Snake
+C 0xBD87 guarda la Y de Snake
+C 0xBD8C guarda la frecuencia del transceptor (BCD)
+C 0xBDA8 guarda la pose de Snake
+C 0xBE09 lee la cuenta de cuadros
+C 0xBE0F apunta a la frecuencia del transceptor (BCD)
+C 0xBE1A lee la frecuencia del transceptor (BCD)
+C 0xBE26 guarda la barra de senal del transceptor (0-12)
+C 0xBE29 guarda el paso del modo
+C 0xBE36 lee el paso del modo
+C 0xBEC5 lee el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
+C 0xBECB lee la cuenta de cuadros
+C 0xBED5 guarda la pose de Snake
+C 0xBED8 lee la X de Snake (16 bits)
+C 0xBEDF guarda la X de Snake (16 bits)
+C 0xBF22 lee el objeto elegido (p06:B8F6: 3 LIGHT, 4 GOGGL, 6 CIGAL, 0x0E-0x15 CARD1-8, 0x16 RATIO, 0x19 BOX...)
+C 0xBF28 lee la bandera 0xC602 (refuerzos y musica)
+C 0xBF2D lee la sala
+C 0xBF3A apunta a los 16 actores (fichas de 0x80)
+C 0xBF6E apunta a los 16 actores (fichas de 0x80)
+# --- fin de las anotaciones de anota.py ---

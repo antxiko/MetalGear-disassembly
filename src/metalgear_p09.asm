@@ -223,8 +223,8 @@ L_AD69:
 	ld b,a			;ad6c
 	djnz L_AD85		;ad6d
 	xor a			;ad6f
-	ld (0c151h),a		;ad70
-	ld a,(0c007h)		;ad73
+	ld (0c151h),a		;ad70   ; guarda el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
+	ld a,(0c007h)		;ad73   ; lee las teclas que hay
 	and 00ch		;ad76
 	jr z,L_AD81		;ad78
 	and 004h		;ad7a
@@ -232,34 +232,34 @@ L_AD69:
 	jr z,L_AD81		;ad7e
 	inc a			;ad80
 L_AD81:
-	ld (0c18ch),a		;ad81
+	ld (0c18ch),a		;ad81   ; guarda la direccion de las teclas
 	ret			;ad84
 L_AD85:
 	djnz L_AD93		;ad85
 	ld a,(0c195h)		;ad87
-	ld (0c133h),a		;ad8a
+	ld (0c133h),a		;ad8a   ; guarda el lado por el que se sale (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
 	ld a,001h		;ad8d
-	ld (0c151h),a		;ad8f
+	ld (0c151h),a		;ad8f   ; guarda el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
 	ret			;ad92
 L_AD93:
 	call 040b9h		;ad93
-	ld a,(0c130h)		;ad96
+	ld a,(0c130h)		;ad96   ; lee la sala
 	ld b,a			;ad99
-	ld a,(0c007h)		;ad9a
+	ld a,(0c007h)		;ad9a   ; lee las teclas que hay
 	ld d,a			;ad9d
 	ld a,(0c195h)		;ad9e
 	ld hl,0c193h		;ada1
 	dec a			;ada4
 	jr nz,L_ADE2		;ada5
-	ld a,(0c182h)		;ada7
+	ld a,(0c182h)		;ada7   ; lee la Y de Snake
 	dec a			;adaa
-	ld (0c182h),a		;adab
+	ld (0c182h),a		;adab   ; guarda la Y de Snake
 	dec (hl)			;adae
 	ld a,(hl)			;adaf
 	cp 018h		;adb0
 	jr c,L_AE23		;adb2
 	ld c,a			;adb4
-	ld a,(0c130h)		;adb5
+	ld a,(0c130h)		;adb5   ; lee la sala
 	ld b,a			;adb8
 	cp 0f8h		;adb9
 	jr z,L_ADC5		;adbb
@@ -289,9 +289,9 @@ L_ADD7:
 	jr z,L_AE1B		;adde
 	jr L_AE28		;ade0
 L_ADE2:
-	ld a,(0c182h)		;ade2
+	ld a,(0c182h)		;ade2   ; lee la Y de Snake
 	inc a			;ade5
-	ld (0c182h),a		;ade6
+	ld (0c182h),a		;ade6   ; guarda la Y de Snake
 	inc (hl)			;ade9
 	ld a,(hl)			;adea
 	cp 0d0h		;adeb
@@ -422,17 +422,17 @@ L_AEB2:
 	dec (hl)			;aeb5
 	jr z,L_AEC9		;aeb6
 	xor a			;aeb8
-	ld (0c006h),a		;aeb9
+	ld (0c006h),a		;aeb9   ; guarda las teclas nuevas (1 arriba, 2 abajo, 4 izq., 8 der., 0x10, 0x20)
 	ld a,003h		;aebc
-	ld (0c185h),a		;aebe
+	ld (0c185h),a		;aebe   ; guarda la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
 	ld a,004h		;aec1
-	ld (0c007h),a		;aec3
+	ld (0c007h),a		;aec3   ; guarda las teclas que hay
 	jp L_AFA8		;aec6
 L_AEC9:
 	ld a,002h		;aec9
-	ld (0c18bh),a		;aecb
+	ld (0c18bh),a		;aecb   ; guarda el modo de la pose de Snake
 	dec a			;aece
-	ld (0c185h),a		;aecf
+	ld (0c185h),a		;aecf   ; guarda la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
 	ld a,030h		;aed2
 	ld (0c921h),a		;aed4
 	jp L_AF8E		;aed7
@@ -441,25 +441,25 @@ L_AEDA:
 	dec (hl)			;aedd
 	jr z,L_AEEA		;aede
 	xor a			;aee0
-	ld (0c006h),a		;aee1
-	ld (0c007h),a		;aee4
+	ld (0c006h),a		;aee1   ; guarda las teclas nuevas (1 arriba, 2 abajo, 4 izq., 8 der., 0x10, 0x20)
+	ld (0c007h),a		;aee4   ; guarda las teclas que hay
 	jp L_AFA8		;aee7
 L_AEEA:
 	ld a,050h		;aeea
 	ld (0c921h),a		;aeec
 	ld a,004h		;aeef
-	ld (0c18bh),a		;aef1
+	ld (0c18bh),a		;aef1   ; guarda el modo de la pose de Snake
 	dec a			;aef4
-	ld (0c185h),a		;aef5
+	ld (0c185h),a		;aef5   ; guarda la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
 	jp L_AF8E		;aef8
 L_AEFB:
 	ld hl,0c921h		;aefb
 	dec (hl)			;aefe
 	jr z,L_AF0D		;aeff
 	xor a			;af01
-	ld (0c006h),a		;af02
+	ld (0c006h),a		;af02   ; guarda las teclas nuevas (1 arriba, 2 abajo, 4 izq., 8 der., 0x10, 0x20)
 	ld a,004h		;af05
-	ld (0c007h),a		;af07
+	ld (0c007h),a		;af07   ; guarda las teclas que hay
 	jp L_AFA8		;af0a
 L_AF0D:
 	ld a,020h		;af0d
@@ -470,17 +470,17 @@ L_AF14:
 	dec (hl)			;af17
 	jr z,L_AF2A		;af18
 	xor a			;af1a
-	ld (0c006h),a		;af1b
+	ld (0c006h),a		;af1b   ; guarda las teclas nuevas (1 arriba, 2 abajo, 4 izq., 8 der., 0x10, 0x20)
 	ld a,001h		;af1e
-	ld (0c185h),a		;af20
+	ld (0c185h),a		;af20   ; guarda la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
 	ld a,001h		;af23
-	ld (0c007h),a		;af25
+	ld (0c007h),a		;af25   ; guarda las teclas que hay
 	jr L_AFA8		;af28
 L_AF2A:
 	ld a,002h		;af2a
-	ld (0c18bh),a		;af2c
+	ld (0c18bh),a		;af2c   ; guarda el modo de la pose de Snake
 	ld a,004h		;af2f
-	ld (0c185h),a		;af31
+	ld (0c185h),a		;af31   ; guarda la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
 	ld a,040h		;af34
 	ld (0c921h),a		;af36
 	jr L_AF8E		;af39
@@ -504,12 +504,12 @@ L_AF4E:
 	ld a,010h		;af5b
 	ld (0c802h),a		;af5d
 	xor a			;af60
-	ld (0c801h),a		;af61
-	ld (0c153h),a		;af64
+	ld (0c801h),a		;af61   ; guarda la barra de senal del transceptor (0-12)
+	ld (0c153h),a		;af64   ; guarda el paso del modo
 	jr L_AF8E		;af67
 L_AF69:
 	call 04082h		;af69
-	ld a,(0c153h)		;af6c
+	ld a,(0c153h)		;af6c   ; lee el paso del modo
 	dec a			;af6f
 	ret nz			;af70
 	jr L_AF8E		;af71
@@ -524,7 +524,7 @@ L_AF80:
 	ld a,028h		;af83
 	ld (0c921h),a		;af85
 	ld hl,00200h		;af88
-	ld (0c143h),hl		;af8b
+	ld (0c143h),hl		;af8b   ; guarda el modulo de la velocidad de Snake y el byte siguiente (16 bits)
 L_AF8E:
 	ld hl,0c920h		;af8e
 	inc (hl)			;af91
@@ -534,11 +534,11 @@ L_AF95:
 	dec (hl)			;af98
 	jr z,L_AFB4		;af99
 	xor a			;af9b
-	ld (0c006h),a		;af9c
+	ld (0c006h),a		;af9c   ; guarda las teclas nuevas (1 arriba, 2 abajo, 4 izq., 8 der., 0x10, 0x20)
 	ld a,004h		;af9f
-	ld (0c185h),a		;afa1
+	ld (0c185h),a		;afa1   ; guarda la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
 	rlca			;afa4
-	ld (0c007h),a		;afa5
+	ld (0c007h),a		;afa5   ; guarda las teclas que hay
 L_AFA8:
 	call 04064h		;afa8
 	call 0406eh		;afab
@@ -554,20 +554,20 @@ L_AFBB:
 	dec (hl)			;afbe
 	jr z,L_AFCE		;afbf
 	xor a			;afc1
-	ld (0c006h),a		;afc2
+	ld (0c006h),a		;afc2   ; guarda las teclas nuevas (1 arriba, 2 abajo, 4 izq., 8 der., 0x10, 0x20)
 	inc a			;afc5
-	ld (0c185h),a		;afc6
-	ld (0c007h),a		;afc9
+	ld (0c185h),a		;afc6   ; guarda la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
+	ld (0c007h),a		;afc9   ; guarda las teclas que hay
 	jr L_AFA8		;afcc
 L_AFCE:
 	ld hl,08800h		;afce
-	ld (0c181h),hl		;afd1
+	ld (0c181h),hl		;afd1   ; guarda la Y de Snake (16 bits)
 	ld h,001h		;afd4
-	ld (0c143h),hl		;afd6
+	ld (0c143h),hl		;afd6   ; guarda el modulo de la velocidad de Snake y el byte siguiente (16 bits)
 	ld a,h			;afd9
-	ld (0c185h),a		;afda
+	ld (0c185h),a		;afda   ; guarda la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
 	ld a,005h		;afdd
-	ld (0c18bh),a		;afdf
+	ld (0c18bh),a		;afdf   ; guarda el modo de la pose de Snake
 	ld a,01ch		;afe2
 	ld (0c921h),a		;afe4
 	jr L_AF8E		;afe7
@@ -576,19 +576,19 @@ L_AFE9:
 	dec (hl)			;afec
 	jr z,L_AFFF		;afed
 	xor a			;afef
-	ld (0c006h),a		;aff0
+	ld (0c006h),a		;aff0   ; guarda las teclas nuevas (1 arriba, 2 abajo, 4 izq., 8 der., 0x10, 0x20)
 	inc a			;aff3
-	ld (0c185h),a		;aff4
-	ld (0c007h),a		;aff7
+	ld (0c185h),a		;aff4   ; guarda la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
+	ld (0c007h),a		;aff7   ; guarda las teclas que hay
 	call 04069h		;affa
 	jr L_AFAE		;affd
 L_AFFF:
 	ld hl,06600h		;afff
-	ld (0c181h),hl		;b002
+	ld (0c181h),hl		;b002   ; guarda la Y de Snake (16 bits)
 	xor a			;b005
-	ld (0c18bh),a		;b006
+	ld (0c18bh),a		;b006   ; guarda el modo de la pose de Snake
 	inc a			;b009
-	ld (0c185h),a		;b00a
+	ld (0c185h),a		;b00a   ; guarda la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
 	ld (0c18eh),a		;b00d
 	ld a,00ch		;b010
 	ld (0c921h),a		;b012
@@ -598,10 +598,10 @@ L_B018:
 	dec (hl)			;b01b
 	jp z,L_AF8E		;b01c
 	xor a			;b01f
-	ld (0c007h),a		;b020
-	ld (0c006h),a		;b023
+	ld (0c007h),a		;b020   ; guarda las teclas que hay
+	ld (0c006h),a		;b023   ; guarda las teclas nuevas (1 arriba, 2 abajo, 4 izq., 8 der., 0x10, 0x20)
 	inc a			;b026
-	ld (0c185h),a		;b027
+	ld (0c185h),a		;b027   ; guarda la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
 	ld a,(hl)			;b02a
 	bit 0,a		;b02b
 	jp z,04078h		;b02d
@@ -609,15 +609,15 @@ L_B018:
 	call 04050h		;b033
 	ld d,(hl)			;b036
 	ld e,000h		;b037
-	ld hl,(0c181h)		;b039
+	ld hl,(0c181h)		;b039   ; lee la Y de Snake (16 bits)
 	add hl,de			;b03c
-	ld (0c181h),hl		;b03d
+	ld (0c181h),hl		;b03d   ; guarda la Y de Snake (16 bits)
 	jp 04078h		;b040
 L_B043:
 	xor a			;b043
-	ld (0c180h),a		;b044
+	ld (0c180h),a		;b044   ; guarda el estado de Snake
 	ld hl,00200h		;b047
-	ld (0c143h),hl		;b04a
+	ld (0c143h),hl		;b04a   ; guarda el modulo de la velocidad de Snake y el byte siguiente (16 bits)
 	jp 04078h		;b04d
 
 ; ----------------------------------------------------------------------
@@ -650,7 +650,7 @@ L_B05C:
 	ld bc,00106h		;b082
 	call 0408ch		;b085
 	ld hl,0b0aeh		;b088
-	ld de,0e700h		;b08b
+	ld de,0e700h		;b08b   ; apunta a los colores de las fichas
 	ld bc,00004h		;b08e
 	ldir		;b091
 	ld hl,0b47ah		;b093
@@ -948,7 +948,7 @@ DATA_colores_del_titulo:
 
 L_B5B5:
 	ld hl,0b5adh		;b5b5
-	ld de,0e700h		;b5b8
+	ld de,0e700h		;b5b8   ; apunta a los colores de las fichas
 	ld bc,00008h		;b5bb
 	ldir		;b5be
 	ld hl,0b8b9h		;b5c0
@@ -1048,7 +1048,7 @@ L_B670:
 	call 04096h		;b691
 	call 0411dh		;b694
 	call 040aah		;b697
-	ld hl,0c130h		;b69a
+	ld hl,0c130h		;b69a   ; apunta a la sala
 	ld (hl),03ch		;b69d
 	inc hl			;b69f
 	ld (hl),031h		;b6a0
@@ -1074,7 +1074,7 @@ DATA_paleta_del_logotipo_konami:
 
 
 L_B6B6:
-	ld hl,0c130h		;b6b6
+	ld hl,0c130h		;b6b6   ; apunta a la sala
 	dec (hl)			;b6b9
 	ld a,(hl)			;b6ba
 	and 001h		;b6bb
@@ -1264,7 +1264,7 @@ DATA_logotipo_metal_gear:
 
 
 L_BF49:
-	ld a,(0c130h)		;bf49
+	ld a,(0c130h)		;bf49   ; lee la sala
 	ld bc,00006h		;bf4c
 	ld hl,0bf60h		;bf4f
 	cpir		;bf52
@@ -1272,7 +1272,7 @@ L_BF49:
 	ld a,090h		;bf55
 	ld (0c608h),a		;bf57
 	ld a,005h		;bf5a
-	ld (0c151h),a		;bf5c
+	ld (0c151h),a		;bf5c   ; guarda el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
 	ret			;bf5f
 
 ; ----------------------------------------------------------------------
@@ -1333,13 +1333,13 @@ L_BFA1:
 	ld a,028h		;bfa1
 	call 0405ah		;bfa3
 	xor a			;bfa6
-	ld (0c151h),a		;bfa7
+	ld (0c151h),a		;bfa7   ; guarda el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
 L_BFAA:
 	ld b,a			;bfaa
 	ld c,017h		;bfab
 	jp 00047h		;bfad   ; BIOS WRTVDP - Writes data in the VDP-register
 L_BFB0:
-	ld a,(0c130h)		;bfb0
+	ld a,(0c130h)		;bfb0   ; lee la sala
 	ld c,a			;bfb3
 	cp 085h		;bfb4
 	jr nz,L_BFC8		;bfb6
@@ -1349,7 +1349,7 @@ L_BFB0:
 	ld a,002h		;bfbd
 	ld (0c608h),a		;bfbf
 	ld a,00ch		;bfc2
-	ld (0c151h),a		;bfc4
+	ld (0c151h),a		;bfc4   ; guarda el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
 	ret			;bfc7
 L_BFC8:
 	ld a,c			;bfc8
@@ -1367,7 +1367,7 @@ L_BFD1:
 	dec a			;bfdb
 	ret z			;bfdc
 	xor a			;bfdd
-	ld (0c151h),a		;bfde
+	ld (0c151h),a		;bfde   ; guarda el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
 	inc a			;bfe1
 	ld (0c660h),a		;bfe2
 	ret			;bfe5

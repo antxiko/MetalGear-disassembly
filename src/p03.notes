@@ -51,3 +51,332 @@ F 0xBDA8 w6
 D 0xBFAF 0xC000 relleno_ff  81 bytes a 0xFF hasta el final del banco: relleno; lo leen nadie (81 bytes)
 F 0xBFAF 16
 # --- fin de los bloques de bloques.py ---
+
+# --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---
+L 0xA04A crea_tipo_54 la creacion del tipo 54
+L 0xA072 cuadro_tipo_54 lo de cada cuadro del tipo 54
+L 0xA0D6 crea_tipo_64 la creacion del tipo 64
+L 0xA0E8 cuadro_tipo_64 lo de cada cuadro del tipo 64
+L 0xA1F5 crea_tipo_44 la creacion del tipo 44
+L 0xA202 cuadro_tipo_44 lo de cada cuadro del tipo 44
+L 0xA24C cuadro_tipo_36 lo de cada cuadro del tipo 36
+L 0xA4A2 crea_tipo_36 la creacion del tipo 36
+L 0xA4DD crea_tipo_37 la creacion del tipo 37
+L 0xA502 cuadro_tipo_37 lo de cada cuadro del tipo 37
+L 0xA549 cuadro_tipo_1 lo de cada cuadro del tipo 1
+L 0xA5F4 crea_tipo_1 la creacion del tipo 1
+L 0xA604 cuadro_tipo_16 lo de cada cuadro del tipo 16
+L 0xA6BC crea_tipo_16 la creacion del tipo 16
+L 0xA749 crea_tipo_10 la creacion del tipo 10
+L 0xA7BB cuadro_tipo_10 lo de cada cuadro del tipo 10
+L 0xA9BF crea_tipo_47 la creacion del tipo 47
+L 0xA9D7 crea_tipo_19 la creacion del tipo 19
+L 0xAA3C cuadro_tipo_19 lo de cada cuadro del tipo 19
+L 0xAB08 crea_tipo_14 la creacion del tipo 14
+L 0xAB5C cuadro_tipo_14 lo de cada cuadro del tipo 14
+L 0xACC3 crea_tipo_13 la creacion del tipo 13
+L 0xAD40 cuadro_tipo_13 lo de cada cuadro del tipo 13
+L 0xAE00 crea_tipo_58 la creacion del tipo 58
+L 0xAE1A crea_tipo_59 la creacion del tipo 59
+L 0xAE46 crea_tipo_57 la creacion del tipo 57
+L 0xAE7F cuadro_tipo_57 lo de cada cuadro del tipo 57
+L 0xAF52 crea_tipo_7 la creacion del tipo 7
+L 0xAFC4 crea_tipo_20 la creacion del tipo 20
+L 0xB00F cuadro_tipo_20 lo de cada cuadro del tipo 20
+L 0xB038 crea_tipo_21 la creacion del tipo 21
+L 0xB053 cuadro_tipo_21 lo de cada cuadro del tipo 21
+L 0xB091 crea_tipo_22 la creacion del tipo 22
+L 0xB0B8 cuadro_tipo_22 lo de cada cuadro del tipo 22
+L 0xB132 crea_tipo_31 la creacion del tipo 31
+L 0xB146 cuadro_tipo_31 lo de cada cuadro del tipo 31
+L 0xB1F6 cuadro_tipo_18 lo de cada cuadro del tipo 18
+L 0xB248 crea_tipo_18 la creacion del tipo 18
+L 0xB278 crea_tipo_24 la creacion del tipo 24
+L 0xB290 cuadro_tipo_24 lo de cada cuadro del tipo 24
+L 0xB3D8 crea_tipo_27 la creacion del tipo 27
+L 0xB42C cuadro_tipo_27 lo de cada cuadro del tipo 27
+L 0xB58B crea_tipo_29 la creacion del tipo 29
+L 0xB5A4 cuadro_tipo_29 lo de cada cuadro del tipo 29
+L 0xB5C0 crea_tipo_33 la creacion del tipo 33
+L 0xB5F0 cuadro_tipo_33 lo de cada cuadro del tipo 33
+L 0xB693 crea_tipo_43 la creacion del tipo 43
+L 0xB6AF cuadro_tipo_43 lo de cada cuadro del tipo 43
+L 0xB6D4 crea_tipo_34 la creacion del tipo 34
+L 0xB6E5 cuadro_tipo_34 lo de cada cuadro del tipo 34
+L 0xB80E crea_tipo_60 la creacion del tipo 60
+L 0xB81B cuadro_tipo_60 lo de cada cuadro del tipo 60
+L 0xB843 crea_tipo_38 la creacion del tipo 38
+L 0xB871 cuadro_tipo_38 lo de cada cuadro del tipo 38
+L 0xB8C5 cuadro_tipo_23 lo de cada cuadro del tipo 23
+L 0xB8D2 crea_tipo_61 la creacion del tipo 61
+L 0xB8E5 crea_tipo_39 la creacion del tipo 39
+L 0xB8F5 cuadro_tipo_39 lo de cada cuadro del tipo 39
+L 0xB933 crea_tipo_12 la creacion del tipo 12
+L 0xB959 cuadro_tipo_12 lo de cada cuadro del tipo 12
+L 0xB97D cuadro_tipo_65 lo de cada cuadro del tipo 65
+L 0xB9B1 crea_tipo_9 la creacion del tipo 9
+L 0xB9F4 cuadro_tipo_9 lo de cada cuadro del tipo 9
+L 0xBB10 crea_tipo_23 la creacion del tipo 23
+L 0xBB28 crea_tipo_62 la creacion del tipo 62
+L 0xBB33 cuadro_tipo_62 lo de cada cuadro del tipo 62
+L 0xBB51 crea_tipo_26 la creacion del tipo 26
+L 0xBB75 cuadro_tipo_26 lo de cada cuadro del tipo 26
+L 0xBCA9 crea_tipo_28 la creacion del tipo 28
+L 0xBCD3 cuadro_tipo_28 lo de cada cuadro del tipo 28
+L 0xBD8D crea_tipo_32 la creacion del tipo 32
+L 0xBDA2 cuadro_tipo_32 lo de cada cuadro del tipo 32
+L 0xBF79 crea_tipo_40 la creacion del tipo 40
+L 0xBF90 cuadro_tipo_40 lo de cada cuadro del tipo 40
+C 0xA00D hl_mas_2a: HL = HL + 2 x A
+C 0xA026 velocidad_x: la velocidad X del actor (ix+9, ix+0x0A) = DE
+C 0xA029 lee la X de Snake
+C 0xA042 velocidad_x: la velocidad X del actor (ix+9, ix+0x0A) = DE
+C 0xA04A lee la sala
+C 0xA06F sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
+C 0xA075 despacha: salta a la palabra A de la tabla que va pegada detras del `call`
+C 0xA093 paso_siguiente: sube el paso del actor (ix+1)
+C 0xA0E8 lee la bandera 0xC602 (refuerzos y musica)
+C 0xA0F7 cuadro_de_paso: si (ix+0x0C) AND B es 0, cuadro = 3 x direccion + paso (0x5B9E) + C
+C 0xA0FA lee la sala
+C 0xA126 colores_a_cero: escribe A y C alternos cada 5 bytes desde (ix+0x25)
+C 0xA190 lee la parada del ascensor
+C 0xA1AC colores_a_cero: escribe A y C alternos cada 5 bytes desde (ix+0x25)
+C 0xA1D0 copia_logica: LMMM: copia B x C de (H, L) a (D, E); A = [pagina origen 7-6][pagina destino 5-4][operacion 3-0]
+C 0xA1D8 apunta a los 16 actores (fichas de 0x80)
+C 0xA221 lee la sala
+C 0xA231 color: el color A de la paleta = DE ([RB][G]), y su copia en 0xF680
+C 0xA24F despacha: salta a la palabra A de la tabla que va pegada detras del `call`
+C 0xA267 ventana_de_texto_1: abre la ventana del texto A en el modo 1 (0xCEE0)
+C 0xA26A apunta a los 16 actores (fichas de 0x80)
+C 0xA29C lee la X de Snake
+C 0xA2B1 velocidad_x: la velocidad X del actor (ix+9, ix+0x0A) = DE
+C 0xA2B6 alterna_cuadro: si (ix+0x0C) AND B es 0, cambia el bit 0 del cuadro
+C 0xA2EE velocidades: la velocidad X del actor = DE y la Y = HL
+C 0xA2F9 guarda la casilla de trabajo 0xEC00 y el byte siguiente (16 bits)
+C 0xA300 lee la casilla de trabajo 0xEC00 y el byte siguiente (16 bits)
+C 0xA303 hl_mas_a: HL = HL + A
+C 0xA31B lee la casilla de trabajo 0xEC00 y el byte siguiente (16 bits)
+C 0xA39E pareja_del_angulo: C y B = los bytes (ix+0x14) y 63 - (ix+0x14) de la tabla p06:A6B9
+C 0xA44A hl_mas_a: HL = HL + A
+C 0xA46B paso_a: el paso del actor (ix+1) = A
+C 0xA49F velocidad_x: la velocidad X del actor (ix+9, ix+0x0A) = DE
+C 0xA4AE cuenta_tipo: A = cuantos actores del tipo A hay
+C 0xA4E6 cuenta_tipo: A = cuantos actores del tipo A hay
+C 0xA4FF velocidades: la velocidad X del actor = DE y la Y = HL
+C 0xA506 borra_actor: el tipo y (ix+0x0E) a cero y sus sprites escondidos
+C 0xA50B cuenta_tipo: A = cuantos actores del tipo A hay
+C 0xA514 alterna_cuadro: si (ix+0x0C) AND B es 0, cambia el bit 0 del cuadro
+C 0xA550 apunta a los 16 actores (fichas de 0x80)
+C 0xA5AD paso_siguiente: sube el paso del actor (ix+1)
+C 0xA5D4 de_negado: DE = -DE
+C 0xA631 sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
+C 0xA634 paso_siguiente: sube el paso del actor (ix+1)
+C 0xA671 copia_vram: HMMM: copia B x C de (H, L) a (D, E); A = paginas (bits 0-1 origen, 2-3 destino)
+C 0xA684 copia_vram: HMMM: copia B x C de (H, L) a (D, E); A = paginas (bits 0-1 origen, 2-3 destino)
+C 0xA695 copia_vram: HMMM: copia B x C de (H, L) a (D, E); A = paginas (bits 0-1 origen, 2-3 destino)
+C 0xA6AC copia_vram: HMMM: copia B x C de (H, L) a (D, E); A = paginas (bits 0-1 origen, 2-3 destino)
+C 0xA6C1 c_colores: copia C colores de HL a 0xE700
+C 0xA6D3 lee la sala
+C 0xA6FC guarda la casilla de trabajo 0xEC00
+C 0xA701 apunta a los 16 actores (fichas de 0x80)
+C 0xA714 apunta a la casilla de trabajo 0xEC00
+C 0xA746 copia_vram: HMMM: copia B x C de (H, L) a (D, E); A = paginas (bits 0-1 origen, 2-3 destino)
+C 0xA74D lee la bandera 0xC602 (refuerzos y musica)
+C 0xA753 lee la sala
+C 0xA797 lee la sala
+C 0xA7B7 guarda la cuenta de los refuerzos y el byte siguiente (16 bits)
+C 0xA7C1 despacha: salta a la palabra A de la tabla que va pegada detras del `call`
+C 0xA82D crea_actor: crea un actor del tipo C en Y = E, X = D en la primera ficha libre de 0xD000; HL = la ficha, A = 0 si no cabe
+C 0xA8F0 lee la bandera 0xC602 (refuerzos y musica)
+C 0xA8F5 pon_c602: 0xC602 = 1, 0xC604 = la sala, 0xC606 y la musica 0x32 (0x2F si la pone un actor del tipo 6 o 0x23)
+C 0xA8FE palabra_a: DE = la palabra A de la tabla DE
+C 0xA948 lee la X de Snake
+C 0xA954 lee la Y de Snake
+C 0xA97D lee la sala
+C 0xA9CC hacia_snake_a: HL y DE = la velocidad de IX hacia Snake con el modulo A (+ 8 x 0xC152)
+C 0xA9CF velocidades: la velocidad X del actor = DE y la Y = HL
+C 0xA9D4 sonido: pide el sonido A al controlador del banco 4 (0x67FD) con los bancos 4 y 5
+C 0xA9D9 cuenta_tipo: A = cuantos actores del tipo A hay
+C 0xA9DF cuenta_tipo: A = cuantos actores del tipo A hay
+C 0xA9EE camino_b: el camino B de la sala (p06:A2DF) para IX, con los arreglos de algunas salas (p03:A10C-A17B)
+C 0xA9F1 lee la sala
+C 0xAA02 lee la sala
+C 0xAA25 lee las banderas del juego (bit 6: se juega; en la demo no)
+C 0xAA46 lee la sala
+C 0xAA67 colores_del_tipo: copia los colores del tipo A (p05:975A) a la ficha IX, uno cada 5 bytes desde (ix+0x25)
+C 0xAA74 velocidades: la velocidad X del actor = DE y la Y = HL
+C 0xAA97 cuadro_tipo_4: lo de cada cuadro del tipo 4
+C 0xAA9A lee la bandera 0xC602 (refuerzos y musica)
+C 0xAA9E reaparece: crea en IX el actor de p06:A445 de la sala (salas < 0xBC)
+C 0xAAC5 hacia_el_punto: direccion (ix+0x11) y velocidades hacia el punto (ix+0x15, ix+0x16) con la marcha (ix+0x43)
+C 0xAACE velocidades: la velocidad X del actor = DE y la Y = HL
+C 0xAADF lee la sala
+C 0xAB05 paso_cero: el paso del actor (ix+1) a cero
+C 0xAB0F lee la parada del ascensor
+C 0xAB63 lee la bandera 0xC602 (refuerzos y musica)
+C 0xAB67 reaparece: crea en IX el actor de p06:A445 de la sala (salas < 0xBC)
+C 0xAB6D despacha: salta a la palabra A de la tabla que va pegada detras del `call`
+C 0xAB7A lee la Y de Snake
+C 0xAB9B crea_actor: crea un actor del tipo C en Y = E, X = D en la primera ficha libre de 0xD000; HL = la ficha, A = 0 si no cabe
+C 0xABBF lee la Y de Snake
+C 0xABE6 ventana_de_texto_2: abre la ventana del texto A en el modo 2 (0xCEE0)
+C 0xABEC lee la X de Snake
+C 0xAC1A lee la bandera 0xC602 (refuerzos y musica)
+C 0xAC21 pon_c602_con_cuenta: 0xC605 = A y pon_c602
+C 0xAC56 copia_vram: HMMM: copia B x C de (H, L) a (D, E); A = paginas (bits 0-1 origen, 2-3 destino)
+C 0xAC60 copia_logica: LMMM: copia B x C de (H, L) a (D, E); A = [pagina origen 7-6][pagina destino 5-4][operacion 3-0]
+C 0xAC8F lee la Y de Snake
+C 0xAC95 lee la X de Snake
+C 0xACA9 reaparece: crea en IX el actor de p06:A445 de la sala (salas < 0xBC)
+C 0xACCB lee la sala
+C 0xACD2 apunta a la bandera 0xC602 (refuerzos y musica)
+C 0xACDA guarda la cuenta de los refuerzos y el byte siguiente (16 bits)
+C 0xACE4 lee la Y de Snake
+C 0xACFE lee la Y de Snake
+C 0xAD1D lee la Y de Snake
+C 0xAD40 lee la Y de Snake
+C 0xAD4C pon_tipo: pone el tipo A en IX y lo prepara (p03:B3F8, p02:8334, p03:A923, colores)
+C 0xAD52 despacha: salta a la palabra A de la tabla que va pegada detras del `call`
+C 0xAD66 pon_tipo: pone el tipo A en IX y lo prepara (p03:B3F8, p02:8334, p03:A923, colores)
+C 0xAE32 velocidades: la velocidad X del actor = DE y la Y = HL
+C 0xAE43 sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
+C 0xAE4F guarda la musica que suena
+C 0xAE52 sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
+C 0xAE83 cuadro_tipo_10: lo de cada cuadro del tipo 10
+C 0xAE8C despacha: salta a la palabra A de la tabla que va pegada detras del `call`
+C 0xAF30 lee la Y de Snake
+C 0xAF3D lee la X de Snake
+C 0xAF4F pon_tipo: pone el tipo A en IX y lo prepara (p03:B3F8, p02:8334, p03:A923, colores)
+C 0xAF54 cuenta_tipo: A = cuantos actores del tipo A hay
+C 0xAF6C copia_logica: LMMM: copia B x C de (H, L) a (D, E); A = [pagina origen 7-6][pagina destino 5-4][operacion 3-0]
+C 0xAF6F lee el objeto elegido (p06:B8F6: 3 LIGHT, 4 GOGGL, 6 CIGAL, 0x0E-0x15 CARD1-8, 0x16 RATIO, 0x19 BOX...)
+C 0xAF89 copia_logica: LMMM: copia B x C de (H, L) a (D, E); A = [pagina origen 7-6][pagina destino 5-4][operacion 3-0]
+C 0xAF9C lee el objeto elegido (p06:B8F6: 3 LIGHT, 4 GOGGL, 6 CIGAL, 0x0E-0x15 CARD1-8, 0x16 RATIO, 0x19 BOX...)
+C 0xAFA2 apunta a los 16 actores (fichas de 0x80)
+C 0xAFA8 lee el tipo del actor
+C 0xB038 lee la parada del ascensor
+C 0xB068 lee la bandera 0xC602 (refuerzos y musica)
+C 0xB06F pon_c602_con_cuenta: 0xC605 = A y pon_c602
+C 0xB07A sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
+C 0xB082 crea_actor: crea un actor del tipo C en Y = E, X = D en la primera ficha libre de 0xD000; HL = la ficha, A = 0 si no cabe
+C 0xB0AE lee la bandera 0xC602 (refuerzos y musica)
+C 0xB0B5 pon_c602_con_cuenta: 0xC605 = A y pon_c602
+C 0xB13C apunta a la cuenta de cuadros
+C 0xB149 despacha: salta a la palabra A de la tabla que va pegada detras del `call`
+C 0xB17E hacia_snake: HL y DE = la velocidad de IX hacia Snake con el modulo 0x80 (+ 8 x 0xC152)
+C 0xB181 velocidades: la velocidad X del actor = DE y la Y = HL
+C 0xB1D4 palabra_a: DE = la palabra A de la tabla DE
+C 0xB201 despacha: salta a la palabra A de la tabla que va pegada detras del `call`
+C 0xB226 velocidad_y: la velocidad Y del actor (ix+7, ix+8) = DE
+C 0xB22D paso_siguiente: sube el paso del actor (ix+1)
+C 0xB245 velocidad_y: la velocidad Y del actor (ix+7, ix+8) = DE
+C 0xB24C quita_actor: quita al actor: banderas por tipo (0xA0, 0x9A, 0xA9, 0xA4, 0xA1, 0xA2, 0xB9, 0x12, 0x2C), objeto y musica
+C 0xB269 velocidades: la velocidad X del actor = DE y la Y = HL
+C 0xB274 musica_de_la_sala: 0xC602 a cero y elige la musica de la sala (0xC159, 0xC0F4) y 0xC15F
+C 0xB278 lee la parada del ascensor
+C 0xB293 despacha: salta a la palabra A de la tabla que va pegada detras del `call`
+C 0xB2A4 lee la bandera 0xC602 (refuerzos y musica)
+C 0xB2DB lee la bandera 0xC602 (refuerzos y musica)
+C 0xB304 lee la X de Snake
+C 0xB30D lee la X de Snake
+C 0xB319 lee la Y de Snake
+C 0xB31E lee el modo de la pose de Snake
+C 0xB325 apunta a la velocidad Y de Snake
+C 0xB32D apunta a la velocidad X de Snake
+C 0xB337 pon_c602_con_cuenta: 0xC605 = A y pon_c602
+C 0xB36B sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
+C 0xB373 crea_actor: crea un actor del tipo C en Y = E, X = D en la primera ficha libre de 0xD000; HL = la ficha, A = 0 si no cabe
+C 0xB3A6 lee la Y de Snake
+C 0xB3DA cuenta_tipo: A = cuantos actores del tipo A hay
+C 0xB3FD velocidades: la velocidad X del actor = DE y la Y = HL
+C 0xB403 lee el lado por el que se sale (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
+C 0xB40B lee la Y de Snake
+C 0xB429 velocidades: la velocidad X del actor = DE y la Y = HL
+C 0xB43F despacha: salta a la palabra A de la tabla que va pegada detras del `call`
+C 0xB451 sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
+C 0xB45E lee la X de Snake
+C 0xB476 alterna_cuadro: si (ix+0x0C) AND B es 0, cambia el bit 0 del cuadro
+C 0xB480 paso_siguiente: sube el paso del actor (ix+1)
+C 0xB48F alterna_cuadro: si (ix+0x0C) AND B es 0, cambia el bit 0 del cuadro
+C 0xB4E3 apunta a los colores de las fichas
+C 0xB526 velocidades: la velocidad X del actor = DE y la Y = HL
+C 0xB54A sitio_de_snake: E = la Y de Snake, D = la X
+C 0xB56F paso_siguiente: sube el paso del actor (ix+1)
+C 0xB588 paso_siguiente: sube el paso del actor (ix+1)
+C 0xB58B sitio_de_snake: E = la Y de Snake, D = la X
+C 0xB5BD crea_actor: crea un actor del tipo C en Y = E, X = D en la primera ficha libre de 0xD000; HL = la ficha, A = 0 si no cabe
+C 0xB5C5 quita_actor: quita al actor: banderas por tipo (0xA0, 0x9A, 0xA9, 0xA4, 0xA1, 0xA2, 0xB9, 0x12, 0x2C), objeto y musica
+C 0xB5D3 lee la X de Snake
+C 0xB5F3 despacha: salta a la palabra A de la tabla que va pegada detras del `call`
+C 0xB60B ventana_de_texto_2: abre la ventana del texto A en el modo 2 (0xCEE0)
+C 0xB646 lee la Y de Snake
+C 0xB64D lee la X de Snake
+C 0xB65E lee la X de Snake
+C 0xB687 hl_mas_a: HL = HL + A
+C 0xB6A4 hacia_snake_a: HL y DE = la velocidad de IX hacia Snake con el modulo A (+ 8 x 0xC152)
+C 0xB6A7 velocidades: la velocidad X del actor = DE y la Y = HL
+C 0xB6AC sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
+C 0xB6D9 quita_actor: quita al actor: banderas por tipo (0xA0, 0x9A, 0xA9, 0xA4, 0xA1, 0xA2, 0xB9, 0x12, 0x2C), objeto y musica
+C 0xB6E8 despacha: salta a la palabra A de la tabla que va pegada detras del `call`
+C 0xB704 ventana_de_texto_2: abre la ventana del texto A en el modo 2 (0xCEE0)
+C 0xB738 lee la X de Snake
+C 0xB743 lee la X de Snake
+C 0xB77B lee la X de Snake
+C 0xB7CA lee la X de Snake
+C 0xB840 sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
+C 0xB847 quita_actor: quita al actor: banderas por tipo (0xA0, 0x9A, 0xA9, 0xA4, 0xA1, 0xA2, 0xB9, 0x12, 0x2C), objeto y musica
+C 0xB862 lee los 16 actores (fichas de 0x80)
+C 0xB86E pone_dibujo: pone un dibujo del banco 15 ([filas][columnas] y fichas) en la sala, en D/E
+C 0xB88B sonido: pide el sonido A al controlador del banco 4 (0x67FD) con los bancos 4 y 5
+C 0xB8A9 crea_actor: crea un actor del tipo C en Y = E, X = D en la primera ficha libre de 0xD000; HL = la ficha, A = 0 si no cabe
+C 0xB8CC pone_dibujo: pone un dibujo del banco 15 ([filas][columnas] y fichas) en la sala, en D/E
+C 0xB8CF quita_actor: quita al actor: banderas por tipo (0xA0, 0x9A, 0xA9, 0xA4, 0xA1, 0xA2, 0xB9, 0x12, 0x2C), objeto y musica
+C 0xB8DF hacia_snake_a: HL y DE = la velocidad de IX hacia Snake con el modulo A (+ 8 x 0xC152)
+C 0xB8E2 velocidades: la velocidad X del actor = DE y la Y = HL
+C 0xB8E9 quita_actor: quita al actor: banderas por tipo (0xA0, 0x9A, 0xA9, 0xA4, 0xA1, 0xA2, 0xB9, 0x12, 0x2C), objeto y musica
+C 0xB909 sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
+C 0xB919 lee la X de Snake
+C 0xB930 crea_actor: crea un actor del tipo C en Y = E, X = D en la primera ficha libre de 0xD000; HL = la ficha, A = 0 si no cabe
+C 0xB941 apunta a la cuenta de cuadros
+C 0xB965 suma_velocidad_x: la velocidad X del actor (ix+9, ix+0x0A) += DE
+C 0xB97A sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
+C 0xB99B palabra_a: DE = la palabra A de la tabla DE
+C 0xB9B5 quita_actor: quita al actor: banderas por tipo (0xA0, 0x9A, 0xA9, 0xA4, 0xA1, 0xA2, 0xB9, 0x12, 0x2C), objeto y musica
+C 0xB9E6 lee el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
+C 0xB9EE guarda la musica que suena
+C 0xB9F1 sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
+C 0xB9FD lee la X de Snake
+C 0xBA15 crea_actor: crea un actor del tipo C en Y = E, X = D en la primera ficha libre de 0xD000; HL = la ficha, A = 0 si no cabe
+C 0xBA69 crea_actor: crea un actor del tipo C en Y = E, X = D en la primera ficha libre de 0xD000; HL = la ficha, A = 0 si no cabe
+C 0xBAB4 despacha: salta a la palabra A de la tabla que va pegada detras del `call`
+C 0xBB25 sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
+C 0xBB4E sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
+C 0xBB55 quita_actor: quita al actor: banderas por tipo (0xA0, 0x9A, 0xA9, 0xA4, 0xA1, 0xA2, 0xB9, 0x12, 0x2C), objeto y musica
+C 0xBB80 despacha: salta a la palabra A de la tabla que va pegada detras del `call`
+C 0xBB8B lee la Y de Snake
+C 0xBB9E lee la X de Snake
+C 0xBBC9 lee la Y de Snake
+C 0xBC05 lee la Y de Snake
+C 0xBC34 lee la X de Snake
+C 0xBCA9 colores_a_cero: escribe A y C alternos cada 5 bytes desde (ix+0x25)
+C 0xBCB8 lee el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
+C 0xBCC1 guarda la musica que suena
+C 0xBCC4 sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
+C 0xBCD6 despacha: salta a la palabra A de la tabla que va pegada detras del `call`
+C 0xBD22 colores_a_cero: escribe A y C alternos cada 5 bytes desde (ix+0x25)
+C 0xBD73 colores_a_cero: escribe A y C alternos cada 5 bytes desde (ix+0x25)
+C 0xBD92 quita_actor: quita al actor: banderas por tipo (0xA0, 0x9A, 0xA9, 0xA4, 0xA1, 0xA2, 0xB9, 0x12, 0x2C), objeto y musica
+C 0xBDA5 despacha: salta a la palabra A de la tabla que va pegada detras del `call`
+C 0xBDC9 ventana_de_texto_1: abre la ventana del texto A en el modo 1 (0xCEE0)
+C 0xBE9D lee la X de Snake
+C 0xBEBC lee la Y de Snake
+C 0xBECE lee la X de Snake
+C 0xBEDB lee la Y de Snake
+C 0xBF3D lee la X de Snake
+C 0xBF48 lee la Y de Snake
+C 0xBF58 lee la X de Snake
+C 0xBF60 lee la Y de Snake
+C 0xBF7D lee la parada del ascensor
+C 0xBF90 lee la bandera 0xC602 (refuerzos y musica)
+C 0xBFAC crea_actor: crea un actor del tipo C en Y = E, X = D en la primera ficha libre de 0xD000; HL = la ficha, A = 0 si no cabe
+# --- fin de las anotaciones de anota.py ---

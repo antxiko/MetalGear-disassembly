@@ -96,3 +96,9 @@ D 0x7ACB 0x7CAB sonido_35_7ACB  canal del sonido 0x35 (palabra 53 del indice): c
 D 0x7CAB 0x7F25 sonido_3B_7CAB  canal del sonido 0x3B (palabra 59 del indice): comandos del controlador de p04:60B1 hasta 0xFF; lo leen p04:60B1 (634 bytes)
 D 0x7F25 0x8000 sonido_38_7F25  canal del sonido 0x38 (palabra 56 del indice): comandos del controlador de p04:60B1 hasta 0xFF (sigue en el banco 5, en 0x8000); lo leen p04:60B1 (219 bytes)
 # --- fin de los bloques de bloques.py ---
+
+# --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---
+C 0x6019 guarda la musica que suena
+C 0x6086 lee la frecuencia del transceptor (BCD)
+C 0x6095 lee la frecuencia del transceptor (BCD)
+# --- fin de las anotaciones de anota.py ---

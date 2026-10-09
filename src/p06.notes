@@ -429,3 +429,22 @@ D 0xBF16 0xBF22 clave_BF16  una contrasena: caracteres hasta 0xFF que p06:BF55 c
 D 0xBFCC 0xC000 relleno_ff  52 bytes a 0xFF hasta el final del banco: relleno; lo leen nadie (52 bytes)
 F 0xBFCC 16
 # --- fin de los bloques de bloques.py ---
+
+# --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---
+C 0xBBE9 lee la sala
+C 0xBCE1 guarda la frecuencia del transceptor (BCD)
+C 0xBCF5 guarda la barra de senal del transceptor (0-12)
+C 0xBCF8 guarda el paso del modo
+C 0xBCFF guarda la sala
+C 0xBD06 guarda la sala
+C 0xBD0B guarda el arma elegida (p06:B865: 1 HAND GUN, 2 SMG, 3 GRENADE, 4 ROCKET, 5 P.BOMB, 6 L.MINE, 7 MISSILE, 8 SILENCER)
+C 0xBD11 guarda las armas que se llevan (fichas de 4: [arma][municion BCD])
+C 0xBD1F guarda la musica que suena
+C 0xBD32 apunta a la Y de Snake
+C 0xBD52 lee el paso del modo
+C 0xBD62 lee el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
+C 0xBE00 lee la sala
+C 0xBE04 lee la parada del ascensor
+C 0xBE22 apunta a la casilla de trabajo 0xEC00
+C 0xBFAD apunta a los objetos que se llevan (fichas de 4)
+# --- fin de las anotaciones de anota.py ---

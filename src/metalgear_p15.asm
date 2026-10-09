@@ -3571,7 +3571,7 @@ L_BD62:
 	call 040a0h		;bd62
 	call 0409bh		;bd65
 	ld a,0fbh		;bd68
-	ld (0c130h),a		;bd6a
+	ld (0c130h),a		;bd6a   ; guarda la sala
 	call 040fah		;bd6d
 	call 040ffh		;bd70
 	xor a			;bd73
@@ -3579,12 +3579,12 @@ L_BD62:
 	ld hl,00200h		;bd77
 	ld (0c13dh),hl		;bd7a
 	ld a,004h		;bd7d
-	ld (0c151h),a		;bd7f
+	ld (0c151h),a		;bd7f   ; guarda el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
 	ld a,080h		;bd82
-	ld (0c184h),a		;bd84
-	ld (0c182h),a		;bd87
+	ld (0c184h),a		;bd84   ; guarda la X de Snake
+	ld (0c182h),a		;bd87   ; guarda la Y de Snake
 	ld a,013h		;bd8a
-	ld (0c138h),a		;bd8c
+	ld (0c138h),a		;bd8c   ; guarda la frecuencia del transceptor (BCD)
 	jp 040aah		;bd8f
 L_BD92:
 	ld a,(0c922h)		;bd92
@@ -3597,7 +3597,7 @@ L_BD92:
 	ld a,080h		;bda2
 	ld (0c923h),a		;bda4
 	xor a			;bda7
-	ld (0c18ah),a		;bda8
+	ld (0c18ah),a		;bda8   ; guarda la pose de Snake
 	call L_BEE2		;bdab
 	ld hl,08040h		;bdae
 	ld bc,04028h		;bdb1
@@ -3647,23 +3647,23 @@ L_BDF7:
 	jr L_BE2C		;be05
 L_BE07:
 	djnz L_BE31		;be07
-	ld a,(0c003h)		;be09
+	ld a,(0c003h)		;be09   ; lee la cuenta de cuadros
 	and 003h		;be0c
 	ret nz			;be0e
-	ld hl,0c138h		;be0f
+	ld hl,0c138h		;be0f   ; apunta a la frecuencia del transceptor (BCD)
 	ld a,(hl)			;be12
 	add a,001h		;be13
 	daa			;be15
 	ld (hl),a			;be16
 	call 04181h		;be17
-	ld a,(0c138h)		;be1a
+	ld a,(0c138h)		;be1a   ; lee la frecuencia del transceptor (BCD)
 	cp 077h		;be1d
 	ret nz			;be1f
 	ld a,010h		;be20
 	ld (0c802h),a		;be22
 	xor a			;be25
-	ld (0c801h),a		;be26
-	ld (0c153h),a		;be29
+	ld (0c801h),a		;be26   ; guarda la barra de senal del transceptor (0-12)
+	ld (0c153h),a		;be29   ; guarda el paso del modo
 L_BE2C:
 	ld hl,0c922h		;be2c
 	inc (hl)			;be2f
@@ -3671,7 +3671,7 @@ L_BE2C:
 L_BE31:
 	djnz L_BE44		;be31
 	call 04082h		;be33
-	ld a,(0c153h)		;be36
+	ld a,(0c153h)		;be36   ; lee el paso del modo
 	dec a			;be39
 	ret nz			;be3a
 	ld a,05ch		;be3b
@@ -3750,21 +3750,21 @@ L_BEB1:
 	jp L_BE2C		;bebf
 L_BEC2:
 	call 0414ah		;bec2
-	ld a,(0c151h)		;bec5
+	ld a,(0c151h)		;bec5   ; lee el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
 	cp 004h		;bec8
 	ret			;beca
 L_BECB:
-	ld a,(0c003h)		;becb
+	ld a,(0c003h)		;becb   ; lee la cuenta de cuadros
 	bit 3,a		;bece
 	ld a,004h		;bed0
 	jr z,L_BED5		;bed2
 	inc a			;bed4
 L_BED5:
-	ld (0c18ah),a		;bed5
-	ld hl,(0c183h)		;bed8
+	ld (0c18ah),a		;bed5   ; guarda la pose de Snake
+	ld hl,(0c183h)		;bed8   ; lee la X de Snake (16 bits)
 	ld de,0fff8h		;bedb
 	add hl,de			;bede
-	ld (0c183h),hl		;bedf
+	ld (0c183h),hl		;bedf   ; guarda la X de Snake (16 bits)
 L_BEE2:
 	call 04186h		;bee2
 	jp 0418bh		;bee5
@@ -3801,13 +3801,13 @@ L_BF1A:
 L_BF1F:
 	jp 04104h		;bf1f
 L_BF22:
-	ld a,(0c135h)		;bf22
+	ld a,(0c135h)		;bf22   ; lee el objeto elegido (p06:B8F6: 3 LIGHT, 4 GOGGL, 6 CIGAL, 0x0E-0x15 CARD1-8, 0x16 RATIO, 0x19 BOX...)
 	cp 004h		;bf25
 	ret nz			;bf27
-	ld a,(0c602h)		;bf28
+	ld a,(0c602h)		;bf28   ; lee la bandera 0xC602 (refuerzos y musica)
 	and a			;bf2b
 	ret nz			;bf2c
-	ld a,(0c130h)		;bf2d
+	ld a,(0c130h)		;bf2d   ; lee la sala
 	sub 018h		;bf30
 	jr z,L_BF3A		;bf32
 	dec a			;bf34
@@ -3815,7 +3815,7 @@ L_BF22:
 	cp 02fh		;bf37
 	ret nz			;bf39
 L_BF3A:
-	ld hl,0d000h		;bf3a
+	ld hl,0d000h		;bf3a   ; apunta a los 16 actores (fichas de 0x80)
 	ld a,(0c609h)		;bf3d
 	ld b,a			;bf40
 L_BF41:
@@ -3851,7 +3851,7 @@ L_BF64:
 	djnz L_BF41		;bf6b
 	ret			;bf6d
 L_BF6E:
-	ld hl,0d000h		;bf6e
+	ld hl,0d000h		;bf6e   ; apunta a los 16 actores (fichas de 0x80)
 	ld a,(0c609h)		;bf71
 	ld b,a			;bf74
 L_BF75:

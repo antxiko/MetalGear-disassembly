@@ -1815,7 +1815,7 @@ L_BC12:
 	ld (ix+01ch),h		;bc1f
 	ld (ix+00eh),003h		;bc22
 L_BC26:
-	ld a,(0d000h)		;bc26
+	ld a,(0d000h)		;bc26   ; lee los 16 actores (fichas de 0x80)
 	cp 011h		;bc29
 	ret nz			;bc2b
 	ld (ix+001h),000h		;bc2c

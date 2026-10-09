@@ -54,3 +54,71 @@ D 0xBF99 0xBFA1 bf99  8 bytes que p09:BF90 lee en 0xBF99 + ((bits 1-3 de A) / 2)
 D 0xBFE6 0xC000 relleno_ff  26 bytes a 0xFF hasta el final del banco: relleno; lo leen nadie (26 bytes)
 F 0xBFE6 16
 # --- fin de los bloques de bloques.py ---
+
+# --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---
+C 0xAD70 guarda el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
+C 0xAD73 lee las teclas que hay
+C 0xAD81 guarda la direccion de las teclas
+C 0xAD8A guarda el lado por el que se sale (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
+C 0xAD8F guarda el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
+C 0xAD96 lee la sala
+C 0xAD9A lee las teclas que hay
+C 0xADA7 lee la Y de Snake
+C 0xADAB guarda la Y de Snake
+C 0xADB5 lee la sala
+C 0xADE2 lee la Y de Snake
+C 0xADE6 guarda la Y de Snake
+C 0xAEB9 guarda las teclas nuevas (1 arriba, 2 abajo, 4 izq., 8 der., 0x10, 0x20)
+C 0xAEBE guarda la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
+C 0xAEC3 guarda las teclas que hay
+C 0xAECB guarda el modo de la pose de Snake
+C 0xAECF guarda la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
+C 0xAEE1 guarda las teclas nuevas (1 arriba, 2 abajo, 4 izq., 8 der., 0x10, 0x20)
+C 0xAEE4 guarda las teclas que hay
+C 0xAEF1 guarda el modo de la pose de Snake
+C 0xAEF5 guarda la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
+C 0xAF02 guarda las teclas nuevas (1 arriba, 2 abajo, 4 izq., 8 der., 0x10, 0x20)
+C 0xAF07 guarda las teclas que hay
+C 0xAF1B guarda las teclas nuevas (1 arriba, 2 abajo, 4 izq., 8 der., 0x10, 0x20)
+C 0xAF20 guarda la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
+C 0xAF25 guarda las teclas que hay
+C 0xAF2C guarda el modo de la pose de Snake
+C 0xAF31 guarda la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
+C 0xAF61 guarda la barra de senal del transceptor (0-12)
+C 0xAF64 guarda el paso del modo
+C 0xAF6C lee el paso del modo
+C 0xAF8B guarda el modulo de la velocidad de Snake y el byte siguiente (16 bits)
+C 0xAF9C guarda las teclas nuevas (1 arriba, 2 abajo, 4 izq., 8 der., 0x10, 0x20)
+C 0xAFA1 guarda la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
+C 0xAFA5 guarda las teclas que hay
+C 0xAFC2 guarda las teclas nuevas (1 arriba, 2 abajo, 4 izq., 8 der., 0x10, 0x20)
+C 0xAFC6 guarda la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
+C 0xAFC9 guarda las teclas que hay
+C 0xAFD1 guarda la Y de Snake (16 bits)
+C 0xAFD6 guarda el modulo de la velocidad de Snake y el byte siguiente (16 bits)
+C 0xAFDA guarda la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
+C 0xAFDF guarda el modo de la pose de Snake
+C 0xAFF0 guarda las teclas nuevas (1 arriba, 2 abajo, 4 izq., 8 der., 0x10, 0x20)
+C 0xAFF4 guarda la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
+C 0xAFF7 guarda las teclas que hay
+C 0xB002 guarda la Y de Snake (16 bits)
+C 0xB006 guarda el modo de la pose de Snake
+C 0xB00A guarda la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
+C 0xB020 guarda las teclas que hay
+C 0xB023 guarda las teclas nuevas (1 arriba, 2 abajo, 4 izq., 8 der., 0x10, 0x20)
+C 0xB027 guarda la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
+C 0xB039 lee la Y de Snake (16 bits)
+C 0xB03D guarda la Y de Snake (16 bits)
+C 0xB044 guarda el estado de Snake
+C 0xB04A guarda el modulo de la velocidad de Snake y el byte siguiente (16 bits)
+C 0xB08B apunta a los colores de las fichas
+C 0xB5B8 apunta a los colores de las fichas
+C 0xB69A apunta a la sala
+C 0xB6B6 apunta a la sala
+C 0xBF49 lee la sala
+C 0xBF5C guarda el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
+C 0xBFA7 guarda el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
+C 0xBFB0 lee la sala
+C 0xBFC4 guarda el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
+C 0xBFDE guarda el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
+# --- fin de las anotaciones de anota.py ---

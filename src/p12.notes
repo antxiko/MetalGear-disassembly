@@ -203,3 +203,7 @@ D 0xBC06 0xBC12 trozo_FC  trozo de texto 0xFC: caracteres hasta 0xFF (p00:530A);
 D 0xBC3C 0xC000 relleno_ff  964 bytes a 0xFF hasta el final del banco: relleno; lo leen nadie (964 bytes)
 F 0xBC3C 16
 # --- fin de los bloques de bloques.py ---
+
+# --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---
+C 0xBC26 lee los 16 actores (fichas de 0x80)
+# --- fin de las anotaciones de anota.py ---

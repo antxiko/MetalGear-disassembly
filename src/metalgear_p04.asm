@@ -27,7 +27,7 @@ L_6000:
 	xor a			;6013
 	ld (0c0fbh),a		;6014
 	ld a,03bh		;6017
-	ld (0c159h),a		;6019
+	ld (0c159h),a		;6019   ; guarda la musica que suena
 	call L_67FD		;601c
 L_601F:
 	ld a,(0c0f0h)		;601f
@@ -96,7 +96,7 @@ L_607F:
 	ld a,(ix+002h)		;607f
 	cp 050h		;6082
 	jr nz,L_60A1		;6084
-	ld a,(0c138h)		;6086
+	ld a,(0c138h)		;6086   ; lee la frecuencia del transceptor (BCD)
 	and 0f0h		;6089
 	srl a		;608b
 	srl a		;608d
@@ -104,7 +104,7 @@ L_607F:
 	srl a		;6091
 	inc a			;6093
 	ld b,a			;6094
-	ld a,(0c138h)		;6095
+	ld a,(0c138h)		;6095   ; lee la frecuencia del transceptor (BCD)
 	add a,006h		;6098
 L_609A:
 	sub 006h		;609a

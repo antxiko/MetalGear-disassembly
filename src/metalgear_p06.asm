@@ -2509,7 +2509,7 @@ L_BBDD:
 	ld bc,0002fh		;bbe3
 	ld (hl),b			;bbe6
 	ldir		;bbe7
-	ld a,(0c130h)		;bbe9
+	ld a,(0c130h)		;bbe9   ; lee la sala
 	cp 0dah		;bbec
 	ret nc			;bbee
 	cp 07ah		;bbef
@@ -2657,7 +2657,7 @@ L_BCD9:
 	call 0416dh		;bcd9
 	call 04172h		;bcdc
 	ld a,085h		;bcdf
-	ld (0c138h),a		;bce1
+	ld (0c138h),a		;bce1   ; guarda la frecuencia del transceptor (BCD)
 	ld a,010h		;bce4
 	ld (0c131h),a		;bce6
 	call 0407dh		;bce9
@@ -2665,27 +2665,27 @@ L_BCD9:
 	ld (0c802h),a		;bcee
 	xor a			;bcf1
 	ld (0c009h),a		;bcf2
-	ld (0c801h),a		;bcf5
-	ld (0c153h),a		;bcf8
+	ld (0c801h),a		;bcf5   ; guarda la barra de senal del transceptor (0-12)
+	ld (0c153h),a		;bcf8   ; guarda el paso del modo
 	jr L_BD39		;bcfb
 L_BCFD:
 	ld a,005h		;bcfd
-	ld (0c130h),a		;bcff
+	ld (0c130h),a		;bcff   ; guarda la sala
 	jr L_BD14		;bd02
 L_BD04:
 	ld a,01fh		;bd04
-	ld (0c130h),a		;bd06
+	ld (0c130h),a		;bd06   ; guarda la sala
 	ld a,001h		;bd09
-	ld (0c134h),a		;bd0b
+	ld (0c134h),a		;bd0b   ; guarda el arma elegida (p06:B865: 1 HAND GUN, 2 SMG, 3 GRENADE, 4 ROCKET, 5 P.BOMB, 6 L.MINE, 7 MISSILE, 8 SILENCER)
 	ld (0c142h),a		;bd0e
-	ld (0c500h),a		;bd11
+	ld (0c500h),a		;bd11   ; guarda las armas que se llevan (fichas de 4: [arma][municion BCD])
 L_BD14:
 	call 04159h		;bd14
 	ld a,(0f0f7h)		;bd17
 	and a			;bd1a
 	jr nz,L_BD25		;bd1b
 	ld a,02ch		;bd1d
-	ld (0c159h),a		;bd1f
+	ld (0c159h),a		;bd1f   ; guarda la musica que suena
 	call 04140h		;bd22
 L_BD25:
 	ld a,(0c00ch)		;bd25
@@ -2694,7 +2694,7 @@ L_BD25:
 	jr c,L_BD32		;bd2d
 	ld de,07028h		;bd2f
 L_BD32:
-	ld hl,0c182h		;bd32
+	ld hl,0c182h		;bd32   ; apunta a la Y de Snake
 	ld (hl),e			;bd35
 	inc hl			;bd36
 	inc hl			;bd37
@@ -2713,7 +2713,7 @@ L_BD3F:
 	dec a			;bd4c
 	jr z,L_BD6C		;bd4d
 	call 04082h		;bd4f
-	ld a,(0c153h)		;bd52
+	ld a,(0c153h)		;bd52   ; lee el paso del modo
 	dec a			;bd55
 	ret nz			;bd56
 	call L_BD68		;bd57
@@ -2721,7 +2721,7 @@ L_BD3F:
 	jp 04127h		;bd5c
 L_BD5F:
 	call 0414ah		;bd5f
-	ld a,(0c151h)		;bd62
+	ld a,(0c151h)		;bd62   ; lee el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
 	cp 004h		;bd65
 	ret nz			;bd67
 L_BD68:
@@ -2838,9 +2838,9 @@ L_BDF8:
 	and a			;bdfb
 	ret nz			;bdfc
 	ld hl,0be64h		;bdfd
-	ld a,(0c130h)		;be00
+	ld a,(0c130h)		;be00   ; lee la sala
 	ld d,a			;be03
-	ld a,(0c136h)		;be04
+	ld a,(0c136h)		;be04   ; lee la parada del ascensor
 	ld e,a			;be07
 	ld b,01fh		;be08
 L_BE0A:
@@ -2864,7 +2864,7 @@ L_BE17:
 L_BE20:
 	ld a,001h		;be20
 L_BE22:
-	ld ix,0ec00h		;be22
+	ld ix,0ec00h		;be22   ; apunta a la casilla de trabajo 0xEC00
 	ld (ix+000h),a		;be26
 	ld de,0ca00h		;be29
 	ld hl,0be51h		;be2c
@@ -3135,7 +3135,7 @@ L_BF98:
 	ld (0c45bh),a		;bfa9
 	ret			;bfac
 L_BFAD:
-	ld hl,0c530h		;bfad
+	ld hl,0c530h		;bfad   ; apunta a los objetos que se llevan (fichas de 4)
 L_BFB0:
 	ld a,(hl)			;bfb0
 	and a			;bfb1
