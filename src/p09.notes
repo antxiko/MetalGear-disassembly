@@ -56,6 +56,30 @@ F 0xBFE6 16
 # --- fin de los bloques de bloques.py ---
 
 # --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---
+L 0xAD69 ascensor modo 6: el ascensor (0xC196): sube o baja con las teclas y para en 0x38, 0x78 y 0xB8
+L 0xAE1E ascensor_paso_siguiente sube 0xC196
+L 0xAE28 sprites_de_la_cabina los 12 sprites del ascensor (0xAE5F) en 0xEA50 y sus colores en 0xE940
+L 0xAE8F intro_paso un paso de la entrada de Snake (0xC920, tabla 0xAE98)
+L 0xAF8E intro_paso_siguiente sube 0xC920 y la pose de Snake
+L 0xB05C carga_la_fuente la fuente (0xB0B2), los digitos grandes (0xB412), la estrella y sus colores en la pagina 1
+L 0xB0A3 borra_esquina borra 0x18 x 8 en (0, 0) de la pagina 1
+L 0xB4DA titulo_prepara pantalla limpia, fuente, titulo, paleta 0xB602 y la enciende
+L 0xB506 titulo_paso un paso del titulo (0xC118, tabla 0xB515)
+L 0xB50C salta_por_a salta a la palabra A de la tabla HL
+L 0xB524 titulo_siguiente 0xC119 = 0x0C y el paso siguiente
+L 0xB534 logotipo_en_y las dos partes del logotipo METAL GEAR a la altura 0xB5F7[0xC119 - 1]
+L 0xB55F logotipo_quieto borra la pagina 0 y deja el logotipo en su sitio
+L 0xB579 rotulo_del_titulo escribe el rotulo 0xB58A
+L 0xB5B5 carga_el_titulo colores 0xB5AD, 70 fichas (0xB8B9) en 0x8004 y los montajes 0xB618 y 0xB64C en la pagina 1
+L 0xB5E0 montaje C filas de B fichas de HL en (D, E) de la pagina 1
+L 0xB670 logotipo_konami el logotipo de Konami: paleta 0xB6A6, sus graficos y la cuenta en 0xC130/0xC131
+L 0xB6B6 logotipo_konami_baja descubre el logotipo de Konami linea a linea; al acabar 0xC132 = 1
+L 0xBF49 sube_al_camion en las salas de 0xBF60: 0xC608 = 0x90 y el modo 5
+L 0xBF66 camion modo 5: el camion (0xC608): texto 0x5B, sonido 0x1F y la sacudida con R#23
+L 0xBFA1 baja_del_camion sonido 0x28, modo 0 y R#23 a cero
+L 0xBFAA scroll_vertical R#23 = A
+L 0xBFB0 salas_85_y_6f en la sala 0x85 sin 0xC660: modo 12; en la 0x6F: 0xC664 = 1
+L 0xBFD1 modo_12_cuenta modo 12: baja 0xC608; texto 0x59 y 0xC660 = 1
 C 0xAD70 guarda el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
 C 0xAD73 lee las teclas que hay
 C 0xAD81 guarda la direccion de las teclas
@@ -68,15 +92,20 @@ C 0xADAB guarda la Y de Snake
 C 0xADB5 lee la sala
 C 0xADE2 lee la Y de Snake
 C 0xADE6 guarda la Y de Snake
+C 0xAE1B sprites_de_la_cabina: los 12 sprites del ascensor (0xAE5F) en 0xEA50 y sus colores en 0xE940
+C 0xAE23 ascensor_paso_siguiente: sube 0xC196
+C 0xAE95 salta_por_a: salta a la palabra A de la tabla HL
 C 0xAEB9 guarda las teclas nuevas (1 arriba, 2 abajo, 4 izq., 8 der., 0x10, 0x20)
 C 0xAEBE guarda la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
 C 0xAEC3 guarda las teclas que hay
 C 0xAECB guarda el modo de la pose de Snake
 C 0xAECF guarda la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
+C 0xAED7 intro_paso_siguiente: sube 0xC920 y la pose de Snake
 C 0xAEE1 guarda las teclas nuevas (1 arriba, 2 abajo, 4 izq., 8 der., 0x10, 0x20)
 C 0xAEE4 guarda las teclas que hay
 C 0xAEF1 guarda el modo de la pose de Snake
 C 0xAEF5 guarda la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
+C 0xAEF8 intro_paso_siguiente: sube 0xC920 y la pose de Snake
 C 0xAF02 guarda las teclas nuevas (1 arriba, 2 abajo, 4 izq., 8 der., 0x10, 0x20)
 C 0xAF07 guarda las teclas que hay
 C 0xAF1B guarda las teclas nuevas (1 arriba, 2 abajo, 4 izq., 8 der., 0x10, 0x20)
@@ -84,13 +113,26 @@ C 0xAF20 guarda la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha
 C 0xAF25 guarda las teclas que hay
 C 0xAF2C guarda el modo de la pose de Snake
 C 0xAF31 guarda la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
+C 0xAF4B sonido_si_hay_y_vuelve: llama a sonido_si_hay (p00:427C) y deja otra vez los bancos 1-2 y el de zona
+C 0xAF55 sonido_si_hay_y_vuelve: llama a sonido_si_hay (p00:427C) y deja otra vez los bancos 1-2 y el de zona
+C 0xAF58 transceptor_abre_y_vuelve: llama a transceptor_abre (p01:6912) y deja otra vez los bancos 1-2 y el de zona
 C 0xAF61 guarda la barra de senal del transceptor (0-12)
 C 0xAF64 guarda el paso del modo
+C 0xAF69 transceptor_senal_y_vuelve: llama a transceptor_senal (p01:699F) y deja otra vez los bancos 1-2 y el de zona
 C 0xAF6C lee el paso del modo
+C 0xAF73 intro_paso_siguiente: sube 0xC920 y la pose de Snake
+C 0xAF78 sonido_si_hay_y_vuelve: llama a sonido_si_hay (p00:427C) y deja otra vez los bancos 1-2 y el de zona
+C 0xAF7D ventana_de_texto_y_vuelve: llama a ventana_de_texto (p00:5CE1) y deja otra vez los bancos 1-2 y el de zona
+C 0xAF80 sale_del_transceptor_y_vuelve: llama a sale_del_transceptor (p01:6BB1) y deja otra vez los bancos 1-2 y el de zona
 C 0xAF8B guarda el modulo de la velocidad de Snake y el byte siguiente (16 bits)
+C 0xAF92 pose_de_snake_y_vuelve: llama a pose_de_snake (p01:6502) y deja otra vez los bancos 1-2 y el de zona
 C 0xAF9C guarda las teclas nuevas (1 arriba, 2 abajo, 4 izq., 8 der., 0x10, 0x20)
 C 0xAFA1 guarda la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
 C 0xAFA5 guarda las teclas que hay
+C 0xAFA8 velocidad_de_snake_y_vuelve: llama a velocidad_de_snake (p01:617A) y deja otra vez los bancos 1-2 y el de zona
+C 0xAFAB choque_de_snake_y_vuelve: llama a choque_de_snake (p01:6205) y deja otra vez los bancos 1-2 y el de zona
+C 0xAFAE mueve_snake_y_vuelve: llama a mueve_snake (p01:63FC) y deja otra vez los bancos 1-2 y el de zona
+C 0xAFB1 pose_de_snake_y_vuelve: llama a pose_de_snake (p01:6502) y deja otra vez los bancos 1-2 y el de zona
 C 0xAFC2 guarda las teclas nuevas (1 arriba, 2 abajo, 4 izq., 8 der., 0x10, 0x20)
 C 0xAFC6 guarda la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
 C 0xAFC9 guarda las teclas que hay
@@ -101,24 +143,74 @@ C 0xAFDF guarda el modo de la pose de Snake
 C 0xAFF0 guarda las teclas nuevas (1 arriba, 2 abajo, 4 izq., 8 der., 0x10, 0x20)
 C 0xAFF4 guarda la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
 C 0xAFF7 guarda las teclas que hay
+C 0xAFFA velocidad_arriba_abajo_y_vuelve: llama a velocidad_arriba_abajo (p01:6160) y deja otra vez los bancos 1-2 y el de zona
 C 0xB002 guarda la Y de Snake (16 bits)
 C 0xB006 guarda el modo de la pose de Snake
 C 0xB00A guarda la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
+C 0xB015 intro_paso_siguiente: sube 0xC920 y la pose de Snake
+C 0xB01C intro_paso_siguiente: sube 0xC920 y la pose de Snake
 C 0xB020 guarda las teclas que hay
 C 0xB023 guarda las teclas nuevas (1 arriba, 2 abajo, 4 izq., 8 der., 0x10, 0x20)
 C 0xB027 guarda la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
+C 0xB02D pose_de_snake_y_vuelve: llama a pose_de_snake (p01:6502) y deja otra vez los bancos 1-2 y el de zona
+C 0xB033 hl_mas_a_y_vuelve: llama a hl_mas_a (p00:41E0) y deja otra vez los bancos 1-2 y el de zona
 C 0xB039 lee la Y de Snake (16 bits)
 C 0xB03D guarda la Y de Snake (16 bits)
+C 0xB040 pose_de_snake_y_vuelve: llama a pose_de_snake (p01:6502) y deja otra vez los bancos 1-2 y el de zona
 C 0xB044 guarda el estado de Snake
 C 0xB04A guarda el modulo de la velocidad de Snake y el byte siguiente (16 bits)
+C 0xB04D pose_de_snake_y_vuelve: llama a pose_de_snake (p01:6502) y deja otra vez los bancos 1-2 y el de zona
+C 0xB061 borra_esquina: borra 0x18 x 8 en (0, 0) de la pagina 1
+C 0xB06D caracteres_1_bit_y_vuelve: llama a caracteres_1_bit (p00:505D) y deja otra vez los bancos 1-2 y el de zona
+C 0xB079 caracteres_1_bit_y_vuelve: llama a caracteres_1_bit (p00:505D) y deja otra vez los bancos 1-2 y el de zona
+C 0xB085 caracteres_1_bit_y_vuelve: llama a caracteres_1_bit (p00:505D) y deja otra vez los bancos 1-2 y el de zona
 C 0xB08B apunta a los colores de las fichas
+C 0xB09B fichas_2_planos_y_vuelve: llama a fichas_2_planos (p00:51FE) y deja otra vez los bancos 1-2 y el de zona
+C 0xB0AB rellena_y_vuelve: llama a rellena (p00:4F91) y deja otra vez los bancos 1-2 y el de zona
+C 0xB4DA apaga_la_pantalla_y_vuelve: llama a apaga_la_pantalla (p00:4E0E) y deja otra vez los bancos 1-2 y el de zona
+C 0xB4DF borra_la_pagina_d_y_vuelve: llama a borra_la_pagina_d (p00:4E1D) y deja otra vez los bancos 1-2 y el de zona
+C 0xB4E2 pantalla_limpia_y_vuelve: llama a pantalla_limpia (p00:4DF8) y deja otra vez los bancos 1-2 y el de zona
+C 0xB4EB carga_la_fuente: la fuente (0xB0B2), los digitos grandes (0xB412), la estrella y sus colores en la pagina 1
+C 0xB4EE carga_el_titulo: colores 0xB5AD, 70 fichas (0xB8B9) en 0x8004 y los montajes 0xB618 y 0xB64C en la pagina 1
+C 0xB4FA borra_esquina: borra 0x18 x 8 en (0, 0) de la pagina 1
+C 0xB500 paleta_y_vuelve: llama a paleta (p00:4EC4) y deja otra vez los bancos 1-2 y el de zona
+C 0xB503 enciende_la_pantalla_y_vuelve: llama a enciende_la_pantalla (p00:4E01) y deja otra vez los bancos 1-2 y el de zona
+C 0xB50D hl_mas_a_y_vuelve: llama a hl_mas_a (p00:41E0) y deja otra vez los bancos 1-2 y el de zona
+C 0xB521 sonido_y_vuelve: llama a sonido (p00:4284) y deja otra vez los bancos 1-2 y el de zona
+C 0xB53B hl_mas_a_y_vuelve: llama a hl_mas_a (p00:41E0) y deja otra vez los bancos 1-2 y el de zona
+C 0xB54A copia_logica_y_vuelve: llama a copia_logica (p00:5011) y deja otra vez los bancos 1-2 y el de zona
+C 0xB55C copia_logica_y_vuelve: llama a copia_logica (p00:5011) y deja otra vez los bancos 1-2 y el de zona
+C 0xB55F borra_la_pagina_0_y_vuelve: llama a borra_la_pagina_0 (p00:4E1B) y deja otra vez los bancos 1-2 y el de zona
+C 0xB567 logotipo_en_y: las dos partes del logotipo METAL GEAR a la altura 0xB5F7[0xC119 - 1]
+C 0xB56E titulo_siguiente: 0xC119 = 0x0C y el paso siguiente
+C 0xB576 titulo_siguiente: 0xC119 = 0x0C y el paso siguiente
+C 0xB57C rotulo_y_vuelve: llama a rotulo (p00:510C) y deja otra vez los bancos 1-2 y el de zona
+C 0xB57F logotipo_quieto: borra la pagina 0 y deja el logotipo en su sitio
+C 0xB584 sonido_y_vuelve: llama a sonido (p00:4284) y deja otra vez los bancos 1-2 y el de zona
+C 0xB587 rotulo_del_titulo: escribe el rotulo 0xB58A
 C 0xB5B8 apunta a los colores de las fichas
+C 0xB5C8 fichas_3_planos_y_vuelve: llama a fichas_3_planos (p00:524C) y deja otra vez los bancos 1-2 y el de zona
+C 0xB5D4 montaje: C filas de B fichas de HL en (D, E) de la pagina 1
+C 0xB5E3 ficha_en_pagina_1_y_vuelve: llama a ficha_en_pagina_1 (p00:518A) y deja otra vez los bancos 1-2 y el de zona
+C 0xB670 apaga_la_pantalla_y_vuelve: llama a apaga_la_pantalla (p00:4E0E) y deja otra vez los bancos 1-2 y el de zona
+C 0xB675 sonido_y_vuelve: llama a sonido (p00:4284) y deja otra vez los bancos 1-2 y el de zona
+C 0xB678 paleta_por_defecto_y_vuelve: llama a paleta_por_defecto (p00:4E90) y deja otra vez los bancos 1-2 y el de zona
+C 0xB67E paleta_y_vuelve: llama a paleta (p00:4EC4) y deja otra vez los bancos 1-2 y el de zona
+C 0xB691 rellena_y_vuelve: llama a rellena (p00:4F91) y deja otra vez los bancos 1-2 y el de zona
+C 0xB694 graficos_del_logotipo_konami_y_vuelve: llama a graficos_del_logotipo_konami (p00:4C4B) y deja otra vez los bancos 1-2 y el de zona
+C 0xB697 enciende_la_pantalla_y_vuelve: llama a enciende_la_pantalla (p00:4E01) y deja otra vez los bancos 1-2 y el de zona
 C 0xB69A apunta a la sala
 C 0xB6B6 apunta a la sala
+C 0xB6D5 copia_vram_y_vuelve: llama a copia_vram (p00:4FCD) y deja otra vez los bancos 1-2 y el de zona
 C 0xBF49 lee la sala
 C 0xBF5C guarda el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
+C 0xBF7D ventana_de_texto_2_y_vuelve: llama a ventana_de_texto_2 (p00:5CD9) y deja otra vez los bancos 1-2 y el de zona
+C 0xBF86 sonido_si_hay_y_vuelve: llama a sonido_si_hay (p00:427C) y deja otra vez los bancos 1-2 y el de zona
+C 0xBF93 hl_mas_a_y_vuelve: llama a hl_mas_a (p00:41E0) y deja otra vez los bancos 1-2 y el de zona
+C 0xBFA3 sonido_si_hay_y_vuelve: llama a sonido_si_hay (p00:427C) y deja otra vez los bancos 1-2 y el de zona
 C 0xBFA7 guarda el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
 C 0xBFB0 lee la sala
 C 0xBFC4 guarda el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
+C 0xBFD7 ventana_de_texto_2_y_vuelve: llama a ventana_de_texto_2 (p00:5CD9) y deja otra vez los bancos 1-2 y el de zona
 C 0xBFDE guarda el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
 # --- fin de las anotaciones de anota.py ---

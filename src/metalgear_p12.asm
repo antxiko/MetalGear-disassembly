@@ -1806,7 +1806,7 @@ DATA_trozo_FC:
 ; ======================================================================
 
 
-L_BC12:
+crea_metal_gear:		; con 0xC623 nada; si no, (ix+0x1B) = 0xC623 y el dibujo de Metal Gear
 	ld a,(0c623h)		;bc12
 	or a			;bc15
 	jp nz,0413bh		;bc16
@@ -1814,16 +1814,16 @@ L_BC12:
 	ld (ix+01bh),l		;bc1c
 	ld (ix+01ch),h		;bc1f
 	ld (ix+00eh),003h		;bc22
-L_BC26:
+dibujo_si_metal_gear:		; si el primer actor es el 0x11, el dibujo de Metal Gear en (0x60, 0x20)
 	ld a,(0d000h)		;bc26   ; lee los 16 actores (fichas de 0x80)
 	cp 011h		;bc29
 	ret nz			;bc2b
 	ld (ix+001h),000h		;bc2c
 	ld de,06020h		;bc30
-	jp 040f0h		;bc33
-L_BC36:
+	jp 040f0h		;bc33   ; dibujo_de_metal_gear_y_vuelve: llama a dibujo_de_metal_gear (p00:44A7) y deja otra vez los bancos 1-2 y el de zona
+dibujo_sin_metal_gear:		; el dibujo p15:B5F7 en (0x60, 0x20)
 	ld de,06020h		;bc36
-	jp 04109h		;bc39
+	jp 04109h		;bc39   ; dibujo_b5f7_y_vuelve: llama a dibujo_b5f7 (p00:44AC) y deja otra vez los bancos 1-2 y el de zona
 
 ; ----------------------------------------------------------------------
 ; DATOS relleno_ff: 964 bytes a 0xFF hasta el final del banco: relleno; lo

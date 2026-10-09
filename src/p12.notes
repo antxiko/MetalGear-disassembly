@@ -205,5 +205,10 @@ F 0xBC3C 16
 # --- fin de los bloques de bloques.py ---
 
 # --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---
+L 0xBC12 crea_metal_gear con 0xC623 nada; si no, (ix+0x1B) = 0xC623 y el dibujo de Metal Gear
+L 0xBC26 dibujo_si_metal_gear si el primer actor es el 0x11, el dibujo de Metal Gear en (0x60, 0x20)
+L 0xBC36 dibujo_sin_metal_gear el dibujo p15:B5F7 en (0x60, 0x20)
 C 0xBC26 lee los 16 actores (fichas de 0x80)
+C 0xBC33 dibujo_de_metal_gear_y_vuelve: llama a dibujo_de_metal_gear (p00:44A7) y deja otra vez los bancos 1-2 y el de zona
+C 0xBC39 dibujo_b5f7_y_vuelve: llama a dibujo_b5f7 (p00:44AC) y deja otra vez los bancos 1-2 y el de zona
 # --- fin de las anotaciones de anota.py ---

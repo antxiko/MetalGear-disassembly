@@ -51,160 +51,160 @@ DATA_direcciones_del_sonido:
 ; ======================================================================
 
 
-L_4050:
+hl_mas_a_y_vuelve:		; llama a hl_mas_a (p00:41E0) y deja otra vez los bancos 1-2 y el de zona
 	call hl_mas_a		;4050   ; hl_mas_a: HL = HL + A
 	jr L_40A3		;4053
-L_4055:
+de_mas_a_y_vuelve:		; llama a de_mas_a (p00:41E5) y deja otra vez los bancos 1-2 y el de zona
 	call de_mas_a		;4055   ; de_mas_a: DE = DE + A
 	jr L_40A3		;4058
-L_405A:
+sonido_si_hay_y_vuelve:		; llama a sonido_si_hay (p00:427C) y deja otra vez los bancos 1-2 y el de zona
 	call sonido_si_hay		;405a   ; sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
 	jr L_40A3		;405d
-L_405F:
+ventana_de_texto_y_vuelve:		; llama a ventana_de_texto (p00:5CE1) y deja otra vez los bancos 1-2 y el de zona
 	call ventana_de_texto		;405f   ; ventana_de_texto: abre la ventana del texto A en el modo 0: 0xCEF0 = A, guarda 0xC151 en 0xCEF1 y pone 0xC151 = 10
 	jr L_40A3		;4062
-L_4064:
+velocidad_de_snake_y_vuelve:		; llama a velocidad_de_snake (p01:617A) y deja otra vez los bancos 1-2 y el de zona
 	call 0617ah		;4064   ; velocidad_de_snake: 0xC185 y la velocidad de Snake (0xC186 Y, 0xC188 X) con el modulo 0xC143
 	jr L_40A3		;4067
-L_4069:
+velocidad_arriba_abajo_y_vuelve:		; llama a velocidad_arriba_abajo (p01:6160) y deja otra vez los bancos 1-2 y el de zona
 	call 06160h		;4069   ; velocidad_arriba_abajo: la velocidad de Snake (0xC186/0xC188) si se pulsa arriba o abajo
 	jr L_40A3		;406c
-L_406E:
+choque_de_snake_y_vuelve:		; llama a choque_de_snake (p01:6205) y deja otra vez los bancos 1-2 y el de zona
 	call 06205h		;406e   ; choque_de_snake: mira con p02:8298 el sitio al que va Snake y la para si choca
 	jr L_40A3		;4071
-L_4073:
+mueve_snake_y_vuelve:		; llama a mueve_snake (p01:63FC) y deja otra vez los bancos 1-2 y el de zona
 	call 063fch		;4073   ; mueve_snake: suma las velocidades a Snake y mira los cuatro bordes (0xC133 y el modo 1)
 	jr L_40A3		;4076
-L_4078:
+pose_de_snake_y_vuelve:		; llama a pose_de_snake (p01:6502) y deja otra vez los bancos 1-2 y el de zona
 	call 06502h		;4078   ; pose_de_snake: elige la pose 0xC18A por el modo 0xC18B (tabla 0x6508)
 	jr L_40A3		;407b
-L_407D:
+transceptor_abre_y_vuelve:		; llama a transceptor_abre (p01:6912) y deja otra vez los bancos 1-2 y el de zona
 	call 06912h		;407d   ; transceptor_abre: paso 0: la pantalla del transceptor (marco p15:B369, retrato p15:B40D, rotulo, frecuencia)
 	jr L_40A3		;4080
-L_4082:
+transceptor_senal_y_vuelve:		; llama a transceptor_senal (p01:699F) y deja otra vez los bancos 1-2 y el de zona
 	call 0699fh		;4082   ; transceptor_senal: paso 2: sube la barra de senal 0xC801 hasta 12
 	jr L_40A3		;4085
-L_4087:
+sale_del_transceptor_y_vuelve:		; llama a sale_del_transceptor (p01:6BB1) y deja otra vez los bancos 1-2 y el de zona
 	call 06bb1h		;4087   ; sale_del_transceptor: paleta de Snake y vuelve a la sala
 	jr L_40A3		;408a
-L_408C:
+caracteres_1_bit_y_vuelve:		; llama a caracteres_1_bit (p00:505D) y deja otra vez los bancos 1-2 y el de zona
 	call caracteres_1_bit		;408c   ; caracteres_1_bit: B caracteres de 1 bit de HL en el color C a la pagina 1 desde (D, E)
 	jr L_40A3		;408f
-L_4091:
+fichas_2_planos_y_vuelve:		; llama a fichas_2_planos (p00:51FE) y deja otra vez los bancos 1-2 y el de zona
 	call fichas_2_planos		;4091   ; fichas_2_planos: B fichas de 2 planos (16 bytes) de HL a la VRAM DE con los colores de 0xE700
 	jr L_40A3		;4094
-L_4096:
+rellena_y_vuelve:		; llama a rellena (p00:4F91) y deja otra vez los bancos 1-2 y el de zona
 	call rellena		;4096   ; rellena: HMMV: llena B x C desde (H, L) de la pagina D con el byte A
 	jr L_40A3		;4099
-L_409B:
+pantalla_limpia_y_vuelve:		; llama a pantalla_limpia (p00:4DF8) y deja otra vez los bancos 1-2 y el de zona
 	call pantalla_limpia		;409b   ; pantalla_limpia: esconde los sprites, apaga la pantalla, borra la pagina 0 y la enciende
 	jr L_40A3		;409e
-L_40A0:
+apaga_la_pantalla_y_vuelve:		; llama a apaga_la_pantalla (p00:4E0E) y deja otra vez los bancos 1-2 y el de zona
 	call apaga_la_pantalla		;40a0   ; apaga_la_pantalla: quita el bit 6 de R#1 y apaga los sprites (R#8)
 L_40A3:
 	jr L_40F3		;40a3
-L_40A5:
+copia_logica_y_vuelve:		; llama a copia_logica (p00:5011) y deja otra vez los bancos 1-2 y el de zona
 	call copia_logica		;40a5   ; copia_logica: LMMM: copia B x C de (H, L) a (D, E); A = [pagina origen 7-6][pagina destino 5-4][operacion 3-0]
 	jr L_40F3		;40a8
-L_40AA:
+enciende_la_pantalla_y_vuelve:		; llama a enciende_la_pantalla (p00:4E01) y deja otra vez los bancos 1-2 y el de zona
 	call enciende_la_pantalla		;40aa   ; enciende_la_pantalla: pone el bit 6 de R#1 y enciende los sprites (R#8)
 	jr L_40F3		;40ad
-L_40AF:
+rotulo_y_vuelve:		; llama a rotulo (p00:510C) y deja otra vez los bancos 1-2 y el de zona
 	call rotulo		;40af   ; rotulo: escribe el rotulo de HL ([X][Y], caracteres, 0xFE otra posicion, 0xFF acaba)
 	jr L_40F3		;40b2
-L_40B4:
+ficha_en_pagina_1_y_vuelve:		; llama a ficha_en_pagina_1 (p00:518A) y deja otra vez los bancos 1-2 y el de zona
 	call ficha_en_pagina_1		;40b4   ; ficha_en_pagina_1: copia la ficha A de la pagina 1 a (D, E) de la pagina 1
 	jr L_40F3		;40b7
 L_40B9:
 	call 060feh		;40b9
 	jr L_40F3		;40bc
-L_40BE:
+palabra_a_y_vuelve:		; llama a palabra_a (p00:42B4) y deja otra vez los bancos 1-2 y el de zona
 	call palabra_a		;40be   ; palabra_a: DE = la palabra A de la tabla DE
 	jr L_40F3		;40c1
-L_40C3:
+vram_para_escribir_y_vuelve:		; llama a vram_para_escribir (p00:4D93) y deja otra vez los bancos 1-2 y el de zona
 	call vram_para_escribir		;40c3   ; vram_para_escribir: pone la direccion de escritura de la VRAM en HL (R#14 y el puerto 1)
 	jr L_40F3		;40c6
-L_40C8:
+escribe_vram_y_vuelve:		; llama a escribe_vram (p00:4D59) y deja otra vez los bancos 1-2 y el de zona
 	call escribe_vram		;40c8   ; escribe_vram: copia BC bytes de HL a la VRAM DE
 	jr L_40F3		;40cb
-L_40CD:
+color_y_vuelve:		; llama a color (p00:4E66) y deja otra vez los bancos 1-2 y el de zona
 	call color		;40cd   ; color: el color A de la paleta = DE ([RB][G]), y su copia en 0xF680
 	jr L_40F3		;40d0
-L_40D2:
+busca_objeto_y_vuelve:		; llama a busca_objeto (p00:43E1) y deja otra vez los bancos 1-2 y el de zona
 	call busca_objeto		;40d2   ; busca_objeto: busca A en los 25 objetos de 0xC530 (fichas de 4): C = el sitio, Z si esta, acarreo si no
 	jr L_40F3		;40d5
-L_40D7:
+sube_c132_y_vuelve:		; llama a sube_c132 (p01:64D2) y deja otra vez los bancos 1-2 y el de zona
 	call 064d2h		;40d7   ; sube_c132: sube 0xC132 hasta 3 con el sonido 0x26
 	jr L_40F3		;40da
-L_40DC:
+borra_rotulo_y_vuelve:		; llama a borra_rotulo (p00:5110) y deja otra vez los bancos 1-2 y el de zona
 	call borra_rotulo		;40dc   ; borra_rotulo: lo mismo que rotulo, con el caracter en blanco
 	jr L_40F3		;40df
-L_40E1:
+musica_de_nuevo_y_vuelve:		; llama a musica_de_nuevo (p01:6DD9) y deja otra vez los bancos 1-2 y el de zona
 	call 06dd9h		;40e1   ; musica_de_nuevo: 0xC159 = 0 y elige la musica de la sala
 	jr L_40F3		;40e4
-L_40E6:
+caracter_y_vuelve:		; llama a caracter (p00:5135) y deja otra vez los bancos 1-2 y el de zona
 	call caracter		;40e6   ; caracter: copia el caracter A de la pagina 1 a (D, E); con A = 0 o C = 0, el blanco
 	jr L_40F3		;40e9
-L_40EB:
+esconde_los_sprites_y_vuelve:		; llama a esconde_los_sprites (p00:4E2C) y deja otra vez los bancos 1-2 y el de zona
 	call esconde_los_sprites		;40eb   ; esconde_los_sprites: llena de 0xE0 las dos tablas de atributos de la VRAM (0xF600 y 0xF200)
 	jr L_40F3		;40ee
-L_40F0:
+dibujo_de_metal_gear_y_vuelve:		; llama a dibujo_de_metal_gear (p00:44A7) y deja otra vez los bancos 1-2 y el de zona
 	call dibujo_de_metal_gear		;40f0   ; dibujo_de_metal_gear: pone el dibujo p15:B595 (Metal Gear) con L_44AF
 L_40F3:
 	jr L_4143		;40f3
-L_40F5:
+borra_la_pagina_0_y_vuelve:		; llama a borra_la_pagina_0 (p00:4E1B) y deja otra vez los bancos 1-2 y el de zona
 	call borra_la_pagina_0		;40f5   ; borra_la_pagina_0: llena la pagina 0 de color 0 y pone R#23 a cero
 	jr L_4143		;40f8
-L_40FA:
+juego_de_fichas_y_vuelve:		; llama a juego_de_fichas (p00:4935) y deja otra vez los bancos 1-2 y el de zona
 	call juego_de_fichas		;40fa   ; juego_de_fichas: carga el juego de fichas de la sala (nibble p07:6000) si no es el de 0xC157, y sus bits de choque en 0xC700
 	jr L_4143		;40fd
-L_40FF:
+paleta_de_la_sala_y_vuelve:		; llama a paleta_de_la_sala (p00:4ACB) y deja otra vez los bancos 1-2 y el de zona
 	call paleta_de_la_sala		;40ff   ; paleta_de_la_sala: manda al VDP la paleta de la sala (nibble p05:8B40, tabla p05:8BBE)
 	jr L_4143		;4102
-L_4104:
+pone_dibujo_y_vuelve:		; llama a pone_dibujo (p00:44AF) y deja otra vez los bancos 1-2 y el de zona
 	call pone_dibujo		;4104   ; pone_dibujo: pone un dibujo del banco 15 ([filas][columnas] y fichas) en la sala, en D/E
 	jr L_4143		;4107
-L_4109:
+dibujo_b5f7_y_vuelve:		; llama a dibujo_b5f7 (p00:44AC) y deja otra vez los bancos 1-2 y el de zona
 	call dibujo_b5f7		;4109   ; dibujo_b5f7: pone el dibujo p15:B5F7 con L_44AF
 	jr L_4143		;410c
-L_410E:
+teclas_del_juego_y_vuelve:		; llama a teclas_del_juego (p01:7CBC) y deja otra vez los bancos 1-2 y el de zona
 	call 07cbch		;410e   ; teclas_del_juego: 0xC007 = las teclas que hay, 0xC006 = las nuevas
 	jr L_4143		;4111
-L_4113:
+paleta_por_defecto_y_vuelve:		; llama a paleta_por_defecto (p00:4E90) y deja otra vez los bancos 1-2 y el de zona
 	call paleta_por_defecto		;4113   ; paleta_por_defecto: manda al VDP los 16 colores de 0x4EA4
 	jr L_4143		;4116
-L_4118:
+paleta_y_vuelve:		; llama a paleta (p00:4EC4) y deja otra vez los bancos 1-2 y el de zona
 	call paleta		;4118   ; paleta: manda al VDP la lista de HL: [color][RB][G] ... 0xFF
 	jr L_4143		;411b
-L_411D:
-	call graficos_b719		;411d   ; graficos_b719: carga tres bloques de 1 bit del banco 9 (p09:B719, B781, B7E9) en la VRAM y pinta la lista p09:B6D8
+graficos_del_logotipo_konami_y_vuelve:		; llama a graficos_del_logotipo_konami (p00:4C4B) y deja otra vez los bancos 1-2 y el de zona
+	call graficos_del_logotipo_konami		;411d   ; graficos_del_logotipo_konami: carga los tres bloques de 1 bit del logotipo de Konami (p09:B719, B781, B7E9) y pinta su montaje p09:B6D8
 	jr L_4143		;4120
-L_4122:
+copia_vram_y_vuelve:		; llama a copia_vram (p00:4FCD) y deja otra vez los bancos 1-2 y el de zona
 	call copia_vram		;4122   ; copia_vram: HMMM: copia B x C de (H, L) a (D, E); A = paginas (bits 0-1 origen, 2-3 destino)
 	jr L_4143		;4125
-L_4127:
+ventana_de_texto_2_y_vuelve:		; llama a ventana_de_texto_2 (p00:5CD9) y deja otra vez los bancos 1-2 y el de zona
 	call ventana_de_texto_2		;4127   ; ventana_de_texto_2: abre la ventana del texto A en el modo 2 (0xCEE0)
 	jr L_4143		;412a
 L_412C:
 	call 08ffeh		;412c
 	jr L_4143		;412f
-L_4131:
+linea_vertical_y_vuelve:		; llama a linea_vertical (p00:4F2F) y deja otra vez los bancos 1-2 y el de zona
 	call linea_vertical		;4131   ; linea_vertical: LINE de B puntos hacia abajo desde (H, L) en el color C
 	jr L_4143		;4134
-L_4136:
+linea_horizontal_y_vuelve:		; llama a linea_horizontal (p00:4EFC) y deja otra vez los bancos 1-2 y el de zona
 	call linea_horizontal		;4136   ; linea_horizontal: LINE de B puntos desde (H, L) en el color C
 	jr L_4143		;4139
 L_413B:
 	call 0737bh		;413b
 	jr L_4143		;413e
-L_4140:
+sonido_y_vuelve:		; llama a sonido (p00:4284) y deja otra vez los bancos 1-2 y el de zona
 	call sonido		;4140   ; sonido: pide el sonido A al controlador del banco 4 (0x67FD) con los bancos 4 y 5
 L_4143:
 	jr L_4193		;4143
-L_4145:
+paleta_a_y_vuelve:		; llama a paleta_a (p00:4B03) y deja otra vez los bancos 1-2 y el de zona
 	call paleta_a		;4145   ; paleta_a: manda al VDP la paleta A de la tabla p05:8BBE
 	jr L_4193		;4148
-L_414A:
+ventana_paso_y_vuelve:		; llama a ventana_paso (p00:5D03) y deja otra vez los bancos 1-2 y el de zona
 	call ventana_paso		;414a   ; ventana_paso: un paso de la ventana de texto (0xCEF2, tabla 0x5D1D)
 	jr L_4193		;414d
 L_414F:
@@ -219,34 +219,34 @@ L_4159:
 L_415E:
 	call 06f18h		;415e
 	jr L_4193		;4161
-L_4163:
+borra_la_pagina_d_y_vuelve:		; llama a borra_la_pagina_d (p00:4E1D) y deja otra vez los bancos 1-2 y el de zona
 	call borra_la_pagina_d		;4163   ; borra_la_pagina_d: llena la pagina de D de color 0 y pone R#23 a cero
 	jr L_4193		;4166
-L_4168:
+fichas_3_planos_y_vuelve:		; llama a fichas_3_planos (p00:524C) y deja otra vez los bancos 1-2 y el de zona
 	call fichas_3_planos		;4168   ; fichas_3_planos: B fichas de 3 planos (24 bytes) de HL a la VRAM DE con los colores de 0xE700
 	jr L_4193		;416b
-L_416D:
+paleta_del_juego_y_vuelve:		; llama a paleta_del_juego (p00:4A92) y deja otra vez los bancos 1-2 y el de zona
 	call paleta_del_juego		;416d   ; paleta_del_juego: manda al VDP la paleta p05:8B0B
 	jr L_4193		;4170
-L_4172:
+fichas_del_marcador_y_vuelve:		; llama a fichas_del_marcador (p00:4B33) y deja otra vez los bancos 1-2 y el de zona
 	call fichas_del_marcador		;4172   ; fichas_del_marcador: carga en la pagina 1 las fichas de los objetos, del marcador, de la camara y del retrato
 	jr L_4193		;4175
-L_4177:
+guarda_paleta_y_vuelve:		; llama a guarda_paleta (p01:6D11) y deja otra vez los bancos 1-2 y el de zona
 	call 06d11h		;4177   ; guarda_paleta: lee la paleta de 0xF680 (VRAM) a 0xC1CF en formato [color][RB][G]
 	jr L_4193		;417a
-L_417C:
+funde_paleta_y_vuelve:		; llama a funde_paleta (p01:6D2E) y deja otra vez los bancos 1-2 y el de zona
 	call 06d2eh		;417c   ; funde_paleta: apaga un poco la paleta de 0xC1CF y la manda; acarreo cuando todo es 0
 	jr L_4193		;417f
 L_4181:
 	call 06b04h		;4181
 	jr L_4193		;4184
-L_4186:
+atributos_de_snake_y_vuelve:		; llama a atributos_de_snake (p00:5318) y deja otra vez los bancos 1-2 y el de zona
 	call atributos_de_snake		;4186   ; atributos_de_snake: los sprites de la pose 0xC18A (p10:606A, p10:609F) a 0xEA00 (0xEA40 en las salas 0xF0+ salvo 0xFB) mas su Y y su X
 	jr L_4193		;4189
-L_418B:
+patrones_de_snake_y_vuelve:		; llama a patrones_de_snake (p00:53AB) y deja otra vez los bancos 1-2 y el de zona
 	call patrones_de_snake		;418b   ; patrones_de_snake: descomprime los patrones de la pose 0xC18A (p10:6000) en 0xF800
 	jr L_4193		;418e
-L_4190:
+esconde_los_sprites_ram_y_vuelve:		; llama a esconde_los_sprites_ram (p00:4E42) y deja otra vez los bancos 1-2 y el de zona
 	call esconde_los_sprites_ram		;4190   ; esconde_los_sprites_ram: llena de 0xE0 la copia de los atributos (0xEA00-0xEA7F)
 L_4193:
 	jr vuelve_a_1_2_3		;4193
@@ -272,7 +272,7 @@ interrupcion:		; H.TIMI: el sonido (banco 4, 0x6000) y, si no esta ya en marcha 
 	ld (06000h),a		;41b2   ; el mapper: pone en 0x6000 el banco de A
 	inc a			;41b5
 	ld (08000h),a		;41b6   ; el mapper: pone en 0x8000 el banco de A
-	call 06000h		;41b9
+	call 06000h		;41b9   ; sonido_del_cuadro: el controlador de sonido, cada interrupcion: mezclador, modo 0xC0F1, fundido 0xC0F4 y los 4 canales
 	ld a,(0f0f1h)		;41bc   ; lee la copia del banco de 0x6000
 	ld (06000h),a		;41bf   ; el mapper: pone en 0x6000 el banco de A
 	ld a,(0f0f2h)		;41c2   ; lee la copia del banco de 0x8000
@@ -424,7 +424,7 @@ sonido:		; pide el sonido A al controlador del banco 4 (0x67FD) con los bancos 4
 	ld (0f0f2h),a		;4296   ; guarda la copia del banco de 0x8000
 	ld (08000h),a		;4299   ; el mapper: pone en 0x8000 el banco de A
 	pop af			;429c
-	call 067fdh		;429d
+	call 067fdh		;429d   ; pide_sonido: el sonido A (indice 0x6892): < 0x29 efecto en 0xC070 si manda mas, si no musica de 3 o 4 canales; 0x4D/0x59 guardan la musica
 	pop hl			;42a0
 	ld (0f0f1h),hl		;42a1   ; guarda la copia del banco de 0x6000 y el byte siguiente (16 bits)
 	ld a,l			;42a4
@@ -980,7 +980,7 @@ L_4602:
 	dec c			;460f
 	jr nz,L_4600		;4610
 	ret			;4612
-L_4613:
+gasta_municion:		; resta 1 (BCD) a la cantidad de HL y la pinta; con C = 1 o mas, al acabarse quita el arma o el objeto
 	ld a,(hl)			;4613
 	sub 001h		;4614
 	daa			;4616
@@ -991,14 +991,14 @@ L_4613:
 L_461C:
 	ld a,c			;461c
 	and a			;461d
-	jp z,L_4795		;461e
+	jp z,pinta_municion		;461e   ; pinta_municion: el numero BCD de 2 bytes de HL en (0xC0, 0xC8)
 	dec c			;4621
 	jr nz,L_4637		;4622
 	ld a,(hl)			;4624
 	dec hl			;4625
 	or (hl)			;4626
 	inc hl			;4627
-	jp nz,L_4795		;4628
+	jp nz,pinta_municion		;4628   ; pinta_municion: el numero BCD de 2 bytes de HL en (0xC0, 0xC8)
 	dec hl			;462b
 	dec hl			;462c
 	call cuatro_ceros		;462d   ; cuatro_ceros: pone a cero 4 bytes desde HL
@@ -1014,7 +1014,7 @@ L_4637:
 	ld a,(hl)			;463c
 	call busca_objeto		;463d   ; busca_objeto: busca A en los 25 objetos de 0xC530 (fichas de 4): C = el sitio, Z si esta, acarreo si no
 	pop af			;4640
-	jp nz,L_4897		;4641
+	jp nz,pinta_cantidad		;4641   ; pinta_cantidad: la cantidad del objeto C en la ventana de equipo
 	call cuatro_ceros		;4644   ; cuatro_ceros: pone a cero 4 bytes desde HL
 	call bancos_4_5_6		;4647   ; bancos_4_5_6: pone los bancos 4, 5 y 6 (y sus copias en 0xF0F1-0xF0F3)
 	ld a,c			;464a
@@ -1198,9 +1198,9 @@ L_4781:
 	call busca_arma		;4790   ; busca_arma: busca A en las 7 armas de 0xC500 (fichas de 4): C = el sitio, Z si esta, acarreo si no
 	inc hl			;4793
 	inc hl			;4794
-L_4795:
+pinta_municion:		; el numero BCD de 2 bytes de HL en (0xC0, 0xC8)
 	ld de,0c0c8h		;4795
-	jp 090eah		;4798
+	jp 090eah		;4798   ; numero_bcd_2: el numero BCD de 2 bytes de HL
 borra_marcador_arma:		; borra el hueco del arma en el marcador (0xA0C2, 0x38 x 0x10)
 	ld hl,0a0c2h		;479b
 	ld bc,03810h		;479e
@@ -1319,11 +1319,11 @@ marcador_objeto:		; pinta en el marcador el objeto elegido (0xC135)
 borra_marcador_objeto:		; borra el hueco del objeto en el marcador (0xE0C2, 0x18 x 0x10)
 	ld hl,0e0c2h		;488c
 	ld bc,01810h		;488f
-L_4892:
+rellena_pagina_0:		; rellena con D = 0 y A = 0
 	xor a			;4892
 	ld d,a			;4893
 	jp rellena		;4894   ; rellena: HMMV: llena B x C desde (H, L) de la pagina D con el byte A
-L_4897:
+pinta_cantidad:		; la cantidad del objeto C en la ventana de equipo
 	push hl			;4897
 	call bancos_4_5_6		;4898   ; bancos_4_5_6: pone los bancos 4, 5 y 6 (y sus copias en 0xF0F1-0xF0F3)
 	ld de,0b9bbh		;489b
@@ -1340,7 +1340,7 @@ L_4897:
 	ld h,a			;48ae
 	push hl			;48af
 	ld bc,01808h		;48b0
-	call L_4892		;48b3
+	call rellena_pagina_0		;48b3   ; rellena_pagina_0: rellena con D = 0 y A = 0
 	pop de			;48b6
 	pop hl			;48b7
 	inc hl			;48b8
@@ -1871,7 +1871,7 @@ L_4C40:
 	ld de,0a6f9h		;4c43
 	call patrones_con_destino		;4c46   ; patrones_con_destino: lee la direccion VRAM de DE y descomprime detras
 	jr L_4BEA		;4c49
-graficos_b719:		; carga tres bloques de 1 bit del banco 9 (p09:B719, B781, B7E9) en la VRAM y pinta la lista p09:B6D8
+graficos_del_logotipo_konami:		; carga los tres bloques de 1 bit del logotipo de Konami (p09:B719, B781, B7E9) y pinta su montaje p09:B6D8
 	call bancos_7_8_9		;4c4b   ; bancos_7_8_9: pone los bancos 7, 8 y 9 (y sus copias en 0xF0F1-0xF0F3)
 	ld hl,0b719h		;4c4e
 	ld de,00800h		;4c51
@@ -2381,24 +2381,24 @@ linea_vertical:		; LINE de B puntos hacia abajo desde (H, L) en el color C
 	ret			;4f62
 recuadro:		; un recuadro de D x E desde (H, L) en el color C
 	ld b,e			;4f63
-	call L_4F7D		;4f64
+	call linea_vertical_guarda		;4f64   ; linea_vertical_guarda: linea_vertical guardando HL, DE y BC
 	ld b,d			;4f67
-	call L_4F87		;4f68
+	call linea_horizontal_guarda		;4f68   ; linea_horizontal_guarda: linea_horizontal guardando HL, DE y BC
 	push hl			;4f6b
 	ld a,l			;4f6c
 	dec a			;4f6d
 	add a,e			;4f6e
 	ld l,a			;4f6f
 	ld b,d			;4f70
-	call L_4F87		;4f71
+	call linea_horizontal_guarda		;4f71   ; linea_horizontal_guarda: linea_horizontal guardando HL, DE y BC
 	pop hl			;4f74
 	ld a,h			;4f75
 	dec a			;4f76
 	add a,d			;4f77
 	ld h,a			;4f78
 	ld b,e			;4f79
-	jp L_4F7D		;4f7a
-L_4F7D:
+	jp linea_vertical_guarda		;4f7a   ; linea_vertical_guarda: linea_vertical guardando HL, DE y BC
+linea_vertical_guarda:		; linea_vertical guardando HL, DE y BC
 	push hl			;4f7d
 	push de			;4f7e
 	push bc			;4f7f
@@ -2407,7 +2407,7 @@ L_4F7D:
 	pop de			;4f84
 	pop hl			;4f85
 	ret			;4f86
-L_4F87:
+linea_horizontal_guarda:		; linea_horizontal guardando HL, DE y BC
 	push hl			;4f87
 	push de			;4f88
 	push bc			;4f89
@@ -2878,11 +2878,11 @@ ficha_2_planos:		; una ficha de 2 planos de HL a 4 bits en 0xE708
 	ld b,008h		;5217
 L_5219:
 	push bc			;5219
-	call L_5221		;521a
+	call fila_2_planos		;521a   ; fila_2_planos: una fila (2 bytes) de una ficha de 2 planos a 4 bits en (HL')
 	pop bc			;521d
 	djnz L_5219		;521e
 	ret			;5220
-L_5221:
+fila_2_planos:		; una fila (2 bytes) de una ficha de 2 planos a 4 bits en (HL')
 	ld b,004h		;5221
 	ld e,(hl)			;5223
 	inc hl			;5224
@@ -2955,11 +2955,11 @@ ficha_3_planos:		; una ficha de 3 planos de HL a 4 bits en 0xE708
 	ld b,008h		;527e
 L_5280:
 	push bc			;5280
-	call L_5288		;5281
+	call fila_3_planos		;5281   ; fila_3_planos: una fila (3 bytes) de una ficha de 3 planos a 4 bits en (HL')
 	pop bc			;5284
 	djnz L_5280		;5285
 	ret			;5287
-L_5288:
+fila_3_planos:		; una fila (3 bytes) de una ficha de 3 planos a 4 bits en (HL')
 	ld b,004h		;5288
 	ld e,(hl)			;528a
 	inc hl			;528b
@@ -3341,7 +3341,7 @@ cuadro_tipo_35:		; lo de cada cuadro del tipo 35
 	ld (hl),a			;54cc
 L_54CD:
 	call zona_banco_15		;54cd   ; zona_banco_15: pone el banco 15 en 0xA000 y lo apunta en 0xF0F3 y 0xF0F6
-	call 0bf6eh		;54d0
+	call 0bf6eh		;54d0   ; borra_rayos: tapa los rayos copiando de la pagina 1
 	call bancos_1_2_3		;54d3   ; bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 	call bancos_10_11_12		;54d6   ; bancos_10_11_12: pone los bancos 10, 11 y 12 (y sus copias en 0xF0F1-0xF0F3)
 	ld a,(0c60bh)		;54d9
@@ -3763,7 +3763,7 @@ nada_57e2:		; solo ret (la creacion del tipo 42)
 	ret			;57e2
 crea_tipo_17:		; la creacion del tipo 17
 	call zona_banco_12		;57e3   ; zona_banco_12: pone el banco 12 en 0xA000 y lo apunta en 0xF0F3 y 0xF0F6
-	call 0bc12h		;57e6
+	call 0bc12h		;57e6   ; crea_metal_gear: con 0xC623 nada; si no, (ix+0x1B) = 0xC623 y el dibujo de Metal Gear
 	jp bancos_1_2_3		;57e9   ; bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
 colores_de_tabla:		; copia los colores del tipo (ix+0) de la tabla DE a la ficha, uno cada 5 bytes
 	ld a,(ix+020h)		;57ec
@@ -3929,7 +3929,7 @@ reaparece:		; crea en IX el actor de p06:A445 de la sala (salas < 0xBC)
 pon_tipo:		; pone el tipo A en IX y lo prepara (p03:B3F8, p02:8334, p03:A923, colores)
 	ld (ix+000h),a		;58fd
 	ld (ix+001h),000h		;5900
-	call 0b3f8h		;5904
+	call 0b3f8h		;5904   ; parado: las dos velocidades a cero
 	ld (ix+006h),001h		;5907
 	ld (ix+012h),001h		;590b
 	ld (ix+00eh),003h		;590f
@@ -3981,7 +3981,7 @@ L_5954:
 L_5962:
 	ld (ix+044h),a		;5962
 	call elige_camino		;5965   ; elige_camino: elige un camino de la sala para IX (por los actores que hay) y lo carga
-	jp 09d98h		;5968
+	jp 09d98h		;5968   ; cuadro_de_direccion: cuadro = 2 x (ix+0x11) + el bit 0 del cuadro
 elige_camino:		; elige un camino de la sala para IX (por los actores que hay) y lo carga
 	inc (ix+006h)		;596b
 	ld a,004h		;596e
@@ -4179,7 +4179,7 @@ L_5A93:
 L_5AC4:
 	ld a,(ix+000h)		;5ac4
 	cp 013h		;5ac7
-	call z,L_5AE9		;5ac9
+	call z,sigue_si_punto_1		;5ac9   ; sigue_si_punto_1: si (ix+0x14) no es 1 vuelve; si es 1, sale tambien de quien llamo
 	ld a,r		;5acc
 	rra			;5ace
 	ret nc			;5acf
@@ -4192,7 +4192,7 @@ L_5AC4:
 	add a,(ix+011h)		;5ae0
 	ld (ix+00bh),a		;5ae3
 	jp bancos_1_2_3		;5ae6   ; bancos_1_2_3: pone los bancos 1, 2 y 3 (y sus copias en 0xF0F1-0xF0F3)
-L_5AE9:
+sigue_si_punto_1:		; si (ix+0x14) no es 1 vuelve; si es 1, sale tambien de quien llamo
 	ld a,(ix+014h)		;5ae9
 	dec a			;5aec
 	ret nz			;5aed
@@ -4557,7 +4557,7 @@ ventana_paso:		; un paso de la ventana de texto (0xCEF2, tabla 0x5D1D)
 	ld a,(0c112h)		;5d0a   ; lee las teclas de funcion nuevas (F1 1, F2 2, F3 4, F4 8, F5 0x10)
 	and 008h		;5d0d
 	jr z,L_5D17		;5d0f
-	call L_5F13		;5d11
+	call ventana_vuelve		;5d11   ; ventana_vuelve: devuelve el modo 0xCEF1 a 0xC151 y marca 0xC661/0xC663/0xC662 con los textos 0x75/0x76/0x8A
 	jp 06bb1h		;5d14
 L_5D17:
 	ld a,(0cef2h)		;5d17   ; lee el paso de la ventana de texto
@@ -4604,19 +4604,19 @@ ventana_prepara:		; paso 0: tipo de ventana (0xCEF5), marco, recuadro y el fondo
 	ld (0cf00h),de		;5d59
 	ld a,(0cef0h)		;5d5d   ; lee el texto de la ventana
 	cp 002h		;5d60
-	jr z,L_5D7E		;5d62
+	jr z,ventana_paso_siguiente		;5d62
 	ld a,(0cef1h)		;5d64
 	cp 004h		;5d67
-	jr z,L_5D7E		;5d69
+	jr z,ventana_paso_siguiente		;5d69
 	ld a,(0c180h)		;5d6b   ; lee el estado de Snake
 	cp 008h		;5d6e
-	jr z,L_5D7E		;5d70
+	jr z,ventana_paso_siguiente		;5d70
 	call recuadro_de_ventana		;5d72   ; recuadro_de_ventana: E D C B = el recuadro del tipo de ventana (0x5F92)
 	ex de,hl			;5d75
 	ld de,000a0h		;5d76
 	ld a,004h		;5d79
 	call copia_vram		;5d7b   ; copia_vram: HMMM: copia B x C de (H, L) a (D, E); A = paginas (bits 0-1 origen, 2-3 destino)
-L_5D7E:
+ventana_paso_siguiente:		; sube el paso de la ventana de texto 0xCEF2
 	ld hl,0cef2h		;5d7e   ; apunta a el paso de la ventana de texto
 	inc (hl)			;5d81
 	ret			;5d82
@@ -4709,7 +4709,7 @@ L_5E17:
 	bit 2,a		;5e21
 	ld hl,0b42bh		;5e23
 	jr nz,L_5E2B		;5e26
-L_5E28:
+retrato_b41f:		; pone el retrato p15:B41F en la ventana (modo 4)
 	ld hl,0b41fh		;5e28
 L_5E2B:
 	ld a,(0cef1h)		;5e2b
@@ -4723,10 +4723,10 @@ L_5E2B:
 	ld de,0d030h		;5e3c
 	jp L_449E		;5e3f
 L_5E42:
-	call L_5E28		;5e42
+	call retrato_b41f		;5e42   ; retrato_b41f: pone el retrato p15:B41F en la ventana (modo 4)
 	ld a,060h		;5e45
 	ld (0cefbh),a		;5e47
-	jp L_5D7E		;5e4a
+	jp ventana_paso_siguiente		;5e4a   ; ventana_paso_siguiente: sube el paso de la ventana de texto 0xCEF2
 L_5E4D:
 	inc hl			;5e4d
 L_5E4E:
@@ -4740,8 +4740,8 @@ L_5E4E:
 L_5E5E:
 	ld a,001h		;5e5e
 	ld (0cee3h),a		;5e60
-	call L_5E28		;5e63
-	call L_5D7E		;5e66
+	call retrato_b41f		;5e63   ; retrato_b41f: pone el retrato p15:B41F en la ventana (modo 4)
+	call ventana_paso_siguiente		;5e66   ; ventana_paso_siguiente: sube el paso de la ventana de texto 0xCEF2
 	jr L_5E9F		;5e69
 ventana_espera:		; paso 3: espera la tecla o la cuenta 0xCEFB y borra el recuadro
 	ld a,(0cee0h)		;5e6b
@@ -4775,7 +4775,7 @@ L_5E9F:
 	xor a			;5ea6
 	ld d,a			;5ea7
 	call rellena		;5ea8   ; rellena: HMMV: llena B x C desde (H, L) de la pagina D con el byte A
-	jp L_5D7E		;5eab
+	jp ventana_paso_siguiente		;5eab   ; ventana_paso_siguiente: sube el paso de la ventana de texto 0xCEF2
 L_5EAE:
 	ld a,(0c003h)		;5eae   ; lee la cuenta de cuadros
 	bit 4,a		;5eb1
@@ -4789,7 +4789,7 @@ L_5EB8:
 ventana_siguiente:		; paso 4: el trozo siguiente del texto a 0xCF10 (trozo_de_texto)
 	ld a,(0cefah)		;5ec1
 	and a			;5ec4
-	jp z,L_5D7E		;5ec5
+	jp z,ventana_paso_siguiente		;5ec5   ; ventana_paso_siguiente: sube el paso de la ventana de texto 0xCEF2
 	call trozo_de_texto		;5ec8   ; trozo_de_texto: copia el texto de 0xCEF3 a 0xCF10 con los trozos >= 0xA1 (p12:B8A7) puestos; A = 0 con 0xFF, 1 con 0xFD
 	ld (0cefah),a		;5ecb
 	inc hl			;5ece
@@ -4818,13 +4818,13 @@ ventana_cierra:		; paso 5: devuelve el fondo, 0xC151, y marca 0xC661/0xC663/0xC6
 	ld a,001h		;5f03
 	call copia_vram		;5f05   ; copia_vram: HMMM: copia B x C de (H, L) a (D, E); A = paginas (bits 0-1 origen, 2-3 destino)
 	call 0a6fbh		;5f08
-	jr L_5F13		;5f0b
+	jr ventana_vuelve		;5f0b
 L_5F0D:
 	ex de,hl			;5f0d
 	xor a			;5f0e
 	ld d,a			;5f0f
 	call rellena		;5f10   ; rellena: HMMV: llena B x C desde (H, L) de la pagina D con el byte A
-L_5F13:
+ventana_vuelve:		; devuelve el modo 0xCEF1 a 0xC151 y marca 0xC661/0xC663/0xC662 con los textos 0x75/0x76/0x8A
 	ld a,(0cef1h)		;5f13
 	ld (0c151h),a		;5f16   ; guarda el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
 	ld a,(0cee3h)		;5f19

@@ -2449,9 +2449,9 @@ DATA_objetos_en_sala_47:
 ; ======================================================================
 
 
-L_BB8E:
+suelta_objeto:		; el objeto de 0xBBD8 + A en (E, D) como objeto de la sala, y lo pinta con el sonido 0x25
 	ld hl,0bbd8h		;bb8e
-	call 04050h		;bb91
+	call 04050h		;bb91   ; hl_mas_a_y_vuelve: llama a hl_mas_a (p00:41E0) y deja otra vez los bancos 1-2 y el de zona
 	ld a,(hl)			;bb94
 	ld hl,0c5c1h		;bb95
 	ld (hl),a			;bb98
@@ -2479,7 +2479,7 @@ L_BBAB:
 	ret nz			;bbb9
 	push bc			;bbba
 	ld de,0c5c1h		;bbbb
-	call L_BC07		;bbbe
+	call copia_objetos		;bbbe   ; copia_objetos: las ternas [objeto][Y][X] de DE no cogidas (0xC520/0xC5A0) a fichas de 0x10 en HL; el 4 solo con 0xC661
 	ld bc,0000ch		;bbc1
 	and a			;bbc4
 	sbc hl,bc		;bbc5
@@ -2487,9 +2487,9 @@ L_BBAB:
 	ld (hl),c			;bbc8
 	ld ix,0c5d0h		;bbc9
 	ld bc,00100h		;bbcd
-	call L_BC4E		;bbd0
+	call pinta_objetos_b		;bbd0   ; pinta_objetos_b: B objetos desde IX (C = el primero)
 	ld a,025h		;bbd3
-	jp 0405ah		;bbd5
+	jp 0405ah		;bbd5   ; sonido_si_hay_y_vuelve: llama a sonido_si_hay (p00:427C) y deja otra vez los bancos 1-2 y el de zona
 
 ; ----------------------------------------------------------------------
 ; DATOS bbd8: 5 bytes que p06:BB8E lee en 0xBBD8 + A; lo leen p06:BB8E (5
@@ -2503,7 +2503,7 @@ DATA_bbd8:
 ; ======================================================================
 
 
-L_BBDD:
+objetos_al_entrar:		; 0xC5D0 a cero y los objetos de la sala (0x7A-0xD9: 0xB9EF, 0xBA50) que no se cogieron
 	ld hl,0c5d0h		;bbdd
 	ld de,0c5d1h		;bbe0
 	ld bc,0002fh		;bbe3
@@ -2516,15 +2516,15 @@ L_BBDD:
 	ret c			;bbf1
 	sub 07ah		;bbf2
 	ld de,0b9efh		;bbf4
-	call 04055h		;bbf7
+	call 04055h		;bbf7   ; de_mas_a_y_vuelve: llama a de_mas_a (p00:41E5) y deja otra vez los bancos 1-2 y el de zona
 	ld a,(de)			;bbfa
 	and a			;bbfb
 	ret z			;bbfc
 	dec a			;bbfd
 	ld de,0ba50h		;bbfe
-	call 040beh		;bc01
+	call 040beh		;bc01   ; palabra_a_y_vuelve: llama a palabra_a (p00:42B4) y deja otra vez los bancos 1-2 y el de zona
 	ld hl,0c5d0h		;bc04
-L_BC07:
+copia_objetos:		; las ternas [objeto][Y][X] de DE no cogidas (0xC520/0xC5A0) a fichas de 0x10 en HL; el 4 solo con 0xC661
 	ld a,(de)			;bc07
 	inc a			;bc08
 	ret z			;bc09
@@ -2555,7 +2555,7 @@ L_BC28:
 	inc de			;bc2c
 	inc de			;bc2d
 	inc de			;bc2e
-	jr L_BC07		;bc2f
+	jr copia_objetos		;bc2f
 L_BC31:
 	ld a,(de)			;bc31
 	ld (hl),a			;bc32
@@ -2572,12 +2572,12 @@ L_BC31:
 	inc de			;bc3d
 	ld (hl),000h		;bc3e
 	ld a,00ch		;bc40
-	call 04050h		;bc42
-	jr L_BC07		;bc45
-L_BC47:
+	call 04050h		;bc42   ; hl_mas_a_y_vuelve: llama a hl_mas_a (p00:41E0) y deja otra vez los bancos 1-2 y el de zona
+	jr copia_objetos		;bc45
+pinta_objetos:		; los 3 objetos de 0xC5D0: guarda el fondo en la pagina 1 y los pone con TIMP
 	ld ix,0c5d0h		;bc47
 	ld bc,00300h		;bc4b
-L_BC4E:
+pinta_objetos_b:		; B objetos desde IX (C = el primero)
 	push bc			;bc4e
 	ld a,(ix+000h)		;bc4f
 	and a			;bc52
@@ -2590,7 +2590,7 @@ L_BC4E:
 L_BC61:
 	dec a			;bc61
 	add a,a			;bc62
-	call 04050h		;bc63
+	call 04050h		;bc63   ; hl_mas_a_y_vuelve: llama a hl_mas_a (p00:41E0) y deja otra vez los bancos 1-2 y el de zona
 	ld a,(hl)			;bc66
 	and 001h		;bc67
 	ld (ix+001h),a		;bc69
@@ -2613,7 +2613,7 @@ L_BC85:
 	ld h,(ix+003h)		;bc88
 	ld a,018h		;bc8b
 	push bc			;bc8d
-	call 040a5h		;bc8e
+	call 040a5h		;bc8e   ; copia_logica_y_vuelve: llama a copia_logica (p00:5011) y deja otra vez los bancos 1-2 y el de zona
 	pop bc			;bc91
 	pop hl			;bc92
 	ld a,(hl)			;bc93
@@ -2624,27 +2624,27 @@ L_BC85:
 	ld e,(ix+002h)		;bc99
 	ld d,(ix+003h)		;bc9c
 	ld a,048h		;bc9f
-	call 040a5h		;bca1
+	call 040a5h		;bca1   ; copia_logica_y_vuelve: llama a copia_logica (p00:5011) y deja otra vez los bancos 1-2 y el de zona
 L_BCA4:
 	pop bc			;bca4
 	ld de,00010h		;bca5
 	add ix,de		;bca8
 	inc c			;bcaa
-	djnz L_BC4E		;bcab
+	djnz pinta_objetos_b		;bcab
 	ret			;bcad
-L_BCAE:
+demo_empieza:		; el guion siguiente de la demo (0xC00C, 0xBD8F): sala, arma, transceptor y Snake
 	call 04195h		;bcae
 	ld a,(0c00ch)		;bcb1
 	inc a			;bcb4
 	and 003h		;bcb5
 	ld (0c00ch),a		;bcb7
 	ld de,0bd8fh		;bcba
-	call 040beh		;bcbd
+	call 040beh		;bcbd   ; palabra_a_y_vuelve: llama a palabra_a (p00:42B4) y deja otra vez los bancos 1-2 y el de zona
 	ld a,(de)			;bcc0
 	ld (0c00ah),a		;bcc1
 	inc de			;bcc4
 	ld a,(de)			;bcc5
-	call 0410eh		;bcc6
+	call 0410eh		;bcc6   ; teclas_del_juego_y_vuelve: llama a teclas_del_juego (p01:7CBC) y deja otra vez los bancos 1-2 y el de zona
 	ld (0c00dh),de		;bcc9
 	ld a,(0c00ch)		;bccd
 	dec a			;bcd0
@@ -2654,13 +2654,13 @@ L_BCAE:
 	dec a			;bcd6
 	jr z,L_BD04		;bcd7
 L_BCD9:
-	call 0416dh		;bcd9
-	call 04172h		;bcdc
+	call 0416dh		;bcd9   ; paleta_del_juego_y_vuelve: llama a paleta_del_juego (p00:4A92) y deja otra vez los bancos 1-2 y el de zona
+	call 04172h		;bcdc   ; fichas_del_marcador_y_vuelve: llama a fichas_del_marcador (p00:4B33) y deja otra vez los bancos 1-2 y el de zona
 	ld a,085h		;bcdf
 	ld (0c138h),a		;bce1   ; guarda la frecuencia del transceptor (BCD)
 	ld a,010h		;bce4
 	ld (0c131h),a		;bce6
-	call 0407dh		;bce9
+	call 0407dh		;bce9   ; transceptor_abre_y_vuelve: llama a transceptor_abre (p01:6912) y deja otra vez los bancos 1-2 y el de zona
 	ld a,010h		;bcec
 	ld (0c802h),a		;bcee
 	xor a			;bcf1
@@ -2686,7 +2686,7 @@ L_BD14:
 	jr nz,L_BD25		;bd1b
 	ld a,02ch		;bd1d
 	ld (0c159h),a		;bd1f   ; guarda la musica que suena
-	call 04140h		;bd22
+	call 04140h		;bd22   ; sonido_y_vuelve: llama a sonido (p00:4284) y deja otra vez los bancos 1-2 y el de zona
 L_BD25:
 	ld a,(0c00ch)		;bd25
 	cp 002h		;bd28
@@ -2703,7 +2703,7 @@ L_BD39:
 	ld a,001h		;bd39
 	ld (0c123h),a		;bd3b
 	ret			;bd3e
-L_BD3F:
+demo_cuadro:		; un cuadro de la demo (transceptor y ventana de texto en el guion 0)
 	ld a,(0c00ch)		;bd3f
 	rra			;bd42
 	jp c,0415eh		;bd43
@@ -2712,24 +2712,24 @@ L_BD3F:
 	jr z,L_BD5F		;bd4a
 	dec a			;bd4c
 	jr z,L_BD6C		;bd4d
-	call 04082h		;bd4f
+	call 04082h		;bd4f   ; transceptor_senal_y_vuelve: llama a transceptor_senal (p01:699F) y deja otra vez los bancos 1-2 y el de zona
 	ld a,(0c153h)		;bd52   ; lee el paso del modo
 	dec a			;bd55
 	ret nz			;bd56
-	call L_BD68		;bd57
+	call demo_paso_siguiente		;bd57   ; demo_paso_siguiente: sube 0xC009
 	ld a,024h		;bd5a
-	jp 04127h		;bd5c
+	jp 04127h		;bd5c   ; ventana_de_texto_2_y_vuelve: llama a ventana_de_texto_2 (p00:5CD9) y deja otra vez los bancos 1-2 y el de zona
 L_BD5F:
-	call 0414ah		;bd5f
+	call 0414ah		;bd5f   ; ventana_paso_y_vuelve: llama a ventana_paso (p00:5D03) y deja otra vez los bancos 1-2 y el de zona
 	ld a,(0c151h)		;bd62   ; lee el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
 	cp 004h		;bd65
 	ret nz			;bd67
-L_BD68:
+demo_paso_siguiente:		; sube 0xC009
 	ld hl,0c009h		;bd68
 	inc (hl)			;bd6b
 L_BD6C:
 	ret			;bd6c
-L_BD6D:
+demo_teclas:		; la pareja [cuadros][teclas] siguiente del guion; 0xFF acaba (0xC123 = 0)
 	ld hl,0c00ah		;bd6d
 	dec (hl)			;bd70
 	jr nz,L_BD83		;bd71
@@ -2744,7 +2744,7 @@ L_BD6D:
 L_BD83:
 	ld hl,(0c00dh)		;bd83
 	ld a,(hl)			;bd86
-	jp 0410eh		;bd87
+	jp 0410eh		;bd87   ; teclas_del_juego_y_vuelve: llama a teclas_del_juego (p01:7CBC) y deja otra vez los bancos 1-2 y el de zona
 L_BD8A:
 	xor a			;bd8a
 	ld (0c123h),a		;bd8b
@@ -2833,7 +2833,7 @@ DATA_guion_de_la_demo_BDD5:
 ; ======================================================================
 
 
-L_BDF8:
+punto_de_control:		; si (sala, parada) esta en 0xBE64 (31 parejas), guarda la partida en 0xCA00
 	ld a,(0c623h)		;bdf8
 	and a			;bdfb
 	ret nz			;bdfc
@@ -2855,15 +2855,15 @@ L_BE13:
 	inc hl			;be13
 	djnz L_BE0A		;be14
 	ret			;be16
-L_BE17:
+vuelve_al_punto:		; devuelve la partida guardada en 0xCA00
 	xor a			;be17
-	call L_BE22		;be18
+	call copia_partida		;be18   ; copia_partida: A = 1: copia los bloques de RAM de 0xBE51 ([dir][largo]) a 0xCA00; A = 0: los devuelve
 	xor a			;be1b
 	ld (0c199h),a		;be1c
 	ret			;be1f
 L_BE20:
 	ld a,001h		;be20
-L_BE22:
+copia_partida:		; A = 1: copia los bloques de RAM de 0xBE51 ([dir][largo]) a 0xCA00; A = 0: los devuelve
 	ld ix,0ec00h		;be22   ; apunta a la casilla de trabajo 0xEC00
 	ld (ix+000h),a		;be26
 	ld de,0ca00h		;be29
@@ -2950,10 +2950,10 @@ DATA_salas_de_punto_de_control:
 ; ======================================================================
 
 
-L_BEA2:
-	call L_BEA8		;bea2
-	jp L_BEC6		;bea5
-L_BEA8:
+teclea_clave:		; lee el teclado y mete la tecla nueva en la clave (0xE500, 12 teclas)
+	call lee_matriz		;bea2   ; lee_matriz: las 9 filas del teclado: las que hay en 0xE515 y las nuevas en 0xE50C
+	jp tecla_a_clave		;bea5   ; tecla_a_clave: la primera tecla nueva (fila x 8 + bit) al final de la clave 0xE500
+lee_matriz:		; las 9 filas del teclado: las que hay en 0xE515 y las nuevas en 0xE50C
 	ld b,009h		;bea8
 	ld hl,0e515h		;beaa
 	ld de,0e50ch		;bead
@@ -2977,7 +2977,7 @@ L_BEB0:
 	pop bc			;bec2
 	djnz L_BEB0		;bec3
 	ret			;bec5
-L_BEC6:
+tecla_a_clave:		; la primera tecla nueva (fila x 8 + bit) al final de la clave 0xE500
 	ld hl,0e50ch		;bec6
 	ld b,009h		;bec9
 L_BECB:
@@ -3053,7 +3053,7 @@ DATA_clave_BF16:
 ; ======================================================================
 
 
-L_BF22:
+es_clave:		; Z si la clave tecleada (0xE50B hacia atras) es la de DE (acaba en 0xFF)
 	ld hl,0e50bh		;bf22
 L_BF25:
 	ld a,(de)			;bf25
@@ -3064,34 +3064,34 @@ L_BF25:
 	dec hl			;bf2b
 	inc de			;bf2c
 	jr L_BF25		;bf2d
-L_BF2F:
+claves:		; las 5 claves (0xBEF1, BEF6, BF03, BF0C, BF16): CLASS +1, CLASS +3, municion 999, raciones 999, las CARD1-8
 	ld de,0bef1h		;bf2f
-	call L_BF22		;bf32
+	call es_clave		;bf32   ; es_clave: Z si la clave tecleada (0xE50B hacia atras) es la de DE (acaba en 0xFF)
 	ld c,000h		;bf35
 	jr z,L_BF5C		;bf37
 	inc c			;bf39
 	ld de,0bef6h		;bf3a
-	call L_BF22		;bf3d
+	call es_clave		;bf3d   ; es_clave: Z si la clave tecleada (0xE50B hacia atras) es la de DE (acaba en 0xFF)
 	jr z,L_BF5C		;bf40
 	inc c			;bf42
 	ld de,0bf03h		;bf43
-	call L_BF22		;bf46
+	call es_clave		;bf46   ; es_clave: Z si la clave tecleada (0xE50B hacia atras) es la de DE (acaba en 0xFF)
 	jr z,L_BF5C		;bf49
 	inc c			;bf4b
 	ld de,0bf0ch		;bf4c
-	call L_BF22		;bf4f
+	call es_clave		;bf4f   ; es_clave: Z si la clave tecleada (0xE50B hacia atras) es la de DE (acaba en 0xFF)
 	jr z,L_BF5C		;bf52
 	inc c			;bf54
 	ld de,0bf16h		;bf55
-	call L_BF22		;bf58
+	call es_clave		;bf58   ; es_clave: Z si la clave tecleada (0xE50B hacia atras) es la de DE (acaba en 0xFF)
 	ret nz			;bf5b
 L_BF5C:
 	ld b,c			;bf5c
 	djnz L_BF68		;bf5d
-	call 040d7h		;bf5f
-	call 040d7h		;bf62
+	call 040d7h		;bf5f   ; sube_c132_y_vuelve: llama a sube_c132 (p01:64D2) y deja otra vez los bancos 1-2 y el de zona
+	call 040d7h		;bf62   ; sube_c132_y_vuelve: llama a sube_c132 (p01:64D2) y deja otra vez los bancos 1-2 y el de zona
 L_BF65:
-	jp 040d7h		;bf65
+	jp 040d7h		;bf65   ; sube_c132_y_vuelve: llama a sube_c132 (p01:64D2) y deja otra vez los bancos 1-2 y el de zona
 L_BF68:
 	djnz L_BF81		;bf68
 	ld a,(0c141h)		;bf6a
@@ -3124,9 +3124,9 @@ L_BF98:
 	push af			;bf99
 	ld e,a			;bf9a
 	push de			;bf9b
-	call 040d2h		;bf9c
+	call 040d2h		;bf9c   ; busca_objeto_y_vuelve: llama a busca_objeto (p00:43E1) y deja otra vez los bancos 1-2 y el de zona
 	pop de			;bf9f
-	call c,L_BFAD		;bfa0
+	call c,da_objeto		;bfa0   ; da_objeto: el objeto E al primer hueco de 0xC530, cantidad E + 0x23, marcado en 0xC5A0
 	pop af			;bfa3
 	inc a			;bfa4
 	pop bc			;bfa5
@@ -3134,14 +3134,14 @@ L_BF98:
 	xor a			;bfa8
 	ld (0c45bh),a		;bfa9
 	ret			;bfac
-L_BFAD:
+da_objeto:		; el objeto E al primer hueco de 0xC530, cantidad E + 0x23, marcado en 0xC5A0
 	ld hl,0c530h		;bfad   ; apunta a los objetos que se llevan (fichas de 4)
 L_BFB0:
 	ld a,(hl)			;bfb0
 	and a			;bfb1
 	jr z,L_BFBB		;bfb2
 	ld a,004h		;bfb4
-	call 04050h		;bfb6
+	call 04050h		;bfb6   ; hl_mas_a_y_vuelve: llama a hl_mas_a (p00:41E0) y deja otra vez los bancos 1-2 y el de zona
 	jr L_BFB0		;bfb9
 L_BFBB:
 	ld (hl),e			;bfbb
@@ -3152,7 +3152,7 @@ L_BFBB:
 	ld a,e			;bfc1
 	ld hl,0c5a0h		;bfc2
 	dec a			;bfc5
-	call 04050h		;bfc6
+	call 04050h		;bfc6   ; hl_mas_a_y_vuelve: llama a hl_mas_a (p00:41E0) y deja otra vez los bancos 1-2 y el de zona
 	ld (hl),001h		;bfc9
 	ret			;bfcb
 

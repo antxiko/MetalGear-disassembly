@@ -55,50 +55,103 @@ F 0xBFAF 16
 # --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---
 L 0xA04A crea_tipo_54 la creacion del tipo 54
 L 0xA072 cuadro_tipo_54 lo de cada cuadro del tipo 54
+L 0xA096 color_del_sprite_b el sprite 11 - (ix+0x58) del actor toma el color C
 L 0xA0D6 crea_tipo_64 la creacion del tipo 64
 L 0xA0E8 cuadro_tipo_64 lo de cada cuadro del tipo 64
+L 0xA1AF dibujo_de_camara copia 16 x 16 de (0x20 + 16 x (ix+0x1B), 0x80) de la pagina 1 a la Y/X del actor con TIMP
+L 0xA1D3 camaras_con_c632 con 0xC632, el dibujo de cada camara (tipo 6)
+L 0xA1EA dibujo_de_camara_hl dibujo_de_camara del actor HL
 L 0xA1F5 crea_tipo_44 la creacion del tipo 44
 L 0xA202 cuadro_tipo_44 lo de cada cuadro del tipo 44
+L 0xA234 rebota_color da la vuelta al recorrido de colores del tipo 44
 L 0xA24C cuadro_tipo_36 lo de cada cuadro del tipo 36
+L 0xA298 hacia_snake_de_lado velocidad X de 2 hacia Snake y cuadro 0x2C/0x28
 L 0xA4A2 crea_tipo_36 la creacion del tipo 36
+L 0xA4B9 tipo_36_empieza los valores de partida del tipo 36 y velocidad X de -2
 L 0xA4DD crea_tipo_37 la creacion del tipo 37
 L 0xA502 cuadro_tipo_37 lo de cada cuadro del tipo 37
+L 0xA532 colores_8_46 A = 8, C = 0x46 y pone los colores
 L 0xA549 cuadro_tipo_1 lo de cada cuadro del tipo 1
 L 0xA5F4 crea_tipo_1 la creacion del tipo 1
 L 0xA604 cuadro_tipo_16 lo de cada cuadro del tipo 16
+L 0xA6AF lee_recuadro D, E = (ix+0x14), (ix+0x13); H, L = (ix+0x18), (ix+0x17)
 L 0xA6BC crea_tipo_16 la creacion del tipo 16
+L 0xA6FB trampas_abiertas dibuja abiertas las trampas (tipo 0x10) que lo esten
+L 0xA713 trampa_abierta la trampa HL: colores la primera vez (p00:4A7C) y su dibujo si (ix+0x19)
+L 0xA72C dibujo_de_trampa el recuadro de la trampa con el alto (ix+0x15), hasta 0x3F
 L 0xA749 crea_tipo_10 la creacion del tipo 10
+L 0xA797 tipo_22_por_sala valores del tipo 22 segun la sala (0xD8, 0xBB, 0x9A, 0x58-0x5C)
 L 0xA7BB cuadro_tipo_10 lo de cada cuadro del tipo 10
+L 0xA824 crea_encima crea el actor C 0x10 puntos por encima de IX
+L 0xA877 espera_por_tipo B = 0x14 (0x0A con el tipo 0x0B)
+L 0xA8F8 velocidad_a90e las velocidades de la direccion (ix+0x11) de la tabla 0xA90E
+L 0xA908 velocidad_a916_dir las velocidades de la direccion (ix+0x11) de la tabla 0xA916
+L 0xA90B velocidad_a916 las velocidades de la direccion A de la tabla 0xA916
+L 0xA920 cuadro_por_direccion cuadro = 2 x ((ix+0x11) - 1), +1 con el bit 2 de (ix+0x0C)
+L 0xA923 cuadro_por_a cuadro = 2 x (A - 1), +1 con el bit 2 de (ix+0x0C)
+L 0xA934 cuadro_mas_1b cuadro = (ix+0x11) + 7 + (ix+0x1B)
+L 0xA937 cuadro_a_mas_1b cuadro = A + 7 + (ix+0x1B)
+L 0xA940 es_tipo_0b sin acarreo si el tipo no es 0x0B
+L 0xA948 lejos_de_snake_x la distancia en X a Snake
+L 0xA967 ficha_del_tipo_10 las fichas bajo el actor: (ix+0x1B) segun la ficha que pisa
+L 0xA9B7 azar_0_3 A = (R XOR (ix+0x0C)) AND 3
 L 0xA9BF crea_tipo_47 la creacion del tipo 47
 L 0xA9D7 crea_tipo_19 la creacion del tipo 19
+L 0xAA02 banderas_salas_5_7 la bandera de 0xC634 que toca en las salas 5 y 7
 L 0xAA3C cuadro_tipo_19 lo de cada cuadro del tipo 19
 L 0xAB08 crea_tipo_14 la creacion del tipo 14
 L 0xAB5C cuadro_tipo_14 lo de cada cuadro del tipo 14
+L 0xAC28 pon_aviso guarda el fondo en la pagina 1 y pone el dibujo de 0x80 sobre el actor (0xC60C)
+L 0xAC4D guarda_fondo_16 copia 16 x 16 de HL a (0x60, 0x80) de la pagina 1
+L 0xAC5B pon_dibujo_16 copia 16 x 16 de HL a DE con TIMP
 L 0xACC3 crea_tipo_13 la creacion del tipo 13
 L 0xAD40 cuadro_tipo_13 lo de cada cuadro del tipo 13
+L 0xADF4 espera_azar_64 (ix+0x12) = 1-64 al azar
 L 0xAE00 crea_tipo_58 la creacion del tipo 58
 L 0xAE1A crea_tipo_59 la creacion del tipo 59
 L 0xAE46 crea_tipo_57 la creacion del tipo 57
 L 0xAE7F cuadro_tipo_57 lo de cada cuadro del tipo 57
+L 0xAF13 cuadro_por_lado cuadro 9, 10 u 11 segun (ix+0x15) y el lado de la sala
+L 0xAF29 snake_a_tiro si Snake esta a menos de 0x20 en la otra coordenada
 L 0xAF52 crea_tipo_7 la creacion del tipo 7
+L 0xAF75 punto_de_mina copia 5 x 5 de (0x95, 0x65) de la pagina 1 a (Y - 3, X - 3) con TIMP
+L 0xAF8C sitio_de_mina H, L - 8 y A = (ix+0x0F) x 16
+L 0xAF9C minas_con_detec con DETEC (objeto 7) marca las minas (tipo 7)
+L 0xAFB8 marca_mina el punto de la mina IX
 L 0xAFC4 crea_tipo_20 la creacion del tipo 20
 L 0xB00F cuadro_tipo_20 lo de cada cuadro del tipo 20
 L 0xB038 crea_tipo_21 la creacion del tipo 21
 L 0xB053 cuadro_tipo_21 lo de cada cuadro del tipo 21
 L 0xB091 crea_tipo_22 la creacion del tipo 22
 L 0xB0B8 cuadro_tipo_22 lo de cada cuadro del tipo 22
+L 0xB0DC cuadro_mas_54 cuadro = A + 0x54
+L 0xB0E2 cuadro_dir_mas_58 cuadro = (ix+0x11) + 0x58
+L 0xB0E5 cuadro_mas_58 cuadro = A + 0x58
+L 0xB0EB tipo_22_altura HL = la velocidad Y y B = 0x60 o 0x70 por el bit 7 de (ix+0x0C)
 L 0xB132 crea_tipo_31 la creacion del tipo 31
 L 0xB146 cuadro_tipo_31 lo de cada cuadro del tipo 31
+L 0xB1B3 espera_azar_5 (ix+0x12) = 5-8 al azar
+L 0xB1BF cuadro_mas_60 cuadro = 2 x A + 0x60, +1 con el bit 2 de (ix+0x0C)
+L 0xB1E6 cerca_del_centro acarreo si el actor esta en el recuadro (Y + 0x50 < 0x61, X + 0x10 < 0x21)
 L 0xB1F6 cuadro_tipo_18 lo de cada cuadro del tipo 18
+L 0xB242 velocidad_y_cero la velocidad Y a cero
 L 0xB248 crea_tipo_18 la creacion del tipo 18
+L 0xB26F bandera_c622 0xC622 = 1 y la musica de la sala
 L 0xB278 crea_tipo_24 la creacion del tipo 24
 L 0xB290 cuadro_tipo_24 lo de cada cuadro del tipo 24
+L 0xB319 snake_abajo acarreo si la Y de Snake es 0x80 o mas
 L 0xB3D8 crea_tipo_27 la creacion del tipo 27
+L 0xB3F8 parado las dos velocidades a cero
+L 0xB40B sube_o_baja_a_snake velocidad Y de 3 hacia Snake
 L 0xB42C cuadro_tipo_27 lo de cada cuadro del tipo 27
+L 0xB480 paso_y_colores_0d paso siguiente y colores 0x0D/0x0F
+L 0xB48D mira_delante alterna el cuadro y mira la ficha de delante (0xB542)
+L 0xB54A alineado_con_snake si Snake esta en linea con el actor por su direccion
 L 0xB58B crea_tipo_29 la creacion del tipo 29
 L 0xB5A4 cuadro_tipo_29 lo de cada cuadro del tipo 29
 L 0xB5C0 crea_tipo_33 la creacion del tipo 33
 L 0xB5F0 cuadro_tipo_33 lo de cada cuadro del tipo 33
+L 0xB67E cuadro_b68f cuadro de la tabla 0xB68F por los bits 1-2 de (ix+0x0C)
 L 0xB693 crea_tipo_43 la creacion del tipo 43
 L 0xB6AF cuadro_tipo_43 lo de cada cuadro del tipo 43
 L 0xB6D4 crea_tipo_34 la creacion del tipo 34
@@ -106,6 +159,7 @@ L 0xB6E5 cuadro_tipo_34 lo de cada cuadro del tipo 34
 L 0xB80E crea_tipo_60 la creacion del tipo 60
 L 0xB81B cuadro_tipo_60 lo de cada cuadro del tipo 60
 L 0xB843 crea_tipo_38 la creacion del tipo 38
+L 0xB862 dibujo_si_hind_d si el primer actor es el 0x26, el dibujo p15:B431 en (0x40, 0)
 L 0xB871 cuadro_tipo_38 lo de cada cuadro del tipo 38
 L 0xB8C5 cuadro_tipo_23 lo de cada cuadro del tipo 23
 L 0xB8D2 crea_tipo_61 la creacion del tipo 61
@@ -115,16 +169,34 @@ L 0xB933 crea_tipo_12 la creacion del tipo 12
 L 0xB959 cuadro_tipo_12 lo de cada cuadro del tipo 12
 L 0xB97D cuadro_tipo_65 lo de cada cuadro del tipo 65
 L 0xB9B1 crea_tipo_9 la creacion del tipo 9
+L 0xB9E6 musica_3e la musica 0x3E (salvo en el modo 8)
 L 0xB9F4 cuadro_tipo_9 lo de cada cuadro del tipo 9
 L 0xBB10 crea_tipo_23 la creacion del tipo 23
 L 0xBB28 crea_tipo_62 la creacion del tipo 62
 L 0xBB33 cuadro_tipo_62 lo de cada cuadro del tipo 62
 L 0xBB51 crea_tipo_26 la creacion del tipo 26
 L 0xBB75 cuadro_tipo_26 lo de cada cuadro del tipo 26
+L 0xBC7C cuadro_dir_bc7f cuadro de la direccion (ix+0x11), +1 con (ix+0x0C) AND B
+L 0xBC7F cuadro_bc7f cuadro = 2 x A, +1 con (ix+0x0C) AND B
+L 0xBC8F cuadro_dir_bc92 cuadro = 2 x (ix+0x11)
+L 0xBC92 cuadro_doble cuadro = 2 x A
+L 0xBC95 espera_azar_bc95 (ix+0x12) al azar (1-48)
 L 0xBCA9 crea_tipo_28 la creacion del tipo 28
 L 0xBCD3 cuadro_tipo_28 lo de cada cuadro del tipo 28
+L 0xBD79 colores_4d (ix+0x0E) = 3 y los colores 0x02/0x4D
 L 0xBD8D crea_tipo_32 la creacion del tipo 32
 L 0xBDA2 cuadro_tipo_32 lo de cada cuadro del tipo 32
+L 0xBE73 direccion_be73 A = (ix+0x11)
+L 0xBE98 mira_a_snake_lado en las filas 0x38/0xA8, mira hacia Snake de lado
+L 0xBEAE velocidad_doble las velocidades de la direccion A (0xA916) al doble
+L 0xBEC9 mira_a_snake_lado_2 en las filas 0x38/0xA8, la direccion de lado hacia Snake
+L 0xBEE8 en_el_borde_x si no se mueve en Y y esta en X = 0x18 o 0xC8
+L 0xBF17 espera_azar_32 (ix+0x12) = 1-32 al azar
+L 0xBF23 en_la_fila Z si el actor esta en las filas 0x38/0xA8 o en 0x58/0x98
+L 0xBF3D snake_cerca_48 acarreo si Snake esta a menos de 0x48 en X y en Y
+L 0xBF53 dx_a_snake_bf53 la distancia en X a Snake si esta en la fila
+L 0xBF6B fila_38_a8 Z si la Y del actor es 0x38 o 0xA8
+L 0xBF74 se_mueve_en_y NZ si la velocidad Y alta no es cero
 L 0xBF79 crea_tipo_40 la creacion del tipo 40
 L 0xBF90 cuadro_tipo_40 lo de cada cuadro del tipo 40
 C 0xA00D hl_mas_2a: HL = HL + 2 x A
@@ -135,6 +207,7 @@ C 0xA04A lee la sala
 C 0xA06F sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
 C 0xA075 despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 C 0xA093 paso_siguiente: sube el paso del actor (ix+1)
+C 0xA0B8 color_del_sprite_b: el sprite 11 - (ix+0x58) del actor toma el color C
 C 0xA0E8 lee la bandera 0xC602 (refuerzos y musica)
 C 0xA0F7 cuadro_de_paso: si (ix+0x0C) AND B es 0, cuadro = 3 x direccion + paso (0x5B9E) + C
 C 0xA0FA lee la sala
@@ -143,11 +216,15 @@ C 0xA190 lee la parada del ascensor
 C 0xA1AC colores_a_cero: escribe A y C alternos cada 5 bytes desde (ix+0x25)
 C 0xA1D0 copia_logica: LMMM: copia B x C de (H, L) a (D, E); A = [pagina origen 7-6][pagina destino 5-4][operacion 3-0]
 C 0xA1D8 apunta a los 16 actores (fichas de 0x80)
+C 0xA1E0 dibujo_de_camara_hl: dibujo_de_camara del actor HL
+C 0xA1EF dibujo_de_camara: copia 16 x 16 de (0x20 + 16 x (ix+0x1B), 0x80) de la pagina 1 a la Y/X del actor con TIMP
+C 0xA213 rebota_color: da la vuelta al recorrido de colores del tipo 44
 C 0xA221 lee la sala
 C 0xA231 color: el color A de la paleta = DE ([RB][G]), y su copia en 0xF680
 C 0xA24F despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 C 0xA267 ventana_de_texto_1: abre la ventana del texto A en el modo 1 (0xCEE0)
 C 0xA26A apunta a los 16 actores (fichas de 0x80)
+C 0xA292 hacia_snake_de_lado: velocidad X de 2 hacia Snake y cuadro 0x2C/0x28
 C 0xA29C lee la X de Snake
 C 0xA2B1 velocidad_x: la velocidad X del actor (ix+9, ix+0x0A) = DE
 C 0xA2B6 alterna_cuadro: si (ix+0x0C) AND B es 0, cambia el bit 0 del cuadro
@@ -155,12 +232,16 @@ C 0xA2EE velocidades: la velocidad X del actor = DE y la Y = HL
 C 0xA2F9 guarda la casilla de trabajo 0xEC00 y el byte siguiente (16 bits)
 C 0xA300 lee la casilla de trabajo 0xEC00 y el byte siguiente (16 bits)
 C 0xA303 hl_mas_a: HL = HL + A
+C 0xA315 colores_8_46: A = 8, C = 0x46 y pone los colores
 C 0xA31B lee la casilla de trabajo 0xEC00 y el byte siguiente (16 bits)
 C 0xA39E pareja_del_angulo: C y B = los bytes (ix+0x14) y 63 - (ix+0x14) de la tabla p06:A6B9
 C 0xA44A hl_mas_a: HL = HL + A
+C 0xA463 tipo_36_empieza: los valores de partida del tipo 36 y velocidad X de -2
+C 0xA466 hacia_snake_de_lado: velocidad X de 2 hacia Snake y cuadro 0x2C/0x28
 C 0xA46B paso_a: el paso del actor (ix+1) = A
 C 0xA49F velocidad_x: la velocidad X del actor (ix+9, ix+0x0A) = DE
 C 0xA4AE cuenta_tipo: A = cuantos actores del tipo A hay
+C 0xA4B6 musica_3e: la musica 0x3E (salvo en el modo 8)
 C 0xA4E6 cuenta_tipo: A = cuantos actores del tipo A hay
 C 0xA4FF velocidades: la velocidad X del actor = DE y la Y = HL
 C 0xA506 borra_actor: el tipo y (ix+0x0E) a cero y sus sprites escondidos
@@ -171,28 +252,71 @@ C 0xA5AD paso_siguiente: sube el paso del actor (ix+1)
 C 0xA5D4 de_negado: DE = -DE
 C 0xA631 sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
 C 0xA634 paso_siguiente: sube el paso del actor (ix+1)
+C 0xA667 lee_recuadro: D, E = (ix+0x14), (ix+0x13); H, L = (ix+0x18), (ix+0x17)
 C 0xA671 copia_vram: HMMM: copia B x C de (H, L) a (D, E); A = paginas (bits 0-1 origen, 2-3 destino)
+C 0xA674 lee_recuadro: D, E = (ix+0x14), (ix+0x13); H, L = (ix+0x18), (ix+0x17)
 C 0xA684 copia_vram: HMMM: copia B x C de (H, L) a (D, E); A = paginas (bits 0-1 origen, 2-3 destino)
+C 0xA692 lee_recuadro: D, E = (ix+0x14), (ix+0x13); H, L = (ix+0x18), (ix+0x17)
 C 0xA695 copia_vram: HMMM: copia B x C de (H, L) a (D, E); A = paginas (bits 0-1 origen, 2-3 destino)
+C 0xA698 lee_recuadro: D, E = (ix+0x14), (ix+0x13); H, L = (ix+0x18), (ix+0x17)
 C 0xA6AC copia_vram: HMMM: copia B x C de (H, L) a (D, E); A = paginas (bits 0-1 origen, 2-3 destino)
 C 0xA6C1 c_colores: copia C colores de HL a 0xE700
 C 0xA6D3 lee la sala
 C 0xA6FC guarda la casilla de trabajo 0xEC00
 C 0xA701 apunta a los 16 actores (fichas de 0x80)
+C 0xA708 trampa_abierta: la trampa HL: colores la primera vez (p00:4A7C) y su dibujo si (ix+0x19)
 C 0xA714 apunta a la casilla de trabajo 0xEC00
+C 0xA727 dibujo_de_trampa: el recuadro de la trampa con el alto (ix+0x15), hasta 0x3F
+C 0xA72C lee_recuadro: D, E = (ix+0x14), (ix+0x13); H, L = (ix+0x18), (ix+0x17)
 C 0xA746 copia_vram: HMMM: copia B x C de (H, L) a (D, E); A = paginas (bits 0-1 origen, 2-3 destino)
 C 0xA74D lee la bandera 0xC602 (refuerzos y musica)
 C 0xA753 lee la sala
+C 0xA776 hacia_snake_dir: A = la direccion de IX hacia Snake por el eje mayor (1-4), B = la del otro eje
+C 0xA77C cuadro_por_a: cuadro = 2 x (A - 1), +1 con el bit 2 de (ix+0x0C)
+C 0xA77F velocidad_a916_dir: las velocidades de la direccion (ix+0x11) de la tabla 0xA916
 C 0xA797 lee la sala
 C 0xA7B7 guarda la cuenta de los refuerzos y el byte siguiente (16 bits)
+C 0xA7BB ficha_del_tipo_10: las fichas bajo el actor: (ix+0x1B) segun la ficha que pisa
 C 0xA7C1 despacha: salta a la palabra A de la tabla que va pegada detras del `call`
+C 0xA7CE cuadro_por_direccion: cuadro = 2 x ((ix+0x11) - 1), +1 con el bit 2 de (ix+0x0C)
+C 0xA7D6 choca_actor: choca con H = (ix+5), L = (ix+3)
+C 0xA7E0 es_tipo_0b: sin acarreo si el tipo no es 0x0B
+C 0xA7E6 hacia_snake_dir: A = la direccion de IX hacia Snake por el eje mayor (1-4), B = la del otro eje
+C 0xA7ED choca_actor: choca con H = (ix+5), L = (ix+3)
+C 0xA802 cuadro_por_a: cuadro = 2 x (A - 1), +1 con el bit 2 de (ix+0x0C)
+C 0xA805 velocidad_a916_dir: las velocidades de la direccion (ix+0x11) de la tabla 0xA916
+C 0xA814 espera_por_tipo: B = 0x14 (0x0A con el tipo 0x0B)
 C 0xA82D crea_actor: crea un actor del tipo C en Y = E, X = D en la primera ficha libre de 0xD000; HL = la ficha, A = 0 si no cabe
+C 0xA830 lejos_de_snake_dir: las direcciones contrarias a las de hacia_snake_dir
+C 0xA83A cuadro_por_a: cuadro = 2 x (A - 1), +1 con el bit 2 de (ix+0x0C)
+C 0xA83D velocidad_a916_dir: las velocidades de la direccion (ix+0x11) de la tabla 0xA916
+C 0xA840 lejos_de_snake_dir: las direcciones contrarias a las de hacia_snake_dir
+C 0xA847 choca_actor: choca con H = (ix+5), L = (ix+3)
+C 0xA859 hacia_snake_dir: A = la direccion de IX hacia Snake por el eje mayor (1-4), B = la del otro eje
+C 0xA85C cuadro_a_mas_1b: cuadro = A + 7 + (ix+0x1B)
+C 0xA863 espera_por_tipo: B = 0x14 (0x0A con el tipo 0x0B)
+C 0xA88F cuadro_por_direccion: cuadro = 2 x ((ix+0x11) - 1), +1 con el bit 2 de (ix+0x0C)
+C 0xA897 choca_actor: choca con H = (ix+5), L = (ix+3)
+C 0xA8A2 choca_actor: choca con H = (ix+5), L = (ix+3)
+C 0xA8A9 contraria: A = la direccion contraria (1 y 2, 3 y 4)
+C 0xA8AF choca_actor: choca con H = (ix+5), L = (ix+3)
+C 0xA8B8 contraria: A = la direccion contraria (1 y 2, 3 y 4)
+C 0xA8C2 cuadro_por_a: cuadro = 2 x (A - 1), +1 con el bit 2 de (ix+0x0C)
+C 0xA8C5 velocidad_a916_dir: las velocidades de la direccion (ix+0x11) de la tabla 0xA916
+C 0xA8C8 espera_por_tipo: B = 0x14 (0x0A con el tipo 0x0B)
+C 0xA8CB cuadro_por_direccion: cuadro = 2 x ((ix+0x11) - 1), +1 con el bit 2 de (ix+0x0C)
+C 0xA8D3 choca_actor: choca con H = (ix+5), L = (ix+3)
+C 0xA8DD es_tipo_0b: sin acarreo si el tipo no es 0x0B
 C 0xA8F0 lee la bandera 0xC602 (refuerzos y musica)
 C 0xA8F5 pon_c602: 0xC602 = 1, 0xC604 = la sala, 0xC606 y la musica 0x32 (0x2F si la pone un actor del tipo 6 o 0x23)
 C 0xA8FE palabra_a: DE = la palabra A de la tabla DE
 C 0xA948 lee la X de Snake
 C 0xA954 lee la Y de Snake
+C 0xA970 fichas_en_el_punto: H y L = la ficha de la sala en el punto HL y la siguiente
 C 0xA97D lee la sala
+C 0xA9AB contraria: A = la direccion contraria (1 y 2, 3 y 4)
+C 0xA9B1 cuadro_por_a: cuadro = 2 x (A - 1), +1 con el bit 2 de (ix+0x0C)
+C 0xA9B4 velocidad_a916_dir: las velocidades de la direccion (ix+0x11) de la tabla 0xA916
 C 0xA9CC hacia_snake_a: HL y DE = la velocidad de IX hacia Snake con el modulo A (+ 8 x 0xC152)
 C 0xA9CF velocidades: la velocidad X del actor = DE y la Y = HL
 C 0xA9D4 sonido: pide el sonido A al controlador del banco 4 (0x67FD) con los bancos 4 y 5
@@ -202,6 +326,7 @@ C 0xA9EE camino_b: el camino B de la sala (p06:A2DF) para IX, con los arreglos d
 C 0xA9F1 lee la sala
 C 0xAA02 lee la sala
 C 0xAA25 lee las banderas del juego (bit 6: se juega; en la demo no)
+C 0xAA39 parado: las dos velocidades a cero
 C 0xAA46 lee la sala
 C 0xAA67 colores_del_tipo: copia los colores del tipo A (p05:975A) a la ficha IX, uno cada 5 bytes desde (ix+0x25)
 C 0xAA74 velocidades: la velocidad X del actor = DE y la Y = HL
@@ -211,72 +336,155 @@ C 0xAA9E reaparece: crea en IX el actor de p06:A445 de la sala (salas < 0xBC)
 C 0xAAC5 hacia_el_punto: direccion (ix+0x11) y velocidades hacia el punto (ix+0x15, ix+0x16) con la marcha (ix+0x43)
 C 0xAACE velocidades: la velocidad X del actor = DE y la Y = HL
 C 0xAADF lee la sala
+C 0xAB02 banderas_salas_5_7: la bandera de 0xC634 que toca en las salas 5 y 7
 C 0xAB05 paso_cero: el paso del actor (ix+1) a cero
 C 0xAB0F lee la parada del ascensor
+C 0xAB44 cuadro_por_a: cuadro = 2 x (A - 1), +1 con el bit 2 de (ix+0x0C)
+C 0xAB47 parado: las dos velocidades a cero
+C 0xAB4A velocidad_a90e: las velocidades de la direccion (ix+0x11) de la tabla 0xA90E
 C 0xAB63 lee la bandera 0xC602 (refuerzos y musica)
 C 0xAB67 reaparece: crea en IX el actor de p06:A445 de la sala (salas < 0xBC)
 C 0xAB6D despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 C 0xAB7A lee la Y de Snake
+C 0xAB81 cuadro_por_direccion: cuadro = 2 x ((ix+0x11) - 1), +1 con el bit 2 de (ix+0x0C)
 C 0xAB9B crea_actor: crea un actor del tipo C en Y = E, X = D en la primera ficha libre de 0xD000; HL = la ficha, A = 0 si no cabe
 C 0xABBF lee la Y de Snake
+C 0xABD9 cuadro_por_a: cuadro = 2 x (A - 1), +1 con el bit 2 de (ix+0x0C)
+C 0xABDC velocidad_a90e: las velocidades de la direccion (ix+0x11) de la tabla 0xA90E
 C 0xABE6 ventana_de_texto_2: abre la ventana del texto A en el modo 2 (0xCEE0)
 C 0xABEC lee la X de Snake
 C 0xAC1A lee la bandera 0xC602 (refuerzos y musica)
 C 0xAC21 pon_c602_con_cuenta: 0xC605 = A y pon_c602
+C 0xAC42 guarda_fondo_16: copia 16 x 16 de HL a (0x60, 0x80) de la pagina 1
+C 0xAC46 pon_dibujo_16: copia 16 x 16 de HL a DE con TIMP
 C 0xAC56 copia_vram: HMMM: copia B x C de (H, L) a (D, E); A = paginas (bits 0-1 origen, 2-3 destino)
 C 0xAC60 copia_logica: LMMM: copia B x C de (H, L) a (D, E); A = [pagina origen 7-6][pagina destino 5-4][operacion 3-0]
+C 0xAC89 cuadro_a_mas_1b: cuadro = A + 7 + (ix+0x1B)
+C 0xAC8C cuadro_por_direccion: cuadro = 2 x ((ix+0x11) - 1), +1 con el bit 2 de (ix+0x0C)
 C 0xAC8F lee la Y de Snake
 C 0xAC95 lee la X de Snake
 C 0xACA9 reaparece: crea en IX el actor de p06:A445 de la sala (salas < 0xBC)
+C 0xACC0 cuadro_por_direccion: cuadro = 2 x ((ix+0x11) - 1), +1 con el bit 2 de (ix+0x0C)
 C 0xACCB lee la sala
 C 0xACD2 apunta a la bandera 0xC602 (refuerzos y musica)
 C 0xACDA guarda la cuenta de los refuerzos y el byte siguiente (16 bits)
 C 0xACE4 lee la Y de Snake
 C 0xACFE lee la Y de Snake
 C 0xAD1D lee la Y de Snake
+C 0xAD31 cuadro_mas_1b: cuadro = (ix+0x11) + 7 + (ix+0x1B)
+C 0xAD34 parado: las dos velocidades a cero
+C 0xAD3D espera_azar_64: (ix+0x12) = 1-64 al azar
 C 0xAD40 lee la Y de Snake
 C 0xAD4C pon_tipo: pone el tipo A en IX y lo prepara (p03:B3F8, p02:8334, p03:A923, colores)
 C 0xAD52 despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 C 0xAD66 pon_tipo: pone el tipo A en IX y lo prepara (p03:B3F8, p02:8334, p03:A923, colores)
+C 0xAD87 cuadro_por_a: cuadro = 2 x (A - 1), +1 con el bit 2 de (ix+0x0C)
+C 0xAD8A velocidad_a916_dir: las velocidades de la direccion (ix+0x11) de la tabla 0xA916
+C 0xAD8D cuadro_por_direccion: cuadro = 2 x ((ix+0x11) - 1), +1 con el bit 2 de (ix+0x0C)
+C 0xAD9B espera_azar_64: (ix+0x12) = 1-64 al azar
+C 0xADA4 cuadro_a_mas_1b: cuadro = A + 7 + (ix+0x1B)
+C 0xADA8 cuadro_a_mas_1b: cuadro = A + 7 + (ix+0x1B)
+C 0xADB9 crea_encima: crea el actor C 0x10 puntos por encima de IX
+C 0xADCE contraria: A = la direccion contraria (1 y 2, 3 y 4)
+C 0xADD4 cuadro_por_a: cuadro = 2 x (A - 1), +1 con el bit 2 de (ix+0x0C)
+C 0xADD7 cuadro_por_direccion: cuadro = 2 x ((ix+0x11) - 1), +1 con el bit 2 de (ix+0x0C)
+C 0xADF1 cuadro_a_mas_1b: cuadro = A + 7 + (ix+0x1B)
 C 0xAE32 velocidades: la velocidad X del actor = DE y la Y = HL
 C 0xAE43 sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
 C 0xAE4F guarda la musica que suena
 C 0xAE52 sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
+C 0xAE58 parado: las dos velocidades a cero
 C 0xAE83 cuadro_tipo_10: lo de cada cuadro del tipo 10
+C 0xAE86 snake_a_tiro: si Snake esta a menos de 0x20 en la otra coordenada
 C 0xAE8C despacha: salta a la palabra A de la tabla que va pegada detras del `call`
+C 0xAEB0 cuadro_por_a: cuadro = 2 x (A - 1), +1 con el bit 2 de (ix+0x0C)
+C 0xAEB3 velocidad_a916_dir: las velocidades de la direccion (ix+0x11) de la tabla 0xA916
+C 0xAEB6 cuadro_por_direccion: cuadro = 2 x ((ix+0x11) - 1), +1 con el bit 2 de (ix+0x0C)
+C 0xAEC1 parado: las dos velocidades a cero
+C 0xAECF cuadro_por_lado: cuadro 9, 10 u 11 segun (ix+0x15) y el lado de la sala
+C 0xAED8 crea_encima: crea el actor C 0x10 puntos por encima de IX
+C 0xAEDC crea_encima: crea el actor C 0x10 puntos por encima de IX
+C 0xAEEE contraria: A = la direccion contraria (1 y 2, 3 y 4)
+C 0xAEF4 cuadro_por_a: cuadro = 2 x (A - 1), +1 con el bit 2 de (ix+0x0C)
+C 0xAEF7 velocidad_a916_dir: las velocidades de la direccion (ix+0x11) de la tabla 0xA916
+C 0xAEFA cuadro_por_direccion: cuadro = 2 x ((ix+0x11) - 1), +1 con el bit 2 de (ix+0x0C)
+C 0xAF05 parado: las dos velocidades a cero
 C 0xAF30 lee la Y de Snake
 C 0xAF3D lee la X de Snake
 C 0xAF4F pon_tipo: pone el tipo A en IX y lo prepara (p03:B3F8, p02:8334, p03:A923, colores)
 C 0xAF54 cuenta_tipo: A = cuantos actores del tipo A hay
+C 0xAF61 sitio_de_mina: H, L - 8 y A = (ix+0x0F) x 16
 C 0xAF6C copia_logica: LMMM: copia B x C de (H, L) a (D, E); A = [pagina origen 7-6][pagina destino 5-4][operacion 3-0]
 C 0xAF6F lee el objeto elegido (p06:B8F6: 3 LIGHT, 4 GOGGL, 6 CIGAL, 0x0E-0x15 CARD1-8, 0x16 RATIO, 0x19 BOX...)
 C 0xAF89 copia_logica: LMMM: copia B x C de (H, L) a (D, E); A = [pagina origen 7-6][pagina destino 5-4][operacion 3-0]
 C 0xAF9C lee el objeto elegido (p06:B8F6: 3 LIGHT, 4 GOGGL, 6 CIGAL, 0x0E-0x15 CARD1-8, 0x16 RATIO, 0x19 BOX...)
 C 0xAFA2 apunta a los 16 actores (fichas de 0x80)
 C 0xAFA8 lee el tipo del actor
+C 0xAFAD marca_mina: el punto de la mina IX
+C 0xAFBF punto_de_mina: copia 5 x 5 de (0x95, 0x65) de la pagina 1 a (Y - 3, X - 3) con TIMP
+C 0xAFC4 hacia_snake_dir: A = la direccion de IX hacia Snake por el eje mayor (1-4), B = la del otro eje
+C 0xAFCA cuadro_mas_54: cuadro = A + 0x54
+C 0xAFCD parado: las dos velocidades a cero
+C 0xB00F cuadro_dir_mas_58: cuadro = (ix+0x11) + 0x58
 C 0xB038 lee la parada del ascensor
+C 0xB04D cuadro_mas_58: cuadro = A + 0x58
+C 0xB050 parado: las dos velocidades a cero
+C 0xB065 cuadro_dir_mas_58: cuadro = (ix+0x11) + 0x58
 C 0xB068 lee la bandera 0xC602 (refuerzos y musica)
 C 0xB06F pon_c602_con_cuenta: 0xC605 = A y pon_c602
 C 0xB07A sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
 C 0xB082 crea_actor: crea un actor del tipo C en Y = E, X = D en la primera ficha libre de 0xD000; HL = la ficha, A = 0 si no cabe
+C 0xB085 hacia_snake_dir: A = la direccion de IX hacia Snake por el eje mayor (1-4), B = la del otro eje
+C 0xB08B cuadro_mas_58: cuadro = A + 0x58
+C 0xB09E cuadro_mas_58: cuadro = A + 0x58
+C 0xB0A1 parado: las dos velocidades a cero
+C 0xB0A4 tipo_22_altura: HL = la velocidad Y y B = 0x60 o 0x70 por el bit 7 de (ix+0x0C)
+C 0xB0AB tipo_22_por_sala: valores del tipo 22 segun la sala (0xD8, 0xBB, 0x9A, 0x58-0x5C)
 C 0xB0AE lee la bandera 0xC602 (refuerzos y musica)
 C 0xB0B5 pon_c602_con_cuenta: 0xC605 = A y pon_c602
+C 0xB0B8 hacia_snake_dir: A = la direccion de IX hacia Snake por el eje mayor (1-4), B = la del otro eje
+C 0xB0BE cuadro_mas_58: cuadro = A + 0x58
+C 0xB0C1 tipo_22_altura: HL = la velocidad Y y B = 0x60 o 0x70 por el bit 7 de (ix+0x0C)
+C 0xB0D6 crea_encima: crea el actor C 0x10 puntos por encima de IX
 C 0xB13C apunta a la cuenta de cuadros
+C 0xB143 cuadro_mas_60: cuadro = 2 x A + 0x60, +1 con el bit 2 de (ix+0x0C)
 C 0xB149 despacha: salta a la palabra A de la tabla que va pegada detras del `call`
+C 0xB152 lejos_de_snake_x: la distancia en X a Snake
+C 0xB159 cerca_del_centro: acarreo si el actor esta en el recuadro (Y + 0x50 < 0x61, X + 0x10 < 0x21)
+C 0xB162 espera_azar_5: (ix+0x12) = 5-8 al azar
+C 0xB165 azar_0_3: A = (R XOR (ix+0x0C)) AND 3
+C 0xB16C cuadro_mas_60: cuadro = 2 x A + 0x60, +1 con el bit 2 de (ix+0x0C)
+C 0xB16F cerca_del_centro: acarreo si el actor esta en el recuadro (Y + 0x50 < 0x61, X + 0x10 < 0x21)
 C 0xB17E hacia_snake: HL y DE = la velocidad de IX hacia Snake con el modulo 0x80 (+ 8 x 0xC152)
 C 0xB181 velocidades: la velocidad X del actor = DE y la Y = HL
+C 0xB187 contraria: A = la direccion contraria (1 y 2, 3 y 4)
+C 0xB18D cuadro_mas_60: cuadro = 2 x A + 0x60, +1 con el bit 2 de (ix+0x0C)
+C 0xB192 cerca_del_centro: acarreo si el actor esta en el recuadro (Y + 0x50 < 0x61, X + 0x10 < 0x21)
+C 0xB1A2 parado: las dos velocidades a cero
+C 0xB1B3 azar_0_3: A = (R XOR (ix+0x0C)) AND 3
 C 0xB1D4 palabra_a: DE = la palabra A de la tabla DE
+C 0xB1FB velocidad_y_cero: la velocidad Y a cero
 C 0xB201 despacha: salta a la palabra A de la tabla que va pegada detras del `call`
+C 0xB216 velocidad_y_cero: la velocidad Y a cero
 C 0xB226 velocidad_y: la velocidad Y del actor (ix+7, ix+8) = DE
 C 0xB22D paso_siguiente: sube el paso del actor (ix+1)
 C 0xB245 velocidad_y: la velocidad Y del actor (ix+7, ix+8) = DE
 C 0xB24C quita_actor: quita al actor: banderas por tipo (0xA0, 0x9A, 0xA9, 0xA4, 0xA1, 0xA2, 0xB9, 0x12, 0x2C), objeto y musica
 C 0xB269 velocidades: la velocidad X del actor = DE y la Y = HL
+C 0xB26C musica_3e: la musica 0x3E (salvo en el modo 8)
 C 0xB274 musica_de_la_sala: 0xC602 a cero y elige la musica de la sala (0xC159, 0xC0F4) y 0xC15F
 C 0xB278 lee la parada del ascensor
+C 0xB287 cuadro_por_direccion: cuadro = 2 x ((ix+0x11) - 1), +1 con el bit 2 de (ix+0x0C)
+C 0xB28A parado: las dos velocidades a cero
+C 0xB28D velocidad_a90e: las velocidades de la direccion (ix+0x11) de la tabla 0xA90E
 C 0xB293 despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 C 0xB2A4 lee la bandera 0xC602 (refuerzos y musica)
+C 0xB2AB cuadro_por_direccion: cuadro = 2 x ((ix+0x11) - 1), +1 con el bit 2 de (ix+0x0C)
+C 0xB2AE snake_abajo: acarreo si la Y de Snake es 0x80 o mas
+C 0xB2D5 cuadro_por_direccion: cuadro = 2 x ((ix+0x11) - 1), +1 con el bit 2 de (ix+0x0C)
+C 0xB2D8 velocidad_a90e: las velocidades de la direccion (ix+0x11) de la tabla 0xA90E
 C 0xB2DB lee la bandera 0xC602 (refuerzos y musica)
+C 0xB2F6 cuadro_por_direccion: cuadro = 2 x ((ix+0x11) - 1), +1 con el bit 2 de (ix+0x0C)
 C 0xB304 lee la X de Snake
 C 0xB30D lee la X de Snake
 C 0xB319 lee la Y de Snake
@@ -284,21 +492,37 @@ C 0xB31E lee el modo de la pose de Snake
 C 0xB325 apunta a la velocidad Y de Snake
 C 0xB32D apunta a la velocidad X de Snake
 C 0xB337 pon_c602_con_cuenta: 0xC605 = A y pon_c602
+C 0xB33C pon_aviso: guarda el fondo en la pagina 1 y pone el dibujo de 0x80 sobre el actor (0xC60C)
+C 0xB34B hacia_snake_dir: A = la direccion de IX hacia Snake por el eje mayor (1-4), B = la del otro eje
+C 0xB34E cuadro_a_mas_1b: cuadro = A + 7 + (ix+0x1B)
+C 0xB351 cuadro_por_direccion: cuadro = 2 x ((ix+0x11) - 1), +1 con el bit 2 de (ix+0x0C)
 C 0xB36B sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
 C 0xB373 crea_actor: crea un actor del tipo C en Y = E, X = D en la primera ficha libre de 0xD000; HL = la ficha, A = 0 si no cabe
+C 0xB389 cuadro_por_a: cuadro = 2 x (A - 1), +1 con el bit 2 de (ix+0x0C)
+C 0xB38C velocidad_a90e: las velocidades de la direccion (ix+0x11) de la tabla 0xA90E
+C 0xB38F cuadro_por_direccion: cuadro = 2 x ((ix+0x11) - 1), +1 con el bit 2 de (ix+0x0C)
 C 0xB3A6 lee la Y de Snake
+C 0xB3AB hacia_snake_dir: A = la direccion de IX hacia Snake por el eje mayor (1-4), B = la del otro eje
+C 0xB3BD crea_encima: crea el actor C 0x10 puntos por encima de IX
+C 0xB3D5 cuadro_por_a: cuadro = 2 x (A - 1), +1 con el bit 2 de (ix+0x0C)
 C 0xB3DA cuenta_tipo: A = cuantos actores del tipo A hay
 C 0xB3FD velocidades: la velocidad X del actor = DE y la Y = HL
+C 0xB400 paso_y_colores_0d: paso siguiente y colores 0x0D/0x0F
 C 0xB403 lee el lado por el que se sale (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
 C 0xB40B lee la Y de Snake
 C 0xB429 velocidades: la velocidad X del actor = DE y la Y = HL
 C 0xB43F despacha: salta a la palabra A de la tabla que va pegada detras del `call`
+C 0xB448 mira_delante: alterna el cuadro y mira la ficha de delante (0xB542)
 C 0xB451 sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
 C 0xB45E lee la X de Snake
 C 0xB476 alterna_cuadro: si (ix+0x0C) AND B es 0, cambia el bit 0 del cuadro
+C 0xB47D sube_o_baja_a_snake: velocidad Y de 3 hacia Snake
 C 0xB480 paso_siguiente: sube el paso del actor (ix+1)
+C 0xB48A alineado_con_snake: si Snake esta en linea con el actor por su direccion
 C 0xB48F alterna_cuadro: si (ix+0x0C) AND B es 0, cambia el bit 0 del cuadro
+C 0xB4B4 choca: acarreo si alguno de los 2 puntos de la caja B (0x82CB) hacia C, desde Y = L, X = H, pisa una ficha con choque (0xC700 bit 0)
 C 0xB4E3 apunta a los colores de las fichas
+C 0xB502 choca: acarreo si alguno de los 2 puntos de la caja B (0x82CB) hacia C, desde Y = L, X = H, pisa una ficha con choque (0xC700 bit 0)
 C 0xB526 velocidades: la velocidad X del actor = DE y la Y = HL
 C 0xB54A sitio_de_snake: E = la Y de Snake, D = la X
 C 0xB56F paso_siguiente: sube el paso del actor (ix+1)
@@ -309,22 +533,30 @@ C 0xB5C5 quita_actor: quita al actor: banderas por tipo (0xA0, 0x9A, 0xA9, 0xA4,
 C 0xB5D3 lee la X de Snake
 C 0xB5F3 despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 C 0xB60B ventana_de_texto_2: abre la ventana del texto A en el modo 2 (0xCEE0)
+C 0xB612 musica_3e: la musica 0x3E (salvo en el modo 8)
+C 0xB615 cuadro_b68f: cuadro de la tabla 0xB68F por los bits 1-2 de (ix+0x0C)
+C 0xB623 choca_actor: choca con H = (ix+5), L = (ix+3)
 C 0xB646 lee la Y de Snake
 C 0xB64D lee la X de Snake
+C 0xB65B crea_encima: crea el actor C 0x10 puntos por encima de IX
 C 0xB65E lee la X de Snake
 C 0xB687 hl_mas_a: HL = HL + A
 C 0xB6A4 hacia_snake_a: HL y DE = la velocidad de IX hacia Snake con el modulo A (+ 8 x 0xC152)
 C 0xB6A7 velocidades: la velocidad X del actor = DE y la Y = HL
 C 0xB6AC sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
+C 0xB6CD choca_actor: choca con H = (ix+5), L = (ix+3)
 C 0xB6D9 quita_actor: quita al actor: banderas por tipo (0xA0, 0x9A, 0xA9, 0xA4, 0xA1, 0xA2, 0xB9, 0x12, 0x2C), objeto y musica
 C 0xB6E8 despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 C 0xB704 ventana_de_texto_2: abre la ventana del texto A en el modo 2 (0xCEE0)
+C 0xB70B musica_3e: la musica 0x3E (salvo en el modo 8)
 C 0xB738 lee la X de Snake
 C 0xB743 lee la X de Snake
 C 0xB77B lee la X de Snake
+C 0xB79C crea_encima: crea el actor C 0x10 puntos por encima de IX
 C 0xB7CA lee la X de Snake
 C 0xB840 sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
 C 0xB847 quita_actor: quita al actor: banderas por tipo (0xA0, 0x9A, 0xA9, 0xA4, 0xA1, 0xA2, 0xB9, 0x12, 0x2C), objeto y musica
+C 0xB85F musica_3e: la musica 0x3E (salvo en el modo 8)
 C 0xB862 lee los 16 actores (fichas de 0x80)
 C 0xB86E pone_dibujo: pone un dibujo del banco 15 ([filas][columnas] y fichas) en la sala, en D/E
 C 0xB88B sonido: pide el sonido A al controlador del banco 4 (0x67FD) con los bancos 4 y 5
@@ -338,6 +570,7 @@ C 0xB909 sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en l
 C 0xB919 lee la X de Snake
 C 0xB930 crea_actor: crea un actor del tipo C en Y = E, X = D en la primera ficha libre de 0xD000; HL = la ficha, A = 0 si no cabe
 C 0xB941 apunta a la cuenta de cuadros
+C 0xB951 parado: las dos velocidades a cero
 C 0xB965 suma_velocidad_x: la velocidad X del actor (ix+9, ix+0x0A) += DE
 C 0xB97A sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
 C 0xB99B palabra_a: DE = la palabra A de la tabla DE
@@ -349,31 +582,85 @@ C 0xB9FD lee la X de Snake
 C 0xBA15 crea_actor: crea un actor del tipo C en Y = E, X = D en la primera ficha libre de 0xD000; HL = la ficha, A = 0 si no cabe
 C 0xBA69 crea_actor: crea un actor del tipo C en Y = E, X = D en la primera ficha libre de 0xD000; HL = la ficha, A = 0 si no cabe
 C 0xBAB4 despacha: salta a la palabra A de la tabla que va pegada detras del `call`
+C 0xBAD5 azar_0_3: A = (R XOR (ix+0x0C)) AND 3
+C 0xBB1C parado: las dos velocidades a cero
 C 0xBB25 sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
+C 0xBB30 parado: las dos velocidades a cero
 C 0xBB4E sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
 C 0xBB55 quita_actor: quita al actor: banderas por tipo (0xA0, 0x9A, 0xA9, 0xA4, 0xA1, 0xA2, 0xB9, 0x12, 0x2C), objeto y musica
+C 0xBB6C cuadro_doble: cuadro = 2 x A
+C 0xBB6F parado: las dos velocidades a cero
+C 0xBB72 espera_azar_bc95: (ix+0x12) al azar (1-48)
 C 0xBB80 despacha: salta a la palabra A de la tabla que va pegada detras del `call`
 C 0xBB8B lee la Y de Snake
+C 0xBB9B espera_azar_bc95: (ix+0x12) al azar (1-48)
 C 0xBB9E lee la X de Snake
+C 0xBBAE cuadro_dir_bc7f: cuadro de la direccion (ix+0x11), +1 con (ix+0x0C) AND B
+C 0xBBB1 velocidad_de_dir: las velocidades (ix+8, ix+0x0A) por la direccion (ix+0x11) (0x9BDB)
+C 0xBBB8 espera_azar_bc95: (ix+0x12) al azar (1-48)
 C 0xBBC9 lee la Y de Snake
+C 0xBBD7 cuadro_dir_bc7f: cuadro de la direccion (ix+0x11), +1 con (ix+0x0C) AND B
+C 0xBBDF choca_actor: choca con H = (ix+5), L = (ix+3)
+C 0xBBFF cuadro_bc7f: cuadro = 2 x A, +1 con (ix+0x0C) AND B
+C 0xBC02 velocidad_a90e: las velocidades de la direccion (ix+0x11) de la tabla 0xA90E
 C 0xBC05 lee la Y de Snake
+C 0xBC13 cuadro_dir_bc7f: cuadro de la direccion (ix+0x11), +1 con (ix+0x0C) AND B
+C 0xBC1C cuadro_dir_bc92: cuadro = 2 x (ix+0x11)
 C 0xBC34 lee la X de Snake
+C 0xBC5F choca_actor: choca con H = (ix+5), L = (ix+3)
 C 0xBCA9 colores_a_cero: escribe A y C alternos cada 5 bytes desde (ix+0x25)
+C 0xBCB5 cuadro_a_mas_1b: cuadro = A + 7 + (ix+0x1B)
 C 0xBCB8 lee el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
 C 0xBCC1 guarda la musica que suena
 C 0xBCC4 sonido_si_hay: pide el sonido A solo si se juega (bit 6 de 0xC002; en la demo no)
 C 0xBCD6 despacha: salta a la palabra A de la tabla que va pegada detras del `call`
+C 0xBCE7 azar_0_3: A = (R XOR (ix+0x0C)) AND 3
+C 0xBD0B cuadro_mas_1b: cuadro = (ix+0x11) + 7 + (ix+0x1B)
+C 0xBD0E colores_4d: (ix+0x0E) = 3 y los colores 0x02/0x4D
+C 0xBD13 crea_encima: crea el actor C 0x10 puntos por encima de IX
 C 0xBD22 colores_a_cero: escribe A y C alternos cada 5 bytes desde (ix+0x25)
+C 0xBD27 cuadro_por_direccion: cuadro = 2 x ((ix+0x11) - 1), +1 con el bit 2 de (ix+0x0C)
+C 0xBD3A hacia_snake_dir: A = la direccion de IX hacia Snake por el eje mayor (1-4), B = la del otro eje
+C 0xBD40 cuadro_a_mas_1b: cuadro = A + 7 + (ix+0x1B)
+C 0xBD5A cuadro_por_direccion: cuadro = 2 x ((ix+0x11) - 1), +1 con el bit 2 de (ix+0x0C)
 C 0xBD73 colores_a_cero: escribe A y C alternos cada 5 bytes desde (ix+0x25)
 C 0xBD92 quita_actor: quita al actor: banderas por tipo (0xA0, 0x9A, 0xA9, 0xA4, 0xA1, 0xA2, 0xB9, 0x12, 0x2C), objeto y musica
+C 0xBD99 parado: las dos velocidades a cero
 C 0xBDA5 despacha: salta a la palabra A de la tabla que va pegada detras del `call`
+C 0xBDBC espera_azar_32: (ix+0x12) = 1-32 al azar
 C 0xBDC9 ventana_de_texto_1: abre la ventana del texto A en el modo 1 (0xCEE0)
+C 0xBDCC snake_cerca_48: acarreo si Snake esta a menos de 0x48 en X y en Y
+C 0xBDD1 dx_a_snake_bf53: la distancia en X a Snake si esta en la fila
+C 0xBDE6 mira_a_snake_lado_2: en las filas 0x38/0xA8, la direccion de lado hacia Snake
+C 0xBDF3 mira_a_snake_lado: en las filas 0x38/0xA8, mira hacia Snake de lado
+C 0xBE04 mira_a_snake_lado_2: en las filas 0x38/0xA8, la direccion de lado hacia Snake
+C 0xBE09 direccion_be73: A = (ix+0x11)
+C 0xBE0C en_el_borde_x: si no se mueve en Y y esta en X = 0x18 o 0xC8
+C 0xBE0F en_la_fila: Z si el actor esta en las filas 0x38/0xA8 o en 0x58/0x98
+C 0xBE13 snake_cerca_48: acarreo si Snake esta a menos de 0x48 en X y en Y
+C 0xBE18 dx_a_snake_bf53: la distancia en X a Snake si esta en la fila
+C 0xBE26 direccion_be73: A = (ix+0x11)
+C 0xBE4A contraria: A = la direccion contraria (1 y 2, 3 y 4)
+C 0xBE50 velocidad_doble: las velocidades de la direccion A (0xA916) al doble
+C 0xBE53 fila_38_a8: Z si la Y del actor es 0x38 o 0xA8
+C 0xBE58 crea_encima: crea el actor C 0x10 puntos por encima de IX
+C 0xBE5C crea_encima: crea el actor C 0x10 puntos por encima de IX
+C 0xBE5F direccion_be73: A = (ix+0x11)
+C 0xBE62 en_la_fila: Z si el actor esta en las filas 0x38/0xA8 o en 0x58/0x98
+C 0xBE6E espera_azar_32: (ix+0x12) = 1-32 al azar
+C 0xBE84 fila_38_a8: Z si la Y del actor es 0x38 o 0xA8
+C 0xBE98 fila_38_a8: Z si la Y del actor es 0x38 o 0xA8
 C 0xBE9D lee la X de Snake
+C 0xBEAE velocidad_a916: las velocidades de la direccion A de la tabla 0xA916
 C 0xBEBC lee la Y de Snake
+C 0xBEC9 fila_38_a8: Z si la Y del actor es 0x38 o 0xA8
 C 0xBECE lee la X de Snake
 C 0xBEDB lee la Y de Snake
+C 0xBEE8 se_mueve_en_y: NZ si la velocidad Y alta no es cero
+C 0xBF23 fila_38_a8: Z si la Y del actor es 0x38 o 0xA8
 C 0xBF3D lee la X de Snake
 C 0xBF48 lee la Y de Snake
+C 0xBF53 fila_38_a8: Z si la Y del actor es 0x38 o 0xA8
 C 0xBF58 lee la X de Snake
 C 0xBF60 lee la Y de Snake
 C 0xBF7D lee la parada del ascensor

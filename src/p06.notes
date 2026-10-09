@@ -431,8 +431,41 @@ F 0xBFCC 16
 # --- fin de los bloques de bloques.py ---
 
 # --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---
+L 0xBB8E suelta_objeto el objeto de 0xBBD8 + A en (E, D) como objeto de la sala, y lo pinta con el sonido 0x25
+L 0xBBDD objetos_al_entrar 0xC5D0 a cero y los objetos de la sala (0x7A-0xD9: 0xB9EF, 0xBA50) que no se cogieron
+L 0xBC07 copia_objetos las ternas [objeto][Y][X] de DE no cogidas (0xC520/0xC5A0) a fichas de 0x10 en HL; el 4 solo con 0xC661
+L 0xBC47 pinta_objetos los 3 objetos de 0xC5D0: guarda el fondo en la pagina 1 y los pone con TIMP
+L 0xBC4E pinta_objetos_b B objetos desde IX (C = el primero)
+L 0xBCAE demo_empieza el guion siguiente de la demo (0xC00C, 0xBD8F): sala, arma, transceptor y Snake
+L 0xBD3F demo_cuadro un cuadro de la demo (transceptor y ventana de texto en el guion 0)
+L 0xBD68 demo_paso_siguiente sube 0xC009
+L 0xBD6D demo_teclas la pareja [cuadros][teclas] siguiente del guion; 0xFF acaba (0xC123 = 0)
+L 0xBDF8 punto_de_control si (sala, parada) esta en 0xBE64 (31 parejas), guarda la partida en 0xCA00
+L 0xBE17 vuelve_al_punto devuelve la partida guardada en 0xCA00
+L 0xBE22 copia_partida A = 1: copia los bloques de RAM de 0xBE51 ([dir][largo]) a 0xCA00; A = 0: los devuelve
+L 0xBEA2 teclea_clave lee el teclado y mete la tecla nueva en la clave (0xE500, 12 teclas)
+L 0xBEA8 lee_matriz las 9 filas del teclado: las que hay en 0xE515 y las nuevas en 0xE50C
+L 0xBEC6 tecla_a_clave la primera tecla nueva (fila x 8 + bit) al final de la clave 0xE500
+L 0xBF22 es_clave Z si la clave tecleada (0xE50B hacia atras) es la de DE (acaba en 0xFF)
+L 0xBF2F claves las 5 claves (0xBEF1, BEF6, BF03, BF0C, BF16): CLASS +1, CLASS +3, municion 999, raciones 999, las CARD1-8
+L 0xBFAD da_objeto el objeto E al primer hueco de 0xC530, cantidad E + 0x23, marcado en 0xC5A0
+C 0xBB91 hl_mas_a_y_vuelve: llama a hl_mas_a (p00:41E0) y deja otra vez los bancos 1-2 y el de zona
+C 0xBBBE copia_objetos: las ternas [objeto][Y][X] de DE no cogidas (0xC520/0xC5A0) a fichas de 0x10 en HL; el 4 solo con 0xC661
+C 0xBBD0 pinta_objetos_b: B objetos desde IX (C = el primero)
+C 0xBBD5 sonido_si_hay_y_vuelve: llama a sonido_si_hay (p00:427C) y deja otra vez los bancos 1-2 y el de zona
 C 0xBBE9 lee la sala
+C 0xBBF7 de_mas_a_y_vuelve: llama a de_mas_a (p00:41E5) y deja otra vez los bancos 1-2 y el de zona
+C 0xBC01 palabra_a_y_vuelve: llama a palabra_a (p00:42B4) y deja otra vez los bancos 1-2 y el de zona
+C 0xBC42 hl_mas_a_y_vuelve: llama a hl_mas_a (p00:41E0) y deja otra vez los bancos 1-2 y el de zona
+C 0xBC63 hl_mas_a_y_vuelve: llama a hl_mas_a (p00:41E0) y deja otra vez los bancos 1-2 y el de zona
+C 0xBC8E copia_logica_y_vuelve: llama a copia_logica (p00:5011) y deja otra vez los bancos 1-2 y el de zona
+C 0xBCA1 copia_logica_y_vuelve: llama a copia_logica (p00:5011) y deja otra vez los bancos 1-2 y el de zona
+C 0xBCBD palabra_a_y_vuelve: llama a palabra_a (p00:42B4) y deja otra vez los bancos 1-2 y el de zona
+C 0xBCC6 teclas_del_juego_y_vuelve: llama a teclas_del_juego (p01:7CBC) y deja otra vez los bancos 1-2 y el de zona
+C 0xBCD9 paleta_del_juego_y_vuelve: llama a paleta_del_juego (p00:4A92) y deja otra vez los bancos 1-2 y el de zona
+C 0xBCDC fichas_del_marcador_y_vuelve: llama a fichas_del_marcador (p00:4B33) y deja otra vez los bancos 1-2 y el de zona
 C 0xBCE1 guarda la frecuencia del transceptor (BCD)
+C 0xBCE9 transceptor_abre_y_vuelve: llama a transceptor_abre (p01:6912) y deja otra vez los bancos 1-2 y el de zona
 C 0xBCF5 guarda la barra de senal del transceptor (0-12)
 C 0xBCF8 guarda el paso del modo
 C 0xBCFF guarda la sala
@@ -440,11 +473,32 @@ C 0xBD06 guarda la sala
 C 0xBD0B guarda el arma elegida (p06:B865: 1 HAND GUN, 2 SMG, 3 GRENADE, 4 ROCKET, 5 P.BOMB, 6 L.MINE, 7 MISSILE, 8 SILENCER)
 C 0xBD11 guarda las armas que se llevan (fichas de 4: [arma][municion BCD])
 C 0xBD1F guarda la musica que suena
+C 0xBD22 sonido_y_vuelve: llama a sonido (p00:4284) y deja otra vez los bancos 1-2 y el de zona
 C 0xBD32 apunta a la Y de Snake
+C 0xBD4F transceptor_senal_y_vuelve: llama a transceptor_senal (p01:699F) y deja otra vez los bancos 1-2 y el de zona
 C 0xBD52 lee el paso del modo
+C 0xBD57 demo_paso_siguiente: sube 0xC009
+C 0xBD5C ventana_de_texto_2_y_vuelve: llama a ventana_de_texto_2 (p00:5CD9) y deja otra vez los bancos 1-2 y el de zona
+C 0xBD5F ventana_paso_y_vuelve: llama a ventana_paso (p00:5D03) y deja otra vez los bancos 1-2 y el de zona
 C 0xBD62 lee el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
+C 0xBD87 teclas_del_juego_y_vuelve: llama a teclas_del_juego (p01:7CBC) y deja otra vez los bancos 1-2 y el de zona
 C 0xBE00 lee la sala
 C 0xBE04 lee la parada del ascensor
+C 0xBE18 copia_partida: A = 1: copia los bloques de RAM de 0xBE51 ([dir][largo]) a 0xCA00; A = 0: los devuelve
 C 0xBE22 apunta a la casilla de trabajo 0xEC00
+C 0xBEA2 lee_matriz: las 9 filas del teclado: las que hay en 0xE515 y las nuevas en 0xE50C
+C 0xBEA5 tecla_a_clave: la primera tecla nueva (fila x 8 + bit) al final de la clave 0xE500
+C 0xBF32 es_clave: Z si la clave tecleada (0xE50B hacia atras) es la de DE (acaba en 0xFF)
+C 0xBF3D es_clave: Z si la clave tecleada (0xE50B hacia atras) es la de DE (acaba en 0xFF)
+C 0xBF46 es_clave: Z si la clave tecleada (0xE50B hacia atras) es la de DE (acaba en 0xFF)
+C 0xBF4F es_clave: Z si la clave tecleada (0xE50B hacia atras) es la de DE (acaba en 0xFF)
+C 0xBF58 es_clave: Z si la clave tecleada (0xE50B hacia atras) es la de DE (acaba en 0xFF)
+C 0xBF5F sube_c132_y_vuelve: llama a sube_c132 (p01:64D2) y deja otra vez los bancos 1-2 y el de zona
+C 0xBF62 sube_c132_y_vuelve: llama a sube_c132 (p01:64D2) y deja otra vez los bancos 1-2 y el de zona
+C 0xBF65 sube_c132_y_vuelve: llama a sube_c132 (p01:64D2) y deja otra vez los bancos 1-2 y el de zona
+C 0xBF9C busca_objeto_y_vuelve: llama a busca_objeto (p00:43E1) y deja otra vez los bancos 1-2 y el de zona
+C 0xBFA0 da_objeto: el objeto E al primer hueco de 0xC530, cantidad E + 0x23, marcado en 0xC5A0
 C 0xBFAD apunta a los objetos que se llevan (fichas de 4)
+C 0xBFB6 hl_mas_a_y_vuelve: llama a hl_mas_a (p00:41E0) y deja otra vez los bancos 1-2 y el de zona
+C 0xBFC6 hl_mas_a_y_vuelve: llama a hl_mas_a (p00:41E0) y deja otra vez los bancos 1-2 y el de zona
 # --- fin de las anotaciones de anota.py ---

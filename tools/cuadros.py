@@ -54,21 +54,34 @@ def tablas_nocode():
     return out
 
 
+# Las etiquetas con nombre (tools/anota.py bautiza las rutinas): nombre ->
+# direccion, para seguir los saltos que ya no dicen L_XXXX.
+ETIQUETAS = {}
+
+
 def lee_listado():
     """{direccion: (mnemonico, operandos, siguiente)} de p00-p03 (el trio
     por defecto cuando corre el codigo de los actores)."""
     codigo = {}
+    ETIQUETAS.clear()
     for p in range(4):
         ruta = os.path.join(RAIZ, "src", "metalgear_p%02d.asm" % p)
-        previa = None
+        previa, pendientes = None, []
         for linea in open(ruta, encoding="utf-8", errors="replace"):
+            m = re.match(r"^([A-Za-z_][A-Za-z_0-9]*):", linea)
+            if m:
+                pendientes.append(m.group(1))
+                continue
             if linea.startswith("\tdef") or linea.startswith("\torg"):
-                previa = None
+                previa, pendientes = None, []
                 continue
             m = RE_CODE.match(linea)
             if not m:
                 continue
             mn, ops, a = m.group(1), m.group(2).strip(), int(m.group(3), 16)
+            for nombre in pendientes:
+                ETIQUETAS[nombre] = a
+            pendientes = []
             if previa is not None:
                 codigo[previa] = codigo[previa][:2] + (a,)
             codigo[a] = (mn, ops, None)
@@ -91,7 +104,7 @@ def destino(ops, a):
     m = re.match(r"^\$([+-]\d+)$", t)
     if m:
         return a + int(m.group(1))
-    return None
+    return ETIQUETAS.get(t)
 
 
 def sucesores(a, codigo, tablas, tipo):

@@ -98,7 +98,66 @@ D 0x7F25 0x8000 sonido_38_7F25  canal del sonido 0x38 (palabra 56 del indice): c
 # --- fin de los bloques de bloques.py ---
 
 # --- ANOTACIONES AUTOMATICAS (seccion que reescribe tools/anota.py; no editar a mano) ---
+L 0x6000 sonido_del_cuadro el controlador de sonido, cada interrupcion: mezclador, modo 0xC0F1, fundido 0xC0F4 y los 4 canales
+L 0x607F canal un cuadro del canal IX (C = su registro de tono del PSG)
+L 0x61BB vibrato con el bit 2 de (ix+0x0F): sube y baja el periodo segun (ix+0x1C) [cada][cuanto]
+L 0x6367 fin_de_lista 0xFF: vuelve a la lista guardada (ix+0x18, 0x19) o calla el canal
+L 0x63B0 refresca_canal con 0xC0F3 vuelve a mandar el periodo y el volumen
+L 0x63BB periodo_al_psg manda el periodo del canal al PSG (el canal 5/7 cede al efecto de 0xC072)
+L 0x63D6 periodo el periodo (ix+0x15, 0x16) a los registros C y C - 1 del PSG
+L 0x6409 fundido baja el volumen (0xC0F5, 0xC0F6) y, al acabar, pide el sonido de 0xC0F4
+L 0x6434 volumen_al_psg manda el volumen del canal al PSG (el canal 5/7 cede al efecto)
+L 0x6449 volumen el volumen (ix+0x17) menos el fundido 0xC0F6 al registro 8 + C/2, o la envolvente
+L 0x6489 copia_canales copia 0x60 bytes de HL a DE (guarda o devuelve tres canales)
+L 0x6494 orden_fe 0xFE n: repite n veces; 0xFE 0: cambia de modo; 0xFE 0xFF: llama a otra lista
+L 0x64EA avanza_lista (ix+3, ix+4) = HL + 1
+L 0x64F2 mezclador tono y ruido del canal por (ix+5) bits 0-1, al registro 7 del PSG
+L 0x651B pon_mezclador 0xC0F0 = A y al registro 7 del PSG
+L 0x6524 quita_bits E = E AND NOT A
+L 0x6528 pon_bits E = E OR A
+L 0x67FD pide_sonido el sonido A (indice 0x6892): < 0x29 efecto en 0xC070 si manda mas, si no musica de 3 o 4 canales; 0x4D/0x59 guardan la musica
 C 0x6019 guarda la musica que suena
+C 0x601C pide_sonido: el sonido A (indice 0x6892): < 0x29 efecto en 0xC070 si manda mas, si no musica de 3 o 4 canales; 0x4D/0x59 guardan la musica
+C 0x6022 pon_mezclador: 0xC0F0 = A y al registro 7 del PSG
+C 0x603D copia_canales: copia 0x60 bytes de HL a DE (guarda o devuelve tres canales)
+C 0x6054 fundido: baja el volumen (0xC0F5, 0xC0F6) y, al acabar, pide el sonido de 0xC0F4
+C 0x6064 canal: un cuadro del canal IX (C = su registro de tono del PSG)
+C 0x606D fin_de_lista: 0xFF: vuelve a la lista guardada (ix+0x18, 0x19) o calla el canal
 C 0x6086 lee la frecuencia del transceptor (BCD)
 C 0x6095 lee la frecuencia del transceptor (BCD)
+C 0x60AE refresca_canal: con 0xC0F3 vuelve a mandar el periodo y el volumen
+C 0x60BA orden_fe: 0xFE n: repite n veces; 0xFE 0: cambia de modo; 0xFE 0xFF: llama a otra lista
+C 0x60BD fin_de_lista: 0xFF: vuelve a la lista guardada (ix+0x18, 0x19) o calla el canal
+C 0x613C avanza_lista: (ix+3, ix+4) = HL + 1
+C 0x6156 periodo_al_psg: manda el periodo del canal al PSG (el canal 5/7 cede al efecto de 0xC072)
+C 0x616E volumen_al_psg: manda el volumen del canal al PSG (el canal 5/7 cede al efecto)
+C 0x6177 volumen_al_psg: manda el volumen del canal al PSG (el canal 5/7 cede al efecto)
+C 0x6190 vibrato: con el bit 2 de (ix+0x0F): sube y baja el periodo segun (ix+0x1C) [cada][cuanto]
+C 0x61A5 refresca_canal: con 0xC0F3 vuelve a mandar el periodo y el volumen
+C 0x61AF refresca_canal: con 0xC0F3 vuelve a mandar el periodo y el volumen
+C 0x61B8 volumen_al_psg: manda el volumen del canal al PSG (el canal 5/7 cede al efecto)
+C 0x620A periodo_al_psg: manda el periodo del canal al PSG (el canal 5/7 cede al efecto de 0xC072)
+C 0x626F volumen_al_psg: manda el volumen del canal al PSG (el canal 5/7 cede al efecto)
+C 0x629F avanza_lista: (ix+3, ix+4) = HL + 1
+C 0x62F7 periodo_al_psg: manda el periodo del canal al PSG (el canal 5/7 cede al efecto de 0xC072)
+C 0x62FA volumen_al_psg: manda el volumen del canal al PSG (el canal 5/7 cede al efecto)
+C 0x634E volumen_al_psg: manda el volumen del canal al PSG (el canal 5/7 cede al efecto)
+C 0x6361 periodo_al_psg: manda el periodo del canal al PSG (el canal 5/7 cede al efecto de 0xC072)
+C 0x6364 volumen_al_psg: manda el volumen del canal al PSG (el canal 5/7 cede al efecto)
+C 0x637E canal: un cuadro del canal IX (C = su registro de tono del PSG)
+C 0x639D volumen_al_psg: manda el volumen del canal al PSG (el canal 5/7 cede al efecto)
+C 0x63AA periodo: el periodo (ix+0x15, 0x16) a los registros C y C - 1 del PSG
+C 0x63AD volumen: el volumen (ix+0x17) menos el fundido 0xC0F6 al registro 8 + C/2, o la envolvente
+C 0x63B5 periodo_al_psg: manda el periodo del canal al PSG (el canal 5/7 cede al efecto de 0xC072)
+C 0x63B8 volumen_al_psg: manda el volumen del canal al PSG (el canal 5/7 cede al efecto)
+C 0x63D0 periodo: el periodo (ix+0x15, 0x16) a los registros C y C - 1 del PSG
+C 0x6431 pide_sonido: el sonido A (indice 0x6892): < 0x29 efecto en 0xC070 si manda mas, si no musica de 3 o 4 canales; 0x4D/0x59 guardan la musica
+C 0x6449 mezclador: tono y ruido del canal por (ix+5) bits 0-1, al registro 7 del PSG
+C 0x64BC avanza_lista: (ix+3, ix+4) = HL + 1
+C 0x64C2 canal: un cuadro del canal IX (C = su registro de tono del PSG)
+C 0x6505 pon_bits: E = E OR A
+C 0x650A quita_bits: E = E AND NOT A
+C 0x6513 pon_bits: E = E OR A
+C 0x6518 quita_bits: E = E AND NOT A
+C 0x6816 copia_canales: copia 0x60 bytes de HL a DE (guarda o devuelve tres canales)
 # --- fin de las anotaciones de anota.py ---

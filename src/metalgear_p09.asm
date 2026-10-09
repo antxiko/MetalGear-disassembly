@@ -218,7 +218,7 @@ DATA_retrato_de_snake_2:
 ; ======================================================================
 
 
-L_AD69:
+ascensor:		; modo 6: el ascensor (0xC196): sube o baja con las teclas y para en 0x38, 0x78 y 0xB8
 	ld a,(0c196h)		;ad69
 	ld b,a			;ad6c
 	djnz L_AD85		;ad6d
@@ -270,7 +270,7 @@ L_AD93:
 L_ADC5:
 	ld a,d			;adc5
 	rra			;adc6
-	jr c,L_AE28		;adc7
+	jr c,sprites_de_la_cabina		;adc7
 L_ADC9:
 	ld a,c			;adc9
 	cp 038h		;adca
@@ -280,14 +280,14 @@ L_ADC9:
 	jr nz,L_ADD7		;add1
 	ld a,d			;add3
 	rra			;add4
-	jr c,L_AE28		;add5
+	jr c,sprites_de_la_cabina		;add5
 L_ADD7:
 	ld a,c			;add7
 	cp 078h		;add8
 	jr z,L_AE1B		;adda
 	cp 0b8h		;addc
 	jr z,L_AE1B		;adde
-	jr L_AE28		;ade0
+	jr sprites_de_la_cabina		;ade0
 L_ADE2:
 	ld a,(0c182h)		;ade2   ; lee la Y de Snake
 	inc a			;ade5
@@ -307,7 +307,7 @@ L_ADE2:
 L_ADFD:
 	ld a,d			;adfd
 	and 002h		;adfe
-	jr nz,L_AE28		;ae00
+	jr nz,sprites_de_la_cabina		;ae00
 L_AE02:
 	ld a,c			;ae02
 	cp 0b8h		;ae03
@@ -317,25 +317,25 @@ L_AE02:
 	jr nz,L_AE10		;ae0a
 	ld a,d			;ae0c
 	rra			;ae0d
-	jr c,L_AE28		;ae0e
+	jr c,sprites_de_la_cabina		;ae0e
 L_AE10:
 	ld a,c			;ae10
 	cp 078h		;ae11
 	jr z,L_AE1B		;ae13
 	cp 038h		;ae15
 	jr z,L_AE1B		;ae17
-	jr L_AE28		;ae19
+	jr sprites_de_la_cabina		;ae19
 L_AE1B:
-	call L_AE28		;ae1b
-L_AE1E:
+	call sprites_de_la_cabina		;ae1b   ; sprites_de_la_cabina: los 12 sprites del ascensor (0xAE5F) en 0xEA50 y sus colores en 0xE940
+ascensor_paso_siguiente:		; sube 0xC196
 	ld hl,0c196h		;ae1e
 	inc (hl)			;ae21
 	ret			;ae22
 L_AE23:
-	call L_AE1E		;ae23
+	call ascensor_paso_siguiente		;ae23   ; ascensor_paso_siguiente: sube 0xC196
 	inc (hl)			;ae26
 	ret			;ae27
-L_AE28:
+sprites_de_la_cabina:		; los 12 sprites del ascensor (0xAE5F) en 0xEA50 y sus colores en 0xE940
 	ld hl,0ae5fh		;ae28
 	ld de,0ea50h		;ae2b
 	ld bc,00cffh		;ae2e
@@ -399,10 +399,10 @@ DATA_sprites_del_ascensor:
 ; ======================================================================
 
 
-L_AE8F:
+intro_paso:		; un paso de la entrada de Snake (0xC920, tabla 0xAE98)
 	ld a,(0c920h)		;ae8f
 	ld hl,0ae98h		;ae92
-	jp L_B50C		;ae95
+	jp salta_por_a		;ae95   ; salta_por_a: salta a la palabra A de la tabla HL
 
 ; ----------------------------------------------------------------------
 ; DATOS saltos_de_la_intro: 13 direcciones de codigo del banco 9, una por paso
@@ -435,7 +435,7 @@ L_AEC9:
 	ld (0c185h),a		;aecf   ; guarda la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
 	ld a,030h		;aed2
 	ld (0c921h),a		;aed4
-	jp L_AF8E		;aed7
+	jp intro_paso_siguiente		;aed7   ; intro_paso_siguiente: sube 0xC920 y la pose de Snake
 L_AEDA:
 	ld hl,0c921h		;aeda
 	dec (hl)			;aedd
@@ -451,7 +451,7 @@ L_AEEA:
 	ld (0c18bh),a		;aef1   ; guarda el modo de la pose de Snake
 	dec a			;aef4
 	ld (0c185h),a		;aef5   ; guarda la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
-	jp L_AF8E		;aef8
+	jp intro_paso_siguiente		;aef8   ; intro_paso_siguiente: sube 0xC920 y la pose de Snake
 L_AEFB:
 	ld hl,0c921h		;aefb
 	dec (hl)			;aefe
@@ -464,7 +464,7 @@ L_AEFB:
 L_AF0D:
 	ld a,020h		;af0d
 	ld (0c921h),a		;af0f
-	jr L_AF8E		;af12
+	jr intro_paso_siguiente		;af12
 L_AF14:
 	ld hl,0c921h		;af14
 	dec (hl)			;af17
@@ -483,7 +483,7 @@ L_AF2A:
 	ld (0c185h),a		;af31   ; guarda la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
 	ld a,040h		;af34
 	ld (0c921h),a		;af36
-	jr L_AF8E		;af39
+	jr intro_paso_siguiente		;af39
 L_AF3B:
 	ld hl,0c921h		;af3b
 	dec (hl)			;af3e
@@ -494,41 +494,41 @@ L_AF3B:
 	inc a			;af45
 	ld (0c15fh),a		;af46
 	ld a,022h		;af49
-	jp 0405ah		;af4b
+	jp 0405ah		;af4b   ; sonido_si_hay_y_vuelve: llama a sonido_si_hay (p00:427C) y deja otra vez los bancos 1-2 y el de zona
 L_AF4E:
 	ld a,001h		;af4e
 	ld (0c0f1h),a		;af50
 	ld a,059h		;af53
-	call 0405ah		;af55
-	call 0407dh		;af58
+	call 0405ah		;af55   ; sonido_si_hay_y_vuelve: llama a sonido_si_hay (p00:427C) y deja otra vez los bancos 1-2 y el de zona
+	call 0407dh		;af58   ; transceptor_abre_y_vuelve: llama a transceptor_abre (p01:6912) y deja otra vez los bancos 1-2 y el de zona
 	ld a,010h		;af5b
 	ld (0c802h),a		;af5d
 	xor a			;af60
 	ld (0c801h),a		;af61   ; guarda la barra de senal del transceptor (0-12)
 	ld (0c153h),a		;af64   ; guarda el paso del modo
-	jr L_AF8E		;af67
+	jr intro_paso_siguiente		;af67
 L_AF69:
-	call 04082h		;af69
+	call 04082h		;af69   ; transceptor_senal_y_vuelve: llama a transceptor_senal (p01:699F) y deja otra vez los bancos 1-2 y el de zona
 	ld a,(0c153h)		;af6c   ; lee el paso del modo
 	dec a			;af6f
 	ret nz			;af70
-	jr L_AF8E		;af71
+	jr intro_paso_siguiente		;af71
 L_AF73:
-	call L_AF8E		;af73
+	call intro_paso_siguiente		;af73   ; intro_paso_siguiente: sube 0xC920 y la pose de Snake
 	ld a,05ch		;af76
-	call 0405ah		;af78
+	call 0405ah		;af78   ; sonido_si_hay_y_vuelve: llama a sonido_si_hay (p00:427C) y deja otra vez los bancos 1-2 y el de zona
 	ld a,002h		;af7b
-	jp 0405fh		;af7d
+	jp 0405fh		;af7d   ; ventana_de_texto_y_vuelve: llama a ventana_de_texto (p00:5CE1) y deja otra vez los bancos 1-2 y el de zona
 L_AF80:
-	call 04087h		;af80
+	call 04087h		;af80   ; sale_del_transceptor_y_vuelve: llama a sale_del_transceptor (p01:6BB1) y deja otra vez los bancos 1-2 y el de zona
 	ld a,028h		;af83
 	ld (0c921h),a		;af85
 	ld hl,00200h		;af88
 	ld (0c143h),hl		;af8b   ; guarda el modulo de la velocidad de Snake y el byte siguiente (16 bits)
-L_AF8E:
+intro_paso_siguiente:		; sube 0xC920 y la pose de Snake
 	ld hl,0c920h		;af8e
 	inc (hl)			;af91
-	jp 04078h		;af92
+	jp 04078h		;af92   ; pose_de_snake_y_vuelve: llama a pose_de_snake (p01:6502) y deja otra vez los bancos 1-2 y el de zona
 L_AF95:
 	ld hl,0c921h		;af95
 	dec (hl)			;af98
@@ -540,15 +540,15 @@ L_AF95:
 	rlca			;afa4
 	ld (0c007h),a		;afa5   ; guarda las teclas que hay
 L_AFA8:
-	call 04064h		;afa8
-	call 0406eh		;afab
+	call 04064h		;afa8   ; velocidad_de_snake_y_vuelve: llama a velocidad_de_snake (p01:617A) y deja otra vez los bancos 1-2 y el de zona
+	call 0406eh		;afab   ; choque_de_snake_y_vuelve: llama a choque_de_snake (p01:6205) y deja otra vez los bancos 1-2 y el de zona
 L_AFAE:
-	call 04073h		;afae
-	jp 04078h		;afb1
+	call 04073h		;afae   ; mueve_snake_y_vuelve: llama a mueve_snake (p01:63FC) y deja otra vez los bancos 1-2 y el de zona
+	jp 04078h		;afb1   ; pose_de_snake_y_vuelve: llama a pose_de_snake (p01:6502) y deja otra vez los bancos 1-2 y el de zona
 L_AFB4:
 	ld a,030h		;afb4
 	ld (0c921h),a		;afb6
-	jr L_AF8E		;afb9
+	jr intro_paso_siguiente		;afb9
 L_AFBB:
 	ld hl,0c921h		;afbb
 	dec (hl)			;afbe
@@ -570,7 +570,7 @@ L_AFCE:
 	ld (0c18bh),a		;afdf   ; guarda el modo de la pose de Snake
 	ld a,01ch		;afe2
 	ld (0c921h),a		;afe4
-	jr L_AF8E		;afe7
+	jr intro_paso_siguiente		;afe7
 L_AFE9:
 	ld hl,0c921h		;afe9
 	dec (hl)			;afec
@@ -580,7 +580,7 @@ L_AFE9:
 	inc a			;aff3
 	ld (0c185h),a		;aff4   ; guarda la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
 	ld (0c007h),a		;aff7   ; guarda las teclas que hay
-	call 04069h		;affa
+	call 04069h		;affa   ; velocidad_arriba_abajo_y_vuelve: llama a velocidad_arriba_abajo (p01:6160) y deja otra vez los bancos 1-2 y el de zona
 	jr L_AFAE		;affd
 L_AFFF:
 	ld hl,06600h		;afff
@@ -592,11 +592,11 @@ L_AFFF:
 	ld (0c18eh),a		;b00d
 	ld a,00ch		;b010
 	ld (0c921h),a		;b012
-	jp L_AF8E		;b015
+	jp intro_paso_siguiente		;b015   ; intro_paso_siguiente: sube 0xC920 y la pose de Snake
 L_B018:
 	ld hl,0c921h		;b018
 	dec (hl)			;b01b
-	jp z,L_AF8E		;b01c
+	jp z,intro_paso_siguiente		;b01c   ; intro_paso_siguiente: sube 0xC920 y la pose de Snake
 	xor a			;b01f
 	ld (0c007h),a		;b020   ; guarda las teclas que hay
 	ld (0c006h),a		;b023   ; guarda las teclas nuevas (1 arriba, 2 abajo, 4 izq., 8 der., 0x10, 0x20)
@@ -604,21 +604,21 @@ L_B018:
 	ld (0c185h),a		;b027   ; guarda la direccion de Snake (1 arriba, 2 abajo, 3 izquierda, 4 derecha)
 	ld a,(hl)			;b02a
 	bit 0,a		;b02b
-	jp z,04078h		;b02d
+	jp z,04078h		;b02d   ; pose_de_snake_y_vuelve: llama a pose_de_snake (p01:6502) y deja otra vez los bancos 1-2 y el de zona
 	ld hl,0b050h		;b030
-	call 04050h		;b033
+	call 04050h		;b033   ; hl_mas_a_y_vuelve: llama a hl_mas_a (p00:41E0) y deja otra vez los bancos 1-2 y el de zona
 	ld d,(hl)			;b036
 	ld e,000h		;b037
 	ld hl,(0c181h)		;b039   ; lee la Y de Snake (16 bits)
 	add hl,de			;b03c
 	ld (0c181h),hl		;b03d   ; guarda la Y de Snake (16 bits)
-	jp 04078h		;b040
+	jp 04078h		;b040   ; pose_de_snake_y_vuelve: llama a pose_de_snake (p01:6502) y deja otra vez los bancos 1-2 y el de zona
 L_B043:
 	xor a			;b043
 	ld (0c180h),a		;b044   ; guarda el estado de Snake
 	ld hl,00200h		;b047
 	ld (0c143h),hl		;b04a   ; guarda el modulo de la velocidad de Snake y el byte siguiente (16 bits)
-	jp 04078h		;b04d
+	jp 04078h		;b04d   ; pose_de_snake_y_vuelve: llama a pose_de_snake (p01:6502) y deja otra vez los bancos 1-2 y el de zona
 
 ; ----------------------------------------------------------------------
 ; DATOS pasos_de_la_intro_b050: 12 bytes, uno por paso de la intro (0xC920),
@@ -633,22 +633,22 @@ DATA_pasos_de_la_intro_b050:
 ; ======================================================================
 
 
-L_B05C:
+carga_la_fuente:		; la fuente (0xB0B2), los digitos grandes (0xB412), la estrella y sus colores en la pagina 1
 	ld a,001h		;b05c
 	ld (0faf6h),a		;b05e
-	call L_B0A3		;b061
+	call borra_esquina		;b061   ; borra_esquina: borra 0x18 x 8 en (0, 0) de la pagina 1
 	ld de,00040h		;b064
 	ld hl,0b0b2h		;b067
 	ld bc,06c0eh		;b06a
-	call 0408ch		;b06d
+	call 0408ch		;b06d   ; caracteres_1_bit_y_vuelve: llama a caracteres_1_bit (p00:505D) y deja otra vez los bancos 1-2 y el de zona
 	ld de,09858h		;b070
 	ld hl,0b412h		;b073
 	ld bc,00d08h		;b076
-	call 0408ch		;b079
+	call 0408ch		;b079   ; caracteres_1_bit_y_vuelve: llama a caracteres_1_bit (p00:505D) y deja otra vez los bancos 1-2 y el de zona
 	ld de,05840h		;b07c
 	ld hl,0b10ah		;b07f
 	ld bc,00106h		;b082
-	call 0408ch		;b085
+	call 0408ch		;b085   ; caracteres_1_bit_y_vuelve: llama a caracteres_1_bit (p00:505D) y deja otra vez los bancos 1-2 y el de zona
 	ld hl,0b0aeh		;b088
 	ld de,0e700h		;b08b   ; apunta a los colores de las fichas
 	ld bc,00004h		;b08e
@@ -656,17 +656,17 @@ L_B05C:
 	ld hl,0b47ah		;b093
 	ld de,0ac30h		;b096
 	ld b,006h		;b099
-	call 04091h		;b09b
+	call 04091h		;b09b   ; fichas_2_planos_y_vuelve: llama a fichas_2_planos (p00:51FE) y deja otra vez los bancos 1-2 y el de zona
 	xor a			;b09e
 	ld (0faf6h),a		;b09f
 	ret			;b0a2
-L_B0A3:
+borra_esquina:		; borra 0x18 x 8 en (0, 0) de la pagina 1
 	xor a			;b0a3
 	ld h,a			;b0a4
 	ld l,a			;b0a5
 	ld bc,01808h		;b0a6
 	ld d,001h		;b0a9
-	jp 04096h		;b0ab
+	jp 04096h		;b0ab   ; rellena_y_vuelve: llama a rellena (p00:4F91) y deja otra vez los bancos 1-2 y el de zona
 
 ; ----------------------------------------------------------------------
 ; DATOS colores_de_la_fuente: 4 bytes que p09:B088 copia a 0xE700: la tabla de
@@ -826,29 +826,29 @@ DATA_fichas_b47a:
 ; ======================================================================
 
 
-L_B4DA:
-	call 040a0h		;b4da
+titulo_prepara:		; pantalla limpia, fuente, titulo, paleta 0xB602 y la enciende
+	call 040a0h		;b4da   ; apaga_la_pantalla_y_vuelve: llama a apaga_la_pantalla (p00:4E0E) y deja otra vez los bancos 1-2 y el de zona
 	ld d,001h		;b4dd
-	call 04163h		;b4df
-	call 0409bh		;b4e2
+	call 04163h		;b4df   ; borra_la_pagina_d_y_vuelve: llama a borra_la_pagina_d (p00:4E1D) y deja otra vez los bancos 1-2 y el de zona
+	call 0409bh		;b4e2   ; pantalla_limpia_y_vuelve: llama a pantalla_limpia (p00:4DF8) y deja otra vez los bancos 1-2 y el de zona
 	ld bc,00007h		;b4e5
 	call 00047h		;b4e8   ; BIOS WRTVDP - Writes data in the VDP-register
-	call L_B05C		;b4eb
-	call L_B5B5		;b4ee
+	call carga_la_fuente		;b4eb   ; carga_la_fuente: la fuente (0xB0B2), los digitos grandes (0xB412), la estrella y sus colores en la pagina 1
+	call carga_el_titulo		;b4ee   ; carga_el_titulo: colores 0xB5AD, 70 fichas (0xB8B9) en 0x8004 y los montajes 0xB618 y 0xB64C en la pagina 1
 	ld a,060h		;b4f1
 	ld (0c119h),a		;b4f3
 	xor a			;b4f6
 	ld (0c118h),a		;b4f7
-	call L_B0A3		;b4fa
+	call borra_esquina		;b4fa   ; borra_esquina: borra 0x18 x 8 en (0, 0) de la pagina 1
 	ld hl,0b602h		;b4fd
-	call 04118h		;b500
-	jp 040aah		;b503
-L_B506:
+	call 04118h		;b500   ; paleta_y_vuelve: llama a paleta (p00:4EC4) y deja otra vez los bancos 1-2 y el de zona
+	jp 040aah		;b503   ; enciende_la_pantalla_y_vuelve: llama a enciende_la_pantalla (p00:4E01) y deja otra vez los bancos 1-2 y el de zona
+titulo_paso:		; un paso del titulo (0xC118, tabla 0xB515)
 	ld a,(0c118h)		;b506
 	ld hl,0b515h		;b509
-L_B50C:
+salta_por_a:		; salta a la palabra A de la tabla HL
 	add a,a			;b50c
-	call 04050h		;b50d
+	call 04050h		;b50d   ; hl_mas_a_y_vuelve: llama a hl_mas_a (p00:41E0) y deja otra vez los bancos 1-2 y el de zona
 	ld e,(hl)			;b510
 	inc hl			;b511
 	ld d,(hl)			;b512
@@ -869,8 +869,8 @@ DATA_saltos_del_menu:
 
 L_B51F:
 	ld a,047h		;b51f
-	call 04140h		;b521
-L_B524:
+	call 04140h		;b521   ; sonido_y_vuelve: llama a sonido (p00:4284) y deja otra vez los bancos 1-2 y el de zona
+titulo_siguiente:		; 0xC119 = 0x0C y el paso siguiente
 	ld a,00ch		;b524
 	ld (0c119h),a		;b526
 	ld hl,0c118h		;b529
@@ -879,19 +879,19 @@ L_B524:
 L_B52E:
 	ld hl,0c119h		;b52e
 	dec (hl)			;b531
-	jr z,L_B524		;b532
-L_B534:
+	jr z,titulo_siguiente		;b532
+logotipo_en_y:		; las dos partes del logotipo METAL GEAR a la altura 0xB5F7[0xC119 - 1]
 	ld a,(0c119h)		;b534
 	dec a			;b537
 	ld hl,0b5f7h		;b538
-	call 04050h		;b53b
+	call 04050h		;b53b   ; hl_mas_a_y_vuelve: llama a hl_mas_a (p00:41E0) y deja otra vez los bancos 1-2 y el de zona
 	ld e,(hl)			;b53e
 	ld d,020h		;b53f
 	push de			;b541
 	ld hl,02068h		;b542
 	ld bc,06820h		;b545
 	ld a,048h		;b548
-	call 040a5h		;b54a
+	call 040a5h		;b54a   ; copia_logica_y_vuelve: llama a copia_logica (p00:5011) y deja otra vez los bancos 1-2 y el de zona
 	pop de			;b54d
 	ld a,008h		;b54e
 	add a,e			;b550
@@ -900,28 +900,28 @@ L_B534:
 	ld hl,08868h		;b554
 	ld bc,04820h		;b557
 	ld a,048h		;b55a
-	jp 040a5h		;b55c
-L_B55F:
-	call 040f5h		;b55f
+	jp 040a5h		;b55c   ; copia_logica_y_vuelve: llama a copia_logica (p00:5011) y deja otra vez los bancos 1-2 y el de zona
+logotipo_quieto:		; borra la pagina 0 y deja el logotipo en su sitio
+	call 040f5h		;b55f   ; borra_la_pagina_0_y_vuelve: llama a borra_la_pagina_0 (p00:4E1B) y deja otra vez los bancos 1-2 y el de zona
 	ld a,001h		;b562
 	ld (0c119h),a		;b564
-	call L_B534		;b567
+	call logotipo_en_y		;b567   ; logotipo_en_y: las dos partes del logotipo METAL GEAR a la altura 0xB5F7[0xC119 - 1]
 	xor a			;b56a
 	ld (0c119h),a		;b56b
-	jp L_B524		;b56e
+	jp titulo_siguiente		;b56e   ; titulo_siguiente: 0xC119 = 0x0C y el paso siguiente
 L_B571:
 	ld hl,0c119h		;b571
 	dec (hl)			;b574
 	ret nz			;b575
-	call L_B524		;b576
-L_B579:
+	call titulo_siguiente		;b576   ; titulo_siguiente: 0xC119 = 0x0C y el paso siguiente
+rotulo_del_titulo:		; escribe el rotulo 0xB58A
 	ld hl,0b58ah		;b579
-	jp 040afh		;b57c
+	jp 040afh		;b57c   ; rotulo_y_vuelve: llama a rotulo (p00:510C) y deja otra vez los bancos 1-2 y el de zona
 L_B57F:
-	call L_B55F		;b57f
+	call logotipo_quieto		;b57f   ; logotipo_quieto: borra la pagina 0 y deja el logotipo en su sitio
 	ld a,04ah		;b582
-	call 04140h		;b584
-	jp L_B579		;b587
+	call 04140h		;b584   ; sonido_y_vuelve: llama a sonido (p00:4284) y deja otra vez los bancos 1-2 y el de zona
+	jp rotulo_del_titulo		;b587   ; rotulo_del_titulo: escribe el rotulo 0xB58A
 
 ; ----------------------------------------------------------------------
 ; DATOS rotulo_del_titulo: rotulo con posicion (L_510C: [X][Y] y caracteres,
@@ -946,7 +946,7 @@ DATA_colores_del_titulo:
 ; ======================================================================
 
 
-L_B5B5:
+carga_el_titulo:		; colores 0xB5AD, 70 fichas (0xB8B9) en 0x8004 y los montajes 0xB618 y 0xB64C en la pagina 1
 	ld hl,0b5adh		;b5b5
 	ld de,0e700h		;b5b8   ; apunta a los colores de las fichas
 	ld bc,00008h		;b5bb
@@ -954,20 +954,20 @@ L_B5B5:
 	ld hl,0b8b9h		;b5c0
 	ld de,08004h		;b5c3
 	ld b,046h		;b5c6
-	call 04168h		;b5c8
+	call 04168h		;b5c8   ; fichas_3_planos_y_vuelve: llama a fichas_3_planos (p00:524C) y deja otra vez los bancos 1-2 y el de zona
 	ld hl,0b618h		;b5cb
 	ld de,02068h		;b5ce
 	ld bc,00d04h		;b5d1
-	call L_B5E0		;b5d4
+	call montaje		;b5d4   ; montaje: C filas de B fichas de HL en (D, E) de la pagina 1
 	ld hl,0b64ch		;b5d7
 	ld de,08870h		;b5da
 	ld bc,00904h		;b5dd
-L_B5E0:
+montaje:		; C filas de B fichas de HL en (D, E) de la pagina 1
 	push de			;b5e0
 	push bc			;b5e1
 L_B5E2:
 	ld a,(hl)			;b5e2
-	call 040b4h		;b5e3
+	call 040b4h		;b5e3   ; ficha_en_pagina_1_y_vuelve: llama a ficha_en_pagina_1 (p00:518A) y deja otra vez los bancos 1-2 y el de zona
 	ld a,d			;b5e6
 	add a,008h		;b5e7
 	ld d,a			;b5e9
@@ -979,7 +979,7 @@ L_B5E2:
 	add a,008h		;b5f0
 	ld e,a			;b5f2
 	dec c			;b5f3
-	jr nz,L_B5E0		;b5f4
+	jr nz,montaje		;b5f4
 	ret			;b5f6
 
 ; ----------------------------------------------------------------------
@@ -1031,13 +1031,13 @@ DATA_montaje_del_titulo_2:
 ; ======================================================================
 
 
-L_B670:
-	call 040a0h		;b670
+logotipo_konami:		; el logotipo de Konami: paleta 0xB6A6, sus graficos y la cuenta en 0xC130/0xC131
+	call 040a0h		;b670   ; apaga_la_pantalla_y_vuelve: llama a apaga_la_pantalla (p00:4E0E) y deja otra vez los bancos 1-2 y el de zona
 	ld a,05ch		;b673
-	call 04140h		;b675
-	call 04113h		;b678
+	call 04140h		;b675   ; sonido_y_vuelve: llama a sonido (p00:4284) y deja otra vez los bancos 1-2 y el de zona
+	call 04113h		;b678   ; paleta_por_defecto_y_vuelve: llama a paleta_por_defecto (p00:4E90) y deja otra vez los bancos 1-2 y el de zona
 	ld hl,0b6a6h		;b67b
-	call 04118h		;b67e
+	call 04118h		;b67e   ; paleta_y_vuelve: llama a paleta (p00:4EC4) y deja otra vez los bancos 1-2 y el de zona
 	ld b,00fh		;b681
 	ld c,007h		;b683
 	call 00047h		;b685   ; BIOS WRTVDP - Writes data in the VDP-register
@@ -1045,9 +1045,9 @@ L_B670:
 	ld bc,0a848h		;b68b
 	xor a			;b68e
 	ld d,001h		;b68f
-	call 04096h		;b691
-	call 0411dh		;b694
-	call 040aah		;b697
+	call 04096h		;b691   ; rellena_y_vuelve: llama a rellena (p00:4F91) y deja otra vez los bancos 1-2 y el de zona
+	call 0411dh		;b694   ; graficos_del_logotipo_konami_y_vuelve: llama a graficos_del_logotipo_konami (p00:4C4B) y deja otra vez los bancos 1-2 y el de zona
+	call 040aah		;b697   ; enciende_la_pantalla_y_vuelve: llama a enciende_la_pantalla (p00:4E01) y deja otra vez los bancos 1-2 y el de zona
 	ld hl,0c130h		;b69a   ; apunta a la sala
 	ld (hl),03ch		;b69d
 	inc hl			;b69f
@@ -1073,7 +1073,7 @@ DATA_paleta_del_logotipo_konami:
 ; ======================================================================
 
 
-L_B6B6:
+logotipo_konami_baja:		; descubre el logotipo de Konami linea a linea; al acabar 0xC132 = 1
 	ld hl,0c130h		;b6b6   ; apunta a la sala
 	dec (hl)			;b6b9
 	ld a,(hl)			;b6ba
@@ -1094,7 +1094,7 @@ L_B6C8:
 	ld e,l			;b6d1
 	ld d,h			;b6d2
 	ld a,001h		;b6d3
-	jp 04122h		;b6d5
+	jp 04122h		;b6d5   ; copia_vram_y_vuelve: llama a copia_vram (p00:4FCD) y deja otra vez los bancos 1-2 y el de zona
 
 ; ----------------------------------------------------------------------
 ; DATOS montaje_del_logotipo_konami: numeros de ficha del logotipo de Konami
@@ -1263,7 +1263,7 @@ DATA_logotipo_metal_gear:
 ; ======================================================================
 
 
-L_BF49:
+sube_al_camion:		; en las salas de 0xBF60: 0xC608 = 0x90 y el modo 5
 	ld a,(0c130h)		;bf49   ; lee la sala
 	ld bc,00006h		;bf4c
 	ld hl,0bf60h		;bf4f
@@ -1287,7 +1287,7 @@ DATA_salas_del_camion:
 ; ======================================================================
 
 
-L_BF66:
+camion:		; modo 5: el camion (0xC608): texto 0x5B, sonido 0x1F y la sacudida con R#23
 	ld hl,0c608h		;bf66
 	dec (hl)			;bf69
 	jr z,$+55		;bf6a
@@ -1300,20 +1300,20 @@ L_BF66:
 	inc a			;bf77
 	ld (0cee1h),a		;bf78
 	ld a,05bh		;bf7b
-	jp 04127h		;bf7d
+	jp 04127h		;bf7d   ; ventana_de_texto_2_y_vuelve: llama a ventana_de_texto_2 (p00:5CD9) y deja otra vez los bancos 1-2 y el de zona
 L_BF80:
 	ld a,(hl)			;bf80
 	ld c,a			;bf81
 	cp 08dh		;bf82
 	ld a,01fh		;bf84
-	call z,0405ah		;bf86
+	call z,0405ah		;bf86   ; sonido_si_hay_y_vuelve: llama a sonido_si_hay (p00:427C) y deja otra vez los bancos 1-2 y el de zona
 	ld a,c			;bf89
 	cp 080h		;bf8a
 	ret nc			;bf8c
 	and 00eh		;bf8d
 	rra			;bf8f
 	ld hl,0bf99h		;bf90
-	call 04050h		;bf93
+	call 04050h		;bf93   ; hl_mas_a_y_vuelve: llama a hl_mas_a (p00:41E0) y deja otra vez los bancos 1-2 y el de zona
 	ld a,(hl)			;bf96
 	jr $+19		;bf97
 
@@ -1329,16 +1329,16 @@ DATA_bf99:
 ; ======================================================================
 
 
-L_BFA1:
+baja_del_camion:		; sonido 0x28, modo 0 y R#23 a cero
 	ld a,028h		;bfa1
-	call 0405ah		;bfa3
+	call 0405ah		;bfa3   ; sonido_si_hay_y_vuelve: llama a sonido_si_hay (p00:427C) y deja otra vez los bancos 1-2 y el de zona
 	xor a			;bfa6
 	ld (0c151h),a		;bfa7   ; guarda el modo de la partida (0 juego, 1 cambio de sala, 2 armas, 4 transceptor...)
-L_BFAA:
+scroll_vertical:		; R#23 = A
 	ld b,a			;bfaa
 	ld c,017h		;bfab
 	jp 00047h		;bfad   ; BIOS WRTVDP - Writes data in the VDP-register
-L_BFB0:
+salas_85_y_6f:		; en la sala 0x85 sin 0xC660: modo 12; en la 0x6F: 0xC664 = 1
 	ld a,(0c130h)		;bfb0   ; lee la sala
 	ld c,a			;bfb3
 	cp 085h		;bfb4
@@ -1358,11 +1358,11 @@ L_BFC8:
 	inc a			;bfcc
 	ld (0c664h),a		;bfcd
 	ret			;bfd0
-L_BFD1:
+modo_12_cuenta:		; modo 12: baja 0xC608; texto 0x59 y 0xC660 = 1
 	ld hl,0c608h		;bfd1
 	dec (hl)			;bfd4
 	ld a,059h		;bfd5
-	jp z,04127h		;bfd7
+	jp z,04127h		;bfd7   ; ventana_de_texto_2_y_vuelve: llama a ventana_de_texto_2 (p00:5CD9) y deja otra vez los bancos 1-2 y el de zona
 	ld a,(hl)			;bfda
 	dec a			;bfdb
 	ret z			;bfdc
