@@ -924,10 +924,10 @@ L_B57F:
 	jp L_B579		;b587
 
 ; ----------------------------------------------------------------------
-; DATOS rotulo_del_titulo: rotulo con posicion (L_510C: [fila][columna] y
-;   caracteres, 0xFE otra posicion, 0xFF acaba): ":" en (0x4E,0x60), "KONAMI
-;   1987" en (0x58,0x60) y "PUSH SPACE KEY" en (0x48,0x88); p09:B579 lo carga
-;   en HL para escribirlo
+; DATOS rotulo_del_titulo: rotulo con posicion (L_510C: [X][Y] y caracteres,
+;   0xFE otra posicion, 0xFF acaba): ":" (la ficha 10 de la fuente, el (C)) en
+;   (0x4E,0x60), "KONAMI 1987" en (0x58,0x60) y "PUSH SPACE KEY" en
+;   (0x48,0x88); p09:B579 lo carga en HL para escribirlo
 ;   0xb58a..0xb5ad  (35 bytes)
 DATA_rotulo_del_titulo:
 	defb 04eh,060h,03ah,0feh,058h,060h,04bh,04fh,04eh,041h,04dh,049h,000h,031h,039h,038h	; b58a  N`:.X`KONAMI.198

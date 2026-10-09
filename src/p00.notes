@@ -22,7 +22,7 @@ F 0x556F w7
 D 0x5A5E 0x5A6A velocidades_5a5e  6 palabras (+1, -1, +1,25, -1,25, +1,5 y -1,5 en 1/256) que p00:5A38 y p00:5A4D leen en 0x5A5C + 2 x d + (ix+0x43): la d (1 o 2) es el sentido y (ix+0x43) la marcha (0, 4 u 8, p00:5935-593D)
 F 0x5A5E w6
 D 0x5B9E 0x5BA2 pasos_5b9e  4 bytes (1, 2, 1, 0) que p00:5B91 lee en 0x5B9D + (ix+0x7F) (1-4, baja uno por cuadro y vuelve a 4) y suma a B y C para (ix+0x0B)
-D 0x5C1D 0x5C25 rotulo_pause  rotulo con posicion ([fila 0x6C][columna 0x58] "PAUSE" 0xFF) que p01:67CA escribe con L_510C
+D 0x5C1D 0x5C25 rotulo_pause  rotulo con posicion ([X 0x6C][Y 0x58] "PAUSE" 0xFF) que p01:67CA escribe con L_510C
 D 0x5F4C 0x5F74 ventanas_de_texto  5 fichas de 8 bytes, una por tipo de ventana (nibble bajo de 0xCEF5, 0-4), que p00:5D33 copia a 0xC528 (0x5F4C + 8 x tipo)
 F 0x5F4C 8
 D 0x5F74 0x5F92 marcos_de_texto  5 fichas de 6 bytes, una por tipo de ventana: [e][d][c][b] (p00:5F44 -> 0xCEF6/0xCEF8) y una palabra (p00:5D55 -> 0xCF00); p00:5D44 lee 0x5F74 + 6 x tipo

@@ -108,17 +108,83 @@ def pixeles_de_dibujo_abajo(a, x, y):
     return px, faltan
 
 
-def pantalla_del_transceptor():
+def pantalla_del_transceptor(rotulos=True):
     """p01:6912: paleta p05:8B1E (L_4AAA) encima de la del juego, 0xC168 = 1
     y los dibujos p15:B369 en (0x30, 0x18) y p15:B40D (el retrato) en (0xC8,
-    0x28) con L_449E. Devuelve ({(x, y): color}, paleta, fichas sin cargar).
-    Los rotulos (p00:4BB1 -> L_510C con p06:B833) y lo que pintan L_6B04 y
-    L_69B3 NO estan."""
+    0x28) con L_449E; luego el rotulo p06:B833 (p00:4BB1 -> L_510C).
+    SUPOSICION: la fuente de la pagina 1 es la que cargo el titulo (las
+    fichas de sala y los objetos no pisan las lineas 64-95). Lo que pintan
+    L_6B04 y L_69B3 NO esta. Devuelve ({(x, y): color}, paleta, fichas sin
+    cargar)."""
     pal = S.aplica_paleta(S.paleta_de_juego(), 4, 0x8B1E)
     px, faltan = pixeles_de_dibujo_abajo(0xB369, 0x30, 0x18)
     p2, f2 = pixeles_de_dibujo_abajo(0xB40D, 0xC8, 0x28)
     px.update(p2)
+    if rotulos:
+        px.update(rotulo(4, 0xB833))
     return px, pal, faltan | f2
+
+
+def fuente():
+    """{(x, y): color} de la pagina 1 con la fuente que carga L_B05C (p09):
+    L_505D pinta cada caracter de 8 bytes de 1 bit (L_50E6: bit 1 = el
+    color C, bit 0 = 0) en la (X, Y) de DE, 8 a la derecha cada vez y a la
+    fila siguiente al dar la vuelta (L_51D8):
+      p09:B06D  108 caracteres de p09:B0B2 desde (0x00, 0x40), color 0x0E;
+      p09:B079  13 de p09:B412 desde (0x98, 0x58), color 0x08;
+      p09:B085  1 de p09:B10A (la estrella, el caracter 11) en (0x58, 0x40),
+                color 0x06."""
+    p1 = {}
+    for (src, x, y, n, color) in ((0xB0B2, 0x00, 0x40, 108, 0x0E),
+                                  (0xB412, 0x98, 0x58, 13, 0x08),
+                                  (0xB10A, 0x58, 0x40, 1, 0x06)):
+        for k in range(n):
+            for f in range(8):
+                b = leer(7, src + 8 * k + f)
+                for xx in range(8):
+                    p1[(x + xx, y + f)] = color if b & (0x80 >> xx) else 0
+            x = (x + 8) & 0xFF
+            if x == 0:
+                y += 8
+    return p1
+
+
+def rotulo(trio, a, p1=None):
+    """L_510C: [X][Y] y caracteres hasta 0xFF (0xFE trae otra [X][Y]). El
+    caracter c sale de la pagina 1 en la ficha c + 0x10, 0x30 lineas mas
+    abajo (L_5135 -> L_51AE); el 0 de (0, 0) (el hueco). L_4FCD con A = 1:
+    HMMM de la pagina 1 a la 0, opaco. Avanza 8 (4 con 0x97 y 0x98)."""
+    if p1 is None:
+        p1 = fuente()
+    px = {}
+    x, y = leer(trio, a), leer(trio, a + 1)
+    a += 2
+    while True:
+        c = leer(trio, a)
+        a += 1
+        if c == 0xFF:
+            return px
+        if c == 0xFE:
+            x, y = leer(trio, a), leer(trio, a + 1)
+            a += 2
+            continue
+        if c == 0:
+            sx, sy = 0, 0
+        else:
+            t = (c + 0x10) & 0xFF
+            sx, sy = 8 * (t % 32), 8 * (t // 32) + 0x30
+        for j in range(8):
+            for i in range(8):
+                px[(x + i, y + j)] = p1.get((sx + i, sy + j), 0)
+        x += 4 if c in (0x97, 0x98) else 8
+
+
+def pantalla_de_titulo():
+    """El titulo en su sitio (titulo()) y el rotulo p09:B58A que escribe
+    p09:B579 ("(C) KONAMI 1987", "PUSH SPACE KEY")."""
+    px, pal = titulo()
+    px.update(rotulo(7, 0xB58A))
+    return px, pal
 
 
 def titulo(y=0x20):

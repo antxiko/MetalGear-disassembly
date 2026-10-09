@@ -22,7 +22,7 @@ lectores del banco 0 que importan aqui, con su direccion en NUESTRO listado:
            n > 0x80 copia n & 0x7F bytes tal cual.
   L_53AB   lo mismo para el jugador, sin el caso 0x80 (n & 0x7F == 0 acaba).
   L_4EC4   paleta: ternas [registro][rojo-azul][verde] hasta 0xFF.
-  L_510C   texto con posicion: [fila][columna] y bytes; 0xFE trae otra
+  L_510C   texto con posicion: [X][Y] (D y E del copiador) y bytes; 0xFE trae otra
            posicion; 0xFF acaba. L_5116 lo mismo sin la posicion inicial.
   L_52E0   texto de ventana: 0xFF acaba (y 0xFD acaba una pagina); >= 0xA1
            mete la lista 0xB8A7[n - 0xA1] del banco 12.
@@ -864,7 +864,7 @@ def banco6():
                         (0xB81F, "p00:47AC", "EQUIPMENT / SELECT"),
                         (0xB833, "p00:4BB7", "TRANSCEIVER / RECV y los simbolos")):
         declara(T, d, texto_pos(T, d), "rotulo_%04X" % d,
-                "rotulo con posicion ([fila][columna] y caracteres, 0xFE otra "
+                "rotulo con posicion ([X][Y] y caracteres, 0xFE otra "
                 "posicion, 0xFF acaba) que %s escribe con L_510C: %s" % (lec, que), lec)
     declara(T, 0xB855, 0xB865, "dibujo_de_cada_arma",
             "8 palabras, armas 1-8: de donde copia p00:46ED el dibujo del arma "

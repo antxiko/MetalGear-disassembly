@@ -1647,15 +1647,14 @@ DATA_caracteres_de_las_frecuencias:
 	defb 0afh,0abh	; 6b46
 
 ; ----------------------------------------------------------------------
-; DATOS rotulo_recv: [fila 0x38][columna 0x40] "RECV" 0xFF, que p01:69F7
-;   (L_5110) escribe o borra segun quien habla (p01:696D, 698C, 69E7, 69EF)
+; DATOS rotulo_recv: [X 0x38][Y 0x40] "RECV" 0xFF, que p01:69F7 (L_5110)
+;   escribe o borra segun quien habla (p01:696D, 698C, 69E7, 69EF)
 ;   0x6b48..0x6b4f  (7 bytes)
 DATA_rotulo_recv:
 	defb 038h,040h,052h,045h,043h,056h,0ffh	; 6b48
 
 ; ----------------------------------------------------------------------
-; DATOS rotulo_send: [fila 0x38][columna 0x38] "SEND" 0xFF, la pareja del
-;   anterior
+; DATOS rotulo_send: [X 0x38][Y 0x38] "SEND" 0xFF, la pareja del anterior
 ;   0x6b4f..0x6b56  (7 bytes)
 DATA_rotulo_send:
 	defb 038h,038h,053h,045h,04eh,044h,0ffh	; 6b4f

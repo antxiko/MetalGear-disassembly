@@ -97,6 +97,28 @@ class Dibujos(unittest.TestCase):
         self.assertTrue(set(px.values()) <= fijados)
         self.assertTrue(all(0x20 <= x < 0xD0 and 0x20 <= y < 0x48 for (x, y) in px))
 
+    def test_los_rotulos_salen_de_la_fuente_cargada(self):
+        """Todo caracter de los rotulos del titulo (p09:B58A) y del
+        transceptor (p06:B833) cae en una ficha de la pagina 1 que la fuente
+        de L_B05C carga (o es el 0, el hueco)."""
+        import dibujos as D
+        from bloques import leer
+        p1 = D.fuente()
+        for trio, a in ((7, 0xB58A), (4, 0xB833)):
+            a += 2
+            n = 0
+            while leer(trio, a) != 0xFF:
+                c = leer(trio, a)
+                if c == 0xFE:
+                    a += 3
+                    continue
+                if c:
+                    t = (c + 0x10) & 0xFF
+                    self.assertIn((8 * (t % 32), 8 * (t // 32) + 0x30), p1, "%02X" % c)
+                    n += 1
+                a += 1
+            self.assertGreater(n, 10)
+
 
 if __name__ == "__main__":
     unittest.main()

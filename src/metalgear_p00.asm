@@ -4411,8 +4411,8 @@ L_5C09:
 	ret			;5c1c
 
 ; ----------------------------------------------------------------------
-; DATOS rotulo_pause: rotulo con posicion ([fila 0x6C][columna 0x58] "PAUSE"
-;   0xFF) que p01:67CA escribe con L_510C
+; DATOS rotulo_pause: rotulo con posicion ([X 0x6C][Y 0x58] "PAUSE" 0xFF) que
+;   p01:67CA escribe con L_510C
 ;   0x5c1d..0x5c25  (8 bytes)
 DATA_rotulo_pause:
 	defb 06ch,058h,050h,041h,055h,053h,045h,0ffh	; 5c1d  lXPAUSE.

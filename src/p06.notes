@@ -262,9 +262,9 @@ D 0xB705 0xB785 fichas_de_la_camara  8 fichas en 2 planos (16 bytes, colores 0x4
 F 0xB705 16
 D 0xB785 0xB805 fichas_de_la_camara_2  8 fichas mas en 2 planos, en la VRAM 0xC410 (p00:4B8C); lo leen p00:4B8C (128 bytes)
 F 0xB785 16
-D 0xB805 0xB81F rotulo_B805  rotulo con posicion ([fila][columna] y caracteres, 0xFE otra posicion, 0xFF acaba) que p00:46A2 escribe con L_510C: WEAPON / SELECT / OPTION; lo leen p00:46A2 (26 bytes)
-D 0xB81F 0xB833 rotulo_B81F  rotulo con posicion ([fila][columna] y caracteres, 0xFE otra posicion, 0xFF acaba) que p00:47AC escribe con L_510C: EQUIPMENT / SELECT; lo leen p00:47AC (20 bytes)
-D 0xB833 0xB855 rotulo_B833  rotulo con posicion ([fila][columna] y caracteres, 0xFE otra posicion, 0xFF acaba) que p00:4BB7 escribe con L_510C: TRANSCEIVER / RECV y los simbolos; lo leen p00:4BB7 (34 bytes)
+D 0xB805 0xB81F rotulo_B805  rotulo con posicion ([X][Y] y caracteres, 0xFE otra posicion, 0xFF acaba) que p00:46A2 escribe con L_510C: WEAPON / SELECT / OPTION; lo leen p00:46A2 (26 bytes)
+D 0xB81F 0xB833 rotulo_B81F  rotulo con posicion ([X][Y] y caracteres, 0xFE otra posicion, 0xFF acaba) que p00:47AC escribe con L_510C: EQUIPMENT / SELECT; lo leen p00:47AC (20 bytes)
+D 0xB833 0xB855 rotulo_B833  rotulo con posicion ([X][Y] y caracteres, 0xFE otra posicion, 0xFF acaba) que p00:4BB7 escribe con L_510C: TRANSCEIVER / RECV y los simbolos; lo leen p00:4BB7 (34 bytes)
 D 0xB855 0xB865 dibujo_de_cada_arma  8 palabras, armas 1-8: de donde copia p00:46ED el dibujo del arma en el menu (p00:46D0 lee 0xB855 + 2 x (arma - 1)); lo leen p00:46D0 (16 bytes)
 F 0xB855 w8
 D 0xB865 0xB875 indice_de_nombres_de_armas  8 punteros a los nombres de las armas (p00:46F0); lo leen p00:46F0 (16 bytes)

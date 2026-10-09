@@ -2,7 +2,7 @@
 
 # --- A MANO: comentarios, nombres y bloques ---
 D 0xB050 0xB05C pasos_de_la_intro_b050  12 bytes, uno por paso de la intro (0xC920), que p09:B030 lee en 0xB050 + A y suma como parte alta a 0xC181 (el desplazamiento de la pantalla en cada paso)
-D 0xB58A 0xB5AD rotulo_del_titulo  rotulo con posicion (L_510C: [fila][columna] y caracteres, 0xFE otra posicion, 0xFF acaba): ":" en (0x4E,0x60), "KONAMI 1987" en (0x58,0x60) y "PUSH SPACE KEY" en (0x48,0x88); p09:B579 lo carga en HL para escribirlo
+D 0xB58A 0xB5AD rotulo_del_titulo  rotulo con posicion (L_510C: [X][Y] y caracteres, 0xFE otra posicion, 0xFF acaba): ":" (la ficha 10 de la fuente, el (C)) en (0x4E,0x60), "KONAMI 1987" en (0x58,0x60) y "PUSH SPACE KEY" en (0x48,0x88); p09:B579 lo carga en HL para escribirlo
 D 0xB5F7 0xB602 once_bytes_b5f7  11 bytes de 0x20 a 0xC0 de 0x10 en 0x10, entre el `ret` de 0xB5F6 y la paleta de 0xB602; ninguna instruccion de los 16 bancos los nombra (grep de 0xB5F7 en los listados: solo p00:44AC, que es el bloque de fichas del banco 15). SIN LECTOR A LA VISTA
 D 0xA5A1 0xA661 resto_del_pozo  192 bytes detras del mapa del pozo (acaba en el 0xFF de 0xA5A0) y delante de los dibujos del final: parecen dibujos de 1 bit por punto (filas 0xFF, 0xC0, 0xFB...), pero ninguna instruccion de los 16 bancos nombra una direccion de 0xA5A1-0xA660 (grep en los listados) y p00:4A87 solo lee el mapa de 0xA559. SIN LECTOR A LA VISTA: queda para una lectura medida en openMSX
 

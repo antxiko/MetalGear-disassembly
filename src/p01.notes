@@ -8,8 +8,8 @@ D 0x666A 0x6672 parejas_666a  4 parejas, una por direccion (0xC185 = 1-4): p01:6
 F 0x666A 2
 D 0x6B34 0x6B48 caracteres_de_las_frecuencias  10 parejas de caracteres (0xA4-0xAF, los digitos grandes del transceptor), una por frecuencia (nibble bajo de 0xC138): p01:6B18 lee 0x6B34 + 2 x n y p01:6B1E los pinta con L_5135
 F 0x6B34 2
-D 0x6B48 0x6B4F rotulo_recv  [fila 0x38][columna 0x40] "RECV" 0xFF, que p01:69F7 (L_5110) escribe o borra segun quien habla (p01:696D, 698C, 69E7, 69EF)
-D 0x6B4F 0x6B56 rotulo_send  [fila 0x38][columna 0x38] "SEND" 0xFF, la pareja del anterior
+D 0x6B48 0x6B4F rotulo_recv  [X 0x38][Y 0x40] "RECV" 0xFF, que p01:69F7 (L_5110) escribe o borra segun quien habla (p01:696D, 698C, 69E7, 69EF)
+D 0x6B4F 0x6B56 rotulo_send  [X 0x38][Y 0x38] "SEND" 0xFF, la pareja del anterior
 D 0x71DA 0x71DF tabla_71da  5 bytes (0, 0x9A, 0x9B, 0x99, 0x3C) que p01:71C8 lee en 0x71DA + (0xC19B - 1) y manda a 0xC0C4
 D 0x74D0 0x74F1 nibbles_74d0  64 nibbles y un byte: p01:74BA lee el nibble (A & 0x7F) - 1 con L_42D4 y con el llama al despachador de 0x74BD (la tabla de 0x74C0)
 F 0x74D0 16

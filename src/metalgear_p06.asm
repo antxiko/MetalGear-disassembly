@@ -1718,27 +1718,27 @@ DATA_fichas_de_la_camara_2:
 	defb 0ffh,027h,0fbh,023h,0fbh,023h,0f8h,0f8h,000h,000h,0e0h,060h,000h,000h,000h,000h	; b7f5  .'.#.#.....`....
 
 ; ----------------------------------------------------------------------
-; DATOS rotulo_B805: rotulo con posicion ([fila][columna] y caracteres, 0xFE
-;   otra posicion, 0xFF acaba) que p00:46A2 escribe con L_510C: WEAPON /
-;   SELECT / OPTION; lo leen p00:46A2 (26 bytes)
+; DATOS rotulo_B805: rotulo con posicion ([X][Y] y caracteres, 0xFE otra
+;   posicion, 0xFF acaba) que p00:46A2 escribe con L_510C: WEAPON / SELECT /
+;   OPTION; lo leen p00:46A2 (26 bytes)
 ;   0xb805..0xb81f  (26 bytes)
 DATA_rotulo_B805:
 	defb 048h,010h,057h,045h,041h,050h,04fh,04eh,000h,000h,053h,045h,04ch,045h,043h,054h	; b805  H.WEAPON..SELECT
 	defb 0feh,068h,090h,04fh,050h,054h,049h,04fh,04eh,0ffh	; b815  .h.OPTION.
 
 ; ----------------------------------------------------------------------
-; DATOS rotulo_B81F: rotulo con posicion ([fila][columna] y caracteres, 0xFE
-;   otra posicion, 0xFF acaba) que p00:47AC escribe con L_510C: EQUIPMENT /
-;   SELECT; lo leen p00:47AC (20 bytes)
+; DATOS rotulo_B81F: rotulo con posicion ([X][Y] y caracteres, 0xFE otra
+;   posicion, 0xFF acaba) que p00:47AC escribe con L_510C: EQUIPMENT / SELECT;
+;   lo leen p00:47AC (20 bytes)
 ;   0xb81f..0xb833  (20 bytes)
 DATA_rotulo_B81F:
 	defb 040h,010h,045h,051h,055h,049h,050h,04dh,045h,04eh,054h,000h,000h,053h,045h,04ch	; b81f  @.EQUIPMENT..SEL
 	defb 045h,043h,054h,0ffh	; b82f
 
 ; ----------------------------------------------------------------------
-; DATOS rotulo_B833: rotulo con posicion ([fila][columna] y caracteres, 0xFE
-;   otra posicion, 0xFF acaba) que p00:4BB7 escribe con L_510C: TRANSCEIVER /
-;   RECV y los simbolos; lo leen p00:4BB7 (34 bytes)
+; DATOS rotulo_B833: rotulo con posicion ([X][Y] y caracteres, 0xFE otra
+;   posicion, 0xFF acaba) que p00:4BB7 escribe con L_510C: TRANSCEIVER / RECV
+;   y los simbolos; lo leen p00:4BB7 (34 bytes)
 ;   0xb833..0xb855  (34 bytes)
 DATA_rotulo_B833:
 	defb 050h,008h,054h,052h,041h,04eh,053h,043h,045h,049h,056h,045h,052h,0feh,038h,040h	; b833  P.TRANSCEIVER.8@
