@@ -88,14 +88,11 @@ DATA_mapa_del_pozo:
 	defb 00dh,00dh,00dh,00dh,00dh,00dh,00ch,0ffh	; a599  ........
 
 ; ----------------------------------------------------------------------
-; DATOS resto_del_pozo: 192 bytes detras del mapa del pozo (acaba en el 0xFF
-;   de 0xA5A0) y delante de los dibujos del final: parecen dibujos de 1 bit
-;   por punto (filas 0xFF, 0xC0, 0xFB...), pero ninguna instruccion de los 16
-;   bancos nombra una direccion de 0xA5A1-0xA660 (grep en los listados) y
-;   p00:4A87 solo lee el mapa de 0xA559. SIN LECTOR A LA VISTA: queda para una
-;   lectura medida en openMSX
+; DATOS fichas_del_pozo: 12 fichas de 2 planos (16 bytes cada una) que
+;   p03:A6C4 pasa a p00:4A81 (bancos 7-8-9, fichas_2_planos) hacia la VRAM
+;   0xCC20, con los colores de p00:4B27; detras va el montaje p09:A559
 ;   0xa5a1..0xa661  (192 bytes)
-DATA_resto_del_pozo:
+DATA_fichas_del_pozo:
 	defb 0ffh,088h,08ch,0fbh,08ch,0fbh,0ffh,0ffh,0ffh,0c0h,0c0h,0ffh,0c0h,0ffh,0ffh,0ffh	; a5a1  ................
 	defb 0bfh,0e8h,06ch,0fbh,06ch,0fbh,07fh,0ffh,0bfh,0f0h,070h,0ffh,070h,0ffh,07fh,0ffh	; a5b1  ..l.l.....p.p...
 	defb 0bfh,0f8h,07ch,0fbh,06ch,0fbh,06fh,0ffh,0bfh,0fch,07ch,0ffh,06ch,0ffh,06ch,0ffh	; a5c1  ..|.l.o...|.l.l.
@@ -983,12 +980,11 @@ L_B5E2:
 	ret			;b5f6
 
 ; ----------------------------------------------------------------------
-; DATOS once_bytes_b5f7: 11 bytes de 0x20 a 0xC0 de 0x10 en 0x10, entre el
-;   `ret` de 0xB5F6 y la paleta de 0xB602; ninguna instruccion de los 16
-;   bancos los nombra (grep de 0xB5F7 en los listados: solo p00:44AC, que es
-;   el bloque de fichas del banco 15). SIN LECTOR A LA VISTA
+; DATOS alturas_del_logotipo: 11 bytes, de 0x20 a 0xC0 de 0x10 en 0x10: la Y
+;   del logotipo METAL GEAR en cada paso de su subida; p09:B538 lee 0xB5F7 +
+;   (0xC119 - 1) y p09:B53E la usa como Y de destino
 ;   0xb5f7..0xb602  (11 bytes)
-DATA_once_bytes_b5f7:
+DATA_alturas_del_logotipo:
 	defb 020h,030h,040h,050h,060h,070h,080h,090h,0a0h,0b0h,0c0h	; b5f7   0@P`p.....
 
 ; ----------------------------------------------------------------------

@@ -19,21 +19,19 @@ from estilo_web import ESTILO  # noqa: E402
 
 
 # Un menu por idioma. La web se publica en ingles en la raiz de docs/ y en
-# castellano bajo docs/es/. Son las siete paginas del contrato por idioma,
-# mas la portada.
+# castellano bajo docs/es/. Son seis paginas por idioma, mas la portada: la del
+# emulador no se escribe mientras no haya cotejo en openMSX.
 NAV_EN = [("index.html", "Home"), ("GETTING-STARTED.html", "Start"),
           ("THE-GAME.html", "The game"),
           ("THE-CARTRIDGE.html", "The cartridge"),
           ("THE-CODE.html", "The code"),
           ("FINDINGS.html", "Findings"),
-          ("IN-THE-EMULATOR.html", "In the emulator"),
           ("OPEN-QUESTIONS.html", "Open questions")]
 NAV_ES = [("index.html", "Portada"), ("EMPEZAR.html", "Empezar"),
           ("EL-JUEGO.html", "El juego"),
           ("EL-CARTUCHO.html", "El cartucho"),
           ("EL-CODIGO.html", "El código"),
           ("HALLAZGOS.html", "Hallazgos"),
-          ("EN-EL-EMULADOR.html", "En el emulador"),
           ("PREGUNTAS-ABIERTAS.html", "Preguntas abiertas")]
 
 # Cada documento se llama distinto en cada idioma, asi que el selector de idioma
@@ -43,7 +41,6 @@ _PAREJAS = [("GETTING-STARTED.html", "EMPEZAR.html"),
             ("THE-CARTRIDGE.html", "EL-CARTUCHO.html"),
             ("THE-CODE.html", "EL-CODIGO.html"),
             ("FINDINGS.html", "HALLAZGOS.html"),
-            ("IN-THE-EMULATOR.html", "EN-EL-EMULADOR.html"),
             ("OPEN-QUESTIONS.html", "PREGUNTAS-ABIERTAS.html")]
 PAREJA = {}
 for _en, _es in _PAREJAS:

@@ -1,0 +1,114 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The game — Metal Gear (Konami, 1987)</title>
+<style>
+:root{--tinta:#cfd0d4;--suave:#83868f;--fondo:#000;--panel:#0c0e13;--linea:#23262e;
+  --rojo:#ff897d;--cyan:#65dbef;--verde:#3eb849;--oro:#ded087}
+@media (prefers-color-scheme:light){:root{--tinta:#191a1e;--suave:#5a5d66;--fondo:#e9e7e1;
+  --panel:#f7f6f2;--linea:#d0cdc5;--rojo:#b23f34;--cyan:#1c6b7c;--verde:#2b7734;--oro:#8a7420}}
+:root[data-theme="dark"]{--tinta:#cfd0d4;--suave:#83868f;--fondo:#000;--panel:#0c0e13;
+  --linea:#23262e;--rojo:#ff897d;--cyan:#65dbef;--verde:#3eb849;--oro:#ded087}
+:root[data-theme="light"]{--tinta:#191a1e;--suave:#5a5d66;--fondo:#e9e7e1;--panel:#f7f6f2;
+  --linea:#d0cdc5;--rojo:#b23f34;--cyan:#1c6b7c;--verde:#2b7734;--oro:#8a7420}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fondo);color:var(--tinta);padding:0 1.25rem 6rem;
+  font:15px/1.7 ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.w{max-width:1120px;margin:0 auto}
+.n{max-width:68ch}
+h1,h2,h3,h4{font-weight:400;text-wrap:balance}
+a{color:var(--cyan)}
+img{image-rendering:pixelated;max-width:100%;height:auto;display:block}
+header.top{display:flex;flex-direction:column;align-items:center;gap:1.5rem;
+  padding:4rem 0 2rem;text-align:center}
+header.top img{width:min(100%,642px)}
+.claim{max-width:60ch;color:var(--suave);font-size:1.05rem}
+.claim b{color:var(--tinta);font-weight:400}
+.ficha{display:flex;flex-wrap:wrap;justify-content:center;gap:0 1.5rem;width:100%;
+  font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--suave);
+  border-top:1px solid var(--linea);border-bottom:1px solid var(--linea);padding:.85rem 0}
+.ficha b{color:var(--rojo);font-weight:400}
+nav{display:flex;flex-wrap:wrap;gap:1.25rem;justify-content:center;padding:1.25rem 0;
+  font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+nav a{color:var(--suave);text-decoration:none;border-bottom:1px solid transparent}
+nav a:hover,nav a:focus{color:var(--tinta);border-bottom-color:var(--rojo)}
+nav.docs{border-top:1px solid var(--linea);border-bottom:1px solid var(--linea);
+  margin-bottom:1rem}
+section{margin-top:4.5rem;scroll-margin-top:1rem}
+section>h2{font-size:1rem;letter-spacing:.1em;text-transform:uppercase;
+  border-left:3px solid var(--rojo);padding-left:.9rem;margin:0 0 1.5rem}
+.cifras{display:grid;gap:1px;background:var(--linea);border:1px solid var(--linea);
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+.cifra{background:var(--panel);padding:1.1rem}
+.cifra b{display:block;font-size:1.7rem;color:var(--oro);font-weight:400;
+  font-variant-numeric:tabular-nums;line-height:1.2}
+.cifra span{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--suave)}
+.hall{border-top:1px solid var(--linea);padding-top:1.75rem;margin-top:2.5rem}
+.hall:first-of-type{border-top:0;padding-top:0;margin-top:0}
+.hall h3{margin:0 0 .75rem;font-size:1.15rem;color:var(--rojo)}
+.hall h4{color:var(--oro);margin:1.5rem 0 .5rem;font-size:.95rem}
+.hall p{margin:0 0 1rem}
+pre.asm{background:var(--panel);border-left:2px solid var(--verde);margin:1.25rem 0;
+  padding:1rem 1.1rem;overflow-x:auto;font-size:13px;line-height:1.6;color:var(--tinta)}
+.par{display:grid;gap:1.25rem;grid-template-columns:1fr}
+@media(min-width:820px){.par{grid-template-columns:1fr 1fr}}
+.par figure{margin:0}
+table{border-collapse:collapse;width:100%;margin:1.25rem 0;font-size:13px;display:block;
+  overflow-x:auto}
+th,td{text-align:left;padding:.5rem .75rem;border-bottom:1px solid var(--linea)}
+th{color:var(--suave);font-weight:400;font-size:11px;letter-spacing:.07em;text-transform:uppercase}
+td.num{font-variant-numeric:tabular-nums;color:var(--oro)}
+.nivel{margin-top:2rem}
+.nivel h3{margin:0 0 .9rem;font-size:.95rem;letter-spacing:.06em;text-transform:uppercase}
+.nivel em{color:var(--cyan);font-style:normal}
+.sep{color:var(--suave);margin:0 .6rem}
+.rejilla{display:grid;gap:.9rem;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.rejilla figure{margin:0;background:var(--panel);box-shadow:0 0 0 1px var(--linea)}
+.rejilla figcaption{display:flex;justify-content:space-between;padding:.45rem .65rem;
+  font-size:11px;color:var(--suave);border-top:1px solid var(--linea)}
+.dir{font-variant-numeric:tabular-nums;color:var(--verde)}
+footer{margin-top:5rem;padding-top:1.5rem;border-top:1px solid var(--linea);
+  color:var(--suave);font-size:12px}
+
+/* Aviso de trabajo en curso: tiene que verse antes que las cifras, porque un
+   100% mal leido hace mas dano que no ponerlo. */
+.aviso{background:#3a2a10;border-left:3px solid var(--oro);margin:1.5rem auto;
+  padding:1rem 1.2rem;max-width:900px;border-radius:4px}
+.aviso p{margin:0;color:var(--tinta);font-size:15px;line-height:1.65}
+.galeria{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:1.5rem;margin:1.5rem 0}
+.galeria figure{margin:0}
+.galeria img{width:100%;height:auto;image-rendering:pixelated;
+  border:1px solid var(--linea);border-radius:3px}
+.galeria figcaption{color:var(--suave);font-size:13px;margin-top:.5rem}
+audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
+</style>
+<div class="w"><nav class="top"><a href="index.html">Home</a><a href="GETTING-STARTED.html">Start</a><a href="THE-GAME.html" style=color:var(--tinta)>The game</a><a href="THE-CARTRIDGE.html">The cartridge</a><a href="THE-CODE.html">The code</a><a href="FINDINGS.html">Findings</a><a href="OPEN-QUESTIONS.html">Open questions</a><a href="es/EL-JUEGO.html" style="margin-left:auto;color:var(--oro)">Castellano</a></nav>
+<h1 id="the-game">The game</h1>
+<p><em>Metal Gear</em> (Konami, 1987, RC-750) is the first game of the saga, for the MSX2. Snake goes into Outer Heaven alone and unarmed, and has to reach Metal Gear. Everything on this page comes from the cartridge&#x27;s tables.</p>
+<h2 id="rooms-and-zones">Rooms and zones</h2>
+<p>The room index (<code>p13:6000</code>) has 251 entries, 16 of which are not rooms (their pointer falls in the nibble table): that leaves <b>235 rooms</b>. Each room is 6 × 8 metatiles of 4 × 4 tiles (<code>p13:61F6</code>, <code>p13:6274</code>), from one of 8 tile sets.</p>
+<p>Rooms are joined in two ways:</p>
+<ul><li><b>by their sides</b>: each room with neighbours has four in <code>p05:8E0E</code>, in the order up, down, left and right (<code>p01:63FC</code> decides which side you leave by);</li><li><b>by doors</b>: <code>p15:A7C0</code> gives, room by room, 5-byte records [door][type][Y][X][target room]. There are <b>154 numbered doors</b>, and each appears in both rooms it joins.</li></ul>
+<p>Following the neighbours gives <b>9 zones</b>. The rooms reached only through a door go in a strip under their zone&#x27;s map.</p>
+<p><img src="imagenes/zona_01.png" alt="A zone"></p>
+<p>The maps of the nine zones, full size: <a href="imagenes/zona_00.png">0</a>, <a href="imagenes/zona_01.png">1</a>, <a href="imagenes/zona_02.png">2</a>, <a href="imagenes/zona_03.png">3</a>, <a href="imagenes/zona_04.png">4</a>, <a href="imagenes/zona_05.png">5</a>, <a href="imagenes/zona_06.png">6</a>, <a href="imagenes/zona_07.png">7</a>, <a href="imagenes/zona_08.png">8</a>.</p>
+<h2 id="lifts">Lifts</h2>
+<p>Rooms 0xF0 to 0xFA are lifts. <code>p05:8DA8</code> gives their stops; the car stops at heights 0x38, 0x78 and 0xB8 (<code>p09:AD69</code>). F8 and F9 have no stops.</p>
+<h2 id="doors">Doors</h2>
+<p>The door type decides how it is drawn (<code>p01:773C</code>): types 1 to 5 are tiles from page 1, 6 is the lift and 7 to 19 are bank 15 drawings. The class (<code>p15:B046</code>) decides how it opens (<code>p01:78F4</code>): facing it, with the card selected (classes 2 to 9 = CARD1 to CARD8), with punches, with the P.BOMB or with a flag set by a text.</p>
+<h2 id="weapons-and-items">Weapons and items</h2>
+<p>Eight weapons (<code>p06:B865</code>): HAND GUN, SMG, GRENADE, ROCKET, P.BOMB, L.MINE, MISSILE and SILENCER. Twenty-five items (<code>p06:B8F6</code>): ARMOR, SUIT, LIGHT, GOGGL, MASK, CIGAL, DETEC, ANTEN, SCOPE, BOMBE, COMPAS, PARAC, ANTID, CARD1 to CARD8, RATIO, TRANS, UNIFO and BOX. What each adds when picked up is at <code>p05:8AE8</code>; the ammunition and ration maximums depend on the CLASS (<code>p02:9101</code>).</p>
+<p><img src="imagenes/armas.png" alt="The weapons"></p>
+<h2 id="actors">Actors</h2>
+<p>64 actor types. Each has its number of sprites (<code>p05:971B</code>), its colours (<code>p05:975A</code>), its stamina (<code>p05:984F</code>), its hit box per weapon (<code>p05:8951</code>, <code>p05:8992</code>) and its damage per weapon (<code>p05:87B7</code>). Their 143 frames are at <code>p05:9890</code>, and their patterns in 31 sprite sets (<code>p10:6185</code>, <code>p10:6280</code>). The type names quoted are Manuel Pazos&#x27;s.</p>
+<p><img src="imagenes/tipo_32.png" alt="Big Boss"></p>
+<p>Snake has 53 poses (<code>p10:6000</code>) in patterns 0x00-0x37; the room&#x27;s start at 0x38.</p>
+<p><img src="imagenes/snake.png" alt="Snake"></p>
+<h2 id="the-tile-bosses">The tile bosses</h2>
+<p>Metal Gear and the Hind D are not sprites: they are bank 15 tile drawings (<code>p15:B595</code>, <code>p15:B431</code>) that <code>p00:44AF</code> puts over the room.</p>
+<p><img src="imagenes/sala_118_metalgear.png" alt="Metal Gear"> <img src="imagenes/sala_050_hind.png" alt="The Hind D"></p>
+<p>Metal Gear only breaks with the P.BOMB and with the 16 hits in the order of <code>p02:8D3B</code>. After that a countdown from 3000 runs, and the ending is reached by leaving room 0xE2 at the top.</p>
+<h2 id="the-transceiver">The transceiver</h2>
+<p>Seven frequencies, from 120.13 to 120.91 (<code>p00:490C</code>). Each room&#x27;s calls are at <code>p15:B6C6</code>; the one that plays is the one on the tuned frequency that passes the conditions at <code>p01:6A88</code>.</p>
+<p><img src="imagenes/transceptor.png" alt="The transceiver"></p>
+<footer><p><em>Metal Gear</em> was published by Konami for the MSX2 in 1987; its catalogue number is RC-750 and it is 128 KB. All rights in the game remain with their holders. This is preservation, study and documentation work, and the cartridge image is not distributed.</p></footer></div>
