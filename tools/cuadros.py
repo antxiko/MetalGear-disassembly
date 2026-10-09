@@ -156,17 +156,37 @@ def entradas_de_tipo(t):
 # {direccion: (cuadros, de donde sale, tipos a los que vale o None = todos)}
 FORMULAS = {
     0x9DA5: (list(range(0, 8)), "p02:9D98: 2 x direccion (ix+0x11, 0-3) + paso (bit 0, que p02:9DDA alterna con L_5B6A y mascara 7)", None),
-    0xA930: (list(range(0, 8)), "p03:A920-A930: 2 x (direccion - 1) + bit 2 de (ix+0x0C) + (ix+0x1B), y (ix+0x1B) = 0 (p03:A789)", {10, 11}),
-    0xA93C: (list(range(8, 12)), "p03:A934-A93C: direccion (1-4) + 7 + (ix+0x1B), y (ix+0x1B) = 0 (p03:A789)", {10, 11}),
+    0xA930: [(list(range(0, 8)) + list(range(73, 81)), "p03:A920-A930: 2 x (direccion - 1) + bit 2 de (ix+0x0C) + (ix+0x1B); (ix+0x1B) = 0 (p03:A789) o 0x49 segun la ficha que pisa (p03:A983-A99B)", {10, 11}),
+             (list(range(0, 8)), "p03:A920-A930 llamada desde la rutina del tipo (p03:AB44, AB81, AD8D, ADD7, BD27, BD5A); (ix+0x1B) = 0: p00:562C limpia las fichas 0xD000-0xD7FF y estos tipos no llegan a p03:A983", {13, 14, 28})],
+    0xA93C: [(list(range(8, 12)) + list(range(81, 85)), "p03:A934-A93C: direccion (1-4) + 7 + (ix+0x1B), 0 o 0x49 como arriba", {10, 11}),
+             (list(range(8, 12)), "p03:A934-A93C con (ix+0x1B) = 0 (p03:AD31, ADA4, ADF1, BCB5, BD0B, BD40)", {13, 14, 28})],
     0x9EDF: (list(range(28, 32)), "p02:9EC8-9EDF: 0x1C + el byte de la tabla p02:9EF6 de la sala (0-3)", {6}),
     0xBC8B: ([130, 131, 132, 133], "p03:BC7C-BC8B: 0x7C + 2 x direccion (3 o 4, p03:BBA4) + paso (bit 2 de (ix+0x0C))", {26}),
     0xBBC5: ([130, 132], "p03:BBBB-BBC5: 0x82 + 2 x (bit al azar)", {26}),
+    0xB1CA: (list(range(98, 106)), "p03:B1BC-B1CA: 0x60 + 2 x direccion (ix+0x11, 1-4: p03:B1D1 lee 0xB1DC + 2 x direccion) + bit 2 de (ix+0x0C)", {31}),
+    0xB0DE: (list(range(85, 89)), "p03:B0D9-B0DE: 0x54 + direccion (ix+0x11, 1-4)", {20, 21, 22}),
+    0xB0E7: (list(range(89, 93)), "p03:B0E2-B0E7: 0x58 + direccion (ix+0x11, 1-4)", {20, 21, 22}),
+    0xAF25: ([9, 10, 11], "p03:AF13-AF25: 9 con el bit 1 de (ix+0x15), si no 10 con el bit 7 de (ix+5), si no 11", {57}),
+    0x5B35: (list(range(8, 12)), "p00:5B01-5B35: 8 + direccion; el registro sale de p06:A2DF[sala] por el orden del actor entre los de su tipo (L_5BAF), [cuenta][direcciones], y en las salas de los centinelas las direcciones son 0-3", {48}),
+    0xBE80: (list(range(65, 73)), "p03:BE73-BE80: 0x3F + 2 x direccion (ix+0x11, 1-4) + 1 si el bit 1 de (ix+0x0C) es 0", {32}),
 }
+
 
 # Al destruirse, p01:7544-75BB cambia el cuadro Y la cuenta de sprites
 # ((ix+0x20) = B): 0x6A-0x6C con 2 sprites; 0x7F-0x81 con 18 para los
 # tipos 9 y 18 (p01:75C6-75D3). [(cuadro, sprites)]
 EXPLOSIONES = [(106, 2), (107, 2), (108, 2), (127, 18), (128, 18), (129, 18)]
+
+
+def formulas_de(a):
+    """Las formulas del sitio a: [(cuadros, de donde sale, tipos)]."""
+    f = FORMULAS.get(a, [])
+    return f if isinstance(f, list) else [f]
+
+
+def formulas_leidas():
+    """[(sitio, cuadros, de donde sale, tipos)] de todas."""
+    return [(a,) + f for a in sorted(FORMULAS) for f in formulas_de(a)]
 
 
 def cuadros_por_tipo(t, codigo=None, tablas=None):
@@ -181,8 +201,10 @@ def cuadros_por_tipo(t, codigo=None, tablas=None):
     todos = set(todos)
     sin = []
     for a, v in calc:
-        if a in FORMULAS and (FORMULAS[a][2] is None or t in FORMULAS[a][2]):
-            todos |= set(FORMULAS[a][0])
+        valen = [f for f in formulas_de(a) if f[2] is None or t in f[2]]
+        if valen:
+            for f in valen:
+                todos |= set(f[0])
         elif a in (0x7555, 0x75BB):
             continue                      # explosiones: EXPLOSIONES, con otra cuenta de sprites
         else:

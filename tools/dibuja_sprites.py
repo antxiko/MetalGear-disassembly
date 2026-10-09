@@ -135,7 +135,7 @@ def tipos_png(directorio, escala):
         rots.append("c%d (%d spr)" % (c, n))
     tira(imgs, rots, "explosiones (p01:7544-75BB): 0x6A-0x6C con 2 sprites, 0x7F-0x81 con 18 (tanque y bulldozer)", escala).save(
         os.path.join(directorio, "explosiones.png"))
-    detalle.append("formulas leidas: " + "; ".join("%s -> %s" % (C.nombre_de(a), f[1]) for a, f in sorted(C.FORMULAS.items())))
+    detalle.append("formulas leidas: " + "; ".join("%s -> %s" % (C.nombre_de(a), tx) for a, _, tx, _ in C.formulas_leidas()))
     open(os.path.join(directorio, "tipos.txt"), "w", encoding="utf-8").write("\n".join(detalle) + "\n")
 
 

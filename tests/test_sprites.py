@@ -103,14 +103,14 @@ class Sprites(unittest.TestCase):
         de las explosiones cuadra con la longitud de sus listas."""
         import cuadros as C
         import sprites as SP
-        for a, (cs, _texto, _tipos) in C.FORMULAS.items():
+        for a, cs, _texto, _tipos in C.formulas_leidas():
             for c in cs:
                 self.assertLess(c, SP.N_CUADROS)
         for c, n in C.EXPLOSIONES:
             self.assertEqual(SP.largo_de_cuadro(c), n, "cuadro %d" % c)
         # y los cuadros que el listado da a cada tipo son de su cuenta de sprites
         codigo, tablas = C.lee_listado(), C.tablas_nocode()
-        for t in (4, 9, 18, 25, 26, 33, 34, 36, 38):
+        for t in (4, 9, 13, 14, 18, 20, 25, 26, 28, 31, 32, 33, 34, 36, 38, 48, 57):
             cu = C.cuadros_por_tipo(t, codigo, tablas)
             self.assertTrue(cu["todos"], "tipo %d sin cuadros" % t)
             for c in cu["todos"]:
