@@ -56,6 +56,16 @@ CARD8, RATIO, TRANS, UNIFO and BOX. What each adds when picked up is at
 
 ![The weapons](imagenes/armas.png)
 
+Each weapon and each item has its drawing in page 1 of the VRAM (`p06:B855`
+the weapons, `p06:B8C0` the items); the equipment window copies it with its
+name (`p00:47A6`), written here with the game's font as the ROM stores it
+(weapon 6 reads "L.MAIN", `p06:B89E`). The eight cards share one drawing. At
+the end, the two alerts shown over the soldier who sees Snake (`p02:98B5`):
+"!", or "!!" if `0xC614` is not zero, and then reinforcements arrive every
+0x1E frames.
+
+![The weapons and the items](imagenes/objetos.png)
+
 ## Actors
 
 64 actor types. Each has its number of sprites (`p05:971B`), its colours
@@ -90,3 +100,10 @@ at `p15:B6C6`; the one that plays is the one on the tuned frequency that
 passes the conditions at `p01:6A88`.
 
 ![The transceiver](imagenes/transceptor.png)
+
+There is a single portrait, Snake's (`p09:ABA1`): the others have no face. It
+only moves its mouth with texts 0x0A (his SEND) and 0x9B: with each letter,
+one every 4 frames, it picks one of three drawings from the frame count
+(`p00:5E17`: `p15:B425`, `p15:B42B` or the closed mouth `p15:B41F`).
+
+![Snake talking on the transceiver](imagenes/transceptor_habla.gif)

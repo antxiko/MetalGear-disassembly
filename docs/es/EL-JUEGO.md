@@ -57,6 +57,16 @@ CARD8, RATIO, TRANS, UNIFO y BOX. Lo que suma cada uno al cogerlo está en
 
 ![Las armas](../imagenes/armas.png)
 
+Cada arma y cada objeto tiene su dibujo en la página 1 de la VRAM
+(`p06:B855` las armas, `p06:B8C0` los objetos); la ventana de equipo lo copia
+con su nombre (`p00:47A6`), aquí escrito con la fuente del juego tal como lo
+guarda la ROM (el arma 6 dice «L.MAIN», `p06:B89E`). Las ocho tarjetas
+comparten dibujo. Al final, los dos avisos que salen encima del soldado que
+ve a Snake (`p02:98B5`): «!», o «!!» si `0xC614` no es cero, y entonces
+llegan refuerzos cada 0x1E cuadros.
+
+![Las armas y los objetos](../imagenes/objetos.png)
+
 ## Los actores
 
 64 tipos de actor. Cada uno tiene su número de sprites (`p05:971B`), sus
@@ -91,3 +101,10 @@ están en `p15:B6C6`; la que suena es la que tiene la frecuencia puesta y pasa
 las condiciones de `p01:6A88`.
 
 ![El transceptor](../imagenes/transceptor.png)
+
+Hay un solo retrato, el de Snake (`p09:ABA1`): los demás no tienen cara. Solo
+mueve la boca con los textos 0x0A (su SEND) y 0x9B: con cada letra, una cada
+4 cuadros, elige uno de tres dibujos según la cuenta de cuadros (`p00:5E17`:
+`p15:B425`, `p15:B42B` o la boca cerrada `p15:B41F`).
+
+![Snake hablando por el transceptor](../imagenes/transceptor_habla.gif)

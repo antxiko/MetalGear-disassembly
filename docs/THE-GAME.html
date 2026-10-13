@@ -99,6 +99,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <h2 id="weapons-and-items">Weapons and items</h2>
 <p>Eight weapons (<code>p06:B865</code>): HAND GUN, SMG, GRENADE, ROCKET, P.BOMB, L.MINE, MISSILE and SILENCER. Twenty-five items (<code>p06:B8F6</code>): ARMOR, SUIT, LIGHT, GOGGL, MASK, CIGAL, DETEC, ANTEN, SCOPE, BOMBE, COMPAS, PARAC, ANTID, CARD1 to CARD8, RATIO, TRANS, UNIFO and BOX. What each adds when picked up is at <code>p05:8AE8</code>; the ammunition and ration maximums depend on the CLASS (<code>p02:9101</code>).</p>
 <p><img src="imagenes/armas.png" alt="The weapons"></p>
+<p>Each weapon and each item has its drawing in page 1 of the VRAM (<code>p06:B855</code> the weapons, <code>p06:B8C0</code> the items); the equipment window copies it with its name (<code>p00:47A6</code>), written here with the game&#x27;s font as the ROM stores it (weapon 6 reads &quot;L.MAIN&quot;, <code>p06:B89E</code>). The eight cards share one drawing. At the end, the two alerts shown over the soldier who sees Snake (<code>p02:98B5</code>): &quot;!&quot;, or &quot;!!&quot; if <code>0xC614</code> is not zero, and then reinforcements arrive every 0x1E frames.</p>
+<p><img src="imagenes/objetos.png" alt="The weapons and the items"></p>
 <h2 id="actors">Actors</h2>
 <p>64 actor types. Each has its number of sprites (<code>p05:971B</code>), its colours (<code>p05:975A</code>), its stamina (<code>p05:984F</code>), its hit box per weapon (<code>p05:8951</code>, <code>p05:8992</code>) and its damage per weapon (<code>p05:87B7</code>). Their 143 frames are at <code>p05:9890</code>, and their patterns in 31 sprite sets (<code>p10:6185</code>, <code>p10:6280</code>). The type names quoted are Manuel Pazos&#x27;s.</p>
 <p><img src="imagenes/tipo_32.png" alt="Big Boss"></p>
@@ -111,4 +113,6 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <h2 id="the-transceiver">The transceiver</h2>
 <p>Seven frequencies, from 120.13 to 120.91 (<code>p00:490C</code>). Each room&#x27;s calls are at <code>p15:B6C6</code>; the one that plays is the one on the tuned frequency that passes the conditions at <code>p01:6A88</code>.</p>
 <p><img src="imagenes/transceptor.png" alt="The transceiver"></p>
+<p>There is a single portrait, Snake&#x27;s (<code>p09:ABA1</code>): the others have no face. It only moves its mouth with texts 0x0A (his SEND) and 0x9B: with each letter, one every 4 frames, it picks one of three drawings from the frame count (<code>p00:5E17</code>: <code>p15:B425</code>, <code>p15:B42B</code> or the closed mouth <code>p15:B41F</code>).</p>
+<p><img src="imagenes/transceptor_habla.gif" alt="Snake talking on the transceiver"></p>
 <footer><p><em>Metal Gear</em> was published by Konami for the MSX2 in 1987; its catalogue number is RC-750 and it is 128 KB. All rights in the game remain with their holders. This is preservation, study and documentation work, and the cartridge image is not distributed.</p></footer></div>

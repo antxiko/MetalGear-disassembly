@@ -101,6 +101,8 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <h2 id="armas-y-objetos">Armas y objetos</h2>
 <p>Ocho armas (<code>p06:B865</code>): HAND GUN, SMG, GRENADE, ROCKET, P.BOMB, L.MINE, MISSILE y SILENCER. Veinticinco objetos (<code>p06:B8F6</code>): ARMOR, SUIT, LIGHT, GOGGL, MASK, CIGAL, DETEC, ANTEN, SCOPE, BOMBE, COMPAS, PARAC, ANTID, CARD1 a CARD8, RATIO, TRANS, UNIFO y BOX. Lo que suma cada uno al cogerlo está en <code>p05:8AE8</code>; los máximos de munición y raciones dependen de la CLASS (<code>p02:9101</code>).</p>
 <p><img src="../imagenes/armas.png" alt="Las armas"></p>
+<p>Cada arma y cada objeto tiene su dibujo en la página 1 de la VRAM (<code>p06:B855</code> las armas, <code>p06:B8C0</code> los objetos); la ventana de equipo lo copia con su nombre (<code>p00:47A6</code>), aquí escrito con la fuente del juego tal como lo guarda la ROM (el arma 6 dice «L.MAIN», <code>p06:B89E</code>). Las ocho tarjetas comparten dibujo. Al final, los dos avisos que salen encima del soldado que ve a Snake (<code>p02:98B5</code>): «!», o «!!» si <code>0xC614</code> no es cero, y entonces llegan refuerzos cada 0x1E cuadros.</p>
+<p><img src="../imagenes/objetos.png" alt="Las armas y los objetos"></p>
 <h2 id="los-actores">Los actores</h2>
 <p>64 tipos de actor. Cada uno tiene su número de sprites (<code>p05:971B</code>), sus colores (<code>p05:975A</code>), su aguante (<code>p05:984F</code>), su caja de choque por arma (<code>p05:8951</code>, <code>p05:8992</code>) y su daño por arma (<code>p05:87B7</code>). Sus 143 cuadros están en <code>p05:9890</code>, y sus patrones en 31 juegos de sprites (<code>p10:6185</code>, <code>p10:6280</code>). Los nombres de los tipos que se citan son los de Manuel Pazos.</p>
 <p><img src="../imagenes/tipo_32.png" alt="Big Boss"></p>
@@ -113,4 +115,6 @@ audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
 <h2 id="el-transceptor">El transceptor</h2>
 <p>Siete frecuencias, de 120.13 a 120.91 (<code>p00:490C</code>). Las llamadas de cada sala están en <code>p15:B6C6</code>; la que suena es la que tiene la frecuencia puesta y pasa las condiciones de <code>p01:6A88</code>.</p>
 <p><img src="../imagenes/transceptor.png" alt="El transceptor"></p>
+<p>Hay un solo retrato, el de Snake (<code>p09:ABA1</code>): los demás no tienen cara. Solo mueve la boca con los textos 0x0A (su SEND) y 0x9B: con cada letra, una cada 4 cuadros, elige uno de tres dibujos según la cuenta de cuadros (<code>p00:5E17</code>: <code>p15:B425</code>, <code>p15:B42B</code> o la boca cerrada <code>p15:B41F</code>).</p>
+<p><img src="../imagenes/transceptor_habla.gif" alt="Snake hablando por el transceptor"></p>
 <footer><p><em>Metal Gear</em> lo public&oacute; Konami para MSX2 en 1987; su n&uacute;mero de cat&aacute;logo es RC-750 y son 128 KB. Todos los derechos sobre el juego siguen siendo de sus titulares. Este trabajo es de preservaci&oacute;n, estudio y documentaci&oacute;n, y la imagen del cartucho no se distribuye.</p></footer></div>

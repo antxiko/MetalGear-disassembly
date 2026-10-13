@@ -172,6 +172,8 @@ imagenes: $(ROM)
 	$(PYIMG) tools/personajes.py juegos $(IMG)/juegos.png
 	$(PYIMG) tools/personajes.py jefes $(IMG)/jefes.png
 	$(PYIMG) tools/objetos.py hoja $(IMG)/objetos.png
+	$(PYIMG) tools/objetos.py pagina1 $(IMG)/pagina1.png
+	$(PYIMG) tools/objetos.py boca $(IMG)/transceptor_habla.gif
 
 # Los cotejos que dibujan necesitan PIL (en esta maquina, el python de
 # Programs, no el python3 de la Store).
