@@ -1,0 +1,306 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Los textos — Metal Gear (Konami, 1987)</title>
+<style>
+:root{--tinta:#cfd0d4;--suave:#83868f;--fondo:#000;--panel:#0c0e13;--linea:#23262e;
+  --rojo:#ff897d;--cyan:#65dbef;--verde:#3eb849;--oro:#ded087}
+@media (prefers-color-scheme:light){:root{--tinta:#191a1e;--suave:#5a5d66;--fondo:#e9e7e1;
+  --panel:#f7f6f2;--linea:#d0cdc5;--rojo:#b23f34;--cyan:#1c6b7c;--verde:#2b7734;--oro:#8a7420}}
+:root[data-theme="dark"]{--tinta:#cfd0d4;--suave:#83868f;--fondo:#000;--panel:#0c0e13;
+  --linea:#23262e;--rojo:#ff897d;--cyan:#65dbef;--verde:#3eb849;--oro:#ded087}
+:root[data-theme="light"]{--tinta:#191a1e;--suave:#5a5d66;--fondo:#e9e7e1;--panel:#f7f6f2;
+  --linea:#d0cdc5;--rojo:#b23f34;--cyan:#1c6b7c;--verde:#2b7734;--oro:#8a7420}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fondo);color:var(--tinta);padding:0 1.25rem 6rem;
+  font:15px/1.7 ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.w{max-width:1120px;margin:0 auto}
+.n{max-width:68ch}
+h1,h2,h3,h4{font-weight:400;text-wrap:balance}
+a{color:var(--cyan)}
+img{image-rendering:pixelated;max-width:100%;height:auto;display:block}
+header.top{display:flex;flex-direction:column;align-items:center;gap:1.5rem;
+  padding:4rem 0 2rem;text-align:center}
+header.top img{width:min(100%,642px)}
+.claim{max-width:60ch;color:var(--suave);font-size:1.05rem}
+.claim b{color:var(--tinta);font-weight:400}
+.ficha{display:flex;flex-wrap:wrap;justify-content:center;gap:0 1.5rem;width:100%;
+  font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--suave);
+  border-top:1px solid var(--linea);border-bottom:1px solid var(--linea);padding:.85rem 0}
+.ficha b{color:var(--rojo);font-weight:400}
+nav{display:flex;flex-wrap:wrap;gap:1.25rem;justify-content:center;padding:1.25rem 0;
+  font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+nav a{color:var(--suave);text-decoration:none;border-bottom:1px solid transparent}
+nav a:hover,nav a:focus{color:var(--tinta);border-bottom-color:var(--rojo)}
+nav.docs{border-top:1px solid var(--linea);border-bottom:1px solid var(--linea);
+  margin-bottom:1rem}
+section{margin-top:4.5rem;scroll-margin-top:1rem}
+section>h2{font-size:1rem;letter-spacing:.1em;text-transform:uppercase;
+  border-left:3px solid var(--rojo);padding-left:.9rem;margin:0 0 1.5rem}
+.cifras{display:grid;gap:1px;background:var(--linea);border:1px solid var(--linea);
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+.cifra{background:var(--panel);padding:1.1rem}
+.cifra b{display:block;font-size:1.7rem;color:var(--oro);font-weight:400;
+  font-variant-numeric:tabular-nums;line-height:1.2}
+.cifra span{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--suave)}
+.hall{border-top:1px solid var(--linea);padding-top:1.75rem;margin-top:2.5rem}
+.hall:first-of-type{border-top:0;padding-top:0;margin-top:0}
+.hall h3{margin:0 0 .75rem;font-size:1.15rem;color:var(--rojo)}
+.hall h4{color:var(--oro);margin:1.5rem 0 .5rem;font-size:.95rem}
+.hall p{margin:0 0 1rem}
+pre.asm{background:var(--panel);border-left:2px solid var(--verde);margin:1.25rem 0;
+  padding:1rem 1.1rem;overflow-x:auto;font-size:13px;line-height:1.6;color:var(--tinta)}
+.par{display:grid;gap:1.25rem;grid-template-columns:1fr}
+@media(min-width:820px){.par{grid-template-columns:1fr 1fr}}
+.par figure{margin:0}
+table{border-collapse:collapse;width:100%;margin:1.25rem 0;font-size:13px;display:block;
+  overflow-x:auto}
+th,td{text-align:left;padding:.5rem .75rem;border-bottom:1px solid var(--linea)}
+th{color:var(--suave);font-weight:400;font-size:11px;letter-spacing:.07em;text-transform:uppercase}
+td.num{font-variant-numeric:tabular-nums;color:var(--oro)}
+.nivel{margin-top:2rem}
+.nivel h3{margin:0 0 .9rem;font-size:.95rem;letter-spacing:.06em;text-transform:uppercase}
+.nivel em{color:var(--cyan);font-style:normal}
+.sep{color:var(--suave);margin:0 .6rem}
+.rejilla{display:grid;gap:.9rem;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.rejilla figure{margin:0;background:var(--panel);box-shadow:0 0 0 1px var(--linea)}
+.rejilla figcaption{display:flex;justify-content:space-between;padding:.45rem .65rem;
+  font-size:11px;color:var(--suave);border-top:1px solid var(--linea)}
+.dir{font-variant-numeric:tabular-nums;color:var(--verde)}
+footer{margin-top:5rem;padding-top:1.5rem;border-top:1px solid var(--linea);
+  color:var(--suave);font-size:12px}
+
+/* Aviso de trabajo en curso: tiene que verse antes que las cifras, porque un
+   100% mal leido hace mas dano que no ponerlo. */
+.aviso{background:#3a2a10;border-left:3px solid var(--oro);margin:1.5rem auto;
+  padding:1rem 1.2rem;max-width:900px;border-radius:4px}
+.aviso p{margin:0;color:var(--tinta);font-size:15px;line-height:1.65}
+.galeria{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:1.5rem;margin:1.5rem 0}
+.galeria figure{margin:0}
+.galeria img{width:100%;height:auto;image-rendering:pixelated;
+  border:1px solid var(--linea);border-radius:3px}
+.galeria figcaption{color:var(--suave);font-size:13px;margin-top:.5rem}
+audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
+</style>
+<div class="w"><nav class="top"><a href="index.html">Portada</a><a href="EMPEZAR.html">Empezar</a><a href="EL-JUEGO.html">El juego</a><a href="EL-CARTUCHO.html">El cartucho</a><a href="EL-CODIGO.html">El código</a><a href="LA-MUSICA.html">La música</a><a href="LOS-TEXTOS.html" style=color:var(--tinta)>Los textos</a><a href="HALLAZGOS.html">Hallazgos</a><a href="PREGUNTAS-ABIERTAS.html">Preguntas abiertas</a><a href="../THE-TEXTS.html" style="margin-left:auto;color:var(--oro)">English</a></nav>
+<h1 id="los-textos">Los textos</h1>
+<p>Metal Gear salió en Japón en 1987 (RC-750) y Konami hizo después la versión inglesa, que es la del listado. Aquí están todos los textos de las dos, sacados de las ROMs con <code>tools/textos.py</code>, uno al lado del otro y con una traducción del japonés para ver dónde se cambió o se recortó el guion. <b>La traducción es nuestra, no de Konami.</b></p>
+<table><tr><th></th><th>Inglesa (la del listado)</th><th>Japonesa</th></tr><tr><td>CRC32</td><td>E85C5731</td><td>FAFE1303</td></tr><tr><td>SHA-1</td><td><code>b656bd19df58fc1ba4628342b87beeec5948e0b3</code></td><td><code>a52021f1b257c7c35d626d5d642134091c45e4f4</code></td></tr></table>
+<h2 id="como-se-guardan">Cómo se guardan</h2>
+<ul><li><code>p12:A37D</code> tiene 159 punteros, uno por texto, en la misma dirección en las dos ROMs. Los pide <code>ventana_de_texto</code> (<code>p00:5CE1</code>) con el número en A.</li><li>Cada texto empieza por el tipo de ventana y sigue con las letras: 0xFE es línea nueva, 0xFD página nueva (aquí « / ») y 0xFF el final. Del 0xA1 en adelante es un trozo compartido: la tabla <code>p12:B8A7</code> en la inglesa y <code>p12:BBCA</code> en la japonesa.</li><li>La letra c es la ficha c + 0x10 de la página 1. La fuente (<code>p09:B0B2</code>, 108 caracteres) es la misma en las dos: 0x30-0x39 las cifras, 0x41-0x5A las letras, 0x60-0x96 los katakana y 0x98 el dakuten. Solo cambian 7 bytes: 0x5C es el punto centrado (・) en la japonesa y el punto final en la inglesa, y 0x97 es el handakuten (゜) en la japonesa y el apóstrofo en la inglesa. Esas dos marcas avanzan medio carácter (<code>p00:5DE8</code>) para caer sobre la letra anterior.</li></ul>
+<h2 id="lo-que-cambio-de-una-version-a-otra">Lo que cambió de una versión a otra</h2>
+<h3 id="la-inglesa-vacio-69-textos">La inglesa vació 69 textos</h3>
+<p>69 de los 159 punteros de la inglesa van a un 0xFF suelto (<code>p12:B8A6</code>): esos textos están vacíos. Son los 32 avisos de «has conseguido...», las explicaciones de Big Boss sobre cada objeto, varias pistas de Schneider, una de Jennifer y las tres bromas de Steve sobre Diane. Otros cuatro (0x49, 0x4A, 0x66 y 0x68) están vacíos en las dos.</p>
+<p>La inglesa no pide nunca ninguno de esos 69. Está medido así:</p>
+<ul><li>En toda la ROM hay 28 saltos o llamadas a la ventana de texto (buscados en los bytes, condicionales incluidos: son los mismos que tiene el listado) y una sola escritura del número de texto, 0xCEF0 (<code>p00:5CE3</code>).</li><li>21 llevan el número escrito en el código (24 textos: el del final, <code>p15:BE8C</code>, recibe el 0x0F, el 0x9B, el 0x1F y el 0x2D) y 2 son los puentes desde otros bancos (<code>p00:405F</code> y <code>p00:4127</code>). Los tres de los personajes que hablan sacan el suyo de 0x81, 0x7C/0x7D, 0x83/0x8C y la tabla de 19 salas <code>p02:9D59</code>. La radio, de la tabla de llamadas de cada sala (<code>p15:B6C6</code>, 43 textos), que <code>p00:48BD</code> copia a 0xC880; ahí <code>llamada_callada</code> (<code>p01:6A88</code>) cambia el texto por el 0x88 o el 0x32 según dos banderas, y nada más escribe en esa zona.</li><li>Al coger un objeto solo pasa el 0x3E (lo explica el apartado siguiente).</li></ul>
+<p>En total la inglesa pide 90 textos. Con los 69 vacíos salen los 159: no queda ningún texto con letras que nadie pida.</p>
+<h3 id="el-aviso-al-coger-un-objeto">El aviso al coger un objeto</h3>
+<p>Las dos buscan el texto del objeto en <code>p05:8AC5</code>, pero la inglesa añadió <code>cp 03eh</code> / <code>ret nz</code> (<code>p02:8F19</code>): solo abre la ventana con el 0x3E, «I TOOK BACK THE WEAPONS AND EQUIPMENTS.». La japonesa (<code>p02:8F5A</code>) la abre con todos. Sus 32 avisos acaban con el trozo 0xD9, «ヲ ニュウシュ シタ。» («has conseguido»), que pone 0xCF02 = 1 (<code>p00:52FD</code>). Con esa bandera la ventana no espera entre letras (<code>p00:5DDA</code>), escribe el aviso de golpe (<code>p00:5E3B</code>) y lo corta en cuanto hay una dirección pulsada (<code>p00:5DCC</code>).</p>
+<h3 id="el-bloqueo-de-region">El bloqueo de región</h3>
+<p>La japonesa llama a <code>p00:5322</code> al arrancar (<code>p00:4226</code>) y desde <code>p01:66FA</code>. Esa rutina mira dos bytes de la BIOS: si 0x002B tiene algún bit puesto que no sea el 3, o 0x002C alguno que no sea el 4 o el 5, salta a 0 y el MSX vuelve a arrancar. Esos bytes dicen el juego de caracteres, el formato de la fecha, la frecuencia de la interrupción y el teclado: un MSX de 50 Hz o con teclado que no sea japonés no pasa. En el mismo sitio la inglesa llama a <code>nada</code> (<code>p00:5317</code>), un <code>ret</code> suelto: es lo que queda del bloqueo.</p>
+<h3 id="los-nombres-de-armas-y-objetos">Los nombres de armas y objetos</h3>
+<p>Las armas están en <code>p06:B865</code> en las dos, y los objetos en <code>p06:B8F6</code> (inglesa) y <code>p06:B8FD</code> (japonesa). La japonesa escribe los nombres enteros en katakana; la inglesa corta los objetos a cinco o seis letras (GOGGL, CIGAL, RATIO...) y llama L-MAIN a lo que la japonesa llama ジライ, «minas». La lista completa está más abajo.</p>
+<h3 id="lo-demas">Lo demás</h3>
+<ul><li>Los créditos (texto 0x2D) son la misma lista en las dos, pero la inglesa escribe TOMONORI OSTUKA donde la japonesa pone OTSUKA.</li><li>Los rótulos de los menús, del título, del transceptor y de la cinta están en inglés también en la japonesa, y son iguales byte a byte (lista al final).</li><li>No se ha desensamblado la japonesa: no está medido qué textos pide ella.</li></ul>
+<h2 id="los-159-textos">Los 159 textos</h2>
+<p>Uno por fila, con su número. « / » es una página nueva de la ventana; <em>(vacío)</em> quiere decir que la inglesa apunta ese texto a <code>p12:B8A6</code>.</p>
+<table><tr><th>Nº</th><th>Japonés (ROM)</th><th>Inglés (ROM)</th><th>Traducción del japonés</th></tr></table>
+<p>| 0x01 | コウタイダ!! | RELIEVE | ¡¡Cambio de guardia!! |</p>
+<p>| 0x02 | コチラ BIG BOSS ・・・ OPERATION INTRUDE N313。 テキ ヨウサイ OUTER HEAVEN ニ センニュウ 、サイシュウヘイキ METAL GEAR ヲ ハカイ セヨ! / マズハ ショウソク ヲ タッタ、 GREY FOX ト コンタクト 、 サイシュウヘイキ 、METAL GEAR ノ ショウタイ ヲ サグレ。 / イゴ ノ レンラク ハ シュウハスウ 12085 デ オコナウ。 ・・・ OVER | THIS IS BIG BOSS... OPERATION INTRUDE N313. / PENETRATE THE ENEMY&#x27;S OUTER HEAVEN AND DESTOROY THE ULTIMATE WEAPON METAL GEAR! / FIRST, CONTACT MISSING GREY FOX AND SEARCH FOR METAL GEAR! / CONTACT IN THE BAND OF 12085 FROM NOW ON. ...OVER | Aquí Big Boss... Operación Intrude N313. Infíltrate en la fortaleza enemiga Outer Heaven y destruye el arma definitiva Metal Gear. / Lo primero: contacta con Grey Fox, que ha desaparecido, y averigua qué es de verdad el arma definitiva Metal Gear. / A partir de ahora el contacto será en la frecuencia 12085. ...Corto. |</p>
+<p>| 0x03 | コチラ BIG BOSS ・・・ ニンム ハ センニュウ ダ。 クレグレモ テキニ ミツカラヌ ヨウ ニ コウドウ シロ。 ・・・ OVER | THIS IS BIG BOSS... MISION! GAIN ACCESS TO THE ENEMY&#x27;S FORTRESS, OUTER HEAVEN. / TAKE ACTION NOT TO BE DISCOVERED BY THE ENEMY. ...OVER | Aquí Big Boss... Tu misión es infiltrarte. Ante todo, actúa sin que el enemigo te descubra. ...Corto. |</p>
+<p>| 0x04 | コチラ BIG BOSS ・・・ ブキ、ソウビ ハ テキ ノ トラック 、 ブキコ カラ ウバエ! ダンヤク ハ ミハリ カラ、ウバエ!! / トビラ ヲ アケル ニハ カード ガ ヒツヨウダ。 カード ヲ サガセ。 ・・・ OVER | THIS IS BIG BOSS... TAKE THE WEAPONS AND EQUIPMENTS FROM THE ENEMY&#x27;S LORRY!! / YOU SHOULD HAVE AN I.D.CARD TO OPEN THE DOOR. ...OVER | Aquí Big Boss... Las armas y el equipo, quítaselos al enemigo: de los camiones y del arsenal. ¡¡La munición, quítasela a los centinelas!! / Para abrir las puertas hace falta una tarjeta. Busca las tarjetas. ...Corto. |</p>
+<p>| 0x05 | コチラ BIG BOSS ・・・ エレベーター ニ ノルト フロア カン ノ イドウ ガ デキル。エレベーター ノ イチ ヲ オボエル コトダ。 ・・・ OVER | <em>(vacío)</em> | Aquí Big Boss... Con los ascensores se pasa de una planta a otra. Memoriza dónde están. ...Corto. |</p>
+<p>| 0x06 | ウゴクナ!! | DON&#x27;T MOVE! | ¡¡No te muevas!! |</p>
+<p>| 0x07 | レンコウスル! | YOU ARE CAPTURED! | ¡Quedas detenido! |</p>
+<p>| 0x08 | レーション ヲ ニュウシュ シタ。 | <em>(vacío)</em> | Has conseguido la ración. |</p>
+<p>| 0x09 | コチラ BIG BOSS ・・・ レーション ? ヒジョウ ヨウ ショクリョウ ダ。 スグ ニ タベズ ニ ノコシテ オケ。 ・・・ OVER | <em>(vacío)</em> | Aquí Big Boss... ¿La ración? Es comida de emergencia. No te la comas enseguida: guárdala. ...Corto. |</p>
+<p>| 0x0A | コチラ SOLID SNAKE ・・・ オウトウ ネガイ マス。 | THIS IS SOLID SNAKE... YOUR REPLY,PLEASE. | Aquí Solid Snake... Respondan, por favor. |</p>
+<p>| 0x0B | カード 1 ヲ ニュウシュ シタ。 | <em>(vacío)</em> | Has conseguido la tarjeta 1. |</p>
+<p>| 0x0C | コチラ BIG BOSS ・・・ カード ? トビラ ヲ アケル カード ダ。 / トビラ ニ ヨッテ、 カード ナンバー ガ チガウ。 チュウイ シロ 。 ・・・ OVER | <em>(vacío)</em> | Aquí Big Boss... ¿Una tarjeta? Es una tarjeta para abrir puertas. / Cada puerta lleva un número de tarjeta distinto. Ten cuidado. ...Corto. |</p>
+<p>| 0x0D | ソウガンキョウ ヲ ニュウシュ シタ。 | <em>(vacío)</em> | Has conseguido los prismáticos. |</p>
+<p>| 0x0E | コチラ BIG BOSS ・・・ ソウガンキョウ ? / シュウイ ヲ ミルトキ ニ ツカエ 。 トオク ノ チケイ ヤ テキ ノ ハイチ ガワカル。ツネニ ソウガンキョウ ヲ ツカウヨウ ニ ココロ ガケロ。 ・・・ OVER | <em>(vacío)</em> | Aquí Big Boss... ¿Los prismáticos? / Úsalos para mirar alrededor: se ve el terreno de lejos y dónde están los enemigos. Acostúmbrate a usarlos siempre. ...Corto. |</p>
+<p>| 0x0F | ・・・ キコエルカ? SOLID SNAKE ・・・ ワタシ ハ シナン・・・ イツカ、ケッチャク ヲ ツケヨウ。 / イツノヒカ・・・ マタ アオウ! | LISTEN! SOLID SNAKE... I&#x27;LL NEVER DIE... / I&#x27;LL GET YOU. ONE DAY. / SEE YOU AGAIN... | ...¿Me oyes? Solid Snake... Yo no moriré... Algún día zanjaremos esto. / Algún día... ¡nos volveremos a ver! |</p>
+<p>| 0x10 | ハンドガン ヲ ニュウシュ シタ。 | <em>(vacío)</em> | Has conseguido la pistola. |</p>
+<p>| 0x11 | コチラ BIG BOSS ・・・ ハンドガン ? BELLETA M92F・・・ / ツカイカタ ハ ワカッテイルナ 。 ダンヤク ヲ サガセ 。 タマ ハ ムダヅカイ スルナ。 ・・・ OVER | <em>(vacío)</em> | Aquí Big Boss... ¿La pistola? Beretta M92F (en la ROM, BELLETA)... / Ya sabes cómo se usa. Busca munición. No malgastes las balas. ...Corto. |</p>
+<p>| 0x12 | ジライ ヲ ニュウシュ シタ。 | <em>(vacío)</em> | Has conseguido minas. |</p>
+<p>| 0x13 | コチラ BIG BOSS ・・・ ジライ ? ツカイカタ ハ ワカッテイルナ 。 ・・・ OVER | <em>(vacío)</em> | Aquí Big Boss... ¿Minas? Ya sabes cómo se usa. ...Corto. |</p>
+<p>| 0x14 | コチラ BIG BOSS ・・・ レジスタンス ガ イルハズ ダ。 ムセン デ コンタクト シテミロ。 ・・・ OVER | THIS IS BIG BOSS... THERE MUST BE SOME RESISTANCE. / TRY TO CONTACT WITH THE TRANSCEIVER! ...OVER | Aquí Big Boss... Tiene que haber una resistencia. Prueba a contactar por radio. ...Corto. |</p>
+<p>| 0x15 | ダンヤク ヲ ニュウシュ シタ。 | <em>(vacío)</em> | Has conseguido munición. |</p>
+<p>| 0x16 | コチラ BIG BOSS ・・・ ダンヤク ハ モテル カズ ニ セイゲン ガ アル。 チュウイ シロ 。 ・・・ OVER | <em>(vacío)</em> | Aquí Big Boss... La munición que puedes llevar tiene un límite. Ten cuidado. ...Corto. |</p>
+<p>| 0x17 | コチラ レジスタンス リーダー SCHNEIDER ・・・ / ヨウサイ ノ ナイブ ニ ツイテ ガイド スル。 シュウハスウ 12079 デ レンラク サレタシ。 ・・・ OVER | THIS IS THE RESISTANCE LEADER,MR.SCHNEIDER... / I WILL BRIEF YOU ON THE FORTRESS DETAILS. PLEASE CONTACT ON WAVEBAND 12079. ...OVER | Aquí el líder de la resistencia, Schneider... / Te guiaré por el interior de la fortaleza. Contacta en la frecuencia 12079. ...Corto. |</p>
+<p>| 0x18 | コチラ BIG BOSS ・・・ カンシカメラ ニ チュウイ シロ 。 ・・・ OVER | <em>(vacío)</em> | Aquí Big Boss... Cuidado con las cámaras de vigilancia. ...Corto. |</p>
+<p>| 0x19 | コチラ BIG BOSS ・・・ イイワスレテイタガ 、 ガスチタイ デハ ガスマスク ガ ヒツヨウダ。 / ガスマスク ノ アリカ ハ レジスタンス リーダー SCHNEIDER ガ シッテイル ハズダ。 ・・・ OVER | THIS IS BIG BOSS... PUT ON A GAS MASK IN THE GAS ROOM. ...OVER | Aquí Big Boss... Se me olvidaba: en la zona de gas hace falta máscara antigás. / Dónde está la máscara lo sabrá el líder de la resistencia, Schneider. ...Corto. |</p>
+<p>| 0x1A | コチラ レジスタンス リーダー SCHNEIDER ・・・ ガスマスク ハ 1F ノ ミナミ ニ アル。 ・・・ OVER | THIS IS THE RESISTANCE LEADER,MR.SCHNEIDER... / GO TO THE SOUTH PART OF THE 1ST FLOOR TO GET YOUR MASK. ...OVER | Aquí el líder de la resistencia, Schneider... La máscara antigás está en el sur de la planta 1. ...Corto. |</p>
+<p>| 0x1B | タスカッタ! / シュウハスウ 12033 デ レジスタンス ノ DIANE ガ サポート シテクレル。 / DIANE ハ テキ ノ ジョウホウニ クワシイハズ ダ。 | RESCUED! / RESISTANCE,DIANE WILL SUPPORT YOU ON WAVEBAND 12033. | ¡Me has salvado! / En la frecuencia 12033 te ayudará Diane, de la resistencia. / Diane conoce bien al enemigo. |</p>
+<p>| 0x1C | タスカッタ! | RESCUED | ¡Me has salvado! |</p>
+<p>| 0x1D | リモコン・ミサイル ヲ ニュウシュ シタ。 | <em>(vacío)</em> | Has conseguido el misil teledirigido. |</p>
+<p>| 0x1E | コチラ BIG BOSS ・・・ リモコン・ミサイル ? / リモコン ソウサ デキル ミサイル ダ。 ショウガイブツ ノ オオイ トコロ デ ツカエ 。 ・・・ OVER | <em>(vacío)</em> | Aquí Big Boss... ¿El misil teledirigido? / Es un misil que se maneja a distancia. Úsalo donde haya muchos obstáculos. ...Corto. |</p>
+<p>| 0x1F | コチラ ラジオ KNK。 リンジニュース ヲ モウシアゲマス。 / ホンジツ ミメイ、SOUTH AFRICA GALZBURG フキン デ ダイキボ ナ ジシン ガ アッタモヨウ・・・ | THIS IS RADIO KNK. EMERGENCY NEWS FLASH! / THERE WAS APPARENTLY A TREMENDOUS EARTH TREMOR IN THE REGION OF GALZBURG,SOUTH AFRICA AT MIDNIGHT. | Aquí Radio KNK. Interrumpimos para dar una noticia de última hora. / Esta madrugada parece que ha habido un gran terremoto cerca de Galzburg, Sudáfrica... |</p>
+<p>| 0x20 | タスカッタ! / スウジツ マエ ニ センニュウ シテキタ FOX HOUNDER ナラ、ブジダ。 / ヤツラ ニ トラエラレ テ イル。 | RESCUED! / FOX HOUNDER INTRUDED A FEW DAYS AGO / AND IS SAFE NOW. / HE WAS CAPTURED BY THE ENEMY. | ¡Me has salvado! / El Fox Hounder que se infiltró hace unos días está vivo. / Lo tienen prisionero. |</p>
+<p>| 0x21 | アー!ネムイ!! | I&#x27;M SLEEPY. | ¡Aah! ¡¡Qué sueño!! |</p>
+<p>| 0x22 | ネテシマッタ! | OVERSLEPT! | ¡Me he quedado dormido! |</p>
+<p>| 0x23 | FOX HOUNDER ガ センニュウ シテイル ラシイ。 ゼッタイ ニ トオスナ! | PROBABLY, FOX HOUNDER GAINED ACCESS. / DON&#x27;T MAKE WAY FOR HIM, AT ANY COST. | Parece que se ha infiltrado un Fox Hounder. ¡Que no pase de ninguna manera! |</p>
+<p>| 0x24 | コチラ BIG BOSS ・・・ FUNCTION KEY ノ セツメイ ヲ スル。 F1 KEY ヲ オス ト、ポーズ。 / F2 KEY ヲ オス ト、ブキ セレクト。 F3 KEY ヲ オス ト、ソウビ セレクト。 F4 KEY ヲ オス ト、ムセン モード。 / ヨク、アタマ ニ イレテ オクコト ダ。 ・・・ OVER | THIS IS BIG BOSS... WILL EXPLAIN HOW TO USE F-KEY. / F-1 KEY FOR PAUSE. F-2 KEY FOR SELECTING YOUR WEAPONS. F-3 KEY FOR SELECTING YOUR EQUIPMENTS. / F-4 KEY FOR TRANSCEIVER BAND. REMEMBER THESE WELL. ...OVER | Aquí Big Boss... Te explico las teclas de función. Con F1, pausa. / Con F2, eliges arma. Con F3, eliges equipo. Con F4, modo radio. / Grábatelo bien. ...Corto. |</p>
+<p>| 0x25 | カード 2 ヲ ニュウシュ シタ。 | <em>(vacío)</em> | Has conseguido la tarjeta 2. |</p>
+<p>| 0x26 | コチラ BIG BOSS ・・・ イイワスレテイタガ 、コウアツデンリュウ ハ デンゲン パネル ヲ ハカイ セヨ。 / リモコン・ミサイル ヲ ツカウノダ。 リモコン・ミサイル ノ アリカ ハ レジスタンス リーダー SCHNEIDER ガ シッテイル。 ・・・ OVER | THIS IS BIG BOSS... / BREAK DOWN THE POWER SUPPLY BOX WITH THE REMOTE-CONTROL MISSILE TO GET RID OF THE HIGH-VOLTAGE. / ...OVER | Aquí Big Boss... Se me olvidaba: contra la alta tensión, destruye el panel de la corriente. / Usa el misil teledirigido. Dónde está el misil lo sabe el líder de la resistencia, Schneider. ...Corto. |</p>
+<p>| 0x27 | コチラ レジスタンス リーダー SCHNEIDER ・・・ リモコン・ミサイル ハ セイナン ニ アル。 ・・・ OVER | THIS IS MR.SCHNEIDER... THE REMOTE-CONTROL MISSILE IS AVAILABLE IN THE SOUTHEASTERN AREA. ...OVER | Aquí el líder de la resistencia, Schneider... El misil teledirigido está en el suroeste. ...Corto. |</p>
+<p>| 0x28 | ダンボール ヲ ニュウシュ シタ。 | <em>(vacío)</em> | Has conseguido la caja de cartón. |</p>
+<p>| 0x29 | コチラ BIG BOSS ・・・ ダンボール ? ヒッコシ デモ スルノカ? ・・・ OVER | <em>(vacío)</em> | Aquí Big Boss... ¿Una caja de cartón? ¿Es que te vas de mudanza? ...Corto. |</p>
+<p>| 0x2A | コチラ BIG BOSS ・・・ イイワスレテイタガ 、オクジョウ ハ ウインド・バリア ガ、ハラレテイル。 ボム・ブラスト・スーツ ヲ サガセ! ・・・ OVER | THIS IS BIG BOSS... WIND BARRIER IS EXTENDED ON THE ROOFTOP. / LOOK FOR THE BOMB BLAST SUIT TO BE INTO THE BARRIER. ...OVER | Aquí Big Boss... Se me olvidaba: en la azotea hay una barrera de viento. ¡Busca el traje antiexplosiones! ...Corto. |</p>
+<p>| 0x2B | サイレンサー ヲ ニュウシュ シタ。 | <em>(vacío)</em> | Has conseguido el silenciador. |</p>
+<p>| 0x2C | コチラ BIG BOSS ・・・ サイレンサー ? コレ ヲ ツケルト、ジュウセイ ガ ケセル。 ・・・ OVER | <em>(vacío)</em> | Aquí Big Boss... ¿El silenciador? Con esto puesto no se oyen los disparos. ...Corto. |</p>
+<p>| 0x2D | カワリマシテ METAL GEAR STAFF ショウカイ・・・ / MAIN PROGRAM HIROYUKI FUKUI / SUB PROGRAM TOMONORI OTSUKA KOJI TOYOHARA / GRAPHIC DESIGN MASAMI TABATA AZUSA FUJIMOTO / MAIN SOUND EFFECT IKU MIZUTANI / SUB SOUND EFFECT SHIGEHIRO TAKENOUCHI MOTOAKI FURUKAWA / GAME DESIGN HIDEO KOJIMA / PRESENTED BY KONAMI 1987 | NEXT, WE INTRODUCE METAL GEAR STAFF... / MAIN PROGRAM HIROYUKI FUKUI / SUB PROGRAM TOMONORI OSTUKA KOJI TOYOHARA / GRAPHIC DESIGN MASAMI TABATA AZUSA FUJIMOTO / MAIN SOUND EFFECT IKU MIZUTANI / SUB SOUND EFFECT SHIGEHIRO TAKENOUCHI MOTOAKI FURUKAWA / GAME DESIGN HIDEO KOJIMA / PRESENTED BY KONAMI 1987 | Y ahora os presentamos al equipo de Metal Gear... / (los créditos, en letras latinas en las dos versiones) |</p>
+<p>| 0x2E | グレネード・ランチャー ヲ ニュウシュ シタ。 | <em>(vacío)</em> | Has conseguido el lanzagranadas. |</p>
+<p>| 0x2F | コチラ BIG BOSS ・・・ グレネード・ランチャー M79? ツカイカタ ハ ワカッテイルナ 。 ・・・ OVER | <em>(vacío)</em> | Aquí Big Boss... ¿El lanzagranadas M79? Ya sabes cómo se usa. ...Corto. |</p>
+<p>| 0x30 | コチラ BIG BOSS ・・・ イイワスレテイタガ セキガイセン センサー ニハ チュウイ シロ 。 セキガイセン ゴーグル ガ ヒツヨウダ。 ・・・ OVER | <em>(vacío)</em> | Aquí Big Boss... Se me olvidaba: cuidado con los sensores de infrarrojos. Hacen falta gafas de infrarrojos. ...Corto. |</p>
+<p>| 0x31 | コチラ BIG BOSS ・・・ ミトオシ ノ ヨイ トコロ ハ、 カモフラージュ ガ ヒツヨウダ。 タトエバ、ナニカ ヲ カブル トカ・・・ ・・・ OVER | <em>(vacío)</em> | Aquí Big Boss... Donde se ve mucho de lejos hace falta camuflaje. Por ejemplo, meterse debajo de algo... ...Corto. |</p>
+<p>| 0x32 | コチラ BIG BOSS ・・・ ソウビ ヲ テンケン シテミロ!! / テキ ニ ハッシンキ カ ナニカ、 トリツケラレテ ハ イナイカ? ・・・ OVER | THIS IS BIG BOSS... CHECK YOUR EQUIPMENTS! CHECK IF YOU HAVE BEEN BUGGED BY THE ENEMY. ...OVER | Aquí Big Boss... ¡¡Revisa tu equipo!! / ¿No te habrá colocado el enemigo un transmisor o algo así? ...Corto. |</p>
+<p>| 0x33 | コチラ SCHNEIDER ・・・ ボム・ブラスト・スーツ ハ チカ ニ アル。 ・・・ OVER | THIS IS MR.SCHNEIDER... THE BOMB BLAST SUIT CAN BE FOUND IN THE BASEMENT. ...OVER | Aquí Schneider... El traje antiexplosiones está en el sótano. ...Corto. |</p>
+<p>| 0x34 | タスカッタ! / GREY FOX トカイウ FOX HOUNDER ナラ・・・ / ヒミツ ノ ドクボウ ニ カンキン サレテ イルハズダ。 | RESCUED! / FOX HOUNDER CALLED GREY FOX MUST BE / CONFINED IN THE SECRET CELL. | ¡Me has salvado! / Si es un Fox Hounder que se llama Grey Fox... / estará encerrado en la celda secreta. |</p>
+<p>| 0x35 | コチラ SCHNEIDER ・・・ ヒミツ ノ ドクボウ ? ザンネン ナガラ、シラナイ・・・ ・・・ OVER | <em>(vacío)</em> | Aquí Schneider... ¿La celda secreta? Lo siento, no lo sé... ...Corto. |</p>
+<p>| 0x36 | タスカッタ! / ヒミツ ノ ドクボウ ニ チカヅク イチバン ノ ホウホウ ハ テキ ニ ワザト ツカマル コトダ・・・ | RESCUED! / THE BEST WAY OF GAINING ACCESS TO THE SECRET CELL, / IS TO ALLOW THE ENEMY TO CAPTURE YOU. | ¡Me has salvado! / La mejor forma de llegar a la celda secreta es dejarse atrapar por el enemigo a propósito... |</p>
+<p>| 0x37 | カード 4 ヲ ニュウシュ シタ。 | <em>(vacío)</em> | Has conseguido la tarjeta 4. |</p>
+<p>| 0x38 | サブマシンガン ヲ ニュウシュ シタ。 | <em>(vacío)</em> | Has conseguido el subfusil. |</p>
+<p>| 0x39 | コチラ BIG BOSS ・・・ サブマシンガン ? INGRUM MAC 11・・・ ツカイカタ ハ ワカッテイルナ 。 ・・・ OVER | <em>(vacío)</em> | Aquí Big Boss... ¿El subfusil? Ingram MAC 11 (en la ROM, INGRUM)... Ya sabes cómo se usa. ...Corto. |</p>
+<p>| 0x3A | コチラ BIG BOSS ・・・ センニュウ セイコウ ダ。 GREY FOX ノ ドクボウ ヲ サガセ 。 / カベ ヲ シラベテ ミロ!! ・・・ OVER | THIS IS BIG BOSS... MOVE OUT,AND LOCATE GREY FOX&#x27;S SOLITARY CELL. / CHECK THE WALL! ...OVER | Aquí Big Boss... Infiltración conseguida. Busca la celda de Grey Fox. / ¡¡Prueba a examinar las paredes!! ...Corto. |</p>
+<p>| 0x3B | ヨクキテクレタ・・・ シンイリ。 GREY FOX ダ。 / サイシュウヘイキ METAL GEAR トハ アラユル チケイ ニ タイオウ デキル カク トウサイ、 ジュウホコウ センシャ ダ。 / コレ ガ カンセイ スルト、 チキュウジョウ ノ アラユル トコロ カラ ノ カクコウゲキ ガ カノウ ト ナル。 / ナント シテモ カンセイマエ ニ ハカイ シナケレバ ナラナイ。 METAL GEAR ハカイ ノ ホウホウ ハ タダヒトツ。 / ソレ ハ カイハツシャ DR・PETTROVICH ガ シッテイル・・・ / コノ ビル ノ ドコカ ニ カンキン サレテイル ハズダ。 DR・PETTROVICH ヲ サガセ! | I&#x27;M GREY FOX. / THE ULTIMATE WEAPON METAL GEAR HAS / NUCLEAR WEAPONS DESIGNED FOR EVERY PART OF EARTH. / IF IT IS COMPLETED, NUCLEAR ATTACK / FROM ANYWHWRE / WILL BE POSSIBLE. / METAL GEAR MUST BE DESTOROYED, / BEFORE IT IS COMPLETED. / THERE IS ONLY ONE WAY TO DESTOROY METAL GEAR. / DR.PETTROVICH,WHO DEVELOPED IT KNOW THE ONLY METHOD. | Gracias por venir... novato. Soy Grey Fox. / El arma definitiva Metal Gear es un tanque bípedo con armas nucleares, capaz de moverse por cualquier terreno. / Cuando esté terminado podrá lanzar un ataque nuclear desde cualquier lugar del planeta. / Hay que destruirlo como sea antes de que lo terminen. Solo hay una forma de destruir Metal Gear. / Y la conoce su creador, el Dr. Pettrovich... / Debe de estar encerrado en algún lugar de este edificio. ¡Busca al Dr. Pettrovich! |</p>
+<p>| 0x3C | コチラ BIG BOSS ・・・ ウバワレタ、ブキ、ソウビ ヲ トリカエシ、ダッシュツ セヨ! / ドコカ ノ ヘヤ ニ カクサレテ イルハズダ。 パンチ デ サガセ! ・・・ OVER | THIS IS BIG BOSS... TAKE BACK YOUR WEAPONS AND EQUIPMENTS, AND GET OUT OF HERE! / THEY MUST BE CONCEALED IN A ROOM. BREAK THE DOOR! ...OVER | Aquí Big Boss... ¡Recupera las armas y el equipo que te han quitado y escapa! / Estarán escondidos en alguna habitación. ¡Búscalos a puñetazos! ...Corto. |</p>
+<p>| 0x3D | オレ ハ SHOOT GUNNER ダ!! / ココカラ ダッソウ デキタモノ ハ イナイ! | I&#x27;M SHOOT GUNNER! / NOBODY HAS / EVER BEEN ABLE TO ESCAPE FROM HERE. | ¡¡Yo soy Shoot Gunner!! / ¡De aquí no ha escapado nadie! |</p>
+<p>| 0x3E | ブキ、ソウビ ヲ トリカエシタ!! | I TOOK BACK THE WEAPONS AND EQUIPMENTS. | ¡¡Has recuperado las armas y el equipo!! |</p>
+<p>| 0x3F | カード 3 ヲ ニュウシュ シタ。 | <em>(vacío)</em> | Has conseguido la tarjeta 3. |</p>
+<p>| 0x40 | コチラ SCHNEIDER ・・・ / カベ ヲ タタイテ、 オト ガ チガウ トコロ ヲ バクハ スルト イイ。 ・・・ OVER | THIS IS MR.SCHNEIDER... / YOU SHOULD KNOCK THE WALL AND BLAST IT WHICH SOUNDS IRREGULARLY. ...OVER | Aquí Schneider... / Golpea las paredes y vuela con explosivos donde suenen distinto. ...Corto. |</p>
+<p>| 0x41 | ボデイー・アーマー ヲ ニュウシュ シタ。 | <em>(vacío)</em> | Has conseguido el chaleco antibalas. |</p>
+<p>| 0x42 | コチラ BIG BOSS ・・・ ボデイー・アーマー ? オトコ ナラ ツカウナ! ・・・ OVER | <em>(vacío)</em> | Aquí Big Boss... ¿Un chaleco antibalas? ¡Un hombre de verdad no lo usa! ...Corto. |</p>
+<p>| 0x43 | ボム・ブラスト・スーツ ヲ ニュウシュ シタ。 | <em>(vacío)</em> | Has conseguido el traje antiexplosiones. |</p>
+<p>| 0x44 | コチラ BIG BOSS ・・・ ボム・ブラスト・スーツ ? バクフウ ヤ カゼ ニ ツヨイ。 ・・・ OVER | <em>(vacío)</em> | Aquí Big Boss... ¿El traje antiexplosiones? Aguanta las explosiones y el viento. ...Corto. |</p>
+<p>| 0x45 | プラスチック・バクダン ヲ ニュウシュ シタ。 | <em>(vacío)</em> | Has conseguido explosivo plástico. |</p>
+<p>| 0x46 | コチラ BIG BOSS ・・・ プラスチック・バクダン ? ドコ ニ デモ セット デキル、 バクダン ダ。 ・・・ OVER | <em>(vacío)</em> | Aquí Big Boss... ¿Explosivo plástico? Es una bomba que se puede colocar en cualquier sitio. ...Corto. |</p>
+<p>| 0x47 | テキ ノ ユニホーム ヲ ニュウシュ シタ。 | <em>(vacío)</em> | Has conseguido el uniforme enemigo. |</p>
+<p>| 0x48 | コチラ BIG BOSS ・・・ テキ ノ ユニホーム ? セーラー・フク カ? ・・・ OVER | <em>(vacío)</em> | Aquí Big Boss... ¿El uniforme enemigo? ¿Un traje de marinero? ...Corto. |</p>
+<p>| 0x49 | <em>(vacío en las dos)</em> | <em>(vacío en las dos)</em> | |</p>
+<p>| 0x4A | <em>(vacío en las dos)</em> | <em>(vacío en las dos)</em> | |</p>
+<p>| 0x4B | セキガイセン ゴーグル ヲ ニュウシュ シタ。 | <em>(vacío)</em> | Has conseguido las gafas de infrarrojos. |</p>
+<p>| 0x4C | コチラ BIG BOSS ・・・ セキガイセン ゴーグル ? セキガイセン センサー ガ ミエル ヨウニ ナル。 ・・・ OVER | <em>(vacío)</em> | Aquí Big Boss... ¿Las gafas de infrarrojos? Con ellas se ven los sensores de infrarrojos. ...Corto. |</p>
+<p>| 0x4D | タスカッタ! / ナカニワ ヘ イクニハ オクジョウ カラ、パラシュート コウカ スルシカ ナイ。 | RESCUED! / THE ONLY WAY TO REACH THE COURTYARD IS BY PARACHUTE. | ¡Me has salvado! / Para llegar al patio no hay más remedio que bajar en paracaídas desde la azotea. |</p>
+<p>| 0x4E | タスカッタ! DR・PETTROVICH ハ ナカニワ ノ ドクボウ ニ イル。 | RESCUED! / DR.PETTROVICH IS CONFINED TO / A SOLITARY CELL IN THE COURTYARD. | ¡Me has salvado! El Dr. Pettrovich está en la celda del patio. |</p>
+<p>| 0x4F | オレ ハ MACHINEGUN KID !! コノサキ ハ トオサン! | I&#x27;M MACHINE GUN KID! / I&#x27;LL NEVER LET YOU GO AHEAD!! | ¡¡Yo soy Machinegun Kid!! ¡De aquí no pasas! |</p>
+<p>| 0x50 | ハーイ。コチラ DIANE ・・・ / MACHINEGUN KID ハ リモコン・ミサイル ニ ヨワイ ハズ ヨ。 ・・・ BYE | HELLO! THIS IS DIANE... MACHINE GUN KID MUST BE KILLED BY REMOTE-CONTROL MISSILE. ...OVER | Hola. Aquí Diane... / Machinegun Kid tiene que ser débil al misil teledirigido. ...Adiós. |</p>
+<p>| 0x51 | パラシュート ヲ ニュウシュ シタ。 | <em>(vacío)</em> | Has conseguido el paracaídas. |</p>
+<p>| 0x52 | コチラ BIG BOSS ・・・ パラシュート ? コウカ マエ ニ セット シロ。 ・・・ OVER | <em>(vacío)</em> | Aquí Big Boss... ¿El paracaídas? Póntelo antes de saltar. ...Corto. |</p>
+<p>| 0x53 | コチラ SCHNEIDER ・・・ パラシュート ハ 2F ニ アル。 ・・・ OVER | THIS IS MR.SCHNEIDER... YOU CAN GET THE PARACHUTE ON THE 2ND FLOOR. ...OVER | Aquí Schneider... El paracaídas está en la planta 2. ...Corto. |</p>
+<p>| 0x54 | タスカッタ! パラシュート ガ アレバ サク ノ キレメ カラ、コウカ デキル 。 | RESCUED | ¡Me has salvado! Con el paracaídas puedes saltar por el hueco de la valla. |</p>
+<p>| 0x55 | ジライ タンチキ ヲ ニュウシュ シタ。 | <em>(vacío)</em> | Has conseguido el detector de minas. |</p>
+<p>| 0x56 | コチラ BIG BOSS ・・・ ジライ タンチキ ? ジライ ノ イチ ガ ワカル。 ・・・ OVER | <em>(vacío)</em> | Aquí Big Boss... ¿El detector de minas? Te dice dónde están las minas. ...Corto. |</p>
+<p>| 0x57 | コチラ レジスタンス リーダー SCHNEIDER ・・・ ジライ タンチキ ハ オクジョウ ニ アル。・・・ OVER | <em>(vacío)</em> | Aquí el líder de la resistencia, Schneider... El detector de minas está en la azotea. ...Corto. |</p>
+<p>| 0x58 | ハーイ。コチラ DIANE ・・・ HIND D ハ グレネード・ランチャー デ タオセルワ。 ・・・ BYE | HELLO! THIS IS DIANE... HIND-D MUST BE DESTOROYED BY GRENADE LAUNCHER. ...BYE | Hola. Aquí Diane... Al Hind D se le derriba con el lanzagranadas. ...Adiós. |</p>
+<p>| 0x59 | DR・PETTROVICH ・・・ オソカッタカ・・・ | ...DR.PETTROVICH. IT&#x27;S TOO LATE. | Dr. Pettrovich... ¿He llegado tarde?... |</p>
+<p>| 0x5A | タスカッタ! / DR・PETTROVICH ハ ヒトアシサキ ニ ビル 2 ヘ ウツサレタ。 / ビル 2 ハ ココカラ キタ ヘ 10 キロ ノ トコロ ニ アル。 | RESCUED! / DR.PETTROVICH WAS QUICKLY MOVED TO BUILDING NO.2. / BUILDING NO.2 LIES 10KM TO THE NORTH FROM HERE. | ¡Me has salvado! / Al Dr. Pettrovich se lo han llevado al edificio 2 justo antes de que llegaras. / El edificio 2 está 10 km al norte de aquí. |</p>
+<p>| 0x5B | シマッタ! トラック ガ ウゴキダシタ!! | I GOOFED!! THE LORRY STARTED TO MOVE! | ¡Maldita sea! ¡¡El camión se ha puesto en marcha!! |</p>
+<p>| 0x5C | ハーイ。コチラ DIANE ・・・ TANK ハ ジライ デ タオセルワ。 ・・・ BYE | HELLO! THIS IS DIANE... DESTOROY THE TANK WITH THE LAND MINE. ...BYE | Hola. Aquí Diane... Al tanque se le derriba con minas. ...Adiós. |</p>
+<p>| 0x5D | コチラ BIG BOSS ・・・ ケンモン ダ。 テキ ノ ユニホーム ヲ キテ、センニュウ セヨ! / ココカラ ノ レンラク ハ シュウハスウ 12013 デ オコナウ。 ・・・ OVER | THIS IS BIG BOSS... CHECK POINT! / PUT ON AN ENEMY&#x27;S UNIFORM AND GAIN ACCESS. / WILL USE WAVEBAND 12013 FOR FUTURE CONTACT. ...OVER | Aquí Big Boss... Es un puesto de control. ¡Ponte el uniforme enemigo e infíltrate! / Desde aquí el contacto será en la frecuencia 12013. ...Corto. |</p>
+<p>| 0x5E | コチラ レジスタンス リーダー SCHNEIDER ・・・ テキ ノ ユニホーム ハ ビル 1 ノ チカ ニ アル。 / ココカラ ノ レンラク ハ シュウハスウ 12026 ニ ヘンコウ スル。 ・・・ OVER | THIS IS MR.SCHNEIDER... / ENEMY&#x27;S UNIFORM IS AVAILABLE IN THE BASEMENT OF BUILDING NO.1. / WILL CONTACT IN THE BAND OF 12026 FROM NOW ON. ...OVER | Aquí el líder de la resistencia, Schneider... El uniforme enemigo está en el sótano del edificio 1. / Desde aquí cambio el contacto a la frecuencia 12026. ...Corto. |</p>
+<p>| 0x5F | ハーイ。コチラ DIANE ・・・ ココカラ ノ レンラク ハ シュウハスウ 12091 ニ ヘンコウ スルワ。 マタ ヨンデネ。 ・・・ BYE | HELLO! THIS IS DIANE... WILL CONTACT ON WAVEBAND 12091 FROM NOW ON. / ...BYE | Hola. Aquí Diane... Desde aquí cambio el contacto a la frecuencia 12091. Vuelve a llamarme. ...Adiós. |</p>
+<p>| 0x60 | フラッシュ・ライト ヲ ニュウシュ シタ。 | <em>(vacío)</em> | Has conseguido la linterna. |</p>
+<p>| 0x61 | コチラ BIG BOSS ・・・ フラッシュ・ライト ? ツカイカタ ハ ワカッテイルナ 。 ・・・ OVER | <em>(vacío)</em> | Aquí Big Boss... ¿La linterna? Ya sabes cómo se usa. ...Corto. |</p>
+<p>| 0x62 | アンテナ ヲ ニュウシュ シタ。 | <em>(vacío)</em> | Has conseguido la antena. |</p>
+<p>| 0x63 | コチラ BIG BOSS ・・・ ボウガイ デンパ ガ デテイタ ガ、 コレデ ダイジョウブ ダ。 ・・・ OVER | THIS IS BIG BOSS... IT WAS JAMMING,BUT... OK NOW. ...OVER | Aquí Big Boss... Había interferencias, pero con esto ya está. ...Corto. |</p>
+<p>| 0x64 | コチラ SCHNEIDER ・・・ キタ エレベーター ハ ウエ ニ シカ イドウ シナイ。 ・・・ OVER | <em>(vacío)</em> | Aquí Schneider... El ascensor norte solo sube. ...Corto. |</p>
+<p>| 0x65 | タスカッタ! DR・PETTROVICH ハ チカロウ ニ イル。 | RESCUED! / DR.PETTROVICH IS CONFINED IN THE BASEMENT. | ¡Me has salvado! El Dr. Pettrovich está en la mazmorra del sótano. |</p>
+<p>| 0x66 | <em>(vacío en las dos)</em> | <em>(vacío en las dos)</em> | |</p>
+<p>| 0x67 | カード 5 ヲ ニュウシュ シタ。 | <em>(vacío)</em> | Has conseguido la tarjeta 5. |</p>
+<p>| 0x68 | <em>(vacío en las dos)</em> | <em>(vacío en las dos)</em> | |</p>
+<p>| 0x69 | コチラ SCHNEIDER ・・・ ミナミ エレベーター ハ シタ ニ シカ イドウ シナイ。 ・・・ OVER | <em>(vacío)</em> | Aquí Schneider... El ascensor sur solo baja. ...Corto. |</p>
+<p>| 0x6A | コチラ SCHNEIDER ・・・ コノ サキ ハ ガス チタイダ。 ・・・ OVER | THIS IS MR.SCHNEIDER... LEAD YOU TO THE GAS ROOM! ...OVER | Aquí Schneider... Más adelante hay una zona de gas. ...Corto. |</p>
+<p>| 0x6B | タスカッタ! / コノ フロア カラ ダッシュツ スル ニハ キタ エレベーター ヲ サガス シカナイ! | RESCUED | ¡Me has salvado! / Para salir de esta planta no hay más remedio que encontrar el ascensor norte. |</p>
+<p>| 0x6C | オレ ハ FIRE TROOPER !! マルヤキ ニ シテヤル!! | I&#x27;M FIRE TROOPER! / I WILL / BURN YOU ALIVE! | ¡¡Yo soy Fire Trooper!! ¡¡Te voy a asar vivo!! |</p>
+<p>| 0x6D | ワナ ニ ハマッタナ! / ホンモノ ノ DR・PETTROVICH ハ 2F ニ イル・・・ / シネ!! FOX HOUNDER ! | YOU ARE CAUGHT IN A TRAP. / IN FACT, / WE HAVE CONFINED DR.PETTROVICH ON THE SECOND FLOOR. / I WILL GET YOU FOX HOUNDER! | ¡Has caído en la trampa! / El verdadero Dr. Pettrovich está en la planta 2... / ¡¡Muere, Fox Hounder!! |</p>
+<p>| 0x6E | カード 6 ヲ ニュウシュ シタ。 | <em>(vacío)</em> | Has conseguido la tarjeta 6. |</p>
+<p>| 0x6F | コチラ SCHNEIDER ・・・ コノ サキ ニ キタ エレベーター ガ アル。 ・・・ OVER | <em>(vacío)</em> | Aquí Schneider... Más adelante está el ascensor norte. ...Corto. |</p>
+<p>| 0x70 | コチラ SCHNEIDER ・・・ フラッシュ・ライト ハ 1F ニ アル。 ・・・ OVER | THIS IS MR.SCHNEIDER... THE FLASH LIGHT CAN BE FOUND ON THE 1ST FLOOR. ...OVER | Aquí Schneider... La linterna está en la planta 1. ...Corto. |</p>
+<p>| 0x71 | ハーイ。コチラ DIANE 。ゲンキ? オトシアナ ニ チュウイ シテ! ・・・ BYE | HELLO! THIS IS DIANE... PLEASE TAKE CARE, THERE MAY BE A PITFALL. ...BYE | Hola. Aquí Diane... ¿Qué tal? ¡Cuidado con los fosos! ...Adiós. |</p>
+<p>| 0x72 | ハーイ。コチラ DIANE ・・・ トビラ ヲ マモッテ イル ARNOLD ハ フジミ ダワ! ニゲテ!! | HELLO! THIS IS DIANE... THE DOORKEEPER, MR.ARNOLD IS INVINCIBLE! ESCAPE! | Hola. Aquí Diane... ¡Arnold, el que guarda la puerta, es inmortal! ¡¡Huye!! |</p>
+<p>| 0x73 | タスカッタ! サバク ヲ ワタル ニハ コンパス ガ ヒツヨウダ。 | RESCUED! / YOU MUST HAVE A COMPASS TO CROSS THE DESERT. | ¡Me has salvado! Para cruzar el desierto hace falta una brújula. |</p>
+<p>| 0x74 | タスカッタ! / シュウハスウ 12048 デ レジスタンス ノ JENNIFER ト レンラク ガ トレルハズダ。 / JENNIFER ハ ジカ ニ サポート シテクレル。 / シカシ、プライド ガ タカイ。 / ツネ ニ、サイコウ カイキュウ デ ナイト オウトウ シテクレ ナイ ダロウ。 | RESCUED! / YOU MIGHT BE ABLE TO CONTACT JENNIFER OF RESISTANCE ON / WAVEBAND 12048. / BUT SHE IS PROUD, AND WOULDN&#x27;T ANSWER, / IF YOU WERE NOT THE EXECUTIVE. | ¡Me has salvado! / En la frecuencia 12048 podrás hablar con Jennifer, de la resistencia. / Jennifer te ayudará desde dentro. / Pero es muy orgullosa. / Seguramente no te responderá si no tienes el rango más alto. |</p>
+<p>| 0x75 | コチラ JENNIFER ・・・ ロケット・ランチャー ヲ ヨウイ スルワ。 トリ ニ キテ。 ・・・ OVER | THIS IS JENNIFER... WILL ARRANGE A ROCKET LAUNCHER. / COME FOR A ROCKET LAUNCHER! ...OVER | Aquí Jennifer... Te preparo un lanzacohetes. Ven a por él. ...Corto. |</p>
+<p>| 0x76 | コチラ JENNIFER ・・・ イマカラ トビラ ヲ アケルワ。 ・・・ OVER | THIS IS JENNIFER... WILL OPEN THE DOOR. ...OVER | Aquí Jennifer... Ahora te abro la puerta. ...Corto. |</p>
+<p>| 0x77 | ロケット・ランチャー ヲ ニュウシュ シタ。 | <em>(vacío)</em> | Has conseguido el lanzacohetes. |</p>
+<p>| 0x78 | コンパス ヲ ニュウシュ シタ。 | <em>(vacío)</em> | Has conseguido la brújula. |</p>
+<p>| 0x79 | ゲドクザイ ヲ ニュウシュ シタ。 | <em>(vacío)</em> | Has conseguido el antídoto. |</p>
+<p>| 0x7A | コチラ SCHNEIDER ・・・ コンパス ハ 2F ニ アル。 ・・・ OVER | THIS IS MR.SCHNEIDER... THE COMPASS CAN BE FOUND ON THE 2ND FLOOR. ...OVER | Aquí Schneider... La brújula está en la planta 2. ...Corto. |</p>
+<p>| 0x7B | タスカッタ! スイコウ ノ オク ガ ビル 3 ニツナガッテ イル。 | RESCUED! / THE DITCH WILL LEAD YOU TO THE NO.3 BUILDING. | ¡Me has salvado! El fondo del canal conecta con el edificio 3. |</p>
+<p>| 0x7C | ワタシ ハ DR・PETTROVICH ダ。 ムスメ ノ ELEN ガ ヒトジチ ニ ナッテイル。 / ELEN ヲ タスケテ クレナケレバ、 METAL GEAR ニ ツイテ、ハナスコト ハ デキナイ。 / ELEN ハ ビル 1 ノ チカ ニ カンキン サレテイル。 タスケテ クレ。 | I&#x27;M DR.PETTROVICH. / MY DAUGHTER ELLEN WAS TAKEN AS HOSTAGE. / SAVE ELLEN OR,I WON&#x27;T DISCUSS METAL GEAR. | Soy el Dr. Pettrovich. Tienen a mi hija Elen de rehén. / Si no la salvas, no puedo hablarte de Metal Gear. / Elen está encerrada en el sótano del edificio 1. Sálvala, por favor. |</p>
+<p>| 0x7D | ワタシ ハ DR・PETTROVICH ダ。 / METAL GEAR ハ コノ ビル カラ キタ ニ 20キロ ノ トコロ ニアル、 ビル 3 ノ チカ 100カイ ニ アル。 / METAL GEAR ノ ハカイ ホウホウ ハ ヒトツ。 ソウコウ ノ ウスイ キャクブ ニ プラスチック・バクダン セット スル。 / ジュンバン ハ R、R、L、 R、L、L、R、L、 L、R、R、L、R、 L、R、・・・ アト ハ ワスレテシマッタ! / トニカク、 16コ セット スルノダ。 / ビル 2 ヲ デル トビラ ノ カード ハ ARNOLD ガ モッテイル。ARNOLD ハ ロケット・ランチャー ニ ヨワイ! / コウウン ヲ イノル・・・ | I&#x27;M DR.PETTROVICH. / METAL GEAR IS IN 100TH BASEMENT OF BUILDING NO.3, / 20KM TO THE NORTH OF HERE. / METAL GEAR CAN BE DESTOROYED IN ONLY ONE WAY. / ATTACH PLASTIC BOMB TO THE FOOT OF METAL GEAR. / R,R,L,R,L,L,R,L,L, R,R,L,R,L,R,... IN ORDER. / I FORGOT THE REMAINDER. / ANYWAY, / SET 16 UNITS. / YOU CAN NOT, DESTOROY / IF YOU COMMIT AN ERROR IN THE ORDER. / MR.ARNOLD HAS AN I.D. CARD / TO GET OUT OF BUILDING NO.2. / YOU SHOULD USE A ROCKET LAUNCHER TO KILL MR.ARNOLD. | Soy el Dr. Pettrovich. / Metal Gear está en el sótano 100 del edificio 3, a 20 km al norte de este edificio. / Solo hay una forma de destruir Metal Gear: colocar explosivo plástico en las patas, donde el blindaje es más fino. / El orden es R, R, L, R, L, L, R, L, L, R, R, L, R, L, R... ¡El resto lo he olvidado! / En cualquier caso, hay que colocar 16. / La tarjeta de la puerta para salir del edificio 2 la tiene Arnold. ¡Arnold es débil al lanzacohetes! / Te deseo suerte... |</p>
+<p>| 0x7E | コチラ SCHNEIDER ・・・ ビル 1 ニハ、チカ ノ ナンセイ カラ ヒミツ ノ チカツウロ ガ レンラク シテイル。 ・・・ OVER | THIS IS MR.SCHNEIDER... SECRET SUBWAY FROM THE SOUTHEAST LEADS YOU TO NO.1 BUILDING. ...OVER | Aquí Schneider... Al edificio 1 llega un pasadizo subterráneo secreto desde el suroeste del sótano. ...Corto. |</p>
+<p>| 0x7F | ヨシ、ハイレ! | COME IN | ¡Bien, pasa! |</p>
+<p>| 0x80 | タスケテ! | HELP ME | ¡Socorro! |</p>
+<p>| 0x81 | アリガトウ・・・ ワタシ ハ DR・PETTROVICH ノ ムスメ、 ELEN 。 / チチ ハ キョウハク サレテ、 METAL GEAR ヲ ツクラサレテ イルノ。 ハヤク チチ ヲ タスケテ クダサイ。 | THANK YOU. / I&#x27;M THE DAUGHTER OF DR.PETTROVICH, ELLEN. / MY FATHER WAS FORCED TO DEVELOP METAL GEAR. / PLEASE HELP MY FATHER URGENTLY. | Gracias... Soy Elen, la hija del Dr. Pettrovich. / A mi padre lo tienen amenazado y lo obligan a construir Metal Gear. Salva a mi padre, deprisa, por favor. |</p>
+<p>| 0x82 | ハーイ。コチラ DIANE ・・・ サソリ ノ ドク ハ ゲドクザイ ヲ ツカウ ト イイワ。 ・・・ BYE | HELLO! THIS IS DIANE... AN ANTIDOTE IS GOOD FOR THE POISON OF A SCORPION. ...BYE | Hola. Aquí Diane... Para el veneno de escorpión, usa el antídoto. ...Adiós. |</p>
+<p>| 0x83 | タスカッタ! | RESCUED | ¡Me has salvado! |</p>
+<p>| 0x84 | コチラ BIG BOSS ・・・ ヒダリ ノ トビラ ヘ ハイレ! ・・・ OVER | THIS IS BIG BOSS... ENTER THE LEFT DOOR. ...OVER | Aquí Big Boss... ¡Entra por la puerta de la izquierda! ...Corto. |</p>
+<p>| 0x85 | コチラ BIG BOSS ・・・ ミギ ハシ ノ トラック ヘ ハイレ! ・・・ OVER | THIS IS BIG BOSS... CREEP INTO THE LORRY ON THE RIGHT SIDE. ...OVER | Aquí Big Boss... ¡Métete en el camión del extremo derecho! ...Corto. |</p>
+<p>| 0x86 | コチラ JENNIFER ・・・ カベ ヲ ハカイ スルノヨ!! ・・・ OVER | THIS IS JENNIFER... YOU SHOULD BREAK DOWN THE WALL. ...OVER | Aquí Jennifer... ¡¡Destruye la pared!! ...Corto. |</p>
+<p>| 0x87 | コチラ JENNIFER ! カベ ノ ムコウ ニ サンソボンベ ガ アルハズ!! ・・・ OVER | THIS IS JENNIFER... THERE IS AN OXYGEN CYLINDER BEYOND THE WALL. ...OVER | ¡Aquí Jennifer! ¡¡Detrás de la pared tiene que haber una bombona de oxígeno!! ...Corto. |</p>
+<p>| 0x88 | コチラ BIG BOSS ・・・ SOLID SNAKE ! サクセン チュウシ ダ! タダチ ニ キカン セヨ。 / コレハ メイレイ ダ!! MSX ノ デンゲン ヲ キレ!! ・・・ OVER | THIS IS BIG BOSS... SOLID SNAKE! STOP THE OPERATION. SWITCH OFF YOUR MSX AT ONCE. / THIS IS THE COMMAND. ...OVER | Aquí Big Boss... ¡Solid Snake! ¡Se suspende la operación! Regresa de inmediato. / ¡¡Es una orden!! ¡¡Apaga el MSX!! ...Corto. |</p>
+<p>| 0x89 | コチラ JENNIFER ! / コノサキ ノ トビラ ヲ アケル カード ハビル 3 ノ ヒガシガワ ニ アルワ。 ソコ ハ ビル 2 ノ スイコウ ト ツナガッテ イルノヨ。 ・・・ BYE | THIS IS JENNIFER... A CARD WHICH OPEN THE NEXT DOOR LIES IN THE EAST OF BUILDING 3. / THE EASTERN SIDE LEADS TO THE DITCH OF BUILDING 2. ...OVER | ¡Aquí Jennifer! / La tarjeta de la puerta de más adelante está en el lado este del edificio 3. Ese sitio conecta con el canal del edificio 2. ...Adiós. |</p>
+<p>| 0x8A | コチラ SCHNEIDER ・・・ OUTER HEAVEN ノ ボス ノ ショウタイ ガ ワカッタゾ! / ナント・・・ OUTER HEAVEN ノ ボス ハ・・・ / ・・・ ワー!! ・・・ | THIS IS MR.SCHNEIDER... I HAVE DISCOVERED WHO THE BOSS OF OUTER HEAVEN IS. / THE BOSS IS.... / OH NO!! WHA.A....... | Aquí Schneider... ¡He descubierto quién es el jefe de Outer Heaven! / Nada menos que... el jefe de Outer Heaven es... / ...¡¡Aaah!!... |</p>
+<p>| 0x8B | オレ ハ COWARD DUCK ! / ウテルモノ ナラ ウッテミロ!! | I&#x27;M COWARD DUCK! / YOU CAN&#x27;T / SHOOT ME, / CAN YOU? | ¡Yo soy Coward Duck! / ¡¡Dispara si te atreves!! |</p>
+<p>| 0x8C | タスカッタ! / ワタシ ハ JENNIFER ノ / アニ ダ。 / ダッシュツ スルトキ ハ ヒダリハシ / ノ ハシゴ ヲ ノボレ!! | RESCUED! / I&#x27;M A BROTHER OF / JENNIFER. / CLIMB THE LEFT / LADDER / WHEN ESCAPING. | ¡Me has salvado! / Soy / el hermano de Jennifer. / ¡¡Para escapar, sube por la escalera del extremo izquierdo!! |</p>
+<p>| 0x8D | ハーイ。コチラ DIANE ! ミカタ ヲ コロサズ、タオス ホウホウ ハ ハンドガン シカ ナイワ。 ・・・ BYE | HELLO! THIS IS DIANE... / USE THE HAND GUN TO CAPTURE THE PRISONERS, NOT TO KILL THEM. ...BYE | ¡Hola, aquí Diane! Para abatirlo sin matar a los nuestros solo te sirve la pistola. ...Adiós. |</p>
+<p>| 0x8E | コチラ JENNIFER ・・・ カード 8 ハ COWARD DUCK ガ モッテイルワ。 / ホリョ ノ ナカニ ワタシ ノ アニ ガ イルノ! コロサナイデ・・・ / アニ ニ ナニカ アッタラ、 モウ、キョウリョク シナイワ! | THIS IS JENNIFER... COWARD DUCK HAS CARD 8. / MY BROTHER IS AMONG THE CAPTIVES. PLEASE DON&#x27;T KILL THEM. ...OVER | Aquí Jennifer... La tarjeta 8 la tiene Coward Duck. / ¡Entre los prisioneros está mi hermano! No lo mates... / ¡Si le pasa algo a mi hermano, no te ayudo más! |</p>
+<p>| 0x8F | カード 8ヲ ニュウシュ シタ。 | <em>(vacío)</em> | Has conseguido la tarjeta 8. |</p>
+<p>| 0x90 | タスカッタ! / OUTER HEAVEN ノ ボス ハ / FOX HOUNDER ソウシレイカン 、BIG BOSS ダ! / ナニモカモ ヤツ ノ シワザ ダ!! ダマサレルナ!! | RESCUED! / BOSS OF OUTER HEAVEN IS BIG BOSS, / GENERAL COMMANDANT OF FOX HOUND. / EVERYTHING IS DONE BY HIM. | ¡Me has salvado! / El jefe de Outer Heaven es... / ¡el comandante de Fox Hound, Big Boss! / ¡¡Todo es obra suya!! ¡¡No te dejes engañar!! |</p>
+<p>| 0x91 | コチラ JENNIFER !! ヒダリ ノ カベ ヲ コワスノヨ! ・・・ OVER | <em>(vacío)</em> | ¡¡Aquí Jennifer!! ¡Rompe la pared de la izquierda! ...Corto. |</p>
+<p>| 0x92 | コチラ JENNIFER ! イッキ ニ ハシルシカ、ナイワ! レーション ガ アレバ ダイジョウブヨ。 ・・・ OVER | THIS IS JENNIFER... YOU MUST RUN FAST. ...OVER | ¡Aquí Jennifer! ¡No queda otra que cruzar corriendo de un tirón! Si llevas raciones, no pasará nada. ...Corto. |</p>
+<p>| 0x93 | SOLID SNAKE ! ヨク ココマデ キタナ!・・・ / ・・・ ワタシ ガ FOX HOUNDER ソウシレイカン 、ソシテ、 / コノ ヨウサイ 、 OUTER HEAVEN ノ ボス、BIG BOSS ダ!! / シンイリ デアル、オマエ ニ コノ ニンム ヲ アタエタ ノモ、ウソ ノ ジョウホウ ヲ モチカエラセルタメダッタ・・・ / シカシ、 オマエ ハ ヤリスギタ。 ヤリスギタノダ! / SOLID SNAKE ! / ワタシ ハ タダデ ハ シナナイ。 ミチヅレ ニ シテヤル!! / カカッテ コイ! | SOLID SNAKE! YOU&#x27;VE FINALLY COME HERE. / YEAH,I&#x27;M BIG BOSS GENERAL COMMANDANT OF FOX HOUND. / AND IN CHARGE OF THIS FORTRESS, OUTER HEAVEN. / I GAVE YOU INSTRUCTIONS TO BRING BACK / FALSE INFORMATION OF METAL GEAR. / HOWEVER, YOU ACCOMPLISHED TOO MUCH. / YOU HAVE COMPLETELY SMASHED MY AMBITIONS. / SOLID SNAKE!! / I WILL NOT DIE ALONE. / YOU WILL JOIN ME. | ¡Solid Snake! Has llegado lejos... / ...Yo soy el comandante de Fox Hound y, además, / el jefe de esta fortaleza, Outer Heaven: ¡¡Big Boss!! / Si te di esta misión a ti, un novato, fue para que volvieras con información falsa... / Pero / has ido demasiado lejos. ¡Has ido demasiado lejos! / ¡Solid Snake! / No moriré sin más. ¡¡Te llevaré conmigo!! / ¡Ven a por mí! |</p>
+<p>| 0x94 | コチラ JENNIFER ! タバコ ヲ ツカウ ト タイマー ガ フエルワ。 イキテ カエッテネ! SOLID SNAKE ・・・ | THIS IS JENNIFER... YOU CAN EXTEND THE TIME LIMIT BY USING A CIGARETTE. / PLEASE RETURN IN SAFETY, SOLID SNAKE! | ¡Aquí Jennifer! Si usas el tabaco, el temporizador aumenta. ¡Vuelve vivo! Solid Snake... |</p>
+<p>| 0x95 | コチラ DIANE ! BIG BOSS ヲ タオス ホウホウ ハ シラナイワ・・・ ソレ ハ アナタ シダイ! SOLID SNAKE ! / ・・・ ワタシ・・・ アナタ ノ コト・・・ イエ、ナンデモ ナイワ・・・ ゴブジ デ・・・ | THIS IS DIANE... I DON&#x27;T KNOW HOW TO DEFEAT BIG BOSS. IT ALL DEPENDS ON YOU. SOLID SNAKE! / I LOVE.... NO,IT WAS A MERE NOTHING! GOOD LUCK!! | ¡Aquí Diane! No sé cómo derrotar a Big Boss... ¡Eso depende de ti, Solid Snake! / ...Yo... tú... No, no es nada... Cuídate... |</p>
+<p>| 0x96 | キンキュウ ジタイ!! / キンキュウ ジタイ!! / OUTER HEAVEN ノ バクハ スイッチ ガ、サドウ シマシタ! / タダチ ニ ダッシュツ カツドウ ヲ オコナッテ クダサイ! | EMERGENCY!! / EMERGENCY!! / THE SELF-DESTRUCTION SWITCH OF / OUTER HEAVEN HAS BEEN ACTIVATED. / ESCAPE QUICKLY!! | ¡¡Emergencia!! / ¡¡Emergencia!! / ¡Se ha activado el detonador de Outer Heaven! / ¡Evacúen de inmediato! |</p>
+<p>| 0x97 | ガスマスク ヲ ニュウシュ シタ。 | <em>(vacío)</em> | Has conseguido la máscara antigás. |</p>
+<p>| 0x98 | サンソボンベ ヲ ニュウシュ シタ。 | <em>(vacío)</em> | Has conseguido la bombona de oxígeno. |</p>
+<p>| 0x99 | カード 7 ヲ ニュウシュ シタ。 | <em>(vacío)</em> | Has conseguido la tarjeta 7. |</p>
+<p>| 0x9A | コチラ BIG BOSS ・・・ ガスマスク ? ガスチタイ デ ツカウノダ。 ・・・ OVER | <em>(vacío)</em> | Aquí Big Boss... ¿La máscara antigás? Úsala en la zona de gas. ...Corto. |</p>
+<p>| 0x9B | コチラ SOLID SNAKE ・・・ METAL GEAR ハカイ ニ セイコウ。 OPERATION INTRUDE N313 カンリョウ シタ! / ナニモカモ オワッタ・・・ ナニモカモ・・・ / タダイマ カラ キカンスル。 ・・・ OVER | THIS IS SOLID SNAKE... METAL GEAR&#x27;S DESTRUCTION IS A SUCCESS. / OPERATION INTRUDE N313 FINISHED!... / EVERYTHING IS FINISHED. / I WILL GO BACK NOW. ...OVER | Aquí Solid Snake... Metal Gear destruido. Operación Intrude N313 completada. / Todo ha terminado... Todo... / Regreso ahora mismo. ...Corto. |</p>
+<p>| 0x9C | ハーイ。コチラ DIANE ・・・ カレラ ハ サイレンサー ヲ モッテイルワ。 ・・・ OVER | HELLO! THIS IS DIANE... I SUPPOSE THEY HAVE A SILENCER. ...BYE | Hola. Aquí Diane... Ellos tienen el silenciador. ...Corto. |</p>
+<p>| 0x9D | コチラ STEVE・・・ DIANE ? DIANE ナラ、カイモノ ニ イッタ ママ、カエッテ イナイ ケド・・・ | <em>(vacío)</em> | Aquí Steve... ¿Diane? Diane salió de compras y todavía no ha vuelto... |</p>
+<p>| 0x9E | コチラ STEVE・・・ DIANE ? DIANE ナラ イマ、シャワー ヲ アビテイルケド・・・ | <em>(vacío)</em> | Aquí Steve... ¿Diane? Diane está ahora en la ducha... |</p>
+<p>| 0x9F | コチラ STEVE・・・ DIANE ? マタ オマエ カ! / モウ、DIANE ニハ チカヅカナイデ クレ!! | <em>(vacío)</em> | Aquí Steve... ¿Diane? ¡¿Otra vez tú?! / ¡¡No te acerques más a Diane!! |</p>
+<h2 id="las-armas-y-los-objetos-del-menu">Las armas y los objetos del menú</h2>
+<table><tr><th></th><th>Japonés (ROM)</th><th>Inglés (ROM)</th><th>Traducción</th></tr></table>
+<p>| arma 1 | ハンド ガン | HAND GUN | pistola |</p>
+<p>| arma 2 | サブマシンガン | SMG | subfusil |</p>
+<p>| arma 3 | グレネード | GRENADE | granada |</p>
+<p>| arma 4 | ロケットランチャー | ROCKET | lanzacohetes |</p>
+<p>| arma 5 | Pバクダン | P-BOMB | bomba P |</p>
+<p>| arma 6 | ジライ | L-MAIN | minas |</p>
+<p>| arma 7 | リモコンミサイル | MISSILE | misil teledirigido |</p>
+<p>| arma 8 | サイレンサー | SILENCER | silenciador |</p>
+<p>| objeto 1 | アーマー | ARMOR | chaleco |</p>
+<p>| objeto 2 | スーツ | SUIT | traje |</p>
+<p>| objeto 3 | ライト | LIGHT | linterna |</p>
+<p>| objeto 4 | ゴーグル | GOGGL | gafas |</p>
+<p>| objeto 5 | ガスマスク | MASK | máscara antigás |</p>
+<p>| objeto 6 | タバコ | CIGAL | tabaco |</p>
+<p>| objeto 7 | タンチキ | DETEC | detector |</p>
+<p>| objeto 8 | アンテナ | ANTEN | antena |</p>
+<p>| objeto 9 | ズーム | SCOPE | zoom |</p>
+<p>| objeto 10 | ボンベ | BOMBE | bombona |</p>
+<p>| objeto 11 | コンパス | COMPAS | brújula |</p>
+<p>| objeto 12 | ラッカサン | PARAC | paracaídas |</p>
+<p>| objeto 13 | ドクケシ | ANTID | antídoto |</p>
+<p>| objeto 14 | カード 1 | CARD1 | tarjeta 1 |</p>
+<p>| objeto 15 | カード 2 | CARD2 | tarjeta 2 |</p>
+<p>| objeto 16 | カード 3 | CARD3 | tarjeta 3 |</p>
+<p>| objeto 17 | カード 4 | CARD4 | tarjeta 4 |</p>
+<p>| objeto 18 | カード 5 | CARD5 | tarjeta 5 |</p>
+<p>| objeto 19 | カード 6 | CARD6 | tarjeta 6 |</p>
+<p>| objeto 20 | カード 7 | CARD7 | tarjeta 7 |</p>
+<p>| objeto 21 | カード 8 | CARD8 | tarjeta 8 |</p>
+<p>| objeto 22 | レーション | RATIO | ración |</p>
+<p>| objeto 23 | ハッシンキ | TRANS | transmisor |</p>
+<p>| objeto 24 | ユニホーム | UNIFO | uniforme |</p>
+<p>| objeto 25 | ダンボール | BOX | caja de cartón |</p>
+<h2 id="los-rotulos-iguales-en-las-dos">Los rótulos, iguales en las dos</h2>
+<ul><li><code>p00:5C1D</code> PAUSE</li><li><code>p01:6B48</code> RECV</li><li><code>p01:6B4F</code> SEND</li><li><code>p02:9262</code> ©KONAMI 1987 · PUSH SPACE KEY</li><li><code>p02:9282</code> PLAY START</li><li><code>p02:9293</code> GAME OVER · CONTINUE F5</li><li><code>p02:92AF</code> LIFE</li><li><code>p02:92B6</code> CLASS</li><li><code>p02:92BE</code> TELESCOPE MODE</li><li><code>p06:B805</code> WEAPON SELECT · OPTION</li><li><code>p06:B81F</code> EQUIPMENT SELECT</li><li><code>p06:B833</code> TRANSCEIVER · RECV</li><li><code>p15:BC9F</code> SAVE MODE · INPUT FILE NAME</li><li><code>p15:BCBD</code> LOAD MODE · INPUT FILE NAME</li><li><code>p15:BCDB</code> SAVING</li><li><code>p15:BCE4</code> SAVE ERROR</li><li><code>p15:BCF1</code> VERIFY ERROR</li><li><code>p15:BD00</code> VERIFY SUCCESS · RETRY?</li><li><code>p15:BD1A</code> VERIFY? · YES Y · NO N</li><li><code>p15:BD3B</code> ING</li><li><code>p15:BD41</code> SKIP</li><li><code>p15:BD48</code> FOUND</li><li><code>p15:BD52</code> LOAD ERROR</li></ul>
+<h2 id="como-sacarlos-otra-vez">Cómo sacarlos otra vez</h2>
+<p>Con las dos ROMs en la raíz del repositorio (<code>metalgear.rom</code> y <code>metalgear-jp.rom</code>, con los SHA-1 de arriba), <code>python3 tools/textos.py pagina</code> escribe esta página y su pareja en inglés; <code>python3 tools/textos.py tabla</code> saca la tabla de trabajo con el tipo de ventana de cada texto.</p>
+<footer><p><em>Metal Gear</em> lo public&oacute; Konami para MSX2 en 1987; su n&uacute;mero de cat&aacute;logo es RC-750 y son 128 KB. Todos los derechos sobre el juego siguen siendo de sus titulares. Este trabajo es de preservaci&oacute;n, estudio y documentaci&oacute;n, y la imagen del cartucho no se distribuye.</p></footer></div>
