@@ -59,7 +59,7 @@ CARD8, RATIO, TRANS, UNIFO and BOX. What each adds when picked up is at
 Each weapon and each item has its drawing in page 1 of the VRAM (`p06:B855`
 the weapons, `p06:B8C0` the items); the equipment window copies it with its
 name (`p00:47A6`), written here with the game's font as the ROM stores it
-(weapon 6 reads "L.MAIN", `p06:B89E`). The eight cards share one drawing. At
+(weapon 6 reads "L-MAIN", `p06:B898`). The eight cards share one drawing. At
 the end, the two alerts shown over the soldier who sees Snake (`p02:98B5`):
 "!", or "!!" if `0xC614` is not zero, and then reinforcements arrive every
 0x1E frames.

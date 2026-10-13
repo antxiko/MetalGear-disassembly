@@ -60,7 +60,7 @@ CARD8, RATIO, TRANS, UNIFO y BOX. Lo que suma cada uno al cogerlo está en
 Cada arma y cada objeto tiene su dibujo en la página 1 de la VRAM
 (`p06:B855` las armas, `p06:B8C0` los objetos); la ventana de equipo lo copia
 con su nombre (`p00:47A6`), aquí escrito con la fuente del juego tal como lo
-guarda la ROM (el arma 6 dice «L.MAIN», `p06:B89E`). Las ocho tarjetas
+guarda la ROM (el arma 6 dice «L-MAIN», `p06:B898`). Las ocho tarjetas
 comparten dibujo. Al final, los dos avisos que salen encima del soldado que
 ve a Snake (`p02:98B5`): «!», o «!!» si `0xC614` no es cero, y entonces
 llegan refuerzos cada 0x1E cuadros.

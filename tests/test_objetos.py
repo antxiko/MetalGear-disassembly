@@ -17,7 +17,7 @@ class Objetos(unittest.TestCase):
                          {(144, 112, 16, 16)})
 
     def test_la_rom_escribe_l_main(self):
-        # p06:B89E: 'L', el punto de la fuente (0x40) y MAIN
+        # p06:B898: 'L', la raya de la fuente (0x40) y MAIN
         self.assertEqual(bytes(O.nombre(6)), b"L@MAIN")
 
     def test_los_avisos_estan_enteros(self):
