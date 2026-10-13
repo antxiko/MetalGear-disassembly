@@ -1,0 +1,179 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>The music — Metal Gear (Konami, 1987)</title>
+<style>
+:root{--tinta:#cfd0d4;--suave:#83868f;--fondo:#000;--panel:#0c0e13;--linea:#23262e;
+  --rojo:#ff897d;--cyan:#65dbef;--verde:#3eb849;--oro:#ded087}
+@media (prefers-color-scheme:light){:root{--tinta:#191a1e;--suave:#5a5d66;--fondo:#e9e7e1;
+  --panel:#f7f6f2;--linea:#d0cdc5;--rojo:#b23f34;--cyan:#1c6b7c;--verde:#2b7734;--oro:#8a7420}}
+:root[data-theme="dark"]{--tinta:#cfd0d4;--suave:#83868f;--fondo:#000;--panel:#0c0e13;
+  --linea:#23262e;--rojo:#ff897d;--cyan:#65dbef;--verde:#3eb849;--oro:#ded087}
+:root[data-theme="light"]{--tinta:#191a1e;--suave:#5a5d66;--fondo:#e9e7e1;--panel:#f7f6f2;
+  --linea:#d0cdc5;--rojo:#b23f34;--cyan:#1c6b7c;--verde:#2b7734;--oro:#8a7420}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fondo);color:var(--tinta);padding:0 1.25rem 6rem;
+  font:15px/1.7 ui-monospace,"SF Mono",Menlo,Consolas,monospace}
+.w{max-width:1120px;margin:0 auto}
+.n{max-width:68ch}
+h1,h2,h3,h4{font-weight:400;text-wrap:balance}
+a{color:var(--cyan)}
+img{image-rendering:pixelated;max-width:100%;height:auto;display:block}
+header.top{display:flex;flex-direction:column;align-items:center;gap:1.5rem;
+  padding:4rem 0 2rem;text-align:center}
+header.top img{width:min(100%,642px)}
+.claim{max-width:60ch;color:var(--suave);font-size:1.05rem}
+.claim b{color:var(--tinta);font-weight:400}
+.ficha{display:flex;flex-wrap:wrap;justify-content:center;gap:0 1.5rem;width:100%;
+  font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--suave);
+  border-top:1px solid var(--linea);border-bottom:1px solid var(--linea);padding:.85rem 0}
+.ficha b{color:var(--rojo);font-weight:400}
+nav{display:flex;flex-wrap:wrap;gap:1.25rem;justify-content:center;padding:1.25rem 0;
+  font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+nav a{color:var(--suave);text-decoration:none;border-bottom:1px solid transparent}
+nav a:hover,nav a:focus{color:var(--tinta);border-bottom-color:var(--rojo)}
+nav.docs{border-top:1px solid var(--linea);border-bottom:1px solid var(--linea);
+  margin-bottom:1rem}
+section{margin-top:4.5rem;scroll-margin-top:1rem}
+section>h2{font-size:1rem;letter-spacing:.1em;text-transform:uppercase;
+  border-left:3px solid var(--rojo);padding-left:.9rem;margin:0 0 1.5rem}
+.cifras{display:grid;gap:1px;background:var(--linea);border:1px solid var(--linea);
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr))}
+.cifra{background:var(--panel);padding:1.1rem}
+.cifra b{display:block;font-size:1.7rem;color:var(--oro);font-weight:400;
+  font-variant-numeric:tabular-nums;line-height:1.2}
+.cifra span{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--suave)}
+.hall{border-top:1px solid var(--linea);padding-top:1.75rem;margin-top:2.5rem}
+.hall:first-of-type{border-top:0;padding-top:0;margin-top:0}
+.hall h3{margin:0 0 .75rem;font-size:1.15rem;color:var(--rojo)}
+.hall h4{color:var(--oro);margin:1.5rem 0 .5rem;font-size:.95rem}
+.hall p{margin:0 0 1rem}
+pre.asm{background:var(--panel);border-left:2px solid var(--verde);margin:1.25rem 0;
+  padding:1rem 1.1rem;overflow-x:auto;font-size:13px;line-height:1.6;color:var(--tinta)}
+.par{display:grid;gap:1.25rem;grid-template-columns:1fr}
+@media(min-width:820px){.par{grid-template-columns:1fr 1fr}}
+.par figure{margin:0}
+table{border-collapse:collapse;width:100%;margin:1.25rem 0;font-size:13px;display:block;
+  overflow-x:auto}
+th,td{text-align:left;padding:.5rem .75rem;border-bottom:1px solid var(--linea)}
+th{color:var(--suave);font-weight:400;font-size:11px;letter-spacing:.07em;text-transform:uppercase}
+td.num{font-variant-numeric:tabular-nums;color:var(--oro)}
+.nivel{margin-top:2rem}
+.nivel h3{margin:0 0 .9rem;font-size:.95rem;letter-spacing:.06em;text-transform:uppercase}
+.nivel em{color:var(--cyan);font-style:normal}
+.sep{color:var(--suave);margin:0 .6rem}
+.rejilla{display:grid;gap:.9rem;grid-template-columns:repeat(auto-fill,minmax(250px,1fr))}
+.rejilla figure{margin:0;background:var(--panel);box-shadow:0 0 0 1px var(--linea)}
+.rejilla figcaption{display:flex;justify-content:space-between;padding:.45rem .65rem;
+  font-size:11px;color:var(--suave);border-top:1px solid var(--linea)}
+.dir{font-variant-numeric:tabular-nums;color:var(--verde)}
+footer{margin-top:5rem;padding-top:1.5rem;border-top:1px solid var(--linea);
+  color:var(--suave);font-size:12px}
+
+/* Aviso de trabajo en curso: tiene que verse antes que las cifras, porque un
+   100% mal leido hace mas dano que no ponerlo. */
+.aviso{background:#3a2a10;border-left:3px solid var(--oro);margin:1.5rem auto;
+  padding:1rem 1.2rem;max-width:900px;border-radius:4px}
+.aviso p{margin:0;color:var(--tinta);font-size:15px;line-height:1.65}
+.galeria{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+  gap:1.5rem;margin:1.5rem 0}
+.galeria figure{margin:0}
+.galeria img{width:100%;height:auto;image-rendering:pixelated;
+  border:1px solid var(--linea);border-radius:3px}
+.galeria figcaption{color:var(--suave);font-size:13px;margin-top:.5rem}
+audio{display:block;width:100%;max-width:640px;margin:.75rem 0 1.5rem}
+</style>
+<div class="w"><nav class="top"><a href="index.html">Home</a><a href="GETTING-STARTED.html">Start</a><a href="THE-GAME.html">The game</a><a href="THE-CARTRIDGE.html">The cartridge</a><a href="THE-CODE.html">The code</a><a href="THE-MUSIC.html" style=color:var(--tinta)>The music</a><a href="FINDINGS.html">Findings</a><a href="OPEN-QUESTIONS.html">Open questions</a><a href="es/LA-MUSICA.html" style="margin-left:auto;color:var(--oro)">Castellano</a></nav>
+<h1 id="the-music">The music</h1>
+<p>Everything you hear here comes from running the cartridge&#x27;s own sound engine (<code>sonido_del_cuadro</code>, p04:6000, and <code>pide_sonido</code>, p04:67FD, which points the track; the interrupt calls it at p00:41B9 with banks 4 and 5) on an emulated Z80, frame by frame at 60 per second, just as the game calls it. What the engine writes to the PSG is turned into sound with an AY-3-8910 (<code>tools/musica.py</code>). Each MP3 is the whole piece up to where it starts again, plus 8 seconds of the repeat fading out; those that do not repeat end where the engine ends.</p>
+<h2 id="checked-against-openmsx">Checked against openMSX</h2>
+<p>The PSG writes have been compared frame by frame with those of openMSX (C-BIOS MSX2 japonés). In every frame the PSG ends up the same:</p>
+<ul><li>tune 0x2F, its first 116 frames;</li><li>tune 0x3B, its first 116 frames.</li></ul>
+<p>The timbre is not checked: it is a textbook AY-3-8910, not a recording of the emulator. The probes are <code>tools/omsx_psg.tcl</code> and <code>tools/coteja_psg.py</code>.</p>
+<h2 id="how-a-piece-is-asked-for">How a piece is asked for</h2>
+<p><code>sonido</code> (p00:4284) maps banks 4 and 5 and calls <code>pide_sonido</code> (p04:67FD) with the number in A: below 0x29 it is an effect, which takes the channel at 0xC070 if it outranks what is playing, and from 0x29 up it is three- or four-channel music. The game computes each room&#x27;s tune number, so almost all are tracks «in the table». The sound RAM is at 0xC010-0xC0FB and 0xC0F0 holds the copy of the PSG mixer, which start-up leaves at 0xB8. Those that sound like another are published once, and those that last over 75 seconds without starting again are cut at 75.</p>
+<h2 id="the-tunes">The tunes</h2>
+<p><b>A room&#x27;s tune</b> (0x32)</p>
+<p>Asked for by <code>pon_c602</code>: la música 0x32 (0x2F si la pone un actor del tipo 6); lasts 45.2 s and starts again at second 6.5.</p>
+<audio controls preload="none" src="audio/musica_32.mp3?v=3d365169"></audio>
+<p><b>The transceiver tune</b> (0x5C)</p>
+<p>Asked for by <code>transceptor_texto</code> y <code>c900_paso_2</code>; lasts 0.1 s.</p>
+<audio controls preload="none" src="audio/musica_5C.mp3?v=a9fedc66"></audio>
+<p><b>Table track 0x29</b> (0x29)</p>
+<p>Asked for by ninguna llamada directa: sale de la tabla de pistas por un número calculado; is cut at 75 s (the piece goes on).</p>
+<audio controls preload="none" src="audio/musica_29.mp3?v=09bcc7eb"></audio>
+<p><b>Table track 0x2A</b> (0x2A)</p>
+<p>Asked for by ninguna llamada directa: sale de la tabla de pistas por un número calculado; is cut at 75 s (the piece goes on).</p>
+<audio controls preload="none" src="audio/musica_2A.mp3?v=d602b9ab"></audio>
+<p><b>Table track 0x2B</b> (0x2B)</p>
+<p>Asked for by ninguna llamada directa: sale de la tabla de pistas por un número calculado; is cut at 75 s (the piece goes on).</p>
+<audio controls preload="none" src="audio/musica_2B.mp3?v=fff8070b"></audio>
+<p><b>Table track 0x2C</b> (0x2C)</p>
+<p>Asked for by ninguna llamada directa: sale de la tabla de pistas por un número calculado; is cut at 75 s (the piece goes on).</p>
+<audio controls preload="none" src="audio/musica_2C.mp3?v=b77a90b7"></audio>
+<p><b>Table track 0x2D</b> (0x2D)</p>
+<p>Asked for by ninguna llamada directa: sale de la tabla de pistas por un número calculado; is cut at 75 s (the piece goes on).</p>
+<audio controls preload="none" src="audio/musica_2D.mp3?v=b7e815b1"></audio>
+<p><b>Table track 0x2E</b> (0x2E)</p>
+<p>Asked for by ninguna llamada directa: sale de la tabla de pistas por un número calculado; is cut at 75 s (the piece goes on).</p>
+<audio controls preload="none" src="audio/musica_2E.mp3?v=4255ecec"></audio>
+<p><b>Table track 0x2F</b> (0x2F)</p>
+<p>Asked for by ninguna llamada directa: sale de la tabla de pistas por un número calculado; lasts 47.8 s and starts again at second 9.2.</p>
+<audio controls preload="none" src="audio/musica_2F.mp3?v=206e3106"></audio>
+<p><b>Table track 0x30</b> (0x30)</p>
+<p>Asked for by ninguna llamada directa: sale de la tabla de pistas por un número calculado; lasts 47.8 s and starts again at second 9.2.</p>
+<audio controls preload="none" src="audio/musica_30.mp3?v=45f0a776"></audio>
+<p><b>Table track 0x31</b> (0x31)</p>
+<p>Asked for by ninguna llamada directa: sale de la tabla de pistas por un número calculado; lasts 45.2 s and starts again at second 6.5.</p>
+<audio controls preload="none" src="audio/musica_31.mp3?v=688f023d"></audio>
+<p><b>Table track 0x33</b> (0x33)</p>
+<p>Asked for by ninguna llamada directa: sale de la tabla de pistas por un número calculado; is cut at 75 s (the piece goes on).</p>
+<audio controls preload="none" src="audio/musica_33.mp3?v=b7f3983d"></audio>
+<p><b>Table track 0x34</b> (0x34)</p>
+<p>Asked for by ninguna llamada directa: sale de la tabla de pistas por un número calculado; is cut at 75 s (the piece goes on).</p>
+<audio controls preload="none" src="audio/musica_34.mp3?v=ce2bd451"></audio>
+<p><b>Table track 0x35</b> (0x35)</p>
+<p>Asked for by ninguna llamada directa: sale de la tabla de pistas por un número calculado; lasts 50.7 s and starts again at second 19.5.</p>
+<audio controls preload="none" src="audio/musica_35.mp3?v=fd6be314"></audio>
+<p><b>Table track 0x36</b> (0x36)</p>
+<p>Asked for by ninguna llamada directa: sale de la tabla de pistas por un número calculado; is cut at 75 s (the piece goes on).</p>
+<audio controls preload="none" src="audio/musica_36.mp3?v=dbfe96c7"></audio>
+<p><b>Table track 0x37</b> (0x37)</p>
+<p>Asked for by ninguna llamada directa: sale de la tabla de pistas por un número calculado; is cut at 75 s (the piece goes on).</p>
+<audio controls preload="none" src="audio/musica_37.mp3?v=22ca8017"></audio>
+<p><b>Table track 0x38</b> (0x38)</p>
+<p>Asked for by ninguna llamada directa: sale de la tabla de pistas por un número calculado; is cut at 75 s (the piece goes on).</p>
+<audio controls preload="none" src="audio/musica_38.mp3?v=4f7e2006"></audio>
+<p><b>Table track 0x39</b> (0x39)</p>
+<p>Asked for by ninguna llamada directa: sale de la tabla de pistas por un número calculado; is cut at 75 s (the piece goes on).</p>
+<audio controls preload="none" src="audio/musica_39.mp3?v=eb7ee9d7"></audio>
+<p><b>Table track 0x3A</b> (0x3A)</p>
+<p>Asked for by ninguna llamada directa: sale de la tabla de pistas por un número calculado; is cut at 75 s (the piece goes on).</p>
+<audio controls preload="none" src="audio/musica_3A.mp3?v=5d9044be"></audio>
+<p><b>Table track 0x3B</b> (0x3B)</p>
+<p>Asked for by ninguna llamada directa: sale de la tabla de pistas por un número calculado; lasts 55.0 s and starts again at second 23.0.</p>
+<audio controls preload="none" src="audio/musica_3B.mp3?v=ba26829f"></audio>
+<p><b>Table track 0x3C</b> (0x3C)</p>
+<p>Asked for by ninguna llamada directa: sale de la tabla de pistas por un número calculado; is cut at 75 s (the piece goes on).</p>
+<audio controls preload="none" src="audio/musica_3C.mp3?v=04f88602"></audio>
+<p><b>Table track 0x3D</b> (0x3D)</p>
+<p>Asked for by ninguna llamada directa: sale de la tabla de pistas por un número calculado; is cut at 75 s (the piece goes on).</p>
+<audio controls preload="none" src="audio/musica_3D.mp3?v=c9c43ea3"></audio>
+<p><b>Table track 0x1F</b> (0x1F)</p>
+<p>Asked for by ninguna llamada directa: sale de la tabla de pistas por un número calculado; lasts 4.6 s.</p>
+<audio controls preload="none" src="audio/musica_1F.mp3?v=83d8ba23"></audio>
+<p><b>Table track 0x4E</b> (0x4E)</p>
+<p>Asked for by ninguna llamada directa: sale de la tabla de pistas por un número calculado; is cut at 75 s (the piece goes on).</p>
+<audio controls preload="none" src="audio/musica_4E.mp3?v=4653c1c5"></audio>
+<p><b>Table track 0x4F</b> (0x4F)</p>
+<p>Asked for by ninguna llamada directa: sale de la tabla de pistas por un número calculado; is cut at 75 s (the piece goes on).</p>
+<audio controls preload="none" src="audio/musica_4F.mp3?v=34bd0307"></audio>
+<p><b>Table track 0x50</b> (0x50)</p>
+<p>Asked for by ninguna llamada directa: sale de la tabla de pistas por un número calculado; lasts 44.0 s and starts again at second 0.0.</p>
+<audio controls preload="none" src="audio/musica_50.mp3?v=94f4d6da"></audio>
+<p><b>Table track 0x51</b> (0x51)</p>
+<p>Asked for by ninguna llamada directa: sale de la tabla de pistas por un número calculado; is cut at 75 s (the piece goes on).</p>
+<audio controls preload="none" src="audio/musica_51.mp3?v=7c8beb76"></audio>
+<p><b>Table track 0x53</b> (0x53)</p>
+<p>Asked for by ninguna llamada directa: sale de la tabla de pistas por un número calculado; is cut at 75 s (the piece goes on).</p>
+<audio controls preload="none" src="audio/musica_53.mp3?v=eef8a160"></audio>
+<footer><p><em>Metal Gear</em> was published by Konami for the MSX2 in 1987; its catalogue number is RC-750 and it is 128 KB. All rights in the game remain with their holders. This is preservation, study and documentation work, and the cartridge image is not distributed.</p></footer></div>
