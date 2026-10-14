@@ -557,6 +557,7 @@ Uno por fila, con su número. « / » es una página nueva de la ventana; *(vac�
         cols_nombres=("", "Japonés (ROM)", "Inglés (ROM)", "Traducción"),
         arma="arma", objeto="objeto",
         h_rotulos="""## Los rótulos, iguales en las dos""",
+        cols_rotulos=["Dónde", "Texto («·» separa los trozos)"],
         fin="""## Cómo sacarlos otra vez
 
 Con las dos ROMs en la raíz del repositorio (`metalgear.rom` y `metalgear-jp.rom`, con los SHA-1 de arriba), `python3 tools/textos.py pagina` escribe esta página y su pareja en inglés; `python3 tools/textos.py tabla` saca la tabla de trabajo con el tipo de ventana de cada texto.""",
@@ -617,6 +618,7 @@ One per row, with its number. « / » is a new page of the window; *(empty)* mea
         cols_nombres=("", "Japanese (ROM)", "English (ROM)", "Translation"),
         arma="weapon", objeto="item",
         h_rotulos="""## The labels, the same in both""",
+        cols_rotulos=["Where", "Text («·» separates the pieces)"],
         fin="""## How to extract them again
 
 With both ROMs in the root of the repository (`metalgear.rom` and `metalgear-jp.rom`, with the SHA-1 above), `python3 tools/textos.py pagina` writes this page and its Spanish twin; `python3 tools/textos.py tabla` prints the working table with the window type of each text.""",

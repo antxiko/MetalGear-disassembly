@@ -211,33 +211,36 @@ def pagina(docs):
         out = [P["intro"].format(
             crc_en="%08X" % zlib.crc32(r["en"]), crc_jp="%08X" % zlib.crc32(r["jp"]),
             sha_en=SHA1["en"], sha_jp=SHA1["jp"])]
+        # Cada tabla, un solo bloque: una linea en blanco entre filas la parte.
         out.append(P["h_textos"])
-        out.append("| %s |\n|---|---|---|---|" % " | ".join(P["cols"]))
+        filas = ["| %s |\n|---|---|---|---|" % " | ".join(P["cols"])]
         for n in range(1, N_TEXTOS + 1):
             _, pe = texto(r["en"], "en", n)
             _, pj = texto(r["jp"], "jp", n)
             jp, en = plano(pj), plano(pe)
             if not jp and not en:
-                out.append("| 0x%02X | %s | %s | |" % (n, P["vacio_dos"], P["vacio_dos"]))
+                filas.append("| 0x%02X | %s | %s | |" % (n, P["vacio_dos"], P["vacio_dos"]))
                 continue
-            out.append("| 0x%02X | %s | %s | %s |" % (
+            filas.append("| 0x%02X | %s | %s | %s |" % (
                 n, _celda(jp), _celda(en) if en else P["vacio"],
                 _celda(T.TRAD[n][k])))
+        out.append("\n".join(filas))
         out.append(P["h_nombres"])
-        out.append("| %s |\n|---|---|---|---|" % " | ".join(P["cols_nombres"]))
+        filas = ["| %s |\n|---|---|---|---|" % " | ".join(P["cols_nombres"])]
         (aj, oj), (ae, oe) = nombres(r["jp"], "jp"), nombres(r["en"], "en")
         for i, (j, e, t) in enumerate(zip(aj + oj, ae + oe, T.ARMAS + T.OBJETOS)):
             tipo = P["arma"] if i < 8 else P["objeto"]
             num = i + 1 if i < 8 else i - 7
-            out.append("| %s %d | %s | %s | %s |" % (tipo, num, j, e, t[k]))
+            filas.append("| %s %d | %s | %s | %s |" % (tipo, num, j, e, t[k]))
+        out.append("\n".join(filas))
         out.append(P["h_rotulos"])
-        vistos = []
+        filas = ["| %s |\n|---|---|" % " | ".join(P["cols_rotulos"])]
         for banco, dire in ROTULOS:
             palabras, i, j = rotulo(r["en"], banco, dire)
             if r["jp"].find(r["en"][i:j]) < 0:
                 raise SystemExit("rotulo p%02d:%04X distinto en la japonesa" % (banco, dire))
-            vistos.append("`p%02d:%04X` %s" % (banco, dire, " · ".join(palabras)))
-        out.append("\n".join("- " + v for v in vistos))
+            filas.append("| `p%02d:%04X` | %s |" % (banco, dire, _celda(" · ".join(palabras))))
+        out.append("\n".join(filas))
         out.append(P["fin"])
         with open(ruta, "w", encoding="utf-8", newline="\n") as f:
             f.write("\n\n".join(out) + "\n")
