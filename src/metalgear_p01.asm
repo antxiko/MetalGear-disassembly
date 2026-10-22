@@ -2620,9 +2620,9 @@ actor_golpeado:		; sube (ix+0x7A): al tercero muere (y a veces suelta algo); si 
 	ret			;7307
 L_7308:
 	ld a,(ix+000h)		;7308   ; lee el tipo del actor
-	cp 004h		;730b   ; los guardias (4, 5, 0x0E, 0x1E)...
+	cp 004h		;730b   ; FALLO DEL JUEGO (Manuel Pazos): solo GUARD_SLOW (4) sigue; el jr nz manda a morir sin soltar nada a todos los demas
 	jr nz,L_7333		;730d
-	cp 005h		;730f
+	cp 005h		;730f   ; 5, 0x0E y 0x1E (los otros guardias) nunca se cumplen: aqui A siempre vale 4
 	jr z,L_731B		;7311
 	cp 00eh		;7313
 	jr z,L_731B		;7315

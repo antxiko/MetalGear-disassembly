@@ -21,7 +21,7 @@ CODIGO = 35620
 DATOS = 95452
 RUTINAS = 2190
 INSTRUCCIONES = 17071
-COMENTARIOS = 7985
+COMENTARIOS = 7987
 
 # Los bancos con codigo, para volver a medir la densidad (tests/test_web.py)
 BANCOS_CON_CODIGO = ("00", "01", "02", "03", "04", "06", "09", "12", "15")

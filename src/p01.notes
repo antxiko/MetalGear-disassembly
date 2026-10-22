@@ -618,7 +618,8 @@ C 0x72F4 la sacudida
 C 0x72F9 un golpe mas
 C 0x72FF al tercero...
 C 0x7303 si no, 0x40 cuadros de golpe
-C 0x730B los guardias (4, 5, 0x0E, 0x1E)...
+C 0x730B FALLO DEL JUEGO (Manuel Pazos): solo GUARD_SLOW (4) sigue; el jr nz manda a morir sin soltar nada a todos los demas
+C 0x730F 5, 0x0E y 0x1E (los otros guardias) nunca se cumplen: aqui A siempre vale 4
 C 0x731E ...a veces sueltan un objeto (C = 0 o 1) un poco por encima
 C 0x7327 C al azar (0-3)
 C 0x732D solo 0 y 1

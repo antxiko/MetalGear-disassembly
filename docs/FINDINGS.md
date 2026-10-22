@@ -63,6 +63,31 @@ Seven frequencies, from 120.13 to 120.91 (`p00:490C`). Some calls are only
 heard while sending (SEND) and others depending on what has happened: the
 CLASS, whether a text has been read or a game flag (`p01:6A88`).
 
+## Two bugs in the game
+
+Both were found by Manuel Pazos, and Néstor (theNestruo) brought them to this
+repository. They are measured by running the ROM's routines on a Z80, not in
+the emulator.
+
+**The weapon and equipment windows are not fully packed.** When they open
+(F2 and F3), `p02:922D` and `p02:9234` move the list entries up to remove the
+gaps. But the `djnz` at `p02:9250` jumps back one instruction too far (0xF3
+instead of 0xF5, at byte 0x5251 of the ROM): it only looks at the entry right
+after each gap, and with two gaps in a row nothing moves up.
+
+| Before | The cartridge | With 0xF5 |
+|---|---|---|
+| 1 · 2 3 · 4 5 | 1 2 3 · · 4 5 | 1 2 3 4 5 · · |
+| 1 · · 2 3 · · 4 5 | 1 · · 2 3 · · 4 5 | 1 2 3 4 5 · · · · |
+
+**Only the slow guards drop anything.** On the third punch, `p01:72F9`
+checks the guard's type: the code compares against all four (4, 5, 0x0E and
+0x1E), but after `cp 4` there is a `jr nz` that sends every type other than 4
+straight to dying (`p01:730D`), and the other three comparisons never match.
+Run with all 128 values of the random number (`ld a,r`, `p01:7327`):
+GUARD_SLOW drops a ration or an ammunition box (`p02:8E9F`) half of the time;
+GUARD_MEDIUM, GUARD_ELEVATOR and GUARD_FAST, never.
+
 ## Thanks
 
 Manuel Pazos published his disassembly of this same cartridge in 2017

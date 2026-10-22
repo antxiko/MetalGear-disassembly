@@ -63,6 +63,31 @@ Siete frecuencias, de 120.13 a 120.91 (`p00:490C`). Algunas llamadas solo se
 oyen enviando (SEND) y otras según lo que haya pasado: la CLASS, si se ha
 leído un texto o una bandera de la partida (`p01:6A88`).
 
+## Dos fallos del juego
+
+Los dos los encontró Manuel Pazos, y Néstor (theNestruo) los trajo a este
+repositorio. Están medidos ejecutando las rutinas de la ROM en un Z80, no en
+el emulador.
+
+**Las ventanas de armas y de equipo no se aprietan del todo.** Al abrirlas
+(F2 y F3), `p02:922D` y `p02:9234` suben las fichas de la lista para quitar
+los huecos. Pero el `djnz` de `p02:9250` vuelve una instrucción antes de la
+cuenta (0xF3 en vez de 0xF5, en el byte 0x5251 de la ROM): solo mira la ficha
+de detrás de cada hueco, y con dos huecos seguidos ya no sube nada.
+
+| Antes | El cartucho | Con 0xF5 |
+|---|---|---|
+| 1 · 2 3 · 4 5 | 1 2 3 · · 4 5 | 1 2 3 4 5 · · |
+| 1 · · 2 3 · · 4 5 | 1 · · 2 3 · · 4 5 | 1 2 3 4 5 · · · · |
+
+**Solo los guardias lentos sueltan algo.** Al tercer puñetazo, `p01:72F9`
+mira el tipo del guardia: el código compara con los cuatro (4, 5, 0x0E y
+0x1E), pero detrás del `cp 4` hay un `jr nz` que manda a morir a todos los que
+no son el 4 (`p01:730D`), y las otras tres comparaciones no se cumplen nunca.
+Ejecutado con los 128 valores del azar (`ld a,r`, `p01:7327`): GUARD_SLOW
+suelta una ración o una caja de munición (`p02:8E9F`) la mitad de las veces;
+GUARD_MEDIUM, GUARD_ELEVATOR y GUARD_FAST, nunca.
+
 ## Gracias
 
 Manuel Pazos publicó en 2017 su desensamblado de este mismo cartucho

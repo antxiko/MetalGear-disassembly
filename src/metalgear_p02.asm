@@ -2595,14 +2595,14 @@ L_9239:
 	djnz L_9239		;9242
 	ret			;9244
 L_9245:
-	push de			;9245   ; detras, la primera ficha llena...
+	push de			;9245   ; detras, la ficha siguiente llena...
 	pop hl			;9246
 	ld a,004h		;9247
 	call 041e0h		;9249   ; hl_mas_a: HL = HL + A
 	ld a,(hl)			;924c
 	and a			;924d
 	jr nz,L_9253		;924e
-	djnz L_9245		;9250
+	djnz L_9245		;9250   ; FALLO DEL JUEGO (Manuel Pazos): vuelve a 0x9245 y no a 0x9247, asi que HL vuelve a DE y solo mira la ficha de detras del hueco; con dos huecos seguidos no sube nada. Con 0xF5 en vez de 0xF3 (ROM 0x5251) aprieta la lista entera
 	ret			;9252
 L_9253:
 	push bc			;9253   ; ...sube al hueco vacio
